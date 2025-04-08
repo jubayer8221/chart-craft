@@ -1,15 +1,16 @@
-import React from "react";
+import React from 'react'
 
-export default function Navbar() {
+const Navbar = () => {
   return (
     <div>
       <ul>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
+        <li>Hello</li>
+        <li>Hello</li>
+        <li>Hello</li>
+        <li>Hello</li>
       </ul>
     </div>
-  );
+  )
 }
+
+export default Navbar
