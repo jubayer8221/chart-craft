@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Navbar = () => {
+const LeftSide = () => {
   return (
     <div>
-      <ul>
+      <ul className=''>
         <li>Hello</li>
         <li>Hello</li>
         <li>Hello</li>
@@ -13,4 +13,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default LeftSide

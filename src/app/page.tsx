@@ -1,9 +1,11 @@
 "use client";
 
+import LeftSide from "@/components/Navbar/LeftSide";
+
 export default function Home() {
   return (
     <div>
-      <h1>Hi there!</h1>
+      <LeftSide />
     </div>
   );
 }
