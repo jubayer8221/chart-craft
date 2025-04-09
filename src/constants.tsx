@@ -12,28 +12,29 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     {
         title: 'Home',
         path: '/',
-        icon: <FiHome />
+        // submenu: true,
+        icon: <FiHome className="w-[24px] h-[24px]"/>
     },
     {
-        title: 'Projects',
-        path: '/projects',
-        icon: <GrProjects />,
+        title: 'Training',
+        path: '/training',
+        icon: <GrProjects className="w-[24px] h-[24px]" />,
         submenu: true,
         subMenuItems:[
-            {title: "All", path: '/projects'},
-            {title: "Web Design", path: '/projects/web-design'},
-            {title: "Graphic Design", path: '/projects/graphic-design'},
+            {title: "Configuration", path: '/training/configuration'},
+            {title: "Report", path: '/training/report'},
         ],
     },
     {
         title: 'Messages',
         path: '/messages',
-        icon: <RiMessage3Line />,
+        // submenu: true,
+        icon: <RiMessage3Line className="w-[24px] h-[24px]" />,
     },
     {
         title: 'Settings',
         path: '/settings',
-        icon: <LuSettings />,
+        icon: <LuSettings className="w-[24px] h-[24px]" />,
         submenu: true,
         subMenuItems:[
             {title: "Account", path: '/settings/account'},
@@ -42,7 +43,8 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     },
     {
         title: 'Help',
+        // submenu: true,
         path: '/help',
-        icon: <LiaHireAHelper />
+        icon: <LiaHireAHelper className="w-[24px] h-[24px]" />
     }
 ]
