@@ -10,12 +10,24 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { PieChart, Pie } from "recharts";
+import { notFound, useParams } from "next/navigation"; // ✅ Updated
 
-// Sample data
-const categoryData: Record<
-  string,
-  { item: string; price: number; oldPrice?: number; quality?: string }[]
-> = {
+interface CategoryItem {
+  item: string;
+  price: number;
+  oldPrice?: number;
+  quality?: string;
+}
+
+interface CategoryData {
+  [key: string]: CategoryItem[];
+}
+
+interface CategoryNames {
+  [key: string]: string;
+}
+
+const categoryData: CategoryData = {
   "1": [
     { item: "Smartphone", price: 999, oldPrice: 1099, quality: "High" },
     { item: "Smartphone", price: 899, quality: "Medium" },
@@ -51,7 +63,7 @@ const categoryData: Record<
   ],
 };
 
-const categoryNames: Record<string, string> = {
+const categoryNames: CategoryNames = {
   "1": "Electronics",
   "2": "Clothing",
   "3": "Books",
@@ -60,14 +72,16 @@ const categoryNames: Record<string, string> = {
   "6": "Groceries",
 };
 
-export default function CategoryPage({ params }: { params: { id: string } }) {
-  const { id } = params;
-  const data = categoryData[id];
-  const categoryName = categoryNames[id] || "Unknown Category";
+export default function CategoryPage() {
+  const params = useParams(); // ✅ Get dynamic route param
+  const id = params.id as string;
 
-  if (!data) {
-    return <div className="p-8">No data available for this category.</div>;
+  if (!categoryData[id] || !categoryNames[id]) {
+    return notFound(); // ✅ Valid App Router usage
   }
+
+  const data = categoryData[id];
+  const categoryName = categoryNames[id];
 
   const data01 = data.map((item) => ({
     name: item.item,
@@ -93,7 +107,7 @@ export default function CategoryPage({ params }: { params: { id: string } }) {
           </button>
         </Link>
       </div>
-      <div className="flex flex-wrap gap-4 m-10 w-3/4 mx-auto">
+      <div className="flex flex-wrap gap-4 m-10 w-4/4 mx-auto">
         <div className="flex-1 border-2 border-b-[#3c6e71] rounded-lg p-4 shadow-lg">
           <h1 className="text-2xl font-bold mb-4">Table</h1>
           <table className="w-full border mb-8">
@@ -120,7 +134,6 @@ export default function CategoryPage({ params }: { params: { id: string } }) {
           </table>
         </div>
 
-        {/* Bar Chart */}
         <div className="flex-1 border-2 border-b-[#3c6e71] rounded-lg p-4 shadow-lg">
           <h2 className="text-xl font-semibold mb-4">Visual Chart</h2>
           <ResponsiveContainer width="100%" height={300}>
@@ -134,7 +147,6 @@ export default function CategoryPage({ params }: { params: { id: string } }) {
           </ResponsiveContainer>
         </div>
 
-        {/* Pie Chart */}
         <div className="flex-1 border-2 border-b-[#3c6e71] rounded-lg p-4 shadow-lg">
           <PieChart width={400} height={400}>
             <Pie
@@ -159,7 +171,6 @@ export default function CategoryPage({ params }: { params: { id: string } }) {
         </div>
       </div>
 
-      {/* Back Button */}
       <div className="flex justify-center">
         <Link href="/">
           <button className="px-4 py-2 mb-10 bg-[#3c6e71] text-white rounded hover:bg-[#2f3e46] transition active:scale-95">

@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import UserCard from "./UserCard";
 import ElectronicsCountChart from "./ElectronicsCountChart";
@@ -57,5 +58,4 @@ const MainPage = () => {
     </>
   );
 };
-
 export default MainPage;
