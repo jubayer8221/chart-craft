@@ -10,6 +10,8 @@ import { TbReportSearch } from "react-icons/tb";
 import { MdOutlineManageAccounts } from "react-icons/md";
 import { MdOutlinePrivacyTip } from "react-icons/md";
 import { MdElectricBolt } from "react-icons/md";
+import { SiWikibooks } from "react-icons/si";
+import { LuShoppingBasket } from "react-icons/lu";
 
 
 export const SIDENAV_ITEMS: SideNavItem[] = [
@@ -42,6 +44,19 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
         path: '/toys',
         // submenu: true,
         icon: <FiHome className="w-[24px] h-[24px]"/>
+    },
+    {
+        title: 'Books',
+        path: '/books',
+        // submenu: true,
+        icon: <SiWikibooks className="w-[24px] h-[24px]"/>
+    },
+    
+    {
+        title: 'Groceries',
+        path: '/groceries',
+        // submenu: true,
+        icon: <LuShoppingBasket className="w-[24px] h-[24px]"/>
     },
     
     {
