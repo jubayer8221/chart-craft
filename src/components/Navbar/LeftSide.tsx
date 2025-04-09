@@ -66,7 +66,10 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
                     href={subItem.path}
                     className={`${subItem.path === pathname ? 'font-bold' : ''}`}
                   >
+                    <div className='flex flex-row items-center space-x-4'>
+                    {subItem.icon}
                     <span>{subItem.title}</span>
+                    </div>
                   </Link>
                 );
               })}
@@ -76,7 +79,7 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
       ) : (
         <Link
           href={item.path}
-          className="flex flex-row items-center p-2 rounded-lg hover:bg-zinc-100 w-full space-x-4" // Added flex-row and spacing
+          className={`flex flex-row items-center p-2 rounded-lg hover:bg-zinc-100 w-full space-x-4 ${item.path === pathname ? "bg-zinc-100": ""}`} // Added flex-row and spacing
         >
           {item.icon}
           <span className="font-semibold text-xl flex">{item.title}</span>
