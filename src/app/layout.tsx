@@ -5,6 +5,7 @@ import Header from "@/components/Navbar/Header";
 import LeftSide from "@/components/Navbar/LeftSide";
 import MarginWidthWrapper from "@/components/Navbar/marginWithWrapper";
 import PageWrapper from "@/components/Navbar/PageWrapper";
+import HeaderMobile from "@/components/Navbar/HeaderMobile";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
           <main className="flex-1">
             <MarginWidthWrapper>
               <Header />
+              <HeaderMobile />
               <PageWrapper>{children}</PageWrapper>
             </MarginWidthWrapper>
           </main>
