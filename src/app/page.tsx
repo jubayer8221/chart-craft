@@ -11,9 +11,14 @@ const categories = [
   { id: 6, name: "Groceries" },
 ];
 
+//import LeftSide from "@/components/Navbar/LeftSide";
+import MainPage from "@/components/Home/Home"
+
 export default function Home() {
   return (
     <main className="p-8">
+            <MainPage />
+
       <h1 className="text-3xl font-bold pt-5 mb-6 text-center">
         Category Grid
       </h1>
