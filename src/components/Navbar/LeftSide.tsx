@@ -10,13 +10,13 @@ const LeftSide = () => {
   return (
     <div className='md:w-60 bg-white h-screen flex-1 fixed border-r border-zinc-200 hidden md:flex'>
       <div className='flex flex-col space-y-6 w-full'>
-        <Link href="/" className='flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 h-12 w-full'>
+        <Link href="/" className='flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 h-[47px] w-full'>
           <span className='h-7 w-7 bg-zinc-200 rounded-lg'></span>
           <span className='font-bold text-xl hidden md:flex'>Logo</span>
         </Link>
 
-        <div className='flex flex-col space-y-2 md:px-6'>
-
+        {/* Added overflow-y-auto here to enable vertical scrolling */}
+        <div className='flex flex-col space-y-2 md:px-6 overflow-y-auto'>
           {
             SIDENAV_ITEMS.map((item, idx)=>{
               return <MenuItem key={idx} item={item} />;
@@ -49,7 +49,7 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
           >
             <div className="flex flex-row space-x-4 items-center">
               {item.icon}
-              <span className="font-semibold text-xl flex">{item.title}</span>
+              <span className="font-semibold text-4 flex">{item.title}</span>
             </div>
 
             <div className={`${subMenuOpen ? 'rotate-180' : ''} flex`}>
@@ -79,10 +79,10 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
       ) : (
         <Link
           href={item.path}
-          className={`flex flex-row items-center p-2 rounded-lg hover:bg-zinc-100 w-full space-x-4 ${item.path === pathname ? "bg-zinc-100": ""}`} // Added flex-row and spacing
+          className={`flex flex-row items-center p-2 rounded-lg hover:bg-zinc-100 w-full space-x-4 ${item.path === pathname ? "bg-zinc-100": ""}`} 
         >
           {item.icon}
-          <span className="font-semibold text-xl flex">{item.title}</span>
+          <span className="font-semibold text-4 flex">{item.title}</span>
         </Link>
       )}
     </div>
