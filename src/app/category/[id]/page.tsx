@@ -161,9 +161,9 @@ export default function CategoryPage() {
                                 : "hover:bg-gray-100"
                             }`}
                           >
-                            <td className="p-2 border">{row.item}</td>
-                            <td className="p-2 border">${row.price}</td>
-                            <td className="p-2 border">
+                            <td className="p-2">{row.item}</td>
+                            <td className="p-2">${row.price}</td>
+                            <td className="p-2">
                               {row.oldPrice ? `$${row.oldPrice}` : "N/A"}
                             </td>
                             <td className="p-2 border">
