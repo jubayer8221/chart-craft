@@ -7,6 +7,8 @@ import FurnituresChart from "./FurnituresChart";
 import Toyschart from "./Toyschart";
 import BookChart from "./BookChart";
 import GroceriesChart from "./GroceriesChart";
+import EventCalendar from "./EventCalendar";
+import Announcements from "./Announcements";
 
 const MainPage = () => {
   return (
@@ -59,7 +61,10 @@ const MainPage = () => {
           </div>
         </div>
         {/* right side  */}
-        <div className="w-full lg:w-1/3">right</div>
+        <div className="w-full lg:w-1/3 flex flex-col gap-8">
+          <EventCalendar />
+          <Announcements />
+        </div>
       </div>
     </>
   );
