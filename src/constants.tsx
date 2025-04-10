@@ -9,48 +9,73 @@ import { TbReportSearch } from "react-icons/tb";
 import { MdOutlineManageAccounts } from "react-icons/md";
 import { MdOutlinePrivacyTip } from "react-icons/md";
 import { MdElectricBolt } from "react-icons/md";
+import { SiWikibooks } from "react-icons/si";
+import { LuShoppingBasket } from "react-icons/lu";
 
 export const SIDENAV_ITEMS: SideNavItem[] = [
-  {
-    title: "Home",
-    path: "/",
-    // submenu: true,
-    icon: <FiHome className="w-[24px] h-[24px]" />,
-  },
-  {
-    title: "Electronics",
-    path: "/electronics",
-    // submenu: true,
-    icon: <MdElectricBolt className="w-[24px] h-[24px]" />,
-  },
-  {
-    title: "Clothings",
-    path: "/clothings",
-    // submenu: true,
-    icon: <MdElectricBolt className="w-[24px] h-[24px]" />,
-  },
-  {
-    title: "Furnitures",
-    path: "/furnitures",
-    // submenu: true,
-    icon: <MdElectricBolt className="w-[24px] h-[24px]" />,
-  },
-  {
-    title: "Toys",
-    path: "/toys",
-    // submenu: true,
-    icon: <FiHome className="w-[24px] h-[24px]" />,
-  },
-
-  {
-    title: "Training",
-    path: "/training",
-    icon: <MdOutlineSchool className="w-[24px] h-[24px]" />,
-    submenu: true,
-    subMenuItems: [
-      {
-        title: "Configuration",
-        path: "/training/configuration",
+    {
+        title: 'Home',
+        path: '/',
+        // submenu: true,
+        icon: <FiHome className="w-[24px] h-[24px]"/>
+    },
+    {
+        title: 'Electronics',
+        path: '/electronics',
+        // submenu: true,
+        icon: <MdElectricBolt className="w-[24px] h-[24px]"/>
+    },
+    {
+        title: 'Clothings',
+        path: '/clothings',
+        // submenu: true,
+        icon: <MdElectricBolt className="w-[24px] h-[24px]"/>
+    },
+    {
+        title: 'Furnitures',
+        path: '/furnitures',
+        // submenu: true,
+        icon: <MdElectricBolt className="w-[24px] h-[24px]"/>
+    },
+    {
+        title: 'Toys',
+        path: '/toys',
+        // submenu: true,
+        icon: <FiHome className="w-[24px] h-[24px]"/>
+    },
+    {
+        title: 'Books',
+        path: '/books',
+        // submenu: true,
+        icon: <SiWikibooks className="w-[24px] h-[24px]"/>
+    },
+    
+    {
+        title: 'Groceries',
+        path: '/groceries',
+        // submenu: true,
+        icon: <LuShoppingBasket className="w-[24px] h-[24px]"/>
+    },
+    
+    {
+        title: 'Training',
+        path: '/training',
+        icon: <MdOutlineSchool className="w-[24px] h-[24px]" />,
+        submenu: true,
+        subMenuItems:[
+            {title: "Configuration", path: '/training/configuration', icon: <LuSettings className="w-[24px] h-[24px]" />},
+            {title: "Report", path: '/training/report', icon: <TbReportSearch className="w-[24px] h-[24px]" />},
+        ],
+    },
+    {
+        title: 'Messages',
+        path: '/messages',
+        // submenu: true,
+        icon: <RiMessage3Line className="w-[24px] h-[24px]" />,
+    },
+    {
+        title: 'Settings',
+        path: '/settings',
         icon: <LuSettings className="w-[24px] h-[24px]" />,
       },
       {

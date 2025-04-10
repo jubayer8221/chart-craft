@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { TfiLayoutMenuSeparated } from "react-icons/tfi";
 import {
   RadialBarChart,
@@ -24,13 +25,15 @@ const data = [
   },
 ];
 
+
+
 const ElectronicsCountChart = () => {
   return (
     <div className="bg-white rounded-xl w-full h-full p-4 flex flex-col justify-between">
       {/* TITLE */}
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-semibold">Electronics</h1>
-        <TfiLayoutMenuSeparated width={20} height={20} />
+        <Link href={`/category/${1}`}><TfiLayoutMenuSeparated width={20} height={20} /></Link>
       </div>
       {/* CHART */}
       <div className="w-full h-[75%]">
