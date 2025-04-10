@@ -34,17 +34,6 @@ const MainPage = () => {
                 <ClothingsChart />
               </div>
             </div>
-            {/* middlle  */}
-            <div className="flex gap-4 flex-col lg:flex-row">
-              {/* COUNT CHART */}
-              {/* <div className="w-full lg:w-1/2 h-[350px]">
-                <ElectronicsCountChart />
-              </div> */}
-              {/* ATTENDANCE CHART */}
-              {/* <div className="w-full lg:w-1/2 h-[350px]">
-                <ElectronicsCountChart />
-              </div> */}
-            </div>
           </div>
 
           {/* middlle  */}
