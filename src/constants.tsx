@@ -12,7 +12,9 @@ import { MdOutlinePrivacyTip } from "react-icons/md";
 import { MdElectricBolt } from "react-icons/md";
 import { SiWikibooks } from "react-icons/si";
 import { LuShoppingBasket } from "react-icons/lu";
-
+import { MdOutlineToys } from "react-icons/md";
+import { GiScrollUnfurled } from "react-icons/gi";
+import { GiClothesline } from "react-icons/gi";
 
 export const SIDENAV_ITEMS: SideNavItem[] = [
     {
@@ -25,38 +27,68 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
         title: 'Electronics',
         path: '/electronics',
         // submenu: true,
-        icon: <MdElectricBolt className="w-[24px] h-[24px]"/>
+        icon: <MdElectricBolt className="w-[24px] h-[24px]"/>,
+        submenu: true,
+        subMenuItems:[
+            {title: "Configuration", path: '/electronics/configuration', icon: <LuSettings className="w-[24px] h-[24px]" />},
+            {title: "Buy & Sell Report", path: '/electronics/report', icon: <TbReportSearch className="w-[24px] h-[24px]" />},
+        ],
     },
     {
         title: 'Clothings',
         path: '/clothings',
         // submenu: true,
-        icon: <MdElectricBolt className="w-[24px] h-[24px]"/>
+        icon: <GiClothesline className="w-[24px] h-[24px]"/>,
+        submenu: true,
+        subMenuItems:[
+            {title: "Configuration", path: '/clothings/configuration', icon: <LuSettings className="w-[24px] h-[24px]" />},
+            {title: "Buy & Sell Report", path: '/clothings/report', icon: <TbReportSearch className="w-[24px] h-[24px]" />},
+        ],
     },
     {
         title: 'Furnitures',
         path: '/furnitures',
         // submenu: true,
-        icon: <MdElectricBolt className="w-[24px] h-[24px]"/>
+        icon: <GiScrollUnfurled className="w-[24px] h-[24px]"/>,
+        submenu: true,
+        subMenuItems:[
+            {title: "Configuration", path: '/furnitures/configuration', icon: <LuSettings className="w-[24px] h-[24px]" />},
+            {title: "Buy & Sell Report", path: '/furnitures/report', icon: <TbReportSearch className="w-[24px] h-[24px]" />},
+        ],
     },
     {
         title: 'Toys',
         path: '/toys',
         // submenu: true,
-        icon: <FiHome className="w-[24px] h-[24px]"/>
+        icon: <MdOutlineToys className="w-[24px] h-[24px]"/>,
+        submenu: true,
+        subMenuItems:[
+            {title: "Configuration", path: '/toys/configuration', icon: <LuSettings className="w-[24px] h-[24px]" />},
+            {title: "Buy & Sell Report", path: '/toys/report', icon: <TbReportSearch className="w-[24px] h-[24px]" />},
+        ],
     },
     {
         title: 'Books',
         path: '/books',
         // submenu: true,
-        icon: <SiWikibooks className="w-[24px] h-[24px]"/>
+        icon: <SiWikibooks className="w-[24px] h-[24px]"/>,
+        submenu: true,
+        subMenuItems:[
+            {title: "Configuration", path: '/books/configuration', icon: <LuSettings className="w-[24px] h-[24px]" />},
+            {title: "Buy & Sell Report", path: '/books/report', icon: <TbReportSearch className="w-[24px] h-[24px]" />},
+        ],
     },
     
     {
         title: 'Groceries',
         path: '/groceries',
         // submenu: true,
-        icon: <LuShoppingBasket className="w-[24px] h-[24px]"/>
+        icon: <LuShoppingBasket className="w-[24px] h-[24px]"/>,
+        submenu: true,
+        subMenuItems:[
+            {title: "Configuration", path: '/groceries/configuration', icon: <LuSettings className="w-[24px] h-[24px]" />},
+            {title: "Buy & Sell Report", path: '/groceries/report', icon: <TbReportSearch className="w-[24px] h-[24px]" />},
+        ],
     },
     
     {
