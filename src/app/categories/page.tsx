@@ -22,7 +22,7 @@ export default function Home() {
         {categories.map((cat) => (
           <div
             key={cat.id}
-            className="border bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300"
+            className="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300"
           >
             <h2 className="text-xl font-semibold">{cat.name}</h2>
             <Link href={`/category/${cat.id}`}>

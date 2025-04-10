@@ -137,17 +137,17 @@ export default function BuySellChart() {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-2 sm:p-4 lg:p-4 xl:p-6 bg-[#F7F7F7] min-h-screen">
       <main>
-        <div className="mt-10 pl-3 pr-3 sm:pl-[100px] sm:pr-[100px] md:pl-[100px] md:pr-[100px] xl:pl-[100px] xl:pr-[100px] font-poppins">
-          <div className="flex flex-col xl:flex-row border-b">
+        <div className="mt-10 pl-3 pr-3 sm:pl-[100px] sm:pr-[100px] xl:pl-[100px] xl:pr-[100px] font-poppins">
+          <div className="flex flex-col xl:flex-row bg-white shadow-md rounded-lg p-6">
             {["Data Table", "Bar chart", "Pie Chart"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => handleTabClick(tab)}
-                className={`px-6 py-2 ${
+                className={`justify-between px-8 py-2 ${
                   activeTab === tab
-                    ? "border-b-2 border-green-500 text-green-500"
+                    ? " bg-gray-600 rounded-lg text-white"
                     : "text-gray-500"
                 } ${isTabVisible ? "block" : "hidden"} sm:block`}
               >
@@ -166,34 +166,33 @@ export default function BuySellChart() {
             <div className="w-full">
               {activeTab === "Data Table" && (
                 <div>
-                  <div className="text-center">
-                    <h1 className="text-2xl font-bold mb-6">
-                      Buy & Sell Report (1 Year)
-                    </h1>
-                    <input
-                      type="text"
-                      placeholder="Search by month"
-                      value={filter}
-                      onChange={(e) => setFilter(e.target.value)}
-                      className="mb-4 p-2 border rounded w-full"
-                    />
+                  <div className="text-center bg-white shadow-md rounded-lg p-6">
+                    <div>
+                      <div className="flex justify-between">
+                        <h1 className="text-2xl font-bold mb-4">Data Table</h1>
+                        <input
+                          type="text"
+                          placeholder="Search by month"
+                          value={filter}
+                          onChange={(e) => setFilter(e.target.value)}
+                          className="mb-4 p-2 border rounded w-1/4 justify-items-start"
+                        />
+                      </div>
 
-                    <div className="p-8">
-                      <h1 className="text-2xl font-bold mb-4">Data Table</h1>
                       <DragDropContext onDragEnd={handleDragEnd}>
                         <Droppable droppableId="table">
                           {(provided) => (
                             <table
-                              className="w-full justify-around border mb-6"
+                              className="w-full justify-around mb-6"
                               ref={provided.innerRef}
                               {...provided.droppableProps}
                             >
                               <thead>
-                                <tr className="bg-gray-800 text-white">
-                                  <th className="p-2 border">Month</th>
-                                  <th className="p-2 border">Buy</th>
-                                  <th className="p-2 border">Sell</th>
-                                  <th className="p-2 border">Actions</th>
+                                <tr className="bg-gray-600 text-white">
+                                  <th className="p-2 text-left">Month</th>
+                                  <th className="p-2">Buy</th>
+                                  <th className="p-2">Sell</th>
+                                  <th className="p-2">Actions</th>
                                   {/* Added Actions column */}
                                 </tr>
                               </thead>
@@ -209,33 +208,29 @@ export default function BuySellChart() {
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
-                                        className={`border ${
+                                        className={`border-y-[1px] ${
                                           snapshot.isDragging
-                                            ? "bg-gray-700  text-white"
-                                            : "hover:bg-gray-600"
+                                            ? "bg-gray-700  text-white hover:text-white"
+                                            : "hover:bg-gray-600 hover:text-white"
                                         }`}
                                       >
-                                        <td className="p-2 border">
+                                        <td className="p-2 text-left">
                                           {row.month}
                                         </td>
-                                        <td className="p-2 border">
-                                          {row.buy}
-                                        </td>
-                                        <td className="p-2 border">
-                                          {row.sell}
-                                        </td>
+                                        <td className="p-2">{row.buy}</td>
+                                        <td className="p-2">{row.sell}</td>
                                         <td className="p-2 relative">
-                                          <div className="group-hover:visible absolute bottom-1 text-center xl:ml-32 sm:ml-8 md:ml-10 mt-4">
-                                            <button
-                                              onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleDelete(index);
-                                              }}
-                                              className=" text-black rounded hover:text-red-600 transition duration-500"
-                                            >
-                                              <RxCrossCircled className="w-7 h-7 text-center" />
-                                            </button>
-                                          </div>
+                                          {/* <div className="group-hover:visible absolute bottom-1 text-center xl:ml-32 sm:ml-8 md:ml-10 mt-4"> */}
+                                          <button
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              handleDelete(index);
+                                            }}
+                                            className=" text-gray-900 rounded hover:text-red-600 transition duration-500"
+                                          >
+                                            <RxCrossCircled className="w-7 h-7 text-center" />
+                                          </button>
+                                          {/* </div> */}
                                         </td>
                                       </tr>
                                     )}
@@ -285,10 +280,15 @@ export default function BuySellChart() {
                         />
                         <button
                           onClick={handleAddRow}
-                          className="bg-[#52796f] text-white px-4 py-2 rounded hover:bg-[#2f3e46]"
+                          className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-[#2f3e46] transform transition-transform active:scale-95"
                         >
                           Add Row
                         </button>
+                        <Link href="/" className="flex justify-center">
+                          <button className="bg-gray-600 text-white px-4 py-2 rounded transform transition-transform active:scale-95">
+                            Home page
+                          </button>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -297,10 +297,10 @@ export default function BuySellChart() {
               {activeTab === "Bar chart" && (
                 <div className="text-black">
                   <div className="mb-10">
-                    <h2 className="text-xl font-semibold mb-4">
-                      Monthly Buy vs Sell Report as Bar Chart
-                    </h2>
-                    <div className="w-full h-[500px]">
+                    <div className="w-full h-[500px] bg-white shadow-md rounded-lg p-4">
+                      <h1 className="text-xl font-semibold mb-4">
+                        Monthly Buy vs Sell Report as Bar Chart
+                      </h1>
                       {/* Fixed height container */}
                       <ResponsiveContainer className="w-6xl h-3xl">
                         <BarChart
@@ -369,7 +369,7 @@ export default function BuySellChart() {
               )}
               {activeTab === "Pie Chart" && (
                 <div className="w-auto md:grid-cols-2 gap-4">
-                  <div className="mb-10">
+                  <div className="mb-10 bg-white shadow-md rounded-lg p-4">
                     <h2 className="text-xl font-semibold mb-4">
                       Total Buy vs Sell (Pie Chart)
                     </h2>
@@ -414,11 +414,6 @@ export default function BuySellChart() {
             </div>
           </div>
         </div>
-        <Link href="/" className="flex justify-center mt-6">
-          <button className="bg-[#52796f] text-white px-4 py-2 rounded transform transition-transform active:scale-95">
-            Back to Home page
-          </button>
-        </Link>
       </main>
     </div>
   );
