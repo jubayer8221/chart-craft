@@ -233,7 +233,13 @@ export default function CategoryPage() {
           </PieChart>
         </div>
       </div>
-
+      <div className="flex justify-around">
+        <Link href="/buySellChart">
+          <button className="px-4 py-2 bg-[#3c6e71] text-white rounded hover:bg-[#2f3e46] transition m-5 active:scale-95">
+            Buy & Sell Report
+          </button>
+        </Link>
+      </div>
       <div className="flex justify-center">
         <Link href="/">
           <button className="px-4 py-2 my-5 mb-10 bg-[#3c6e71] text-white rounded hover:bg-[#2f3e46] transition active:scale-95">
