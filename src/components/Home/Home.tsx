@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import UserCard from "./UserCard";
 import ElectronicsCountChart from "./ElectronicsCountChart";
@@ -24,14 +24,26 @@ const MainPage = () => {
           </div>
           <div className="flex flex-col gap-6">
             {/* top  */}
-          <div className="flex gap-4 flex-col lg:flex-row">
-            {/* COUNT CHART */}
-            <div className="w-full lg:w-1/3 h-[350px]">
-              <ElectronicsCountChart />
+            <div className="flex gap-4 flex-col lg:flex-row">
+              {/* COUNT CHART */}
+              <div className="w-full lg:w-1/3 h-[350px]">
+                <ElectronicsCountChart />
+              </div>
+              {/* ATTENDANCE CHART */}
+              <div className="w-full lg:w-2/3 h-[350px]">
+                <ClothingsChart />
+              </div>
             </div>
-            {/* ATTENDANCE CHART */}
-            <div className="w-full lg:w-2/3 h-[350px]">
-              <ClothingsChart />
+            {/* middlle  */}
+            <div className="flex gap-4 flex-col lg:flex-row">
+              {/* COUNT CHART */}
+              <div className="w-full lg:w-1/2 h-[350px]">
+                <ElectronicsCountChart />
+              </div>
+              {/* ATTENDANCE CHART */}
+              <div className="w-full lg:w-1/2 h-[350px]">
+                <ElectronicsCountChart />
+              </div>
             </div>
           </div>
 
@@ -57,7 +69,6 @@ const MainPage = () => {
             <div className="w-full lg:w-1/3 h-[350px]">
               <GroceriesChart />
             </div>
-          </div>
           </div>
         </div>
         {/* right side  */}

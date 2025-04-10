@@ -1,35 +1,35 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { TfiLayoutMenuSeparated } from 'react-icons/tfi';
+import { TfiLayoutMenuSeparated } from "react-icons/tfi";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 // TEMPORARY
 const events = [
-    {
-      id: 1,
-      title: "Lorem ipsum dolor",
-      time: "12:00 PM - 2:00 PM",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-    {
-      id: 2,
-      title: "Lorem ipsum dolor",
-      time: "12:00 PM - 2:00 PM",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-    {
-      id: 3,
-      title: "Lorem ipsum dolor",
-      time: "12:00 PM - 2:00 PM",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-  ];
+  {
+    id: 1,
+    title: "Lorem ipsum dolor",
+    time: "12:00 PM - 2:00 PM",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  },
+  {
+    id: 2,
+    title: "Lorem ipsum dolor",
+    time: "12:00 PM - 2:00 PM",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  },
+  {
+    id: 3,
+    title: "Lorem ipsum dolor",
+    time: "12:00 PM - 2:00 PM",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  },
+];
 
 const EventCalendar = () => {
-    const [value, onChange] = useState<Value>(new Date());
+  const [value, onChange] = useState<Value>(new Date());
   return (
     <div className="bg-white p-4 rounded-md">
       <Calendar onChange={onChange} value={value} />
@@ -53,7 +53,7 @@ const EventCalendar = () => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default EventCalendar
+export default EventCalendar;
