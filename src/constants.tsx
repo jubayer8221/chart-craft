@@ -18,14 +18,6 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     icon: <FiHome className="w-[24px] h-[24px]" />,
   },
   {
-    title: "Categories",
-    path: "/categories",
-  },
-  {
-    title: "Buy and Sell Chart",
-    path: "/buySellChart",
-  },
-  {
     title: "Electronics",
     path: "/electronics",
     // submenu: true,

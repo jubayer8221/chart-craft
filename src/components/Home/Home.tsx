@@ -3,7 +3,6 @@ import React from "react";
 import UserCard from "./UserCard";
 import ElectronicsCountChart from "./ElectronicsCountChart";
 import ClothingsChart from "./ClothingsChart";
-import Link from "next/link";
 
 const MainPage = () => {
   return (
@@ -15,9 +14,7 @@ const MainPage = () => {
             <UserCard type="Products" />
             <UserCard type="Product types" />
             <UserCard type="Staff" />
-            <Link href="/buySellChart">
-              <UserCard type="Buy and Sell" />
-            </Link>
+            <UserCard type="NJ" />
           </div>
           <div className="flex flex-col gap-6">
             {/* top  */}
