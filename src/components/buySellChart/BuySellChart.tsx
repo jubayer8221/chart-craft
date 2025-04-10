@@ -423,3 +423,7 @@ export default function BuySellChart() {
     </div>
   );
 }
+export const metadata = {
+  title: "Buy & Sell Chart",
+  description: "Buy & Sell Chart",
+};
