@@ -5,14 +5,17 @@ import { SideNavItem } from '@/types'
 import Link from 'next/link'
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { usePathname } from 'next/navigation';
+import Image from 'next/image'
 
 const LeftSide = () => {
   return (
     <div className='md:w-60 bg-white h-screen flex-1 fixed border-r border-zinc-200 hidden md:flex'>
       <div className='flex flex-col space-y-6 w-full'>
         <Link href="/" className='flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 h-[47px] w-full'>
-          <span className='h-7 w-7 bg-zinc-200 rounded-lg'></span>
-          <span className='font-bold text-xl hidden md:flex'>Logo</span>
+          {/* <span className='h-7 w-7 bg-zinc-200 rounded-lg'></span> */}
+          <span className='font-bold text-xl hidden md:flex'>
+            <Image src="/logo.jpg" alt='' width={40} height={40} />
+          </span>
         </Link>
 
         {/* Added overflow-y-auto here to enable vertical scrolling */}
