@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { TfiLayoutMenuSeparated } from "react-icons/tfi";
 import {
     LineChart,
@@ -80,7 +81,7 @@ const ClothingsChart = () => {
       {/* TITLE */}
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-semibold">Clothings</h1>
-        <TfiLayoutMenuSeparated width={20} height={20} />
+        <Link href={`/category/${2}`}><TfiLayoutMenuSeparated width={20} height={20} /></Link>
       </div>
       {/* middle  */}
       <div className="w-full h-[75%]">
