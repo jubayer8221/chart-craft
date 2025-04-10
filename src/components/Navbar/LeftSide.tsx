@@ -1,35 +1,41 @@
-'use client'
-import React, { useState } from 'react'
-import { SIDENAV_ITEMS } from '@/constants'
-import { SideNavItem } from '@/types'
-import Link from 'next/link'
+"use client";
+import React, { useState } from "react";
+import { SIDENAV_ITEMS } from "@/constants";
+import { SideNavItem } from "@/types";
+import Link from "next/link";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import { usePathname } from 'next/navigation';
-import Image from 'next/image'
+import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 const LeftSide = () => {
   return (
-    <div className='md:w-60 bg-white h-screen flex-1 fixed border-r border-zinc-200 hidden md:flex'>
-      <div className='flex flex-col space-y-6 w-full'>
-        <Link href="/" className='flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 h-[47px] w-full'>
+    <div className="md:w-60 bg-white h-screen flex-1 fixed border-r border-zinc-200 hidden md:flex">
+      <div className="flex flex-col space-y-6 w-full">
+        <Link
+          href="/"
+          className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 h-[47px] w-full"
+        >
           {/* <span className='h-7 w-7 bg-zinc-200 rounded-lg'></span> */}
-          <span className='font-bold text-xl hidden md:flex'>
-            <Image src="/logo.jpg" alt='' width={40} height={40} />
-          </span>
+          {/* <span className="font-bold text-xl hidden md:flex"> */}
+          <Image
+            src="/logo.jpg"
+            alt="Chart Crafter Logo"
+            width={100}
+            height={60}
+          />
+          {/* </span> */}
         </Link>
 
         {/* Added overflow-y-auto here to enable vertical scrolling */}
-        <div className='flex flex-col space-y-2 md:px-6 overflow-y-auto'>
-          {
-            SIDENAV_ITEMS.map((item, idx)=>{
-              return <MenuItem key={idx} item={item} />;
-            })
-          }
+        <div className="flex flex-col space-y-2 md:px-6 overflow-y-auto">
+          {SIDENAV_ITEMS.map((item, idx) => {
+            return <MenuItem key={idx} item={item} />;
+          })}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default LeftSide;
 
@@ -47,7 +53,7 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
           <button
             onClick={toggleSubMenu}
             className={`flex flex-row items-center p-2 rounded-lg hover-bg-zinc-100 w-full justify-between hover:bg-zinc-100 ${
-              pathname.includes(item.path) ? 'bg-zinc-100' : ''
+              pathname.includes(item.path) ? "bg-zinc-100" : ""
             }`}
           >
             <div className="flex flex-row space-x-4 items-center">
@@ -55,7 +61,7 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
               <span className="font-semibold text-4 flex">{item.title}</span>
             </div>
 
-            <div className={`${subMenuOpen ? 'rotate-180' : ''} flex`}>
+            <div className={`${subMenuOpen ? "rotate-180" : ""} flex`}>
               <RiArrowDropDownLine className="w-[24px] h-[24px]" />
             </div>
           </button>
@@ -67,11 +73,13 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
                   <Link
                     key={idx}
                     href={subItem.path}
-                    className={`${subItem.path === pathname ? 'font-bold' : ''}`}
+                    className={`${
+                      subItem.path === pathname ? "font-bold" : ""
+                    }`}
                   >
-                    <div className='flex flex-row items-center space-x-4'>
-                    {subItem.icon}
-                    <span>{subItem.title}</span>
+                    <div className="flex flex-row items-center space-x-4">
+                      {subItem.icon}
+                      <span>{subItem.title}</span>
                     </div>
                   </Link>
                 );
@@ -82,7 +90,9 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
       ) : (
         <Link
           href={item.path}
-          className={`flex flex-row items-center p-2 rounded-lg hover:bg-zinc-100 w-full space-x-4 ${item.path === pathname ? "bg-zinc-100": ""}`} 
+          className={`flex flex-row items-center p-2 rounded-lg hover:bg-zinc-100 w-full space-x-4 ${
+            item.path === pathname ? "bg-zinc-100" : ""
+          }`}
         >
           {item.icon}
           <span className="font-semibold text-4 flex">{item.title}</span>

@@ -139,7 +139,7 @@ export default function BuySellChart() {
   return (
     <div className="p-2 sm:p-4 lg:p-4 xl:p-6 bg-[#F7F7F7] min-h-screen">
       <main>
-        <div className="mt-10 pl-3 pr-3 sm:pl-[100px] sm:pr-[100px] xl:pl-[100px] xl:pr-[100px] font-poppins">
+        <div className="mt-4 pl-3 pr-3 sm:pl-[100px] sm:pr-[100px] xl:pl-[100px] xl:pr-[100px] font-poppins">
           <div className="flex flex-col xl:flex-row bg-white shadow-md rounded-lg p-6">
             {["Data Table", "Bar chart", "Pie Chart"].map((tab) => (
               <button
@@ -295,120 +295,109 @@ export default function BuySellChart() {
                 </div>
               )}
               {activeTab === "Bar chart" && (
-                <div className="text-black">
-                  <div className="mb-10">
-                    <div className="w-full h-[500px] bg-white shadow-md rounded-lg p-4">
-                      <h1 className="text-xl font-semibold mb-4">
-                        Monthly Buy vs Sell Report as Bar Chart
-                      </h1>
-                      {/* Fixed height container */}
-                      <ResponsiveContainer className="w-6xl h-3xl">
-                        <BarChart
-                          layout="vertical"
-                          data={yearlyData}
-                          margin={{ top: 20, right: 30, left: 80, bottom: 40 }}
-                        >
-                          <CartesianGrid
-                            strokeDasharray="3 3"
-                            horizontal={true}
-                          />
-                          {/* Only vertical grid lines */}
-                          <XAxis
-                            type="number"
-                            label={{
-                              value: "Amount ($)",
-                              position: "bottom",
-                              offset: 15,
-                              fontSize: 12,
-                            }}
-                            tickFormatter={(value) =>
-                              `$${value.toLocaleString()}`
-                            }
-                          />
-                          <YAxis
-                            type="category"
-                            dataKey="month"
-                            width={100}
-                            tick={{ fontSize: 12 }}
-                          />
-                          <Tooltip
-                            formatter={(value, name) => [
-                              `$${Number(value).toLocaleString()}`,
-                              name === "buy" ? "Buy Amount" : "Sell Amount",
-                            ]}
-                            labelFormatter={(label) => `Month: ${label}`}
-                            contentStyle={{
-                              borderRadius: "8px",
-                              boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-                            }}
-                          />
-                          <Legend
-                            verticalAlign="top"
-                            height={50}
-                            wrapperStyle={{ paddingBottom: "20px" }}
-                          />
-                          <Bar
-                            dataKey="buy"
-                            name="Buy"
-                            fill="#34d399"
-                            radius={[0, 4, 4, 0]}
-                            animationDuration={1500}
-                          />
-                          <Bar
-                            dataKey="sell"
-                            name="Sell"
-                            fill="#f87171"
-                            radius={[0, 4, 4, 0]}
-                            animationDuration={1500}
-                          />
-                        </BarChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </div>
+                <div className="w-full h-[800px] mb-10 bg-white shadow-md rounded-lg p-4">
+                  <h1 className="text-xl font-semibold mb-4">
+                    Monthly Buy vs Sell Report as Bar Chart
+                  </h1>
+                  {/* Fixed height container */}
+                  <ResponsiveContainer className="w-6xl h-3xl ">
+                    <BarChart
+                      layout="vertical"
+                      data={yearlyData}
+                      margin={{ top: 20, right: 30, left: 80, bottom: 40 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" horizontal={true} />
+                      {/* Only vertical grid lines */}
+                      <XAxis
+                        type="number"
+                        label={{
+                          value: "Amount ($)",
+                          position: "bottom",
+                          offset: 15,
+                          fontSize: 12,
+                        }}
+                        tickFormatter={(value) => `$${value.toLocaleString()}`}
+                      />
+                      <YAxis
+                        type="category"
+                        dataKey="month"
+                        width={100}
+                        tick={{ fontSize: 12 }}
+                      />
+                      <Tooltip
+                        formatter={(value, name) => [
+                          `$${Number(value).toLocaleString()}`,
+                          name === "buy" ? "Buy Amount" : "Sell Amount",
+                        ]}
+                        labelFormatter={(label) => `Month: ${label}`}
+                        contentStyle={{
+                          borderRadius: "8px",
+                          boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+                        }}
+                      />
+                      <Legend
+                        verticalAlign="top"
+                        height={50}
+                        wrapperStyle={{ paddingBottom: "20px" }}
+                      />
+                      <Bar
+                        dataKey="buy"
+                        name="Buy"
+                        fill="#34d399"
+                        radius={[0, 4, 4, 0]}
+                        animationDuration={1500}
+                      />
+                      <Bar
+                        dataKey="sell"
+                        name="Sell"
+                        fill="#f87171"
+                        radius={[0, 4, 4, 0]}
+                        animationDuration={1500}
+                      />
+                    </BarChart>
+                  </ResponsiveContainer>
                 </div>
               )}
               {activeTab === "Pie Chart" && (
-                <div className="w-auto md:grid-cols-2 gap-4">
-                  <div className="mb-10 bg-white shadow-md rounded-lg p-4">
-                    <h2 className="text-xl font-semibold mb-4">
-                      Total Buy vs Sell (Pie Chart)
-                    </h2>
-                    <ResponsiveContainer width="100%" height={300}>
-                      <PieChart>
-                        <Pie
-                          data={[
-                            {
-                              name: "Buy",
-                              value: yearlyData.reduce(
-                                (sum, item) => sum + item.buy,
-                                0
-                              ),
-                            },
-                            {
-                              name: "Sell",
-                              value: yearlyData.reduce(
-                                (sum, item) => sum + item.sell,
-                                0
-                              ),
-                            },
-                          ]}
-                          cx="50%"
-                          cy="50%"
-                          labelLine={false}
-                          label={renderCustomizedLabel}
-                          outerRadius={100}
-                          fill="#8884d8"
-                          dataKey="value"
-                        >
-                          {COLORS.map((color, index) => (
-                            <Cell key={index} fill={color} />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                        <Legend />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </div>
+                <div className="w-auto bg-white shadow-md rounded-lg p-4 md:grid-cols-2 gap-4">
+                  <h2 className="text-xl font-semibold mb-4">
+                    Total Buy vs Sell (Pie Chart)
+                  </h2>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                      <Pie
+                        data={[
+                          {
+                            name: "Buy",
+                            value: yearlyData.reduce(
+                              (sum, item) => sum + item.buy,
+                              0
+                            ),
+                          },
+                          {
+                            name: "Sell",
+                            value: yearlyData.reduce(
+                              (sum, item) => sum + item.sell,
+                              0
+                            ),
+                          },
+                        ]}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        label={renderCustomizedLabel}
+                        outerRadius={100}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {COLORS.map((color, index) => (
+                          <Cell key={index} fill={color} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
                 </div>
               )}
             </div>
