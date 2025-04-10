@@ -123,13 +123,6 @@ export default function CategoryPage() {
       <h1 className="text-2xl font-bold mb-2 text-center pt-6">
         {categoryName}
       </h1>
-      <div className="flex justify-around">
-        <Link href="/buySellChart">
-          <button className="px-4 py-2 bg-[#3c6e71] text-white rounded hover:bg-[#2f3e46] transition m-5 active:scale-95">
-            Buy & Sell Report
-          </button>
-        </Link>
-      </div>
       <div className="flex flex-wrap gap-4 justify-center items-start bg-white w-full mx-auto">
         <div className="flex-1 border-2 hover:border-b-[#3c6e71] rounded-lg p-4 shadow-lg min-w-[300px] max-w-[500px] w-full">
           <h1 className="text-xl font-semibold mb-4">Table</h1>
