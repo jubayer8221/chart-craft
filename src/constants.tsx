@@ -23,6 +23,10 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     icon: <FiHome className="w-[24px] h-[24px]" />,
   },
   {
+    title: "Dashboard",
+    path: "/dashboard",
+  },
+  {
     title: "Electronics",
     path: "/electronics",
     // submenu: true,
