@@ -7,6 +7,7 @@ import {
 } from "@hello-pangea/dnd";
 import { useState } from "react";
 import Image from "next/image";
+import StockReportCard from "../Cards/StockReportCard";
 
 interface SellItem {
   id: number;
@@ -152,7 +153,7 @@ const TopSelling = () => {
     item.title.toLowerCase().includes(filter.toLowerCase())
   );
 
-  const visibleData = showAll ? filteredData : filteredData.slice(0, 4);
+  const visibleData = showAll ? filteredData : filteredData.slice(0, 5);
 
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -200,7 +201,7 @@ const TopSelling = () => {
                             {filteredData.length > 6 && (
                               <button
                                 onClick={() => setShowAll(!showAll)}
-                                className="text-[#00B207] text-sm font-medium"
+                                className="text-black text-sm font-medium"
                               >
                                 {showAll ? "Show Less ←" : "View All →"}
                               </button>
@@ -215,7 +216,7 @@ const TopSelling = () => {
                                   ref={provided.innerRef}
                                   {...provided.droppableProps}
                                 >
-                                  <thead className="sticky top-0 z-10 bg-[#0A3A66] text-white">
+                                  <thead className="sticky top-0 z-10 bg-[#4BC0C0] text-white">
                                     <tr>
                                       <th className="p-2 text-left">Items</th>
                                       <th className="p-2">Price</th>
@@ -236,7 +237,7 @@ const TopSelling = () => {
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
-                                            className={`border-y text-center hover:text-gray-200 ${
+                                            className={`text-center hover:text-gray-200 ${
                                               snapshot.isDragging
                                                 ? "bg-[#00A9B4] text-white"
                                                 : "hover:bg-[#00A9B4] hover:text-white"
@@ -287,6 +288,7 @@ const TopSelling = () => {
                           <h1 className="text-lg font-semibold sm:text-base md:text-lg lg:text-xl">
                             Stock Report
                           </h1>
+                          <StockReportCard></StockReportCard>
                         </div>
                       )}
                     </div>
