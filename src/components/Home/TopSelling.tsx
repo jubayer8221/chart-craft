@@ -103,7 +103,7 @@ const sellData: SellItem[] = [
   },
   {
     id: 9,
-    title: "Orange Sunglasses",
+    title: "Sunglasses",
     description: "Cool orange sunglasses",
     image: "/image/blue_tshirt.png",
     price: 120,
