@@ -147,7 +147,7 @@ export default function BuySellChart() {
                 onClick={() => handleTabClick(tab)}
                 className={`justify-between px-8 py-2 ${
                   activeTab === tab
-                    ? " bg-gray-600 rounded-lg text-white"
+                    ? " bg-[#0A3A66] rounded-lg text-white"
                     : "text-gray-500"
                 } ${isTabVisible ? "block" : "hidden"} sm:block`}
               >
@@ -156,7 +156,7 @@ export default function BuySellChart() {
             ))}
             <button
               onClick={() => setIsTabVisible(!isTabVisible)}
-              className="sm:hidden px-6 py-2 text-gray-500"
+              className="sm:hidden px-6 py-2 bg-[#0A3A66]"
             >
               {activeTab}
             </button>
@@ -168,14 +168,16 @@ export default function BuySellChart() {
                 <div>
                   <div className="text-center bg-white shadow-md rounded-lg p-6">
                     <div>
-                      <div className="flex justify-between">
-                        <h1 className="text-2xl font-bold mb-4">Data Table</h1>
+                      <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
+                        <h1 className="text-2xl font-bold mb-4 sm:mb-0">
+                          Data Table
+                        </h1>
                         <input
                           type="text"
                           placeholder="Search by month"
                           value={filter}
                           onChange={(e) => setFilter(e.target.value)}
-                          className="mb-4 p-2 border rounded w-1/4 justify-items-start"
+                          className="p-2 border rounded w-full sm:w-1/4"
                         />
                       </div>
 
@@ -188,7 +190,7 @@ export default function BuySellChart() {
                               {...provided.droppableProps}
                             >
                               <thead>
-                                <tr className="bg-gray-600 text-white">
+                                <tr className="bg-[#0A3A66] text-white">
                                   <th className="p-2 text-left">Month</th>
                                   <th className="p-2">Buy</th>
                                   <th className="p-2">Sell</th>
@@ -280,12 +282,12 @@ export default function BuySellChart() {
                         />
                         <button
                           onClick={handleAddRow}
-                          className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-[#2f3e46] transform transition-transform active:scale-95"
+                          className="bg-[#0A3A66] text-white px-4 py-2 rounded hover:bg-[#2f3e46] transform transition-transform active:scale-95"
                         >
                           Add Row
                         </button>
                         <Link href="/" className="flex justify-center">
-                          <button className="bg-gray-600 text-white px-4 py-2 rounded transform transition-transform active:scale-95">
+                          <button className="bg-[#0A3A66] text-white px-4 py-2 rounded transform transition-transform active:scale-95">
                             Home page
                           </button>
                         </Link>

@@ -120,11 +120,11 @@ export default function CategoryPage() {
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 2xl:px-16">
-      <h1 className="text-2xl font-bold mb-2 text-center pt-6">
+      <h1 className="text-2xl bg-[#0A3A66] text-white font-bold my-2 text-center p-3 shadow-lg">
         {categoryName}
       </h1>
       <div className="flex flex-wrap gap-4 justify-center items-start w-full mx-auto">
-        <div className="flex-1 rounded-lg p-4 shadow-lg min-w-[300px] max-w-[500px] w-full">
+        <div className="w-full sm:w-[48%] md:w-[32%] rounded-lg p-4 shadow-lg min-w-[300px] max-w-[500px]">
           <h1 className="text-xl font-semibold mb-4">Table</h1>
 
           <DragDropContext onDragEnd={handleDragEnd}>
@@ -136,7 +136,7 @@ export default function CategoryPage() {
                   {...provided.droppableProps}
                 >
                   <thead>
-                    <tr className="bg-gray-600 text-white">
+                    <tr className="bg-[#00A9B4] text-white">
                       <th className="p-2 ">Item</th>
                       <th className="p-2">Price</th>
                       <th className="p-2">Old Price</th>
@@ -179,20 +179,20 @@ export default function CategoryPage() {
           </DragDropContext>
         </div>
 
-        <div className="flex-1 rounded-lg p-4 shadow-lg min-w-[300px] max-w-[500px] w-full hover:shadow-lg transition-shadow duration-300">
+        <div className="w-full sm:w-[48%] md:w-[32%] rounded-lg p-4 shadow-lg min-w-[300px] max-w-[500px] hover:shadow-lg transition-shadow duration-300">
           <h1 className="text-xl font-semibold mb-4">Bar Chart</h1>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart layout="vertical" data={rows} margin={{ left: 50 }}>
               <XAxis type="number" />
               <YAxis type="category" dataKey="item" />
               <Tooltip />
-              <Bar dataKey="price" fill="#3b82f6" />
+              <Bar dataKey="price" fill="#00A9B4" />
               <Bar dataKey="oldPrice" fill="#f87171" />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="flex-1 hover:border-b-[#3c6e71] rounded-lg p-4 shadow-lg min-w-[300px] max-w-[500px] w-full">
+        <div className="w-full sm:w-[48%] md:w-[32%] rounded-lg p-4 shadow-lg min-w-[300px] max-w-[500px] hover:border-b-[#3c6e71]">
           <h1 className="text-xl font-semibold mb-4">Pie Chart</h1>
           <PieChart width={400} height={300}>
             <Pie
@@ -234,15 +234,15 @@ export default function CategoryPage() {
       <div className="flex items-center mt-8">
         <div className="flex justify-around">
           <Link href="/buySellChart">
-            <button className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-[#2f3e46] transition m-5 active:scale-95">
+            <button className="px-4 py-2 rounded bg-[#00A9B4] hover:bg-[#007EA1] text-white transition m-5 active:scale-95">
               Buy & Sell Report
             </button>
           </Link>
         </div>
         <div className="flex justify-center">
           <Link href="/">
-            <button className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-[#2f3e46] transition active:scale-95">
-              Back to Home page
+            <button className="px-4 py-2 bg-[#00A9B4] hover:bg-[#007EA1] text-white rounded transition active:scale-95">
+              Home page
             </button>
           </Link>
         </div>
