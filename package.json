@@ -18,6 +18,7 @@
     "frappe-gantt": "^1.0.3",
     "next": "15.2.4",
     "react": "^19.0.0",
+    "react-big-calendar": "^1.18.0",
     "react-calendar": "^5.1.0",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.0.0",
