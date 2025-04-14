@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 
 const RecentOrdersCard = () => {
   const [orders, setOrders] = useState([
@@ -7,6 +8,11 @@ const RecentOrdersCard = () => {
     { id: 3, name: "Shoes", order: "1003", progress: "Processing" },
     { id: 4, name: "Hat", order: "1004", progress: "Delivered" },
     { id: 5, name: "Jacket", order: "1005", progress: "Cancelled" },
+    { id: 6, name: "Socks", order: "1006", progress: "Processing" },
+    { id: 7, name: "Scarf", order: "1007", progress: "In Transit" },
+    { id: 8, name: "Gloves", order: "1008", progress: "Delivered" },
+    { id: 9, name: "Sweater", order: "1009", progress: "Cancelled" },
+    { id: 10, name: "Belt", order: "1010", progress: "Processing" },
   ]);
 
   const handleDragStart = (
@@ -38,33 +44,114 @@ const RecentOrdersCard = () => {
     <div>
       <h1 className="text-lg font-semibold">Recent Orders</h1>
       <div className="overflow-x-auto mt-2">
-        <table className="text-sm text-gray-600 border-collapse border rounded border-gray-300 w-full">
-          <thead>
-            <tr>
-              <th className="border-gray-300 px-1 py-1">No.</th>
-              <th className="border-gray-300 px-1 py-1">Name</th>
-              <th className="border-gray-300 px-1 py-1">Order ID</th>
-              <th className="border-gray-300 px-1 py-1">Progress</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order, index) => (
-              <tr
-                key={order.id}
-                draggable
-                onDragStart={(e) => handleDragStart(e, index)}
-                onDrop={(e) => handleDrop(e, index)}
-                onDragOver={handleDragOver}
-                className="cursor-move border border-gray-300"
-              >
-                <td className="px-4 py-2">{order.id}</td>
-                <td className="px-4 py-2">{order.name}</td>
-                <td className="px-4 py-2">{order.order}</td>
-                <td className="px-4 py-2">{order.progress}</td>
+        <div className="max-h-64 overflow-y-auto">
+          <table className="text-sm text-gray-600 border-collapse border rounded border-gray-300 w-full">
+            <thead>
+              <tr className="justify-around">
+                <th
+                  className="border-gray-300 px-1 py-1 cursor-pointer"
+                  onClick={() =>
+                    setOrders([...orders].sort((a, b) => a.id - b.id))
+                  }
+                >
+                  <span className="flex items-center justify-center gap-1 transition-transform duration-200 active:scale-90">
+                    <span>No.</span>
+                    {orders.every(
+                      (order, i, arr) => i === 0 || arr[i - 1].id <= order.id
+                    ) ? (
+                      <IoMdArrowDropup />
+                    ) : (
+                      <IoMdArrowDropdown />
+                    )}
+                  </span>
+                </th>
+                <th
+                  className="border-gray-300 px-1 py-1 cursor-pointer text-center"
+                  onClick={() =>
+                    setOrders(
+                      [...orders].sort((a, b) => a.name.localeCompare(b.name))
+                    )
+                  }
+                >
+                  <span className="flex items-center justify-center gap-1 transition-transform duration-200 active:scale-90">
+                    <span>Name</span>
+                    {orders.every(
+                      (order, i, arr) =>
+                        i === 0 || arr[i - 1].name <= order.name
+                    ) ? (
+                      <IoMdArrowDropup />
+                    ) : (
+                      <IoMdArrowDropdown />
+                    )}
+                  </span>
+                </th>
+                <th
+                  className="border-gray-300 px-1 py-1 cursor-pointer"
+                  onClick={() =>
+                    setOrders(
+                      [...orders].sort((a, b) => a.order.localeCompare(b.order))
+                    )
+                  }
+                >
+                  <span className="flex items-center justify-center gap-1 transition-transform duration-200 active:scale-90">
+                    <span>Order ID</span>
+                    <span>
+                      {orders.every(
+                        (order, i, arr) =>
+                          i === 0 || arr[i - 1].order <= order.order
+                      ) ? (
+                        <IoMdArrowDropup />
+                      ) : (
+                        <IoMdArrowDropdown />
+                      )}
+                    </span>
+                  </span>
+                </th>
+                <th
+                  className="border-gray-300 px-1 py-1 cursor-pointer"
+                  onClick={() =>
+                    setOrders(
+                      [...orders].sort((a, b) =>
+                        a.progress.localeCompare(b.progress)
+                      )
+                    )
+                  }
+                >
+                  <span className="flex items-center justify-center gap-1 transition-transform duration-200 active:scale-90">
+                    <span>Progress</span>
+                    <span>
+                      {orders.every(
+                        (order, i, arr) =>
+                          i === 0 || arr[i - 1].progress <= order.progress
+                      ) ? (
+                        <IoMdArrowDropup />
+                      ) : (
+                        <IoMdArrowDropdown />
+                      )}
+                    </span>
+                  </span>
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {orders.map((order, index) => (
+                <tr
+                  key={order.id}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, index)}
+                  onDrop={(e) => handleDrop(e, index)}
+                  onDragOver={handleDragOver}
+                  className="cursor-move justify-around border border-gray-300"
+                >
+                  <td className="px-4 md:p-2 py-2">{order.id}</td>
+                  <td className="px-4 md:p-2 py-2 ">{order.name}</td>
+                  <td className="px-4 md:p-2 py-2">{order.order}</td>
+                  <td className="px-4 md:p-2 py-2">{order.progress}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

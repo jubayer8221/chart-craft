@@ -27,6 +27,12 @@ const Dashboard = () => {
     "top-selling",
     "stock-report",
     "recent-orders",
+    "top-selling",
+    "stock-report",
+    "recent-orders",
+    "top-selling",
+    "stock-report",
+    "recent-orders",
   ]);
   const [filterText, setFilterText] = useState("");
 
