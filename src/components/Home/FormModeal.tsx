@@ -9,7 +9,7 @@ import { RxCross2 } from "react-icons/rx";
 const FormModal = ({
   table,
   type,
-  data,
+  // data,
   id,
 }: {
   table:
@@ -45,16 +45,20 @@ const FormModal = ({
     delete: <FaTrash className="text-[14px] text-white" />,
   };
 
-  const Form = () =>{
+  const Form = () => {
     return type === "delete" && id ? (
-        <form action="" className="p-4 flex flex-col gap-4">
-            <span className="text-center font-medium">All data will be lost. Are you sure you wnt to delete this {table}?</span>
-            <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">Delete</button>
-        </form>
-    ): (
-        "Create or update form"
-    )
-  }
+      <form action="" className="p-4 flex flex-col gap-4">
+        <span className="text-center font-medium">
+          All data will be lost. Are you sure you wnt to delete this {table}?
+        </span>
+        <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">
+          Delete
+        </button>
+      </form>
+    ) : (
+      "Create or update form"
+    );
+  };
 
   return (
     <>

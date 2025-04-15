@@ -25,7 +25,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
         title: "Home",
         path: "/",
         icon: <FiHome className="w-[16px] h-[16px]" />,
-        visible: ["admin", "employee", "customer"]
+        visible: ["admin", "employee", "customer"],
       },
       {
         title: "Dashboard",
@@ -36,12 +36,13 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
           {
             title: "Admin",
             path: "/admin",
-            icon: <LuSettings className="w-[16px] h-[16px]"/>,
+            icon: <LuSettings className="w-[16px] h-[16px]" />,
           },
           {
             title: "Employee",
             path: "/employee",
             icon: <FaUsersCog className="w-[16px] h-[16px]" />,
+
           },
         ],
       },
@@ -49,14 +50,13 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
         title: "Employees",
         path: "/list/employees",
         icon: <FaUsersCog className="w-[16px] h-[16px]" />,
-        visible: ["admin", "employee"]
+        visible: ["admin", "employee"],
       },
       {
         title: "Customers",
         path: "/list/customers",
         icon: <FiUsers className="w-[16px] h-[16px]" />,
-        visible: ["admin",  "customer"]
-        
+        visible: ["admin", "customer"],
       },
       {
         title: "Books",
@@ -78,7 +78,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
           },
         ],
       },
-    
+
       {
         title: "Training",
         path: "/training",
@@ -89,7 +89,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
           {
             title: "Configuration",
             path: "/training/configuration",
-            icon: <LuSettings className="w-[16px] h-[16px]"/>,
+            icon: <LuSettings className="w-[16px] h-[16px]" />,
           },
           {
             title: "Report",
@@ -103,13 +103,13 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
         path: "/messages",
         // submenu: true,
         icon: <RiMessage3Line className="w-[16px] h-[16px]" />,
-        visible: ["admin", "employee", "customer"]
+        visible: ["admin", "employee", "customer"],
       },
       {
         title: "Report",
         path: "/training/report",
         icon: <TbReportSearch className="w-[16px] h-[16px]" />,
-        visible: ["admin", "employee", "customer"]
+        visible: ["admin", "employee", "customer"],
       },
       {
         title: "Events",
@@ -123,14 +123,12 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
         icon: <TbReportSearch className="w-[16px] h-[16px]" />,
         visible: ["admin", "employee", "customer"]
       },
-    
-
       
     ]
   },
   {
     title: "OTHER",
-    items:[
+    items: [
       {
         title: "Settings",
         path: "/settings",
@@ -154,9 +152,9 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
         title: "Help",
         // submenu: true,
         path: "/help",
-        icon: <LiaHireAHelper className="w-[16px] h-[16px]"/>,
+        icon: <LiaHireAHelper className="w-[16px] h-[16px]" />,
         visible: ["admin", "employee", "customer"],
       },
-    ]
-  }
+    ],
+  },
 ];
