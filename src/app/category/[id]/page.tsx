@@ -83,7 +83,7 @@ const categoryNames: CategoryNames = {
   "6": "Groceries",
 };
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#0A3A66"];
 
 export default function CategoryPage() {
   const params = useParams(); // Get dynamic route param
@@ -187,7 +187,7 @@ export default function CategoryPage() {
               <YAxis type="category" dataKey="item" />
               <Tooltip />
               <Bar dataKey="price" fill="#00A9B4" />
-              <Bar dataKey="oldPrice" fill="#f87171" />
+              <Bar dataKey="oldPrice" fill="#0A3A66" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -234,14 +234,14 @@ export default function CategoryPage() {
       <div className="flex items-center mt-8">
         <div className="flex justify-around">
           <Link href="/buySellChart">
-            <button className="px-4 py-2 rounded bg-[#00A9B4] hover:bg-[#007EA1] text-white transition m-5 active:scale-95">
+            <button className="px-4 py-2 rounded bg-[#0A3A66] hover:bg-[#007EA1] text-white transition m-5 active:scale-95">
               Buy & Sell Report
             </button>
           </Link>
         </div>
         <div className="flex justify-center">
           <Link href="/">
-            <button className="px-4 py-2 bg-[#00A9B4] hover:bg-[#007EA1] text-white rounded transition active:scale-95">
+            <button className="px-4 py-2 bg-[#0A3A66] hover:bg-[#007EA1] text-white rounded transition active:scale-95">
               Home page
             </button>
           </Link>
