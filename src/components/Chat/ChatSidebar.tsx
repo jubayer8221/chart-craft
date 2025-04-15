@@ -60,7 +60,7 @@ export default function ChatSidebar({ currentUser }: ChatSidebarProps) {
   return (
     <div className="w-full md:w-1/5 h-screen bg-gray-100 shadow-lg rounded-lg flex flex-col">
       {/* Fixed Header Section */}
-      <div className="sticky top-0 bg-gray-100 z-10 p-3 border-b border-gray-300">
+      <div className="sticky top-0 h-16 bg-gray-100 z-10 p-3 border-b border-gray-300">
         <div className="flex items-center gap-2">
           <div className="relative">
             <Image
