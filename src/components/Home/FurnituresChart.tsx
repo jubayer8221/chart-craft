@@ -70,13 +70,13 @@ const FurnituresChart = () => {
           />
           <Bar
             dataKey="buy"
-            fill="#FAE27C"
+            fill="#0A3A66"
             legendType="circle"
             radius={[10, 10, 0, 0]}
           />
           <Bar
             dataKey="sells"
-            fill="#C3EBFA"
+            fill="#00A9B4"
             legendType="circle"
             radius={[10, 10, 0, 0]}
           />

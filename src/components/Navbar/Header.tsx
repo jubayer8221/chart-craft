@@ -7,6 +7,7 @@ import { useSelectedLayoutSegment } from "next/navigation";
 import Link from "next/link";
 import { FiSearch } from "react-icons/fi";
 import { GrNotification } from "react-icons/gr";
+import Image from "next/image";
 // import { CiLight } from "react-icons/ci";
 // import { MdOutlineDarkMode } from "react-icons/md";
 
@@ -35,8 +36,12 @@ const Header = () => {
             href="/"
             className="flex flex-row space-x-3 items-center justify-center md:hidden"
           >
-            <span className="h-7 w-7 bg-zinc-300 rounded-lg"></span>
-            <span className="font-bold text-xl flex">Logo</span>
+            <Image
+              src="/logo.jpg"
+              alt="Chart Crafter Logo"
+              width={80}
+              height={50}
+            />
           </Link>
           {/* search bar  */}
           <div className="hidden md:block">

@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const SingleEmployeePage = () => {
+const SingleCustomerPage = () => {
   return (
     <div className='flex-1 flex flex-col md:flex-row p-4 gap-4'>
         {/* left */}
@@ -80,7 +80,7 @@ const SingleEmployeePage = () => {
 
         {/* bottom  */}
         <div className='mt-4 bg-white rounded-md p-4 h-[800px]'>
-            <h1>Employees&apos;s Schedule</h1>
+            <h1>Customer&apos;s Schedule</h1>
             <BigCalendar />
         </div>
       </div>
@@ -91,7 +91,7 @@ const SingleEmployeePage = () => {
         <div className='bg-white p-4 rounded-md mb-2'>
             <h1 className='text-xl font-semibold'>Shortcuts</h1>
             <div className='flex flex-wrap items-center gap-2 mt-2'>
-                <Link href="/" className='p-3 rounded-md bg-[#C3EBFA]'>Employee&apos;s</Link>
+                <Link href="/" className='p-3 rounded-md bg-[#C3EBFA]'>Customer&apos;s</Link>
                 <Link href="/" className='p-3 rounded-md bg-[#F1F0FF]'>Event&apos;s</Link>
                 <Link href="/" className='p-3 rounded-md bg-[#FAE27C]'>Announcement&apos;s</Link>
             </div>
@@ -103,4 +103,4 @@ const SingleEmployeePage = () => {
   )
 }
 
-export default SingleEmployeePage
+export default SingleCustomerPage
