@@ -7,7 +7,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 // import { div } from "framer-motion/client";
-import { role } from "@/lib/data";
+// import { role } from "@/lib/data";
 
 const LeftSide = () => {
   return (
