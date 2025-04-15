@@ -49,7 +49,7 @@ const SingleEmployeePage = () => {
                     <Image src="/assets/singleAttendance.png" alt='' width={24} height={24} className='w-6 h-6' />
                     <div>
                         <h1 className='text-xl font-semibold'>90%</h1>
-                        <span className='text-sm text-gray-400'>Attendance</span>
+                        <span className='text-sm text-gray-400'>Work Attendance</span>
                     </div>
                 </div>
                 {/* card */}
@@ -64,15 +64,15 @@ const SingleEmployeePage = () => {
                 <div className='bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%]'>
                     <Image src="/assets/singleLesson.png" alt='' width={24} height={24} className='w-6 h-6' />
                     <div>
-                        <h1 className='text-xl font-semibold'>9</h1>
-                        <span className='text-sm text-gray-400'>Lessons</span>
+                        <h1 className='text-xl font-semibold'>2</h1>
+                        <span className='text-sm text-gray-400'>Trainings</span>
                     </div>
                 </div>
                 <div className='bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%]'>
                     <Image src="/assets/singleClass.png" alt='' width={24} height={24} className='w-6 h-6' />
                     <div>
                         <h1 className='text-xl font-semibold'>9</h1>
-                        <span className='text-sm text-gray-400'>Classes</span>
+                        <span className='text-sm text-gray-400'>Projects</span>
                     </div>
                 </div>
             </div>
@@ -80,7 +80,7 @@ const SingleEmployeePage = () => {
 
         {/* bottom  */}
         <div className='mt-4 bg-white rounded-md p-4 h-[800px]'>
-            <h1>Teacher&apos;s Schedule</h1>
+            <h1>Employees&apos;s Schedule</h1>
             <BigCalendar />
         </div>
       </div>
@@ -91,11 +91,9 @@ const SingleEmployeePage = () => {
         <div className='bg-white p-4 rounded-md mb-2'>
             <h1 className='text-xl font-semibold'>Shortcuts</h1>
             <div className='flex flex-wrap items-center gap-2 mt-2'>
-                <Link href="/" className='p-3 rounded-md bg-[#C3EBFA]'>Teacher&apos;s Classes</Link>
-                <Link href="/" className='p-3 rounded-md bg-[#F1F0FF]'>Teacher&apos;s Students</Link>
-                <Link href="/" className='p-3 rounded-md bg-[#FAE27C]'>Teacher&apos;s Lessons</Link>
-                <Link href="/" className='p-3 rounded-md bg-pink-50'>Teacher&apos;s Exams</Link>
-                <Link href="/" className='p-3 rounded-md bg-[#C3EBFA]'>Teacher&apos;s Assignments</Link>
+                <Link href="/" className='p-3 rounded-md bg-[#C3EBFA]'>Employee&apos;s</Link>
+                <Link href="/" className='p-3 rounded-md bg-[#F1F0FF]'>Event&apos;s</Link>
+                <Link href="/" className='p-3 rounded-md bg-[#FAE27C]'>Announcement&apos;s</Link>
             </div>
         </div>
         <Performance />

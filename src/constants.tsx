@@ -41,7 +41,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
           {
             title: "Employee",
             path: "/employee",
-            icon: <TbReportSearch className="w-[16px] h-[16px]" />,
+            icon: <FaUsersCog className="w-[16px] h-[16px]" />,
           },
         ],
       },
@@ -111,7 +111,20 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
         icon: <TbReportSearch className="w-[16px] h-[16px]" />,
         visible: ["admin", "employee", "customer"]
       },
+      {
+        title: "Events",
+        path: "/training/report",
+        icon: <TbReportSearch className="w-[16px] h-[16px]" />,
+        visible: ["admin", "employee", "customer"]
+      },
+      {
+        title: "Announcements",
+        path: "/training/report",
+        icon: <TbReportSearch className="w-[16px] h-[16px]" />,
+        visible: ["admin", "employee", "customer"]
+      },
     
+
       
     ]
   },
