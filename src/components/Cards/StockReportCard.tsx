@@ -57,7 +57,7 @@ const StockReportCard = () => {
     <div className="p-4 w-full max-w-full md:max-w-2xl mx-auto">
       <h1 className="text-lg font-semibold">Stock Report</h1>
 
-      <div className="relative h-[300px] w-full">
+      <div className="relative h-[280px] w-full">
         <Bar data={data} options={options} />
       </div>
     </div>

@@ -7,7 +7,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 // import { div } from "framer-motion/client";
-import { role } from "@/lib/data";
+// import { role } from "@/lib/data";
 
 const LeftSide = () => {
   return (
@@ -41,24 +41,22 @@ const LeftSide = () => {
 
 export default LeftSide;
 
-const MenuItem = ({i}: {i: SideNavItem}) =>{
+const MenuItem = ({ i }: { i: SideNavItem }) => {
   return (
     <div className="mt-4 text-sm">
       <div className="flex flex-col gap-2">
         <span>{i.title}</span>
         <div className="flex flex-col space-y-2">
-          {
-            i.items?.map((item, idx)=>{
-              if(item.visible?.includes("admin")){
-                return <SubMenuItem key={idx} item={item} />
-              }
-            })
-          }
+          {i.items?.map((item, idx) => {
+            if (item.visible?.includes("admin")) {
+              return <SubMenuItem key={idx} item={item} />;
+            }
+          })}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const SubMenuItem = ({ item }: { item: SideNavItem }) => {
   const pathname = usePathname();
@@ -92,7 +90,9 @@ const SubMenuItem = ({ item }: { item: SideNavItem }) => {
                   <Link
                     key={idx}
                     href={subItem.path}
-                    className={`${subItem.path === pathname ? "font-bold" : ""}`}
+                    className={`${
+                      subItem.path === pathname ? "font-bold" : ""
+                    }`}
                   >
                     <div className="flex flex-row items-center space-x-4">
                       {subItem.icon}

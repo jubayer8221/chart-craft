@@ -208,7 +208,7 @@ const TopSelling = () => {
                             )}
                           </div>
 
-                          <div className="overflow-y-auto max-h-64">
+                          <div className="overflow-y-auto max-h-[300px]">
                             <Droppable droppableId="table" type="ROW">
                               {(provided) => (
                                 <table
