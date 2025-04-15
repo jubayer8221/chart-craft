@@ -7,6 +7,9 @@ import TableSearch from '@/components/Home/TableSearch';
 import { teachersData } from '@/lib/data';
 
 // import { role, teachersData } from '@/lib/data';
+import { FaRegEye } from "react-icons/fa";
+import { FaArrowDownWideShort } from "react-icons/fa6";
+import { IoFilterSharp } from "react-icons/io5";
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -59,8 +62,8 @@ const employeesListPage = () => {
         <td>
           <div className="flex items-center gap-2">
             <Link href={`/list/employees/${item.id}`}>
-              <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#C3EBFA]">
-                <Image src="/assets/view.png" alt="View teacher" width={16} height={16} />
+              <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#00A9B4]">
+                <span className='text-4 text-white'><FaRegEye /></span>
               </button>
             </Link>
               {/* // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#CFCEFF]">
@@ -82,11 +85,11 @@ const employeesListPage = () => {
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
           <TableSearch />
           <div className="flex items-center gap-4 self-end">
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAE27C]">
-              <Image src="/assets/filter.png" alt="Filter" width={14} height={14} />
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66]">
+              <span className='text-[14px] text-white'><IoFilterSharp /></span>
             </button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAE27C]">
-              <Image src="/assets/sort.png" alt="Sort" width={14} height={14} />
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66]">
+              <span className='text-[14px] text-white'><FaArrowDownWideShort /></span>
             </button>
             <FormModal table="teacher" type="create"/>
             {/* {role === 'admin' && (

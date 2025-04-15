@@ -32,15 +32,15 @@ const FormModal = ({
   const size = type === "create" ? "w-8 h-8" : "w-7 h-7";
   const bgColor =
     type === "create"
-      ? "bg-[#FAE27C]"
+      ? "bg-[#0A3A66]"
       : type === "update"
       ? "bg-[#C3EBFA]"
-      : "bg-[#CFCEFF]";
+      : "bg-[#0A3A66]";
 
   const [open, setOpen] = useState(false);
   //   dynamic icon mapping
   const iconMap = {
-    create: <FaPlus className="text-[14px]" />,
+    create: <FaPlus className="text-[14px] text-white" />,
     update: <FiEdit className="text-[14px] text-white" />,
     delete: <FaTrash className="text-[14px] text-white" />,
   };
