@@ -4,6 +4,21 @@ import { users } from "@/components/Chat/ChatSidebar";
 import { notFound } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
+// import type { Metadata } from "next";
+
+export const dynamicParams = true; // default value = true
+
+// If you need to generate metadata
+// export async function generateMetadata({
+//   params,
+// }: {
+//   params: { id: string };
+// }): Promise<Metadata> {
+//   const user = users.find((u) => u.id === parseInt(params.id));
+//   return {
+//     title: user?.name || "User not found",
+//   };
+// }
 
 export default function MessagePage({ params }: { params: { id: string } }) {
   const userId = parseInt(params.id);

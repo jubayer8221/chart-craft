@@ -26,7 +26,9 @@ const FormModal = ({
     | "event"
     | "announcement";
   type: "create" | "update" | "delete";
-  data?: any;
+  data?: string;
+  // data to be passed to the form
+  // data?: any; // data to be passed to the form
   id?: number;
 }) => {
   const size = type === "create" ? "w-8 h-8" : "w-7 h-7";
