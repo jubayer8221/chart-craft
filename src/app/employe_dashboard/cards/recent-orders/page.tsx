@@ -1,26 +1,94 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   DragDropContext,
   Droppable,
   Draggable,
   DropResult,
 } from "@hello-pangea/dnd";
-import { useState } from "react";
 import { Moon, Sun } from "lucide-react";
 
 interface Item {
   id: string;
   name: string;
   price: number;
+  order: string;
+  progress: string;
 }
 
 export default function Page() {
   const [darkMode, setDarkMode] = useState(false);
   const mockData: Item[] = [
-    { id: "1", name: "Item 1", price: 10 },
-    { id: "2", name: "Item 2", price: 20 },
-    { id: "3", name: "Item 3", price: 30 },
+    {
+      id: "1",
+      name: "Shirt",
+      price: 25.99,
+      order: "1001",
+      progress: "Delivered",
+    },
+    {
+      id: "2",
+      name: "Pants",
+      price: 45.49,
+      order: "1002",
+      progress: "In Transit",
+    },
+    {
+      id: "3",
+      name: "Shoes",
+      price: 89.99,
+      order: "1003",
+      progress: "Processing",
+    },
+    {
+      id: "4",
+      name: "Hat",
+      price: 15.75,
+      order: "1004",
+      progress: "Delivered",
+    },
+    {
+      id: "5",
+      name: "Jacket",
+      price: 120.0,
+      order: "1005",
+      progress: "Cancelled",
+    },
+    {
+      id: "6",
+      name: "Socks",
+      price: 5.99,
+      order: "1006",
+      progress: "Processing",
+    },
+    {
+      id: "7",
+      name: "Scarf",
+      price: 12.49,
+      order: "1007",
+      progress: "In Transit",
+    },
+    {
+      id: "8",
+      name: "Gloves",
+      price: 18.99,
+      order: "1008",
+      progress: "Delivered",
+    },
+    {
+      id: "9",
+      name: "Sweater",
+      price: 55.0,
+      order: "1009",
+      progress: "Cancelled",
+    },
+    {
+      id: "10",
+      name: "Belt",
+      price: 20.0,
+      order: "1010",
+      progress: "Processing",
+    },
   ];
   const [data, setData] = useState(mockData);
   const [selectedRowIndex, setSelectedRowIndex] = useState<number | null>(null);
@@ -35,7 +103,6 @@ export default function Page() {
 
   const onPrint = () => {
     console.log("Print function executed");
-    // Add your print logic here
   };
 
   const handleCellEdit = (
@@ -50,6 +117,7 @@ export default function Page() {
     };
     setData(newData);
   };
+
   function onExportCSV(): void {
     const rows = selectedRowIndex !== null ? [data[selectedRowIndex]] : data;
     const csvContent =
@@ -112,10 +180,22 @@ export default function Page() {
               className="min-w-full border border-collapse border-gray-300 dark:border-gray-700"
             >
               <thead>
-                <tr className="bg-gray-100 dark:bg-gray-500 text-white">
-                  <th className="border p-2">#</th>
-                  <th className="border p-2">Name</th>
-                  <th className="border p-2">Price</th>
+                <tr className="bg-gray-100 dark:bg-gray-700 text-black dark:text-white">
+                  <th className="border p-2 font-semibold">
+                    <div className="flex justify-between w-full">#</div>
+                  </th>
+                  <th className="border p-2 font-semibold">
+                    <div className="flex justify-between w-full">Name</div>
+                  </th>
+                  <th className="border p-2 font-semibold">
+                    <div className="flex justify-between w-full">Order ID</div>
+                  </th>
+                  <th className="border p-2 font-semibold">
+                    <div className="flex justify-between w-full">Progress</div>
+                  </th>
+                  <th className="border p-2 font-semibold">
+                    <div className="flex justify-between w-full">Price</div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -126,33 +206,51 @@ export default function Page() {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        className={`border-b hover:bg-gray-100 dark:hover:bg-gray-500 cursor-pointer ${
+                        className={`border-b hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer ${
                           selectedRowIndex === index
-                            ? "bg-gray-200 dark:bg-gray-200"
+                            ? "bg-gray-200 dark:bg-gray-800"
                             : ""
                         }`}
                         onClick={() => setSelectedRowIndex(index)}
                       >
-                        <td className="border p-2">{index + 1}</td>
                         <td className="border p-2">
-                          <input
-                            type="text"
-                            value={item.name}
-                            onChange={(e) =>
-                              handleCellEdit(index, "name", e.target.value)
-                            }
-                            className="bg-transparent w-full outline-none"
-                          />
+                          <div className="flex justify-between w-full">
+                            {index + 1}
+                          </div>
                         </td>
                         <td className="border p-2">
-                          <input
-                            type="number"
-                            value={item.price}
-                            onChange={(e) =>
-                              handleCellEdit(index, "price", e.target.value)
-                            }
-                            className="bg-transparent w-full outline-none"
-                          />
+                          <div className="flex justify-between w-full">
+                            <input
+                              type="text"
+                              value={item.name}
+                              onChange={(e) =>
+                                handleCellEdit(index, "name", e.target.value)
+                              }
+                              className="bg-transparent w-full outline-none"
+                            />
+                          </div>
+                        </td>
+                        <td className="border p-2">
+                          <div className="flex justify-between w-full">
+                            {item.order}
+                          </div>
+                        </td>
+                        <td className="border p-2">
+                          <div className="flex justify-between w-full">
+                            {item.progress}
+                          </div>
+                        </td>
+                        <td className="border p-2">
+                          <div className="flex justify-between w-full">
+                            <input
+                              type="number"
+                              value={item.price}
+                              onChange={(e) =>
+                                handleCellEdit(index, "price", e.target.value)
+                              }
+                              className="bg-transparent w-full outline-none text-right"
+                            />
+                          </div>
                         </td>
                       </tr>
                     )}
