@@ -81,21 +81,21 @@ const SellsTable = () => {
   };
 
   return (
-    <div className="p-4 bg-gray-50 min-h-[500px]">
+    <div className="p-4 w-full max-w-full md:max-w-2xl mx-auto">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
-        <h1 className="text-2xl font-bold">Top Selling Report</h1>
+        <h1 className="text-lg font-semibold">Stock Report</h1>
         <div className="flex gap-2">
           <button
             onClick={handlePrint}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md"
+            className="bg-blue-900/70 hover:bg-blue-900 text-white px-4 py-2 rounded-md"
           >
-            Print {selectedRowIndex !== null ? "Selected" : "All"}
+            Print {selectedRowIndex !== null ? "" : ""}
           </button>
           <button
             onClick={exportCSV}
-            className="bg-green-600 text-white px-4 py-2 rounded-md"
+            className="bg-blue-900/70 hover:bg-blue-900 text-white px-4 py-2 rounded-md"
           >
-            Export {selectedRowIndex !== null ? "Selected" : "All"} CSV
+            Export {selectedRowIndex !== null ? "" : ""} CSV
           </button>
         </div>
       </div>
