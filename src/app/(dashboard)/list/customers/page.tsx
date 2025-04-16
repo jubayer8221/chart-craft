@@ -71,7 +71,7 @@ const StudentListPage = () => {
       key={item.id}
       className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#F1F0FF]"
     >
-      <td className="flex items-center gap-4 p-4" onClick={()=>handleOpenPopup(item)}>
+      <td className="flex items-center gap-4 p-4 cursor-pointer" onClick={()=>handleOpenPopup(item)}>
         <Image
           src={item.photo}
           alt=""
@@ -89,8 +89,8 @@ const StudentListPage = () => {
       <td className="hidden md:table-cell">{item.address}</td>
       <td>
         <div className="flex items-center gap-2">
-          <Link href={`/list/customers/${item.id}`}>
-            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#00A9B4]">
+          <Link href={`/list/customers/edit`}>
+            <button className="cursor-pointer w-7 h-7 flex items-center justify-center rounded-full bg-[#00A9B4]">
               {/* <Image src="/assets/view.png" alt="" width={16} height={16} /> */}
               <span className="text-4 text-white"><FaRegEdit /></span>
             </button>
