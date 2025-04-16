@@ -3,8 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import InputField from "../InputField";
 import Image from "next/image";
+import InputField from "./InputField";
 
 const schema = z.object({
   username: z
@@ -27,12 +27,11 @@ const schema = z.object({
 
 type Inputs = z.infer<typeof schema>;
 
-const CustomarForm = ({
+const CustomarForm =<T, > ({
   type,
-  data,
 }: {
-  type: "create" | "update";
-  data?: any;
+  type: "create";
+  data?: T;
 }) => {
   const {
     register,
@@ -48,7 +47,7 @@ const CustomarForm = ({
 
   return (
     <form className="flex flex-col gap-8" onSubmit={onSubmit}>
-      <h1 className="text-xl font-semibold">Create a new student</h1>
+      <h1 className="text-xl font-semibold">Create a new customar</h1>
       <span className="text-xs text-gray-400 font-medium">
         Authentication Information
       </span>
@@ -56,14 +55,12 @@ const CustomarForm = ({
         <InputField
           label="Username"
           name="username"
-          defaultValue={data?.username}
           register={register}
           error={errors?.username}
         />
         <InputField
           label="Email"
           name="email"
-          defaultValue={data?.email}
           register={register}
           error={errors?.email}
         />
@@ -71,7 +68,6 @@ const CustomarForm = ({
           label="Password"
           name="password"
           type="password"
-          defaultValue={data?.password}
           register={register}
           error={errors?.password}
         />
@@ -83,42 +79,36 @@ const CustomarForm = ({
         <InputField
           label="First Name"
           name="firstName"
-          defaultValue={data?.firstName}
           register={register}
           error={errors.firstName}
         />
         <InputField
           label="Last Name"
           name="lastName"
-          defaultValue={data?.lastName}
           register={register}
           error={errors.lastName}
         />
         <InputField
           label="Phone"
           name="phone"
-          defaultValue={data?.phone}
           register={register}
           error={errors.phone}
         />
         <InputField
           label="Address"
           name="address"
-          defaultValue={data?.address}
           register={register}
           error={errors.address}
         />
         <InputField
           label="Blood Type"
           name="bloodType"
-          defaultValue={data?.bloodType}
           register={register}
           error={errors.bloodType}
         />
         <InputField
           label="Birthday"
           name="birthday"
-          defaultValue={data?.birthday}
           register={register}
           error={errors.birthday}
           type="date"
@@ -128,7 +118,6 @@ const CustomarForm = ({
           <select
             className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
             {...register("sex")}
-            defaultValue={data?.sex}
           >
             <option value="male">Male</option>
             <option value="female">Female</option>
@@ -144,7 +133,7 @@ const CustomarForm = ({
             className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
             htmlFor="img"
           >
-            <Image src="/upload.png" alt="" width={28} height={28} />
+            <Image src="/assets/upload.png" alt="" width={28} height={28} />
             <span>Upload a photo</span>
           </label>
           <input type="file" id="img" {...register("img")} className="hidden" />

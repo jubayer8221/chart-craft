@@ -3,6 +3,7 @@
 import { ReactNode, useState } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
+import CustomarForm from "./forms/CustomarForm";
 
 const FormModal = <T,>({
   table,
@@ -35,7 +36,9 @@ const FormModal = <T,>({
           </button>
         </form>
       ):(
-        "Create or update form"
+        <>
+        <CustomarForm type="create" />
+        </>
       )
   };
 
