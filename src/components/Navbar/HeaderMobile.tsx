@@ -54,7 +54,7 @@ const HeaderMobile = () => {
       />
       <motion.ul
         variants={variants}
-        className="absolute grid w-full gap-3 px-10 py-16 max-h-screen overflow-y-auto"
+        className="absolute grid w-full gap-3 px-10 py-16 max-h-screen overflow-y-auto scrollbar-hiden"
       >
         {SIDENAV_ITEMS.map((section, sectionIdx) => (
           <div key={sectionIdx}>

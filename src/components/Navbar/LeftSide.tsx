@@ -41,24 +41,22 @@ const LeftSide = () => {
 
 export default LeftSide;
 
-const MenuItem = ({i}: {i: SideNavItem}) =>{
+const MenuItem = ({ i }: { i: SideNavItem }) => {
   return (
     <div className="mt-4 text-sm">
       <div className="flex flex-col gap-2">
         <span>{i.title}</span>
         <div className="flex flex-col space-y-2">
-          {
-            i.items?.map((item, idx)=>{
-              if(item.visible?.includes("admin")){
-                return <SubMenuItem key={idx} item={item} />
-              }
-            })
-          }
+          {i.items?.map((item, idx) => {
+            if (item.visible?.includes("admin")) {
+              return <SubMenuItem key={idx} item={item} />;
+            }
+          })}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const SubMenuItem = ({ item }: { item: SideNavItem }) => {
   const pathname = usePathname();
@@ -74,7 +72,7 @@ const SubMenuItem = ({ item }: { item: SideNavItem }) => {
           <button
             onClick={toggleSubMenu}
             className={`flex flex-row items-center p-2 rounded-lg  w-full justify-between hover:bg-zinc-100 ${
-              pathname.startsWith(item.path) ? "bg-zinc-100" : ""
+              pathname.startsWith(item.path || "#") ? "bg-zinc-100" : ""
             }`}
           >
             <div className="flex flex-row space-x-4 items-center">
@@ -91,8 +89,10 @@ const SubMenuItem = ({ item }: { item: SideNavItem }) => {
                 return (
                   <Link
                     key={idx}
-                    href={subItem.path}
-                    className={`${subItem.path === pathname ? "font-bold" : ""}`}
+                    href={subItem.path || "#"}
+                    className={`${
+                      subItem.path === pathname ? "font-bold" : ""
+                    }`}
                   >
                     <div className="flex flex-row items-center space-x-4">
                       {subItem.icon}
@@ -106,7 +106,7 @@ const SubMenuItem = ({ item }: { item: SideNavItem }) => {
         </>
       ) : (
         <Link
-          href={item.path}
+          href={item.path || "#"}
           className={`flex flex-row items-center p-2 rounded-lg hover:bg-zinc-100 w-full space-x-4 ${
             item.path === pathname ? "bg-zinc-100" : ""
           }`}

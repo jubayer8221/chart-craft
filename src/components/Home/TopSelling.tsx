@@ -208,7 +208,7 @@ const TopSelling = () => {
                             )}
                           </div>
 
-                          <div className="overflow-y-auto max-h-64">
+                          <div className="overflow-y-auto max-h-[300px]">
                             <Droppable droppableId="table" type="ROW">
                               {(provided) => (
                                 <table
@@ -216,7 +216,7 @@ const TopSelling = () => {
                                   ref={provided.innerRef}
                                   {...provided.droppableProps}
                                 >
-                                  <thead className="sticky top-0 z-10 bg-[#4BC0C0] text-white">
+                                  <thead className="sticky top-0 z-10 bg-[#0A3A66] text-white">
                                     <tr>
                                       <th className="p-2 text-left">Items</th>
                                       <th className="p-2">Price</th>

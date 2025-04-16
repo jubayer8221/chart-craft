@@ -4,107 +4,145 @@
 
 
 
+.scrollbar-hiden{
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 .react-calendar {
-    width: 100% !important;
-    border: none !important;
-    font-family: "Inter", sans-serif !important;
-  }
-  
-  .react-calendar__navigation__label__labelText {
-    font-weight: 600;
-  }
-  
-  .react-calendar__tile--active {
-    background-color: #c3ebfa !important;
-    color: black !important;
-  }
-  
-  .rbc-btn-group:first-child {
-    display: none !important;
-  }
-  
-  .rbc-toolbar-label {
-    text-align: right !important;
-    padding: 0px 20px !important;
-  }
-  
-  .rbc-btn-group:last-child {
-    font-size: 13px !important;
-  }
-  
-  .rbc-btn-group:last-child button {
-    border: none !important;
-    background-color: #f1f0ff !important;
-    margin-left: 2px !important;
-  }
-  
-  .rbc-toolbar button.rbc-active {
-    background-color: #dbdafe !important;
-    box-shadow: none !important;
-  }
-  
+  width: 100% !important;
+  border: none !important;
+  font-family: "Inter", sans-serif !important;
+}
+
+/* Ensure the calendar container supports horizontal scrolling */
+.rbc-time-view {
+  border-color: #eee !important;
+  overflow-x: auto !important; /* Enable horizontal scrolling */
+  white-space: nowrap !important; /* Prevent wrapping of days */
+}
+
+/* Hide the time header as per original design */
+.rbc-time-header {
+  display: none !important;
+}
+
+/* Style for the toolbar label */
+.rbc-toolbar-label {
+  text-align: right !important;
+  padding: 0px 20px !important;
+}
+
+/* Style for the view toggle buttons */
+.rbc-btn-group:last-child {
+  font-size: 13px !important;
+}
+
+.rbc-btn-group:last-child button {
+  border: none !important;
+  background-color: #f1f0ff !important;
+  margin-left: 2px !important;
+}
+
+.rbc-toolbar button.rbc-active {
+  background-color: #dbdafe !important;
+  box-shadow: none !important;
+}
+
+/* Hide the first button group (navigation) */
+.rbc-btn-group:first-child {
+  display: none !important;
+}
+
+/* Time content styling */
+.rbc-time-content {
+  border: none !important;
+  display: flex !important; /* Ensure days are laid out in a row */
+}
+
+/* Ensure each day column has a minimum width for readability */
+.rbc-day-slot {
+  font-size: 10px !important;
+  min-width: 150px !important; /* Set a minimum width for each day column */
+}
+
+/* Time gutter (left side with hours) */
+.rbc-time-gutter.rbc-time-column {
+  font-size: 12px !important;
+  position: sticky !important; /* Keep the time gutter fixed while scrolling */
+  left: 0 !important;
+  background-color: #f7fdff !important;
+  z-index: 1 !important;
+}
+
+.rbc-time-gutter.rbc-time-column .rbc-timeslot-group {
+  padding: 0px 16px !important;
+}
+
+.rbc-timeslot-group {
+  background-color: #f7fdff !important;
+}
+
+/* Event styling */
+.rbc-event {
+  border: none !important;
+  color: black !important;
+  padding: 10px !important;
+  margin: 10px !important;
+  width: 99% !important;
+}
+
+/* Event colors */
+.rbc-event:nth-child(1) {
+  background-color: #e2f8ff !important;
+}
+.rbc-event:nth-child(2) {
+  background-color: #fefce8 !important;
+}
+.rbc-event:nth-child(3) {
+  background-color: #f2f1ff !important;
+}
+.rbc-event:nth-child(4) {
+  background-color: #fdf2fb !important;
+}
+.rbc-event:nth-child(5) {
+  background-color: #e2f8ff !important;
+}
+.rbc-event:nth-child(6) {
+  background-color: #fefce8 !important;
+}
+.rbc-event:nth-child(7) {
+  background-color: #f2f1ff !important;
+}
+.rbc-event:nth-child(8) {
+  background-color: #fdf2fb !important;
+}
+
+.rbc-event-label {
+  color: gray !important;
+  margin-bottom: 5px;
+}
+
+/* Ensure the calendar fits in smaller containers */
+@media (max-width: 768px) {
   .rbc-time-view {
-    border-color: #eee !important;
+    max-width: 100% !important;
   }
-  
-  .rbc-time-header {
-    display: none !important;
-  }
-  
-  .rbc-time-content {
-    border: none !important;
-  }
-  
-  .rbc-time-gutter.rbc-time-column {
-    font-size: 12px !important;
-  }
-  
-  .rbc-time-gutter.rbc-time-column .rbc-timeslot-group {
-    padding: 0px 20px !important;
-  }
-  
-  .rbc-timeslot-group {
-    background-color: #f7fdff !important;
-  }
-  
   .rbc-day-slot {
-    font-size: 14px !important;
+    min-width: 120px !important; /* Reduce column width for smaller screens */
   }
-  
-  .rbc-event {
-    border: none !important;
-    color: black !important;
-    padding: 10px !important;
-    margin: 10px !important;
-    width: 99% !important;
-  }
-  
-  .rbc-event:nth-child(1) {
-    background-color: #e2f8ff !important;
-  }
-  .rbc-event:nth-child(2) {
-    background-color: #fefce8 !important;
-  }
-  .rbc-event:nth-child(3) {
-    background-color: #f2f1ff !important;
-  }
-  .rbc-event:nth-child(4) {
-    background-color: #fdf2fb !important;
-  }
-  .rbc-event:nth-child(5) {
-    background-color: #e2f8ff !important;
-  }
-  .rbc-event:nth-child(6) {
-    background-color: #fefce8 !important;
-  }
-  .rbc-event:nth-child(7) {
-    background-color: #f2f1ff !important;
-  }
-  .rbc-event:nth-child(8) {
-    background-color: #fdf2fb !important;
-  }
-  
-  .rbc-event-label{
-    color: gray !important;
-    margin-bottom: 5px;
-  }
+}
