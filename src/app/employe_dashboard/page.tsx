@@ -11,13 +11,28 @@ import {
 import TopSellingCard from "@/components/Cards/TopSellingCard";
 import StockReportCard from "@/components/Cards/StockReportCard";
 import RecentOrdersCard from "@/components/Cards/RecentOrdersCard";
+import SellsTable from "@/components/Cards/SellsTable";
+import { useRouter } from "next/navigation";
 
 // Define card content map
 const cardContentMap = {
-  "top-selling": <TopSellingCard />,
-  "stock-report": <StockReportCard />,
-  "recent-orders": <RecentOrdersCard />,
-  // Add more cards here if needed
+  "top-selling": {
+    component: <TopSellingCard />,
+    path: "/employe_dashboard/cards/top-selling",
+  },
+  "stock-report": {
+    component: <StockReportCard />,
+    path: "/employe_dashboard/cards/stock-report",
+  },
+  "recent-orders": {
+    component: <RecentOrdersCard />,
+    path: "/employe_dashboard/cards/recent-orders",
+  },
+  "sells-table": {
+    component: <SellsTable></SellsTable>,
+    path: "/employe_dashboard/cards/sells-table",
+  },
+  // Add more cards here if neede
 };
 
 type CardID = keyof typeof cardContentMap;
@@ -27,12 +42,7 @@ const Dashboard = () => {
     "top-selling",
     "stock-report",
     "recent-orders",
-    "top-selling",
-    "stock-report",
-    "recent-orders",
-    "top-selling",
-    "stock-report",
-    "recent-orders",
+    "sells-table",
   ]);
   const [filterText, setFilterText] = useState("");
 
@@ -49,10 +59,11 @@ const Dashboard = () => {
   const filteredCards = cards.filter((cardId) =>
     cardId.toLowerCase().includes(filterText.toLowerCase())
   );
+  const router = useRouter();
 
   return (
     <div className="p-4 bg-gray-50 min-h-screen">
-      {/* Input to Filter Cards */}
+      {/* Header and Search */}
       <div className="mb-6 flex flex-col justify-between sm:flex-row gap-2">
         <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
         <input
@@ -64,7 +75,6 @@ const Dashboard = () => {
         />
       </div>
 
-      {/* Draggable Card Layout */}
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable
           droppableId="dashboard-cards"
@@ -77,24 +87,28 @@ const Dashboard = () => {
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
-              {filteredCards.map((cardId, index) => (
-                <Draggable
-                  key={`${cardId}-${index}`}
-                  draggableId={`${cardId}-${index}`}
-                  index={index}
-                >
-                  {(provided) => (
-                    <div
-                      className="bg-white p-4 rounded-xl shadow-lg hover:shadow-xl"
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      {cardContentMap[cardId]}
-                    </div>
-                  )}
-                </Draggable>
-              ))}
+              {filteredCards.map((cardId, index) => {
+                const { component, path } = cardContentMap[cardId];
+                return (
+                  <Draggable
+                    key={`${cardId}-${index}`}
+                    draggableId={`${cardId}-${index}`}
+                    index={index}
+                  >
+                    {(provided) => (
+                      <div
+                        className="bg-white p-4 rounded-xl shadow-lg hover:shadow-xl cursor-pointer"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        onClick={() => router.push(path)}
+                      >
+                        {component}
+                      </div>
+                    )}
+                  </Draggable>
+                );
+              })}
               {provided.placeholder}
             </div>
           )}
