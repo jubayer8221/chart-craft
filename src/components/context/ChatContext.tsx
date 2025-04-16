@@ -2,8 +2,7 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 
-// Interfaces
-interface Message {
+export interface Message {
   id: number;
   userId: number; // Recipient ID
   senderId: number; // Sender ID
@@ -12,41 +11,95 @@ interface Message {
   read: boolean;
 }
 
-interface User {
+export interface User {
   id: number;
   name: string;
   avatar: string;
+  role: string;
   online: boolean;
 }
 
-interface ChatContextProps {
+export interface ChatContextProps {
   messages: Message[];
   sendMessage: (text: string) => void;
   markAsRead: (userId: number) => void;
   currentUser: User;
-  selectedUserId: number;
-  setSelectedUserId: (id: number) => void;
+  selectedUser: User | null;
+  setSelectedUser: (user: User) => void;
+  usersList: User[];
 }
 
-// Create context
 const ChatContext = createContext<ChatContextProps | undefined>(undefined);
 
-// Props for Provider
 export interface ChatProviderProps {
   children: ReactNode;
   currentUser: User;
-  selectedUserId: number;
-  setSelectedUserId: (id: number) => void;
 }
 
-// Provider Component
-export const ChatProvider = ({
-  children,
-  currentUser,
-  selectedUserId,
-  setSelectedUserId,
-}: ChatProviderProps) => {
-  const [messages, setMessages] = useState<Message[]>(() => [
+// Dummy users list (you can load this from a real source)
+export const dummyUsers: User[] = [
+  {
+    id: 2,
+    name: "Alice",
+    avatar: "/image/user2.png",
+    role: "Admin",
+    online: true,
+  },
+  {
+    id: 3,
+    name: "Bob",
+    avatar: "/image/user3.png",
+    role: "User",
+    online: false,
+  },
+  {
+    id: 4,
+    name: "Charlie",
+    avatar: "/image/user4.png",
+    role: "Moderator",
+    online: true,
+  },
+  {
+    id: 5,
+    name: "Diana",
+    avatar: "/image/user5.png",
+    role: "User",
+    online: true,
+  },
+  {
+    id: 6,
+    name: "Eve",
+    avatar: "/image/user6.png",
+    role: "Admin",
+    online: true,
+  },
+  {
+    id: 7,
+    name: "Frank",
+    avatar: "/image/user7.png",
+    role: "User",
+    online: true,
+  },
+  {
+    id: 8,
+    name: "Grace",
+    avatar: "/image/user8.png",
+    role: "Moderator",
+    online: true,
+  },
+  {
+    id: 9,
+    name: "Henry",
+    avatar: "/image/user9.png",
+    role: "User",
+    online: false,
+  },
+];
+
+export const ChatProvider = ({ children, currentUser }: ChatProviderProps) => {
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+
+  const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
       userId: currentUser.id,
@@ -66,25 +119,67 @@ export const ChatProvider = ({
     {
       id: 3,
       userId: currentUser.id,
-      senderId: 2,
+      senderId: 3,
       text: "Do you want to catch up later?",
       time: "1:50 PM",
       read: false,
     },
     {
       id: 4,
-      userId: 2,
+      userId: 4,
       senderId: currentUser.id,
       text: "Sure, let's do it.",
       time: "1:52 PM",
       read: false,
     },
+    {
+      id: 5,
+      userId: currentUser.id,
+      senderId: 5,
+      text: "Are you coming to the meeting?",
+      time: "2:00 PM",
+      read: false,
+    },
+    {
+      id: 6,
+      userId: 6,
+      senderId: currentUser.id,
+      text: "Yes, I'll be there in 10 minutes.",
+      time: "2:05 PM",
+      read: false,
+    },
+    {
+      id: 7,
+      userId: currentUser.id,
+      senderId: 7,
+      text: "Can you review the document I sent?",
+      time: "2:10 PM",
+      read: false,
+    },
+    {
+      id: 8,
+      userId: 8,
+      senderId: currentUser.id,
+      text: "Sure, I'll check it out now.",
+      time: "2:15 PM",
+      read: false,
+    },
+    {
+      id: 9,
+      userId: currentUser.id,
+      senderId: 9,
+      text: "Don't forget about the deadline tomorrow.",
+      time: "2:20 PM",
+      read: false,
+    },
   ]);
 
   const sendMessage = (text: string) => {
+    if (!selectedUser) return;
+
     const newMessage: Message = {
       id: messages.length + 1,
-      userId: selectedUserId,
+      userId: selectedUser.id,
       senderId: currentUser.id,
       text,
       time: new Date().toLocaleTimeString([], {
@@ -113,8 +208,9 @@ export const ChatProvider = ({
         sendMessage,
         markAsRead,
         currentUser,
-        selectedUserId,
-        setSelectedUserId,
+        selectedUser,
+        setSelectedUser,
+        usersList: dummyUsers, // ✅ Provide it here
       }}
     >
       {children}
@@ -122,11 +218,8 @@ export const ChatProvider = ({
   );
 };
 
-// Hook to use the context
 export const useChat = () => {
   const context = useContext(ChatContext);
-  if (!context) {
-    throw new Error("useChat must be used within ChatProvider");
-  }
+  if (!context) throw new Error("useChat must be used within ChatProvider");
   return context;
 };
