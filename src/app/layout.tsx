@@ -33,11 +33,17 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="flex">
-          <LeftSide />
-          <main className="flex-1">
+          <div className="print:hidden">
+            <LeftSide />
+          </div>
+          <main className="flex-1 ">
             <MarginWidthWrapper>
-              <Header />
-              <HeaderMobile />
+              <div className="print:hidden">
+                <Header />
+              </div>
+              <div className="print:hidden">
+                <HeaderMobile />
+              </div>
               <PageWrapper>{children}</PageWrapper>
             </MarginWidthWrapper>
           </main>
