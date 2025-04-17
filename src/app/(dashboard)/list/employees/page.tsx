@@ -28,6 +28,7 @@ type Employee = {
   blood:string;
 };
 
+
 const columns = [
   {
     header: "Info",
