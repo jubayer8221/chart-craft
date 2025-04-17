@@ -31,7 +31,7 @@ const GroceriesChart = () => {
     <div className="bg-white rounded-xl w-full h-full p-4 flex flex-col justify-between">
       {/* TITLE */}
       <div className="flex justify-between items-center">
-        <h1 className="text-lg font-semibold">Furnitures</h1>
+        <h1 className="text-lg font-semibold">Groceries</h1>
         <Link href={`/category/${6}`}><TfiLayoutMenuSeparated width={20} height={20} /></Link>
       </div>
       <div className="w-full h-[70%]">
@@ -53,14 +53,14 @@ const GroceriesChart = () => {
             <Scatter
               name="buy"
               data={data01}
-              fill="#FAE27C"
+              fill="#00A9B4"
               line
               shape="cross"
             />
             <Scatter
               name="sells"
               data={data02}
-              fill="#C3EBFA"
+              fill="#0A3A66"
               line
               shape="diamond"
             />

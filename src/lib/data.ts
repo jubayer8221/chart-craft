@@ -1,8 +1,8 @@
 // TEMPORARY DATA
 
-export const role = "parent";
+export const role = "admin";
 
-export const teachersData = [
+export const employeesData = [
   {
     id: 1,
     teacherId: "1234567890",
@@ -14,6 +14,8 @@ export const teachersData = [
     subjects: ["Math", "Geometry"],
     classes: ["1B", "2A", "3C"],
     address: "123 Main St, Anytown, USA",
+    grade: 5,
+    blood: "A+",
   },
   {
     id: 2,
@@ -26,6 +28,8 @@ export const teachersData = [
     subjects: ["Physics", "Chemistry"],
     classes: ["5A", "4B", "3C"],
     address: "123 Main St, Anytown, USA",
+    grade: 5,
+    blood: "A+",
   },
   {
     id: 3,
@@ -38,6 +42,8 @@ export const teachersData = [
     subjects: ["Biology"],
     classes: ["5A", "4B", "3C"],
     address: "123 Main St, Anytown, USA",
+    grade: 5,
+    blood: "A+",
   },
   {
     id: 4,
@@ -50,6 +56,8 @@ export const teachersData = [
     subjects: ["History"],
     classes: ["5A", "4B", "3C"],
     address: "123 Main St, Anytown, USA",
+    grade: 5,
+    blood: "A+",
   },
   {
     id: 5,
@@ -62,6 +70,8 @@ export const teachersData = [
     subjects: ["Music", "History"],
     classes: ["5A", "4B", "3C"],
     address: "123 Main St, Anytown, USA",
+    grade: 5,
+    blood: "A+",
   },
   {
     id: 6,
@@ -74,6 +84,8 @@ export const teachersData = [
     subjects: ["Physics"],
     classes: ["5A", "4B", "3C"],
     address: "123 Main St, Anytown, USA",
+    grade: 5,
+    blood: "A+",
   },
   {
     id: 7,
@@ -86,6 +98,8 @@ export const teachersData = [
     subjects: ["English", "Spanish"],
     classes: ["5A", "4B", "3C"],
     address: "123 Main St, Anytown, USA",
+    grade: 5,
+    blood: "A+",
   },
   {
     id: 8,
@@ -98,6 +112,8 @@ export const teachersData = [
     subjects: ["Math", "Geometry"],
     classes: ["5A", "4B", "3C"],
     address: "123 Main St, Anytown, USA",
+    grade: 5,
+    blood: "A+",
   },
   {
     id: 9,
@@ -109,7 +125,9 @@ export const teachersData = [
     phone: "1234567890",
     subjects: ["Literature", "English"],
     classes: ["5A", "4B", "3C"],
+    grade: 5,
     address: "123 Main St, Anytown, USA",
+    blood: "A+",
   },
   {
     id: 10,
@@ -122,10 +140,12 @@ export const teachersData = [
     subjects: ["Biology"],
     classes: ["5A", "4B", "3C"],
     address: "123 Main St, Anytown, USA",
+    grade: 5,
+    blood: "A+",
   },
 ];
 
-export const studentsData = [
+export const customarsData = [
   {
     id: 1,
     studentId: "1234567890",
@@ -137,6 +157,7 @@ export const studentsData = [
     grade: 5,
     class: "1B",
     address: "123 Main St, Anytown, USA",
+    blood: "A+",
   },
   {
     id: 2,
@@ -149,6 +170,7 @@ export const studentsData = [
     grade: 5,
     class: "5A",
     address: "123 Main St, Anytown, USA",
+    blood: "A-",
   },
   {
     id: 3,
@@ -161,6 +183,7 @@ export const studentsData = [
     grade: 5,
     class: "5A",
     address: "123 Main St, Anytown, USA",
+    blood: "A-",
   },
   {
     id: 4,
@@ -173,6 +196,7 @@ export const studentsData = [
     grade: 5,
     class: "5A",
     address: "123 Main St, Anytown, USA",
+    blood: "A-",
   },
   {
     id: 5,
@@ -185,6 +209,7 @@ export const studentsData = [
     grade: 5,
     class: "5A",
     address: "123 Main St, Anytown, USA",
+    blood: "A-",
   },
   {
     id: 6,
@@ -197,6 +222,7 @@ export const studentsData = [
     grade: 5,
     class: "5A",
     address: "123 Main St, Anytown, USA",
+    blood: "A-",
   },
   {
     id: 7,
@@ -209,6 +235,7 @@ export const studentsData = [
     grade: 5,
     class: "5A",
     address: "123 Main St, Anytown, USA",
+    blood: "A-",
   },
   {
     id: 8,
@@ -221,6 +248,7 @@ export const studentsData = [
     grade: 5,
     class: "5A",
     address: "123 Main St, Anytown, USA",
+    blood: "A-",
   },
   {
     id: 9,
@@ -233,6 +261,7 @@ export const studentsData = [
     grade: 5,
     class: "5A",
     address: "123 Main St, Anytown, USA",
+    blood: "A-",
   },
   {
     id: 10,
@@ -245,6 +274,7 @@ export const studentsData = [
     grade: 5,
     class: "5A",
     address: "123 Main St, Anytown, USA",
+    blood: "B+",
   },
 ];
 

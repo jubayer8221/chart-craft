@@ -1,30 +1,53 @@
 @import "tailwindcss";
 @tailwind utilities;
 
+
+
+.scrollbar-hiden{
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
 .react-calendar {
   width: 100% !important;
   border: none !important;
   font-family: "Inter", sans-serif !important;
 }
 
-.react-calendar__navigation__label__labelText {
-  font-weight: 600;
+/* Ensure the calendar container supports horizontal scrolling */
+.rbc-time-view {
+  border-color: #eee !important;
+  overflow-x: auto !important; /* Enable horizontal scrolling */
+  white-space: nowrap !important; /* Prevent wrapping of days */
 }
 
-.react-calendar__tile--active {
-  background-color: #c3ebfa !important;
-  color: black !important;
-}
-
-.rbc-btn-group:first-child {
+/* Hide the time header as per original design */
+.rbc-time-header {
   display: none !important;
 }
 
+/* Style for the toolbar label */
 .rbc-toolbar-label {
   text-align: right !important;
   padding: 0px 20px !important;
 }
 
+/* Style for the view toggle buttons */
 .rbc-btn-group:last-child {
   font-size: 13px !important;
 }
@@ -40,34 +63,41 @@
   box-shadow: none !important;
 }
 
-.rbc-time-view {
-  border-color: #eee !important;
-}
-
-.rbc-time-header {
+/* Hide the first button group (navigation) */
+.rbc-btn-group:first-child {
   display: none !important;
 }
 
+/* Time content styling */
 .rbc-time-content {
   border: none !important;
+  display: flex !important; /* Ensure days are laid out in a row */
 }
 
+/* Ensure each day column has a minimum width for readability */
+.rbc-day-slot {
+  font-size: 10px !important;
+  min-width: 150px !important; /* Set a minimum width for each day column */
+}
+
+/* Time gutter (left side with hours) */
 .rbc-time-gutter.rbc-time-column {
   font-size: 12px !important;
+  position: sticky !important; /* Keep the time gutter fixed while scrolling */
+  left: 0 !important;
+  background-color: #f7fdff !important;
+  z-index: 1 !important;
 }
 
 .rbc-time-gutter.rbc-time-column .rbc-timeslot-group {
-  padding: 0px 20px !important;
+  padding: 0px 16px !important;
 }
 
 .rbc-timeslot-group {
   background-color: #f7fdff !important;
 }
 
-.rbc-day-slot {
-  font-size: 14px !important;
-}
-
+/* Event styling */
 .rbc-event {
   border: none !important;
   color: black !important;
@@ -76,6 +106,7 @@
   width: 99% !important;
 }
 
+/* Event colors */
 .rbc-event:nth-child(1) {
   background-color: #e2f8ff !important;
 }
@@ -106,19 +137,12 @@
   margin-bottom: 5px;
 }
 
-@media print {
-  nav,
-  .print:hidden,
-  .no-print {
-    display: none !important;
+/* Ensure the calendar fits in smaller containers */
+@media (max-width: 768px) {
+  .rbc-time-view {
+    max-width: 100% !important;
   }
-
-  body {
-    background: white !important;
-  }
-
-  .print-area {
-    margin: 0;
-    padding: 0;
+  .rbc-day-slot {
+    min-width: 120px !important; /* Reduce column width for smaller screens */
   }
 }

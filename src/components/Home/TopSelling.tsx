@@ -216,6 +216,7 @@ const TopSelling = () => {
                                   ref={provided.innerRef}
                                   {...provided.droppableProps}
                                 >
+
                                   <thead className="sticky top-0 z-10 bg-[#0A3A66]/90 text-white">
                                     <tr>
                                       <th className="p-2 text-left">Items</th>
