@@ -64,14 +64,14 @@ const Dashboard = () => {
   return (
     <div className="p-4 bg-gray-50 min-h-screen">
       {/* Header and Search */}
-      <div className="mb-6 flex flex-col justify-between sm:flex-row gap-2">
-        <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+      <div className="mb-6 pt-2 flex flex-col justify-between sm:flex-row gap-2">
+        <h1 className="text-2xl font-bold mb-2">Themes</h1>
         <input
           type="text"
           value={filterText}
           onChange={(e) => setFilterText(e.target.value)}
           placeholder="Search cards..."
-          className="border-1 px-4 py-1 rounded shadow-sm text-sm "
+          className="border-1 px-4 mb-2 rounded shadow-sm text-sm "
         />
       </div>
 

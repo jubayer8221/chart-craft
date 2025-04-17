@@ -107,18 +107,44 @@
 }
 
 @media print {
+  body {
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
   nav,
   .print:hidden,
   .no-print {
     display: none !important;
   }
 
-  body {
-    background: white !important;
+  .print-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    page-break-inside: avoid;
+    margin: 20mm auto;
+    width: 100%;
+    max-width: 210mm; /* A4 width */
   }
-
   .print-area {
     margin: 0;
     padding: 0;
+  }
+
+  .chart-block {
+    page-break-inside: avoid;
+    page-break-after: auto;
+    break-inside: avoid;
+    margin-bottom: 20mm;
+    text-align: center;
+  }
+
+  img,
+  canvas {
+    max-width: 100%;
+    height: auto;
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }
