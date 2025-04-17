@@ -80,7 +80,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
 
       {
         title: "Themes",
-        path: "/themes",
+        path: "/employe_dashboard",
         icon: <MdOutlineSchool className="w-[16px] h-[16px]" />,
         visible: ["admin", "employee", "customer"],
         submenu: false,

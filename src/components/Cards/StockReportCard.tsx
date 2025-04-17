@@ -63,10 +63,10 @@ const StockReportCard = () => {
   };
 
   return (
-    <div className="w-full max-w-full md:max-w-[400px] mx-auto">
+    <div className="w-full max-w-full mx-auto">
       <h1 className="text-lg font-semibold pb-2">Stock Report</h1>
-      <div className="relative h-[280px] w-full">
-        <Bar data={data} options={options} />
+      <div className="h-[280px] w-fit">
+        <Bar data={data} options={options} className="w-fit" />
       </div>
     </div>
   );

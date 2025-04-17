@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { JSX } from "react";
 
 import { ReactNode, useState } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa6";
@@ -8,11 +8,11 @@ import CustomarForm from "./forms/CustomarForm";
 import EmployeeForm from "./forms/EmployeeForm";
 
 const forms: {
-  [key: string]:(type: "create",) => JSX.Element 
+  [key: string]: (type: "create") => JSX.Element;
 } = {
-  employee: (type,) => <EmployeeForm type={type} />,
-  customar: (type) => <CustomarForm type={type} />
-}
+  employee: (type) => <EmployeeForm type={type} />,
+  customar: (type) => <CustomarForm type={type} />,
+};
 
 const FormModal = <T,>({
   table,
@@ -34,20 +34,20 @@ const FormModal = <T,>({
   };
 
   const Form = () => {
-      return type === "delete" && id ? (
-        <form action="" className="p-4 flex flex-col gap-4">
-          <span className="text-center font-medium">
-            All data will be lost. Are you sure you wnt to delete this {table}?
-          </span>
-          <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">
-            Delete
-          </button>
-        </form>
-      ): type === "create" ? (
-        forms[table](type)
-      ):(
-        "Not found data?"
-      )
+    return type === "delete" && id ? (
+      <form action="" className="p-4 flex flex-col gap-4">
+        <span className="text-center font-medium">
+          All data will be lost. Are you sure you wnt to delete this {table}?
+        </span>
+        <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">
+          Delete
+        </button>
+      </form>
+    ) : type === "create" ? (
+      forms[table](type)
+    ) : (
+      "Not found data?"
+    );
   };
 
   const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
