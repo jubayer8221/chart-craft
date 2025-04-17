@@ -1,37 +1,30 @@
 "use client";
 import React from "react";
-
 import useScroll from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
-import { useSelectedLayoutSegment } from "next/navigation";
 import Link from "next/link";
 import { FiSearch } from "react-icons/fi";
 import { GrNotification } from "react-icons/gr";
 import Image from "next/image";
-// import { CiLight } from "react-icons/ci";
-// import { MdOutlineDarkMode } from "react-icons/md";
 
 const Header = () => {
   const scrolled = useScroll(5);
-  const selectedLayout = useSelectedLayoutSegment;
-
-  // const [activeDropdown, setActivaeDropdown] = useState<string | null>(null);
-  // const toggleDropdown = (dropdown: string) => {
-  //   setActivaeDropdown((prev) => (prev === dropdown ? null : dropdown));
-  // };
 
   return (
     <div
       className={cn(
-        `sticky inset-x-0 top-0 z-30 w-full transition-all border-b border-gray-200`,
-        {
-          "border-b border-gray-200 bg-white/75 backdrop-blur-lg": scrolled,
-          "border-b border-gray-200 bg-white": selectedLayout,
-        }
+        "bg-white border-b border-gray-200 transition-all",
+        scrolled && "bg-white/75 backdrop-blur-lg"
       )}
+      // For fallback, uncomment below and add <div className="h-[47px]" /> above
+      // className={cn(
+      //   "fixed top-0 z-30 w-full bg-white border-b border-gray-200 transition-all",
+      //   scrolled && "bg-white/75 backdrop-blur-lg"
+      // )}
     >
       <div className="flex h-[47px] items-center justify-between px-4">
         <div className="flex items-center space-x-4">
+          {/* Logo (Mobile Only) */}
           <Link
             href="/"
             className="flex flex-row space-x-3 items-center justify-center md:hidden"
@@ -43,7 +36,8 @@ const Header = () => {
               height={50}
             />
           </Link>
-          {/* search bar  */}
+
+          {/* Search Bar */}
           <div className="hidden md:block">
             <div className="w-[300px] h-8 border border-gray-300 rounded-lg flex items-center px-2">
               <FiSearch className="text-gray-400 text-[20px] mr-2" />
@@ -56,36 +50,10 @@ const Header = () => {
           </div>
         </div>
 
+        {/* Right Side Controls */}
         <div className="hidden md:block">
           <div className="flex flex-row items-center space-x-4">
-            {/* color change */}
-            {/* <div className="relative">
-              <button className="flex items-center justify-center h-8 w-8 rounded-full hover:bg-zinc-200">
-                <CiLight
-                  width={24}
-                  height={24}
-                  className="font-bold cursor-pointer"
-                  onClick={() => toggleDropdown("LD")}
-                />
-              </button>
-              {activeDropdown === "LD" && (
-                <div className=" flex flex-col space-y-2 rounded-sm text-sm p-2 absolute top-8 bg-white">
-                  <span className="flex flex-row items-center space-x-1 cursor-pointer hover:bg-zinc-100 p-1 rounded-sm">
-                    <CiLight
-                      width={24}
-                      height={24}
-                      className="font-extrabold"
-                    />
-                    <span>Light</span>
-                  </span>
-                  <span className="flex flex-row items-center space-x-1 cursor-pointer hover:bg-zinc-100 p-1 rounded-sm">
-                    <MdOutlineDarkMode width={24} height={24} />
-                    <span>Dark</span>
-                  </span>
-                </div>
-              )}
-            </div> */}
-
+            {/* Light/Dark Toggle */}
             <div className="inline-flex items-center gap-2 border border-zinc-100 rounded-full p-1">
               <label
                 htmlFor="switch-component-on"
@@ -114,11 +82,12 @@ const Header = () => {
               </label>
             </div>
 
-            {/* notification  */}
+            {/* Notification Icon */}
             <span className="h-8 w-8 rounded-full hover:bg-zinc-200 flex items-center justify-center cursor-pointer">
               <GrNotification width={24} height={24} />
             </span>
 
+            {/* Profile Initials */}
             <div className="h-8 w-8 bg-zinc-300 rounded-full flex items-center justify-center cursor-pointer">
               <span>PF</span>
             </div>
