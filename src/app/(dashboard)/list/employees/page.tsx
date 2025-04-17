@@ -98,7 +98,7 @@ const EmployeesListPage = () => {
       <td className="hidden md:table-cell">{item.address}</td>
       <td>
         <div className="flex items-center gap-2">
-          <Link href={`/list/employees/${item.id}`}>
+          <Link href={`/list/employees/edit/${item.id}`}>
             <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#00A9B4]">
               {/* <Image src="/assets/view.png" alt="" width={16} height={16} /> */}
               <span className="text-4 text-white">

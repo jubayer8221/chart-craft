@@ -1,9 +1,18 @@
 "use client";
+import React from 'react';
 
 import { ReactNode, useState } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import CustomarForm from "./forms/CustomarForm";
+import EmployeeForm from "./forms/EmployeeForm";
+
+const forms: {
+  [key: string]:(type: "create",) => JSX.Element 
+} = {
+  employee: (type,) => <EmployeeForm type={type} />,
+  customar: (type) => <CustomarForm type={type} />
+}
 
 const FormModal = <T,>({
   table,
@@ -17,7 +26,6 @@ const FormModal = <T,>({
   children?: ReactNode;
 }) => {
   const size = type === "create" ? "w-8 h-8" : "w-7 h-7";
-  const bgColor = type === "create" ? "bg-[#0A3A66]" : "bg-[#0A3A66]";
 
   const [open, setOpen] = useState(false);
   const iconMap = {
@@ -35,10 +43,10 @@ const FormModal = <T,>({
             Delete
           </button>
         </form>
+      ): type === "create" ? (
+        forms[table](type)
       ):(
-        <>
-        <CustomarForm type="create" />
-        </>
+        "Not found data?"
       )
   };
 
@@ -52,7 +60,7 @@ const FormModal = <T,>({
   return (
     <>
       <button
-        className={`${size} flex items-center justify-center rounded-full bg-black ${bgColor}`}
+        className={`${size} flex items-center justify-center rounded-full bg-[#0A3A66]`}
         onClick={() => setOpen(true)}
       >
         {iconMap[type]}
