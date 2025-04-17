@@ -38,7 +38,7 @@ export default function RootLayout({
           </div>
           <main className="flex-1 ">
             <MarginWidthWrapper>
-              <div className="print:hidden">
+              <div className="print:hidden sticky top-0 z-50 bg-white">
                 <Header />
               </div>
               <div className="print:hidden">
