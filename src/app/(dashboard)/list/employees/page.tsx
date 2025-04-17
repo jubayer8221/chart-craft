@@ -7,7 +7,6 @@ import TableSearch from "@/components/Home/TableSearch";
 import { employeesData, role } from "@/lib/data";
 import Image from "next/image";
 import Link from "next/link";
-// import { FaPlus } from "react-icons/fa6";
 import { FaArrowDownWideShort } from "react-icons/fa6";
 import { IoFilterSharp } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
@@ -23,11 +22,10 @@ type Employee = {
   phone?: string;
   subjects?: string[];
   grade: number;
-  classes: string[]; // <- FIXED HERE
+  classes: string[];
   address: string;
-  blood:string;
+  blood: string;
 };
-
 
 const columns = [
   {
@@ -36,7 +34,7 @@ const columns = [
   },
   {
     header: "Employee ID",
-    accessor: "EmployeeId",
+    accessor: "teacherId", // Fixed to match actual data key
     className: "hidden md:table-cell",
   },
   {
@@ -61,55 +59,83 @@ const columns = [
 ];
 
 const EmployeesListPage = () => {
-    const [isPopupOpen, setPopupOpen] = useState(false);
-    const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+  const [sortConfig, setSortConfig] = useState<{ key: keyof Employee; direction: "asc" | "desc" } | null>(null);
 
-    const handleOpenPopup = (employee: Employee) =>{
-        setSelectedEmployee(employee);
-        setPopupOpen(true);
+  const handleOpenPopup = (employee: Employee) => {
+    setSelectedEmployee(employee);
+    setPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setPopupOpen(false);
+    setSelectedEmployee(null);
+  };
+
+  const handleSort = (key: keyof Employee) => {
+    setSortConfig((prev) =>
+      prev && prev.key === key
+        ? { ...prev, direction: prev.direction === "asc" ? "desc" : "asc" }
+        : { key, direction: "asc" }
+    );
+  };
+
+  const sortedData = [...employeesData].sort((a, b) => {
+    if (!sortConfig) return 0;
+
+    const { key, direction } = sortConfig;
+
+    const aVal = a[key];
+    const bVal = b[key];
+
+    if (aVal == null || bVal == null) return 0;
+
+    if (typeof aVal === "string") {
+      return direction === "asc"
+        ? aVal.localeCompare(bVal as string)
+        : (bVal as string).localeCompare(aVal);
     }
-    const handleClosePopup = () =>{
-        setPopupOpen(false);
-        setSelectedEmployee(null);
+
+    if (typeof aVal === "number") {
+      return direction === "asc" ? aVal - (bVal as number) : (bVal as number) - aVal;
     }
+
+    return 0;
+  });
 
   const renderRow = (item: Employee) => (
     <tr
       key={item.id}
       className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#F1F0FF]"
     >
-      <td className="flex items-center gap-4 p-4 cursor-pointer " onClick={()=>handleOpenPopup(item)}>
-          <Image
-            src={item.photo}
-            alt=""
-            width={40}
-            height={40}
-            className="w-10 h-10 rounded-full object-cover"
-          />
-          <div className="flex flex-col">
-            <h3 className="font-semibold">{item.name}</h3>
-            <p className="text-gray-700">{item.email}</p>
-          </div>
+      <td className="flex items-center gap-4 p-4 cursor-pointer" onClick={() => handleOpenPopup(item)}>
+        <Image
+          src={item.photo}
+          alt=""
+          width={40}
+          height={40}
+          className="w-10 h-10 rounded-full object-cover"
+        />
+        <div className="flex flex-col">
+          <h3 className="font-semibold">{item.name}</h3>
+          <p className="text-gray-700">{item.email}</p>
+        </div>
       </td>
       <td className="hidden md:table-cell">{item.teacherId}</td>
       <td className="hidden lg:table-cell">{item.grade}</td>
-
       <td className="hidden md:table-cell">{item.phone}</td>
       <td className="hidden md:table-cell">{item.address}</td>
       <td>
         <div className="flex items-center gap-2">
           <Link href={`/list/employees/edit/${item.id}`}>
             <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#00A9B4]">
-              {/* <Image src="/assets/view.png" alt="" width={16} height={16} /> */}
               <span className="text-4 text-white">
                 <FaRegEdit />
               </span>
             </button>
           </Link>
           {role === "admin" && (
-            // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#CFCEFF]">
-            //   <Image src="/assets/delete.png" alt="" width={16} height={16} />
-            // </button>
             <FormModal table="employee" type="delete" id={item.id} />
           )}
         </div>
@@ -130,31 +156,29 @@ const EmployeesListPage = () => {
                 <IoFilterSharp />
               </span>
             </button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66]">
+            <button
+              onClick={() => handleSort("name")} // You can change to any sortable field
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66]"
+            >
               <span className="text-[14px] text-white">
                 <FaArrowDownWideShort />
               </span>
             </button>
             {role === "admin" && (
-              // <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAE27C]">
-              //   <span className="text-[14px]"><FaPlus /></span>
-              // </button>
               <FormModal table="employee" type="create" />
             )}
           </div>
         </div>
       </div>
       {/* LIST */}
-      <Table columns={columns} renderRow={renderRow} data={employeesData} />
+      <Table columns={columns} renderRow={renderRow} data={sortedData} />
       {/* PAGINATION */}
       <Pagination />
-      {
-        isPopupOpen && selectedEmployee && (
-            <EmployeePopup employee={selectedEmployee} onClose={handleClosePopup} />
-        )
-      }
+      {isPopupOpen && selectedEmployee && (
+        <EmployeePopup employee={selectedEmployee} onClose={handleClosePopup} />
+      )}
     </div>
   );
 };
 
-export default  EmployeesListPage;
+export default EmployeesListPage;
