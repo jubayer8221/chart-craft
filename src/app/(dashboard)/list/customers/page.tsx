@@ -53,6 +53,8 @@ const columns = [
   },
 ];
 
+
+
 const CustomarListPage = () => {
     const [isPopupOpen, setPopupOpen] = useState(false);
     const [selectedCustomar, setSelectedCustomar] = useState<Customar | null>(null);
