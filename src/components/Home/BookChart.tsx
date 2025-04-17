@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { TfiLayoutMenuSeparated } from "react-icons/tfi";
-import { PieChart, Pie, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, ResponsiveContainer } from "recharts";
 
 const data = [
     {
@@ -38,10 +38,11 @@ const data = [
 
 const BookChart = () => {
   return (
+            <Link href={`/category/${3}`}>
     <div className="relative bg-white rounded-xl w-full h-full p-4 flex flex-col justify-between">
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-semibold">Books</h1>
-        <Link href={`/category/${3}`}><TfiLayoutMenuSeparated width={20} height={20} /></Link>
+<TfiLayoutMenuSeparated width={20} height={20} />
       </div>
       <div className="w-full h-[80%]">
       <ResponsiveContainer width="100%" height="90%">
@@ -64,6 +65,7 @@ const BookChart = () => {
       </div>
       <h2 className="font-medium absolute bottom-16 left-0 right-0 m-auto text-center">2024 Year - 2025Year</h2>
     </div>
+    </Link>
   );
 };
 
