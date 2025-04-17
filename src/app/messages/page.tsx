@@ -1,52 +1,47 @@
 "use client";
 
-import React from "react";
+import ChatSidebar from "@/components/Chat/ChatSidebar";
 import ChatWindow from "@/components/Chat/ChatWindow";
-import MessageInput from "@/components/Chat/MessageInput";
 import { ChatProvider } from "@/components/context/ChatContext";
+import { useChat } from "@/components/context/ChatContext";
 
-// Define the User interface
-interface User {
-  name: string;
-  avatar: string;
-  online: boolean;
-  role: string;
-}
-
-// Define the props for ChatWindow
-
-// Mock data for the current user
-const currentUser: User = {
-  name: "John Doe",
-  avatar: "/image/user1.png",
-  online: true,
-  role: "Developer",
-};
-
-// Mock data for the selected user
-const selectedUser: User = {
-  name: "Alice Johnson",
-  avatar: "/image/user1.png",
-  online: true,
-  role: "Designer",
-};
-
-const MessagesPage: React.FC = () => {
+export default function ChatPage() {
   return (
-    <ChatProvider>
-      <div className="flex h-screen">
-        {/* Uncomment the ChatSidebar if needed */}
-        {/* <div className="fixed w-full h-full">
-          <ChatSidebar />
-        </div> */}
-        <div className="flex flex-col flex-1 fixed top-1/12 left-2/5 right-0 bottom-0 ml-1/5 mt-1/12">
-          {/* Pass currentUser and selectedUser to ChatWindow */}
-          <ChatWindow currentUser={currentUser} selectedUser={selectedUser} />
-          <MessageInput />
-        </div>
-      </div>
+    <ChatProvider
+      currentUser={{
+        id: 1,
+        name: "Alice Johnson",
+        avatar: "/image/user4.png",
+        role: "Developer",
+        online: true,
+      }}
+    >
+      <ChatPageContent />
     </ChatProvider>
   );
-};
+}
 
-export default MessagesPage;
+function ChatPageContent() {
+  // const { currentUser, selectedUser } = useChat();
+  const { currentUser, selectedUser, setSelectedUser, messages } = useChat();
+  return (
+    <div className="flex h-screen w-full">
+      <div className="fixed top-1/12 left-2/12 h-screen z-20">
+        <ChatSidebar
+          currentUser={currentUser}
+          onSelectUser={setSelectedUser}
+          messages={messages}
+        />
+      </div>
+      <div className="fixed top-[6%] left-[11%] w-[100%] h-[106%] z-10 flex flex-col">
+        {selectedUser ? (
+          <ChatWindow selectedUser={selectedUser} currentUser={currentUser} />
+        ) : (
+          <div className="flex-1 flex items-center justify-center text-gray-500">
+            Select a user to start chat
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

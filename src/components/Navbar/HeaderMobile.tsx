@@ -65,10 +65,10 @@ const HeaderMobile = () => {
             >
               {section.title}
             </motion.li>
-            {section.items.map((item, idx) => {
+            {(section.items ?? []).map((item, idx) => {
               const isLastItem =
                 sectionIdx === SIDENAV_ITEMS.length - 1 &&
-                idx === section.items.length - 1;
+                idx === (section.items ?? []).length - 1;
 
               return (
                 <div key={idx}>
@@ -77,7 +77,7 @@ const HeaderMobile = () => {
                   ) : (
                     <MenuItem>
                       <Link
-                        href={item.path}
+                        href={item.path || "/"}
                         onClick={() => toggleOpen()}
                         className={`flex flex-row gap-x-3 items-center w-full text-2xl ${
                           item.path === pathname ? "font-bold" : ""
@@ -175,7 +175,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
           <div className="flex flex-row justify-between w-full items-center">
             <span
               className={`flex flex-row items-center gap-4 ${
-                pathname.includes(item.path) ? "font-bold" : ""
+                pathname.includes(item.path ?? "") ? "font-bold" : ""
               }`}
             >
               {item.icon}
@@ -192,7 +192,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
           item.subMenuItems?.map((subItem, subIdx) => (
             <MenuItem key={subIdx}>
               <Link
-                href={subItem.path}
+                href={subItem.path || "/"}
                 onClick={() => toggleOpen()}
                 className={`flex flex-row gap-x-4 items-center ${
                   subItem.path === pathname ? "font-bold" : ""
@@ -249,10 +249,6 @@ const useDimensions = (
 
   return dimensions.current;
 };
-
-
-
-
 
 // "use client";
 

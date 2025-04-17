@@ -1,3 +1,4 @@
+
 "use client"
 
 import FormModal from "@/components/Home/FormModeal";
@@ -14,7 +15,6 @@ import { FaRegEdit } from "react-icons/fa";
 import CustomarPopup from "@/components/Home/CustomarPopup";
 import { useState } from "react";
 
-
 type Customar = {
   id: number;
   studentId: string;
@@ -29,82 +29,76 @@ type Customar = {
 };
 
 const columns = [
+  { header: "Info", accessor: "info" },
   {
-    header: "Info",
-    accessor: "info",
-  },
-  {
-    header: "Customar ID",
-    accessor: "customarId",
+    header: "Customer ID",
+    accessor: "teacherId",
     className: "hidden md:table-cell",
   },
-  {
-    header: "Phone",
-    accessor: "phone",
-    className: "hidden lg:table-cell",
-  },
-  {
-    header: "Address",
-    accessor: "address",
-    className: "hidden lg:table-cell",
-  },
-  {
-    header: "Actions",
-    accessor: "action",
-  },
+  { header: "Phone", accessor: "phone", className: "hidden lg:table-cell" },
+  { header: "Address", accessor: "address", className: "hidden lg:table-cell" },
+  { header: "Actions", accessor: "action" },
 ];
 
-const StudentListPage = () => {
+const customerListPage = () => {
   const [isPopupOpen, setPopupOpen] = useState(false);
-      const [selectedCustomar, setSelectedCustomar] = useState<Customar | null>(null);
+      const [selectedCustomar, setSelectedEmployee] = useState<Customar | null>(null);
   
-      const handleOpenPopup = (customar: Customar) =>{
-          setSelectedCustomar(customar);
+      const handleOpenPopup = (employee: Customar) =>{
+          setSelectedEmployee(employee);
           setPopupOpen(true);
       }
       const handleClosePopup = () =>{
           setPopupOpen(false);
-          setSelectedCustomar(null);
+          setSelectedEmployee(null);
       }
-  const renderRow = (item: Customar) => (
-    <tr
-      key={item.id}
-      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#F1F0FF]"
-    >
-      <td className="flex items-center gap-4 p-4 cursor-pointer" onClick={()=>handleOpenPopup(item)}>
-        <Image
-          src={item.photo}
-          alt=""
-          width={40}
-          height={40}
-          className="md:hidden xl:block w-10 h-10 rounded-full object-cover"
-        />
-        <div className="flex flex-col">
-          <h3 className="font-semibold">{item.name}</h3>
-          <p className="text-xs text-gray-500">{item.class}</p>
-        </div>
-      </td>
-      <td className="hidden md:table-cell">{item.studentId}</td>
-      <td className="hidden md:table-cell">{item.phone}</td>
-      <td className="hidden md:table-cell">{item.address}</td>
-      <td>
-        <div className="flex items-center gap-2">
-          <Link href={`/list/customers/edit`}>
-            <button className="cursor-pointer w-7 h-7 flex items-center justify-center rounded-full bg-[#00A9B4]">
-              {/* <Image src="/assets/view.png" alt="" width={16} height={16} /> */}
-              <span className="text-4 text-white"><FaRegEdit /></span>
-            </button>
-          </Link>
-          {role === "admin" && (
-            // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#CFCEFF]">
-            //   <Image src="/assets/delete.png" alt="" width={16} height={16} />
-            // </button>
+
+  const renderRow = (item: Customar) => {
+    return (
+      <tr
+        key={item.id}
+        className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#F1F0FF]"
+      >
+        <td className="flex items-center gap-4 p-4" onClick={()=>handleOpenPopup(item)}>
+          <Image
+            src={item.photo || "/images/fallback-teacher.jpg"}
+            alt={item.name || "Teacher photo"}
+            width={40}
+            height={40}
+            className="md:hidden xl:block w-10 h-10 rounded-full object-cover"
+            onError={() =>
+              console.error(`Image failed for ${item.name}: ${item.photo}`)
+            }
+          />
+          <div className="flex flex-col">
+            <h3 className="font-semibold">{item.name}</h3>
+            <p className="text-xs text-gray-500">{item?.email}</p>
+          </div>
+        </td>
+        <td className="hidden md:table-cell">{item.studentId}</td>
+        <td className="hidden md:table-cell">{item.phone}</td>
+        <td className="hidden md:table-cell">{item.address}</td>
+        <td>
+          <div className="flex items-center gap-2">
+            <Link href={`/list/customers/${item.id}`}>
+              <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#C3EBFA]">
+                <Image
+                  src="/assets/view.png"
+                  alt="View teacher"
+                  width={16}
+                  height={16}
+                />
+              </button>
+            </Link>
+            {/* // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#CFCEFF]">
+              //   <Image src="/assets/delete.png" alt="Delete teacher" width={16} height={16} />
+              // </button> */}
             <FormModal table="customar" type="delete" id={item.id} />
-          )}
-        </div>
-      </td>
-    </tr>
-  );
+          </div>
+        </td>
+      </tr>
+    );
+  };
 
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
@@ -120,12 +114,11 @@ const StudentListPage = () => {
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66]">
               <span className="text-[14px] text-white"><FaArrowDownWideShort /></span>
             </button>
-            {role === "admin" && (
-              // <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAE27C]">
-              //   <span className="text-[14px]"><FaPlus /></span>
-              // </button>
-              <FormModal table="customar" type="create" />
-            )}
+            {
+              role === "admin" && (
+                <FormModal table="customar" type="create" />
+              )
+            }
           </div>
         </div>
       </div>
@@ -142,4 +135,4 @@ const StudentListPage = () => {
   );
 };
 
-export default StudentListPage;
+export default customerListPage;

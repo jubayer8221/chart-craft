@@ -42,7 +42,6 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
             title: "Employee",
             path: "/employee",
             icon: <FaUsersCog className="w-[16px] h-[16px]" />,
-
           },
         ],
       },
@@ -59,24 +58,24 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
         visible: ["admin", "customer"],
       },
       {
-        title: "Books",
-        path: "/books",
+        title: "Buy & Sell Report",
+        path: "/buySellChart",
         // submenu: true,
         icon: <SiWikibooks className="w-[16px] h-[16px]" />,
         visible: ["admin"],
-        submenu: true,
-        subMenuItems: [
-          {
-            title: "Configuration",
-            path: "/books/configuration",
-            icon: <LuSettings className="w-[16px] h-[16px]" />,
-          },
-          {
-            title: "Buy & Sell Report",
-            path: "/books/report",
-            icon: <TbReportSearch className="w-[16px] h-[16px]" />,
-          },
-        ],
+        // submenu: true,
+        // subMenuItems: [
+        //   {
+        //     title: "Configuration",
+        //     path: "/books/configuration",
+        //     icon: <LuSettings className="w-[16px] h-[16px]" />,
+        //   },
+        //   {
+        //     title: "Buy & Sell Report",
+        //     path: "/books/report",
+        //     icon: <TbReportSearch className="w-[16px] h-[16px]" />,
+        //   },
+        // ],
       },
 
       {
@@ -115,16 +114,15 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
         title: "Events",
         path: "/training/report",
         icon: <TbReportSearch className="w-[16px] h-[16px]" />,
-        visible: ["admin", "employee", "customer"]
+        visible: ["admin", "employee", "customer"],
       },
       {
         title: "Announcements",
         path: "/training/report",
         icon: <TbReportSearch className="w-[16px] h-[16px]" />,
-        visible: ["admin", "employee", "customer"]
+        visible: ["admin", "employee", "customer"],
       },
-      
-    ]
+    ],
   },
   {
     title: "OTHER",

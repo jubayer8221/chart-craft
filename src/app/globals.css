@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @tailwind utilities;
 
+<<<<<<< HEAD
 
 
 
@@ -23,12 +24,15 @@
   background: #555;
 }
 
+=======
+>>>>>>> 2c509e5e3ec03643bd471ac5f24dfe11d2533bae
 .react-calendar {
   width: 100% !important;
   border: none !important;
   font-family: "Inter", sans-serif !important;
 }
 
+<<<<<<< HEAD
 /* Ensure the calendar container supports horizontal scrolling */
 .rbc-time-view {
   border-color: #eee !important;
@@ -42,12 +46,30 @@
 }
 
 /* Style for the toolbar label */
+=======
+.react-calendar__navigation__label__labelText {
+  font-weight: 600;
+}
+
+.react-calendar__tile--active {
+  background-color: #c3ebfa !important;
+  color: black !important;
+}
+
+.rbc-btn-group:first-child {
+  display: none !important;
+}
+
+>>>>>>> 2c509e5e3ec03643bd471ac5f24dfe11d2533bae
 .rbc-toolbar-label {
   text-align: right !important;
   padding: 0px 20px !important;
 }
 
+<<<<<<< HEAD
 /* Style for the view toggle buttons */
+=======
+>>>>>>> 2c509e5e3ec03643bd471ac5f24dfe11d2533bae
 .rbc-btn-group:last-child {
   font-size: 13px !important;
 }
@@ -63,6 +85,7 @@
   box-shadow: none !important;
 }
 
+<<<<<<< HEAD
 /* Hide the first button group (navigation) */
 .rbc-btn-group:first-child {
   display: none !important;
@@ -91,13 +114,40 @@
 
 .rbc-time-gutter.rbc-time-column .rbc-timeslot-group {
   padding: 0px 16px !important;
+=======
+.rbc-time-view {
+  border-color: #eee !important;
+}
+
+.rbc-time-header {
+  display: none !important;
+}
+
+.rbc-time-content {
+  border: none !important;
+}
+
+.rbc-time-gutter.rbc-time-column {
+  font-size: 12px !important;
+}
+
+.rbc-time-gutter.rbc-time-column .rbc-timeslot-group {
+  padding: 0px 20px !important;
+>>>>>>> 2c509e5e3ec03643bd471ac5f24dfe11d2533bae
 }
 
 .rbc-timeslot-group {
   background-color: #f7fdff !important;
 }
 
+<<<<<<< HEAD
 /* Event styling */
+=======
+.rbc-day-slot {
+  font-size: 14px !important;
+}
+
+>>>>>>> 2c509e5e3ec03643bd471ac5f24dfe11d2533bae
 .rbc-event {
   border: none !important;
   color: black !important;
@@ -106,7 +156,10 @@
   width: 99% !important;
 }
 
+<<<<<<< HEAD
 /* Event colors */
+=======
+>>>>>>> 2c509e5e3ec03643bd471ac5f24dfe11d2533bae
 .rbc-event:nth-child(1) {
   background-color: #e2f8ff !important;
 }
@@ -137,6 +190,7 @@
   margin-bottom: 5px;
 }
 
+<<<<<<< HEAD
 /* Ensure the calendar fits in smaller containers */
 @media (max-width: 768px) {
   .rbc-time-view {
@@ -146,3 +200,21 @@
     min-width: 120px !important; /* Reduce column width for smaller screens */
   }
 }
+=======
+@media print {
+  nav,
+  .print:hidden,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  .print-area {
+    margin: 0;
+    padding: 0;
+  }
+}
+>>>>>>> 2c509e5e3ec03643bd471ac5f24dfe11d2533bae
