@@ -216,7 +216,7 @@ const TopSelling = () => {
                                   ref={provided.innerRef}
                                   {...provided.droppableProps}
                                 >
-                                  <thead className="sticky top-0 z-10 bg-[#4BC0C0] text-white">
+                                  <thead className="sticky top-0 z-10 bg-[#0A3A66]/90 text-white">
                                     <tr>
                                       <th className="p-2 text-left">Items</th>
                                       <th className="p-2">Price</th>
@@ -237,10 +237,10 @@ const TopSelling = () => {
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
-                                            className={`text-center hover:text-gray-200 ${
+                                            className={`text-center hover:text-gray-900 ${
                                               snapshot.isDragging
-                                                ? "bg-[#00A9B4] text-white"
-                                                : "hover:bg-[#00A9B4] hover:text-white"
+                                                ? "bg-[#00A9B4]/30 text-gray-900"
+                                                : "hover:bg-[#00A9B4]/30 hover:text-gray-900"
                                             }`}
                                           >
                                             <td className="p-1 text-left">

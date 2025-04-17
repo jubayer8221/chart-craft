@@ -43,7 +43,7 @@ const RecentOrdersCard = () => {
   return (
     <div>
       <h1 className="text-lg font-semibold">Recent Orders</h1>
-      <div className="overflow-x-auto mt-2">
+      <div className="overflow-x-auto">
         <div className="max-h-64 overflow-y-auto">
           <table className="text-sm text-gray-600 border-collapse border rounded border-gray-300 w-full">
             <thead>

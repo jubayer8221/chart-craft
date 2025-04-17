@@ -79,11 +79,11 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
       },
 
       {
-        title: "Training",
-        path: "/training",
+        title: "Themes",
+        path: "/themes",
         icon: <MdOutlineSchool className="w-[16px] h-[16px]" />,
         visible: ["admin", "employee", "customer"],
-        submenu: true,
+        submenu: false,
         subMenuItems: [
           {
             title: "Configuration",

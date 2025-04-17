@@ -10,7 +10,6 @@ import {
   Legend,
 } from "chart.js";
 
-// Register chart components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -26,7 +25,7 @@ const StockReportCard = () => {
     datasets: [
       {
         label: "Stock Quantity",
-        data: [120, 200, 150, 80],
+        data: [120, 180, 150, 80],
         backgroundColor: "rgba(75, 192, 192, 0.6)",
         borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
@@ -36,7 +35,7 @@ const StockReportCard = () => {
 
   const options = {
     responsive: true,
-    maintainAspectRatio: false, // Makes it flexible inside a container
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top" as const,
@@ -49,13 +48,23 @@ const StockReportCard = () => {
     scales: {
       y: {
         beginAtZero: true,
+        grid: {
+          drawBorder: false, // No Y-axis border
+          display: true, // Show horizontal grid lines
+        },
+      },
+      x: {
+        grid: {
+          display: false, // No vertical grid lines
+          drawBorder: true, // Show X-axis border
+        },
       },
     },
   };
 
   return (
-    <div className="p-4 w-full max-w-full md:max-w-2xl mx-auto">
-      <h1 className="text-lg font-semibold">Stock Report</h1>
+    <div className="w-full max-w-full md:max-w-[400px] mx-auto">
+      <h1 className="text-lg font-semibold pb-2">Stock Report</h1>
       <div className="relative h-[280px] w-full">
         <Bar data={data} options={options} />
       </div>
