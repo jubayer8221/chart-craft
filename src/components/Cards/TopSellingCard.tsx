@@ -49,7 +49,7 @@ const TopSellingCard = () => {
       <div className="max-h-[260px]">
         <div className="overflow-y-auto max-h-64 border border-gray-300 rounded">
           <div className="overflow-x-auto">
-            <table className="table-auto w-full border-collapse border-gray-300">
+            <table className="table-auto w-full border-collapse border-[#0A3A66]">
               <thead className="bg-[#0A3A66] text-white text-center">
                 <tr
                   className="text-center"
@@ -58,9 +58,9 @@ const TopSellingCard = () => {
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, -1)}
                 >
-                  <th className="border-gray-300 px-2 py-2">Item</th>
-                  <th className="border-gray-300 px-2 py-2">Price</th>
-                  <th className="border-gray-300 px-2 py-2">Sold</th>
+                  <th className="border-gray-300 px-1 py-1">Item</th>
+                  <th className="border-gray-300 px-1 py-1">Price</th>
+                  <th className="border-gray-300 px-1 py-1">Sold</th>
                 </tr>
               </thead>
               <tbody className="text-center">

@@ -21,7 +21,7 @@ type Customar = {
 };
 
 type CustomarPopupProps = {
-    customar: Customar;
+  customar: Customar;
   onClose: () => void;
 };
 
@@ -48,8 +48,10 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
       ></div>
 
       {/* Modal Content */}
-      <div className="relative z-50 w-full max-w-6xl bg-zinc-400
-       rounded-lg shadow-lg flex flex-col">
+      <div
+        className="relative z-50 w-full max-w-6xl bg-zinc-400
+       rounded-lg shadow-lg flex flex-col"
+      >
         <button
           onClick={onClose}
           className="transition-colors p-2"
@@ -121,12 +123,13 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                         height={14}
                         onError={(e) => (e.currentTarget.src = defaultIcon)}
                       />
-                      <span>{customar.phone ? `+880${customar.phone}` : "N/A"}</span>
+                      <span>
+                        {customar.phone ? `+880${customar.phone}` : "N/A"}
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
-
 
               {/* Small Cards */}
               <div className="flex gap-2 justify-between flex-wrap w-full sm:w-full md:w-full xl:w-1/2 ">
@@ -141,7 +144,9 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                   />
                   <div>
                     <h1 className="text-xl font-semibold">90%</h1>
-                    <span className="text-sm text-gray-400">Work Attendance</span>
+                    <span className="text-sm text-gray-400">
+                      Work Attendance
+                    </span>
                   </div>
                 </div>
                 <div className="bg-white p-3 rounded-md flex gap-4 w-full">
@@ -187,13 +192,14 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                     <span className="text-sm text-gray-400">Trainings</span>
                   </div>
                 </div>
-                
               </div>
             </div>
 
             {/* Bottom Section */}
             <div className="mt-4 bg-white rounded-md p-4 h-[800px]">
-              <h1 className="text-xl font-semibold">Customar&apos;s Schedule</h1>
+              <h1 className="text-xl font-semibold">
+                Customar&apos;s Schedule
+              </h1>
               <BigCalendar />
             </div>
           </div>
