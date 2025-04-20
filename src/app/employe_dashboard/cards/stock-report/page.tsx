@@ -270,7 +270,7 @@ const SellsTable: React.FC = () => {
       )}
       <div className="flex justify-between">
         <h1 className="text-2xl font-bold text-center print:text-center">
-          Bar Chart Theme
+          Chart Theme
         </h1>
         <input
           type="text"
