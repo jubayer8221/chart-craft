@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const Announcements = () => {
   return (
@@ -46,7 +46,7 @@ const Announcements = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Announcements
+export default Announcements;

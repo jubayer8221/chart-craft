@@ -149,13 +149,13 @@ const SellsTable = () => {
           <div className="flex gap-2">
             <button
               onClick={handlePrint}
-              className="bg-blue-600 text-white px-4 mb-4 py-2 rounded-md"
+              className="bg-[#0A3A66] hover:bg-[#0A3A66]/80 text-white px-4 mb-4 py-2 rounded-md"
             >
               Print {selectedRowIndex !== null ? "Selected" : "All"}
             </button>
             <button
               onClick={exportCSV}
-              className="bg-green-600 text-white px-4 py-2 rounded-md mb-4"
+              className="bg-[#0A3A66] hover:bg-[#0A3A66]/80 text-white px-4 py-2 rounded-md mb-4"
             >
               Export {selectedRowIndex !== null ? "Selected" : "All"} CSV
             </button>
