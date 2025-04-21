@@ -41,7 +41,9 @@ const EditEmployeePage = () => {
   const [previewImage, setPreviewImage] = useState<string>("");
 
   useEffect(() => {
-    const data = employeesData.find((c) => c.id === id);
+    const stored = localStorage.getItem("employeesData");
+    const employeeList = stored ? JSON.parse(stored) :employeesData
+    const data = employeeList.find((c: Employee) => c.id === id);
     if (data) {
       setEmployee(data);
       setForm({
@@ -64,10 +66,11 @@ const EditEmployeePage = () => {
       const file = files[0];
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreviewImage(reader.result as string);
+        const imageData = reader.result as string;
+        setPreviewImage(imageData);
+        setForm({ ...form, photo: imageData }); // store base64 in form.photo
       };
       reader.readAsDataURL(file);
-      setForm({ ...form, photo: file.name });
     } else {
       setForm({ ...form, [name]: value });
     }
@@ -75,15 +78,22 @@ const EditEmployeePage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Updated data:", { id, ...form });
-    router.push("/list/customers");
+    // console.log("Updated data:", { id, ...form });
+    const stored = localStorage.getItem("employeesData");
+    const employeeList = stored ? JSON.parse(stored) : employeesData;
+    const updatedData = employeeList.map((em: Employee)=>em.id === id ? {...em, ...form, grade:Number(form.grade)}:em)
+
+    // save the localStorage
+    localStorage.setItem("employeesData", JSON.stringify(updatedData));
+
+    router.push("/list/employees");
   };
 
   if (!employee) return <p className="text-center mt-20 text-lg">Loading customer...</p>;
 
   return (
-    <div className="min-h-screen px-4 py-4 lg:py-4 bg-gradient-to-tr from-[#f4f7ff] to-[#e9ecf3]">
-      <div className="max-w-6xl mx-auto bg-white/60 backdrop-blur-lg rounded-3xl shadow-2xl p-8 lg:p-14 border border-white/40 transition-all duration-300">
+    <div className="">
+      <div className="max-w-6xl mx-auto bg-white rounded-md shadow-2xl p-8 lg:p-14 transition-all duration-300">
 
         <h2 className="text-3xl md:text-4xl font-extrabold text-center text-[#0A3A66] mb-10 tracking-wide">
           Edit Employee Profile
@@ -121,16 +131,16 @@ const EditEmployeePage = () => {
           <Input label="Full Name" name="name" value={form.name} onChange={handleChange} />
           <Input label="Email" name="email" value={form.email} onChange={handleChange} type="email" />
           <Input label="Phone" name="phone" value={form.phone} onChange={handleChange} />
-          <Input label="Address" name="address" value={form.address} onChange={handleChange} />
+          <div className="md:col-span-2"><Input label="Address" name="address" value={form.address} onChange={handleChange} /></div>
           <Input label="Grade" name="grade" value={form.grade} onChange={handleChange} />
-          <Input label="Project" name="class" value={form.classes} onChange={handleChange} />
+          <Input label="Project" name="classes" value={form.classes} onChange={handleChange} />
           <Input label="Blood Group" name="blood" value={form.blood} onChange={handleChange} />
 
           {/* Submit Button */}
           <div className="md:col-span-2 lg:col-span-3 flex justify-center mt-6">
             <button
               type="submit"
-              className="px-8 py-3 flex items-center gap-2 text-lg font-semibold bg-white bg-opacity-70 border border-gray-300 rounded-full shadow-lg hover:scale-105 hover:bg-opacity-100 hover:text-[#0A3A66] transition duration-300 backdrop-blur-md"
+              className="px-6 py-3 flex items-center gap-2 text-lg font-semibold bg-white bg-opacity-70 border border-gray-300 rounded-md shadow-lg hover:scale-105 hover:bg-opacity-100 hover:text-[#0A3A66] transition duration-300 backdrop-blur-md"
             >
                <TbExchange className="text-4" /> Save Changes
             </button>

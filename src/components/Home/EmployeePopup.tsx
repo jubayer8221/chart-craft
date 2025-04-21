@@ -18,7 +18,7 @@ type Employee = {
   grade: number;
   classes: string[];
   address: string;
-  blood:string;
+  blood: string;
 };
 
 type EmployeePopupProps = {
@@ -49,11 +49,13 @@ const EmployeePopup = ({ employee, onClose }: EmployeePopupProps) => {
       ></div>
 
       {/* Modal Content */}
-      <div className="relative z-50 w-full max-w-6xl bg-zinc-400
-       rounded-lg shadow-lg flex flex-col">
+      <div
+        className="relative z-50 w-full max-w-6xl bg-zinc-400
+       rounded-lg shadow-lg flex flex-col"
+      >
         <button
           onClick={onClose}
-          className="transition-colors p-2"
+          className="transition-colors p-2 self-end"
           aria-label="Close popup"
         >
           <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors">
@@ -61,7 +63,7 @@ const EmployeePopup = ({ employee, onClose }: EmployeePopupProps) => {
           </div>
         </button>
         {/* employee info  */}
-        <div className="flex flex-col md:flex-row p-4 gap-6 max-h-[90vh] overflow-y-auto">
+        <div className="flex flex-col xl:flex-row p-4 gap-4 max-h-[90vh] overflow-y-auto">
           {/* Left Section */}
           <div className="w-full xl:w-2/3">
             {/* Top Section */}
@@ -122,99 +124,103 @@ const EmployeePopup = ({ employee, onClose }: EmployeePopupProps) => {
                         height={14}
                         onError={(e) => (e.currentTarget.src = defaultIcon)}
                       />
-                      <span>{employee.phone ? `+880${employee.phone}` : "N/A"}</span>
+                      <span>
+                        {employee.phone ? `+880${employee.phone}` : "N/A"}
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
 
-
-              {/* Small Cards */}
-              <div className="flex gap-2 justify-between flex-wrap w-full sm:w-full md:w-full xl:w-1/2 ">
-                <div className="bg-white p-3 rounded-md flex gap-4 w-full">
-                  <Image
-                    src="/assets/singleAttendance.png"
-                    alt="Attendance icon"
-                    width={24}
-                    height={24}
-                    className="w-6 h-6"
-                    onError={(e) => (e.currentTarget.src = defaultIcon)}
-                  />
-                  <div>
-                    <h1 className="text-xl font-semibold">90%</h1>
-                    <span className="text-sm text-gray-400">Work Attendance</span>
+              {/* Small Cards and shortcuts */}
+              <div className="flex gap-4 w-full sm:w-full md:w-full xl:w-1/2">
+                <div className="flex gap-4 justify-between flex-wrap w-full sm:w-full md:w-full xl:w-1/2 ">
+                  <div className="bg-white p-3 rounded-md flex flex-col gap-2 w-full">
+                    <div className="flex items-center gap-4">
+                      <Image
+                        src="/assets/singleAttendance.png"
+                        alt="Attendance icon"
+                        width={24}
+                        height={24}
+                        className="w-6 h-6"
+                        onError={(e) => (e.currentTarget.src = defaultIcon)}
+                      />
+                      <h1 className="text-xl font-semibold">90%</h1>
+                    </div>
+                    <span className="text-sm text-gray-400">
+                      Work Attendance
+                    </span>
                   </div>
-                </div>
-                <div className="bg-white p-3 rounded-md flex gap-4 w-full">
-                  <Image
-                    src="/assets/singleBranch.png"
-                    alt="Branch icon"
-                    width={24}
-                    height={24}
-                    className="w-6 h-6"
-                    onError={(e) => (e.currentTarget.src = defaultIcon)}
-                  />
-                  <div>
-                    <h1 className="text-xl font-semibold">2</h1>
+                  <div className="bg-white p-3 rounded-md flex flex-col gap-2 w-full">
+                    <div className="flex gap-4 items-center">
+                      <Image
+                        src="/assets/singleBranch.png"
+                        alt="Branch icon"
+                        width={24}
+                        height={24}
+                        className="w-6 h-6"
+                        onError={(e) => (e.currentTarget.src = defaultIcon)}
+                      />
+
+                      <h1 className="text-xl font-semibold">2</h1>
+                    </div>
                     <span className="text-sm text-gray-400">Branches</span>
                   </div>
-                </div>
-                <div className="bg-white p-3 rounded-md flex gap-4 w-full">
-                  <div>
-                    <RiProjectorLine
-                      width={24}
-                      height={24}
-                      className="w-6 h-6"
-                    />
-                  </div>
-                  <div>
-                    <h1 className="text-xl font-semibold">6</h1>
+                  <div className="bg-white p-3 rounded-md flex flex-col gap-2 w-full">
+                    <div className="flex gap-4 items-center">
+                      <RiProjectorLine
+                        width={24}
+                        height={24}
+                        className="w-6 h-6"
+                      />
+                      <h1 className="text-xl font-semibold">6</h1>
+                    </div>
                     <span className="text-sm text-gray-400">Projects</span>
                   </div>
-                </div>
-                <div className="bg-white p-3 rounded-md flex gap-4 w-full">
-                  <div>
-                    <Image
-                      src="/assets/singleLesson.png"
-                      alt="Training icon"
-                      width={24}
-                      height={24}
-                      className="w-6 h-6"
-                      onError={(e) => (e.currentTarget.src = defaultIcon)}
-                    />
-                  </div>
-                  <div>
-                    <h1 className="text-xl font-semibold">3</h1>
+                  <div className="bg-white p-3 rounded-md flex flex-col gap-2 w-full">
+                    <div className="flex items-center gap-4">
+                      <Image
+                        src="/assets/singleLesson.png"
+                        alt="Training icon"
+                        width={24}
+                        height={24}
+                        className="w-6 h-6"
+                        onError={(e) => (e.currentTarget.src = defaultIcon)}
+                      />
+                      <h1 className="text-xl font-semibold">3</h1>
+                    </div>
                     <span className="text-sm text-gray-400">Trainings</span>
                   </div>
                 </div>
-                
+                {/* Shortcuts  */}
+                <div className="flex flex-col gap-4 w-full sm:w-full md:w-full xl:w-1/2">
+                  <h1 className="text-xl font-semibold bg-white p-3 rounded-md h-[80px]">
+                    Shortcuts
+                  </h1>
+                  <Link href="/" className="bg-white p-3 rounded-md h-[80px]">
+                    Employee&apos;s
+                  </Link>
+                  <Link href="/" className="p-3 rounded-md bg-white h-[80px]">
+                    Event&apos;s
+                  </Link>
+                  <Link href="/" className="p-3 rounded-md bg-white h-[80px]">
+                    Announcement&apos;s
+                  </Link>
+                </div>
               </div>
             </div>
 
             {/* Bottom Section */}
             <div className="mt-4 bg-white rounded-md p-4 h-[800px]">
-              <h1 className="text-xl font-semibold">Employee&apos;s Schedule</h1>
+              <h1 className="text-xl font-semibold">
+                Employee&apos;s Schedule
+              </h1>
               <BigCalendar />
             </div>
           </div>
 
           {/* Right Section */}
-          <div className="w-full xl:w-1/3">
-            <div className="bg-white p-4 rounded-md mb-2">
-              <h1 className="text-xl font-semibold">Shortcuts</h1>
-              <div className="flex flex-wrap items-center gap-2 mt-2">
-                <Link href="/" className="p-3 rounded-md bg-[#C3EBFA]">
-                  Employee&apos;s
-                </Link>
-                <Link href="/" className="p-3 rounded-md bg-[#F1F0FF]">
-                  Event&apos;s
-                </Link>
-                <Link href="/" className="p-3 rounded-md bg-[#FAE27C]">
-                  Announcement&apos;s
-                </Link>
-              </div>
-            </div>
+          <div className="flex flex-col gap-0 md:gap-4 xl:gap-0 sm:flex-col md:flex-row xl:flex-col w-full xl:w-1/3">
             <Performance />
             <Announcements />
           </div>

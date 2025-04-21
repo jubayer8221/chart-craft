@@ -40,7 +40,9 @@ const EditCustomarPage = () => {
   const [previewImage, setPreviewImage] = useState<string>("");
 
   useEffect(() => {
-    const data = customarsData.find((c) => c.id === id);
+    const stored = localStorage.getItem("customarsData");
+    const customarsList = stored ? JSON.parse(stored) : customarsData;
+    const data = customarsList.find((c: Customar) => c.id === id);
     if (data) {
       setCustomar(data);
       setForm({
@@ -63,26 +65,34 @@ const EditCustomarPage = () => {
       const file = files[0];
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreviewImage(reader.result as string);
+        const imageData = reader.result as string;
+        setPreviewImage(imageData);
+        setForm({ ...form, photo: imageData }); // store base64 in form.photo
       };
       reader.readAsDataURL(file);
-      setForm({ ...form, photo: file.name });
     } else {
       setForm({ ...form, [name]: value });
     }
   };
+  
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Updated data:", { id, ...form });
+    // console.log("Updated data:", { id, ...form });
+    const stored = localStorage.getItem("customarsData");
+    const customarList = stored ? JSON.parse(stored) : customarsData;
+    const updatedData = customarList.map((cus: Customar)=>cus.id === id ? {...cus,...form, grade:Number(form.grade)} : cus);
+
+    // save to local storage 
+    localStorage.setItem("customarsData", JSON.stringify(updatedData))
     router.push("/list/customers");
   };
 
   if (!customar) return <p className="text-center mt-20 text-lg">Loading customer...</p>;
 
   return (
-    <div className="min-h-screen px-4 py-4 lg:py-4 bg-gradient-to-tr from-[#f4f7ff] to-[#e9ecf3]">
-      <div className="max-w-6xl mx-auto bg-white/60 backdrop-blur-lg rounded-3xl shadow-2xl p-8 lg:p-14 border border-white/40 transition-all duration-300">
+    <div className=""> 
+      <div className="max-w-6xl mx-auto bg-white rounded-md shadow-2xl p-8 lg:p-14 transition-all duration-300">
 
         <h2 className="text-3xl md:text-4xl font-extrabold text-center text-[#0A3A66] mb-10 tracking-wide">
           Edit Customer Profile
@@ -120,7 +130,7 @@ const EditCustomarPage = () => {
           <Input label="Full Name" name="name" value={form.name} onChange={handleChange} />
           <Input label="Email" name="email" value={form.email} onChange={handleChange} type="email" />
           <Input label="Phone" name="phone" value={form.phone} onChange={handleChange} />
-          <Input label="Address" name="address" value={form.address} onChange={handleChange} />
+          <div className="md:col-span-2"><Input label="Address" name="address" value={form.address} onChange={handleChange} /></div>
           <Input label="Grade" name="grade" value={form.grade} onChange={handleChange} />
           <Input label="Project" name="class" value={form.class} onChange={handleChange} />
           <Input label="Blood Group" name="blood" value={form.blood} onChange={handleChange} />
@@ -129,7 +139,7 @@ const EditCustomarPage = () => {
           <div className="md:col-span-2 lg:col-span-3 flex justify-center mt-6">
             <button
               type="submit"
-              className="px-8 py-3 flex items-center gap-2 text-lg font-semibold bg-white bg-opacity-70 border border-gray-300 rounded-full shadow-lg hover:scale-105 hover:bg-opacity-100 hover:text-[#0A3A66] transition duration-300 backdrop-blur-md"
+              className="px-6 py-3 flex items-center gap-2 text-lg font-semibold bg-white bg-opacity-70 border border-gray-300 rounded-md shadow-lg hover:scale-105 hover:bg-opacity-100 hover:text-[#0A3A66] transition duration-300 backdrop-blur-md"
             >
                <TbExchange className="text-4" /> Save Changes
             </button>
