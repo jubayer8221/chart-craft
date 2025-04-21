@@ -12,7 +12,8 @@ const SellsTable = () => {
   ]);
 
   const [selectedRowIndex, setSelectedRowIndex] = useState<number | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm] = useState("");
+  // const [searchTerm, setSearchTerm] = useState("");
 
   const filteredItems = items.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -83,7 +84,7 @@ const SellsTable = () => {
   return (
     <div className="p-4 w-full max-w-full md:max-w-2xl mx-auto">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
-        <h1 className="text-lg font-semibold">Stock Report</h1>
+        <h1 className="text-lg font-semibold">Sells</h1>
         <div className="flex gap-2">
           <button
             onClick={handlePrint}
@@ -100,13 +101,13 @@ const SellsTable = () => {
         </div>
       </div>
 
-      <input
+      {/* <input
         type="text"
         placeholder="Search by item name..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="mb-4 px-4 py-2 border border-gray-300 rounded-md w-full sm:w-1/2"
-      />
+      /> */}
 
       <div className="overflow-x-auto">
         <table className="w-full border border-gray-300">

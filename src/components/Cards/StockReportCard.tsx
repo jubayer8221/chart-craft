@@ -21,11 +21,19 @@ ChartJS.register(
 
 const StockReportCard = () => {
   const data = {
-    labels: ["T-shirt", "Hoodie", "Shirt", "jeans"],
+    labels: [
+      "T-shirt",
+      "Hoodie",
+      "Shirt",
+      "jeans",
+      "Sneakers",
+      "Jacket",
+      "Shorts",
+    ],
     datasets: [
       {
         label: "Stock Quantity",
-        data: [120, 180, 150, 80],
+        data: [80, 120, 180, 200, 180, 120, 80],
         backgroundColor: "rgba(75, 192, 192, 0.6)",
         borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
@@ -63,9 +71,9 @@ const StockReportCard = () => {
   };
 
   return (
-    <div className="w-full max-w-full md:max-w-[400px] mx-auto">
+    <div className="">
       <h1 className="text-lg font-semibold pb-2">Stock Report</h1>
-      <div className="relative h-[280px] w-full">
+      <div className="h-[280px]">
         <Bar data={data} options={options} />
       </div>
     </div>

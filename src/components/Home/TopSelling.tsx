@@ -7,7 +7,25 @@ import {
 } from "@hello-pangea/dnd";
 import { useState } from "react";
 import Image from "next/image";
-import StockReportCard from "../Cards/StockReportCard";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 interface SellItem {
   id: number;
@@ -29,7 +47,7 @@ const sellData: SellItem[] = [
     price: 100,
     discount: "15%",
     sold: 300,
-    totalOrder: 1000,
+    totalOrder: 100,
   },
   {
     id: 2,
@@ -39,7 +57,7 @@ const sellData: SellItem[] = [
     price: 150,
     discount: "20%",
     sold: 200,
-    totalOrder: 800,
+    totalOrder: 80,
   },
   {
     id: 3,
@@ -49,7 +67,7 @@ const sellData: SellItem[] = [
     price: 200,
     discount: "10%",
     sold: 400,
-    totalOrder: 1200,
+    totalOrder: 200,
   },
   {
     id: 4,
@@ -59,7 +77,7 @@ const sellData: SellItem[] = [
     price: 250,
     discount: "25%",
     sold: 500,
-    totalOrder: 1500,
+    totalOrder: 500,
   },
   {
     id: 5,
@@ -69,7 +87,7 @@ const sellData: SellItem[] = [
     price: 300,
     discount: "30%",
     sold: 150,
-    totalOrder: 600,
+    totalOrder: 400,
   },
   {
     id: 6,
@@ -79,7 +97,7 @@ const sellData: SellItem[] = [
     price: 50,
     discount: "5%",
     sold: 600,
-    totalOrder: 2000,
+    totalOrder: 750,
   },
   {
     id: 7,
@@ -109,7 +127,7 @@ const sellData: SellItem[] = [
     price: 120,
     discount: "15%",
     sold: 450,
-    totalOrder: 1100,
+    totalOrder: 650,
   },
   {
     id: 10,
@@ -119,7 +137,7 @@ const sellData: SellItem[] = [
     price: 60,
     discount: "5%",
     sold: 700,
-    totalOrder: 2500,
+    totalOrder: 400,
   },
   {
     id: 11,
@@ -128,8 +146,8 @@ const sellData: SellItem[] = [
     image: "/image/blue_tshirt.png",
     price: 500,
     discount: "25%",
-    sold: 100,
-    totalOrder: 400,
+    sold: 350,
+    totalOrder: 500,
   },
   {
     id: 12,
@@ -138,8 +156,8 @@ const sellData: SellItem[] = [
     image: "/image/blue_tshirt.png",
     price: 40,
     discount: "10%",
-    sold: 800,
-    totalOrder: 3000,
+    sold: 400,
+    totalOrder: 600,
   },
 ];
 
@@ -171,6 +189,35 @@ const TopSelling = () => {
       items.splice(result.destination.index, 0, reorderedItem);
       setData(items);
     }
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+      title: {
+        display: true,
+        text: "Stock Report",
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: {
+          drawBorder: false, // No Y-axis border
+          display: true, // Show horizontal grid lines
+        },
+      },
+      x: {
+        grid: {
+          display: false, // No vertical grid lines
+          drawBorder: true, // Show X-axis border
+        },
+      },
+    },
   };
 
   return (
@@ -216,8 +263,7 @@ const TopSelling = () => {
                                   ref={provided.innerRef}
                                   {...provided.droppableProps}
                                 >
-
-                                  <thead className="sticky top-0 z-10 bg-[#0A3A66]/90 text-white">
+                                  <thead className="sticky top-0 z-10 bg-[#0A3A66]/70 text-white">
                                     <tr>
                                       <th className="p-2 text-left">Items</th>
                                       <th className="p-2">Price</th>
@@ -286,10 +332,37 @@ const TopSelling = () => {
                         </>
                       ) : (
                         <div>
-                          <h1 className="text-lg font-semibold sm:text-base md:text-lg lg:text-xl">
-                            Stock Report
-                          </h1>
-                          <StockReportCard></StockReportCard>
+                          <div className="">
+                            <h1 className="text-lg font-semibold pb-2">
+                              Stock Report
+                            </h1>
+                            <div className="h-[280px]">
+                              <Bar
+                                data={{
+                                  labels: sellData.map((item) => item.title),
+                                  datasets: [
+                                    {
+                                      label: "Sold",
+                                      data: sellData.map((item) => item.sold),
+                                      backgroundColor: "rgba(0, 169, 180, 0.5)",
+                                      borderColor: "rgba(0, 169, 180, 1)",
+                                      borderWidth: 1,
+                                    },
+                                    {
+                                      label: "Total Orders",
+                                      data: sellData.map(
+                                        (item) => item.totalOrder
+                                      ),
+                                      backgroundColor: "#0A3A66/70",
+                                      borderColor: "rgba(10, 58, 102, 1)",
+                                      borderWidth: 1,
+                                    },
+                                  ],
+                                }}
+                                options={options}
+                              />
+                            </div>
+                          </div>
                         </div>
                       )}
                     </div>
