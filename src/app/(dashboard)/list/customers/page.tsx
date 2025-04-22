@@ -77,16 +77,16 @@ const CustomarListPage = () => {
 
   // console.log("locaddlsdf======: ", customars)
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("customarsData");
-      if (stored) {
-        setCustomars(JSON.parse(stored));
-      } else {
-        setCustomars(customarsData);
-      }
+  if (typeof window !== "undefined") {
+    const stored = localStorage.getItem("customarsData");
+    if (stored) {
+      setCustomars(JSON.parse(stored));
+    } else {
+      setCustomars(customarsData);
     }
-  }, []);
-  
+  }
+}, []);
+
 
   //create new data handle
   const handleAddCustomar = (newCustomar: Customar)=>{
