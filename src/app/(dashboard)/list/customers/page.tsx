@@ -71,20 +71,33 @@ const CustomarListPage = () => {
   // edit
   const [customars, setCustomars] = useState<Customar[]>([]);
 
+  //paginatin states
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5; 
+
   // console.log("locaddlsdf======: ", customars)
   useEffect(() => {
-    const stored = localStorage.getItem("customarsData");
-    // console.log("localhost stored", stored)
-    if (stored) {
-      setCustomars(JSON.parse(stored));
-    } else {
-      setCustomars(customarsData);
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("customarsData");
+      if (stored) {
+        setCustomars(JSON.parse(stored));
+      } else {
+        setCustomars(customarsData);
+      }
     }
   }, []);
+  
 
   //create new data handle
   const handleAddCustomar = (newCustomar: Customar)=>{
     const updatedCustomars = [...customars, newCustomar];
+    setCustomars(updatedCustomars);
+    localStorage.setItem("customarsData", JSON.stringify(updatedCustomars));
+  }
+
+  //handle deletion of a customer
+  const handleDeletecustomar = (id: number) =>{
+    const updatedCustomars = customars.filter((customar)=>customar.id !== id);
     setCustomars(updatedCustomars);
     localStorage.setItem("customarsData", JSON.stringify(updatedCustomars));
   }
@@ -107,11 +120,13 @@ const CustomarListPage = () => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setShowSuggestions(true);
+    setCurrentPage(1)
   };
 
   const handleSuggestionClick = (value: string) => {
     setSearchTerm(value);
     setShowSuggestions(false);
+    setCurrentPage(1)
   };
 
   // filter
@@ -123,6 +138,7 @@ const CustomarListPage = () => {
   const handleSort = () => {
     const newDirection = sortDirection === "asc" ? "desc" : "asc";
     setSortDirection(newDirection);
+    setCurrentPage(1);
   };
 
   // filter and sort data
@@ -136,6 +152,16 @@ const CustomarListPage = () => {
     const comparison = a.studentId.localeCompare(b.studentId);
     return sortDirection === "asc" ? comparison : -comparison;
   });
+
+ // Calculate paginated data
+  const totalItems = sortedData.length;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const PaginationData = sortedData.slice(startIndex, endIndex);
+
+ const handlePageChange = (page: number) =>{
+    setCurrentPage(page)
+ }
 
   const renderRow = (item: Customar) => (
     <tr
@@ -180,7 +206,7 @@ const CustomarListPage = () => {
             // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#CFCEFF]">
             //   <Image src="/assets/delete.png" alt="" width={16} height={16} />
             // </button>
-            <FormModal table="customar" type="delete" id={item.id} />
+            <FormModal table="customar" type="delete" id={item.id} onDelete={handleDeletecustomar} />
           )}
         </div>
       </td>
@@ -259,9 +285,9 @@ const CustomarListPage = () => {
         </div>
       </div>
       {/* LIST */}
-      <Table columns={columns} renderRow={renderRow} data={sortedData} />
+      <Table columns={columns} renderRow={renderRow} data={PaginationData} />
       {/* PAGINATION */}
-      <Pagination />
+      <Pagination totalItems={totalItems} itemsPerPage={itemsPerPage} currentPage={currentPage} onPageChange={handlePageChange} />
       {isPopupOpen && selectedCustomar && (
         <CustomarPopup customar={selectedCustomar} onClose={handleClosePopup} />
       )}
