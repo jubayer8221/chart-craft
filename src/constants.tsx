@@ -63,19 +63,6 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
         // submenu: true,
         icon: <SiWikibooks className="w-[16px] h-[16px]" />,
         visible: ["admin"],
-        // submenu: true,
-        // subMenuItems: [
-        //   {
-        //     title: "Configuration",
-        //     path: "/books/configuration",
-        //     icon: <LuSettings className="w-[16px] h-[16px]" />,
-        //   },
-        //   {
-        //     title: "Buy & Sell Report",
-        //     path: "/books/report",
-        //     icon: <TbReportSearch className="w-[16px] h-[16px]" />,
-        //   },
-        // ],
       },
 
       {

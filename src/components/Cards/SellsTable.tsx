@@ -88,13 +88,13 @@ const SellsTable = () => {
         <div className="flex gap-2">
           <button
             onClick={handlePrint}
-            className="bg-blue-900/70 hover:bg-blue-900 text-white px-4 py-2 rounded-md"
+            className="border border-gray-300 hover:bg-[#0A3A66] text-black hover:text-white px-4 py-2 rounded-md text-sm font-semibold"
           >
             Print {selectedRowIndex !== null ? "" : ""}
           </button>
           <button
             onClick={exportCSV}
-            className="bg-blue-900/70 hover:bg-blue-900 text-white px-4 py-2 rounded-md"
+            className="border border-gray-300 hover:bg-[#0A3A66] text-black hover:text-white px-2 py-1 rounded-md text-sm font-semibold"
           >
             Export {selectedRowIndex !== null ? "" : ""} CSV
           </button>
