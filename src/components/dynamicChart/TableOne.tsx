@@ -43,14 +43,18 @@ export default function TableOne() {
 
   const deleteRow = (index: number) => {
     const newData = [...data];
-    newData.splice(index, 1);
+    newData.splice(index, 1);//one element delete
     setData(newData);
   };
 
   const handleEdit = (rowIdx: number, colName: string, value: string) => {
-    const newData = [...data];
-    newData[rowIdx][colName] = value;
-    setData(newData);
+    setData((prevData) => {
+      const newData = [...prevData];
+      const updatedRow = { ...newData[rowIdx] }; // 👈 clone the row object
+      updatedRow[colName] = value;
+      newData[rowIdx] = updatedRow;
+      return newData;
+    });
   };
 
   const addColumn = () => {
@@ -107,20 +111,20 @@ export default function TableOne() {
           label: columns[1] || "Value",
           data: datasetData,
           backgroundColor: [
-            "rgba(255, 99, 132, 0.5)",
+            "rgb(0,169,180)",
             "rgba(54, 162, 235, 0.5)",
             "rgba(255, 206, 86, 0.5)",
             "rgba(75, 192, 192, 0.5)",
             "rgba(153, 102, 255, 0.5)",
           ],
           borderColor: [
-            "rgba(255, 99, 132, 1)",
+            "rgb(10,58,102)",
             "rgba(54, 162, 235, 1)",
             "rgba(255, 206, 86, 1)",
             "rgba(75, 192, 192, 1)",
             "rgba(153, 102, 255, 1)",
           ],
-          borderWidth: 1,
+          borderWidth: 2,
         },
       ],
     };
@@ -131,7 +135,7 @@ export default function TableOne() {
       <h2 className="text-xl font-bold text-gray-700 mb-4">Enhanced Table</h2>
 
       <div className="flex flex-wrap gap-3 mb-4">
-        <button onClick={addRow} className="bg-[#0A3A66] text-white px-4 py-2 rounded-md flex items-center gap-2">
+        <button onClick={addRow} className="bg-[rgb(10,58,102)] text-white px-4 py-2 rounded-md flex items-center gap-2">
           <FiPlus className="text-[16px]" /> Add Row
         </button>
         <button onClick={addColumn} className="bg-teal-500 text-white px-4 py-2 rounded-md flex items-center gap-2">
@@ -146,11 +150,11 @@ export default function TableOne() {
         <select
           value={selectedChart || ""}
           onChange={(e) => setSelectedChart((e.target.value as ChartType) || null)}
-          className="border px-2 py-1 rounded-md"
+          className="border border-gray-300 px-2 py-1 rounded-md"
         >
-          <option value="">Select Chart Type</option>
+          <option value="" className="">Select Chart Type</option>
           {chartTypes.map((type) => (
-            <option key={type} value={type}>
+            <option key={type} value={type} className="">
               {type} Chart
             </option>
           ))}
@@ -158,7 +162,7 @@ export default function TableOne() {
         <select
           value={rowsPerPage}
           onChange={(e) => setRowsPerPage(Number(e.target.value))}
-          className="border px-2 py-1 rounded-md"
+          className="border border-gray-300 px-2 py-1 rounded-md"
         >
           {[5, 10, 25].map((n) => (
             <option key={n} value={n}>
