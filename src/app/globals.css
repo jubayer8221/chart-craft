@@ -40,6 +40,15 @@
 .scrollbar-hiden {
   scrollbar-width: none;
 }
+.dark ::-webkit-scrollbar {
+  background: #111827;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #374151;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+}
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -56,10 +65,70 @@
   background: #555;
 }
 
+/* Light mode background */
+.react-calendar,
+.rbc-time-view,
+.rbc-time-content,
+.rbc-timeslot-group {
+  background-color: #ffffff; /* light background */
+}
+
+/* Dark mode background override */
+.dark .react-calendar,
+.dark .rbc-time-view,
+.dark .rbc-time-content,
+.dark .rbc-timeslot-group {
+  background-color: #1f2937; /* dark gray or customize as needed */
+}
+
+.dark .rbc-day-slot,
+.dark .rbc-time-gutter.rbc-time-column {
+  background-color: #1f2937 !important; /* match dark bg */
+  color: #e5e7eb !important; /* light text for dark background */
+}
+
+.dark .rbc-time-view, 
+.dark .rbc-time-content {
+  border-color: #1f1f1f;
+}
+
+
+/* big calender */
+.dark .rbc-calendar,
+.dark .rbc-time-view,
+.dark .rbc-time-content,
+.dark .rbc-timeslot-group,
+.dark .rbc-day-slot,
+.dark .rbc-time-gutter.rbc-time-column {
+  background-color: #1f2937 !important;
+  color: #e5e7eb !important;
+  border: #28323f ;
+}
+
+.dark .rbc-time-view, 
+.dark .rbc-time-content {
+  border-color: #000000;
+}
+.dark .rbc-day-slot{
+  border: none !important;
+}
+.dark .rbc-event {
+  color: #111827 !important; /* almost-black for legibility on pastel backgrounds */
+  font-weight: 500;
+}
+
+.dark .rbc-event-label {
+  color: #d1d5db !important;
+}
+
+
+
+
 .react-calendar {
   width: 100% !important;
   border: none !important;
   font-family: "Inter", sans-serif !important;
+  
 }
 
 /* Ensure the calendar container supports horizontal scrolling */

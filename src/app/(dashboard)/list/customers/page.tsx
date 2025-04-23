@@ -166,7 +166,7 @@ const CustomarListPage = () => {
   const renderRow = (item: Customar) => (
     <tr
       key={item.id}
-      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#F1F0FF]"
+      className="border-b border-gray-200 dark:border-gray-600 even:bg-slate-50 dark:even:bg-gray-700 text-sm hover:bg-[#F1F0FF] dark:hover:bg-gray-600"
     >
       <td
         className="flex items-center gap-4 p-4 cursor-pointer "
@@ -186,7 +186,7 @@ const CustomarListPage = () => {
         />
         <div className="flex flex-col">
           <h3 className="font-semibold">{item.name}</h3>
-          <p className="text-gray-700">{item.email}</p>
+          <p className="text-gray-700 dark:text-gray-500">{item.email}</p>
         </div>
       </td>
       <td className="hidden md:table-cell">{item.studentId}</td>
@@ -214,13 +214,13 @@ const CustomarListPage = () => {
   );
 
   return (
-    <div className="bg-white p-4 rounded-md flex-1 mt-0">
+    <div className="bg-white dark:bg-gray-800 p-4 rounded-md flex-1 mt-0">
       {/* TOP */}
       <div className="flex items-center justify-between">
         <h1 className="hidden md:block text-lg font-semibold">All Customars</h1>
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
           {/* search  */}
-          <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-md ring-[1.5px] ring-gray-300 px-2">
+          <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-md ring-[1.5px] ring-gray-300 dark:ring-gray-700 px-2">
             <Image src="/assets/search.png" alt="" width={14} height={14} />
             <input
               type="text"
@@ -230,11 +230,11 @@ const CustomarListPage = () => {
               className="w-[200px] p-2 bg-transparent outline-none"
             />
             {showSuggestions && searchTerm && (
-              <ul className="absolute w-full top-10 left-0 z-10 rounded-md bg-white border border-gray-300 max-h-[100px] overflow-y-auto">
+              <ul className="absolute w-full top-10 left-0 z-10 rounded-md bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 max-h-[100px] overflow-y-auto">
                 {filteredData.map((cu) => (
                   <li
                     key={cu.id}
-                    className="px-4 py-2 hover:bg-gray-300 cursor-pointer"
+                    className="px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer"
                     onClick={() => handleSuggestionClick(cu.name)}
                   >
                     <div className="flex items-center gap-4">

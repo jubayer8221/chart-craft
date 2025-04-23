@@ -92,9 +92,9 @@ const EditCustomarPage = () => {
 
   return (
     <div className=""> 
-      <div className="max-w-6xl mx-auto bg-white rounded-md shadow-2xl p-8 lg:p-14 transition-all duration-300">
+      <div className="max-w-6xl mx-auto bg-white dark:bg-gray-800 dark:text-white rounded-md shadow-2xl p-8 lg:p-14 transition-all duration-300">
 
-        <h2 className="text-3xl md:text-4xl font-extrabold text-center text-[#0A3A66] mb-10 tracking-wide">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-center dark:text-white text-[#0A3A66] mb-10 tracking-wide">
           Edit Customer Profile
         </h2>
 
@@ -121,7 +121,7 @@ const EditCustomarPage = () => {
                 onChange={handleChange}
                 className="absolute inset-0 opacity-0 w-full h-full z-10 cursor-pointer"
               />
-              <span className="inline-block px-6 py-2 bg-white border border-gray-200 rounded-full text-sm text-gray-700 hover:bg-[#E0F2FE] transition shadow-sm">
+              <span className="inline-block px-6 py-2 bg-white border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-200 rounded-full text-sm text-gray-700 hover:bg-[#E0F2FE] transition shadow-sm">
                 Upload New Photo
               </span>
             </label>
@@ -139,7 +139,7 @@ const EditCustomarPage = () => {
           <div className="md:col-span-2 lg:col-span-3 flex justify-center mt-6">
             <button
               type="submit"
-              className="px-6 py-3 flex items-center gap-2 text-lg font-semibold bg-white bg-opacity-70 border border-gray-300 rounded-md shadow-lg hover:scale-105 hover:bg-opacity-100 hover:text-[#0A3A66] transition duration-300 backdrop-blur-md"
+              className="px-6 py-3 flex items-center gap-2 text-lg font-semibold bg-white bg-opacity-70 border border-gray-300 dark:border-gray-700 dark:text-white dark:bg-gray-800 rounded-md shadow-lg hover:scale-105 hover:bg-opacity-100 hover:text-[#0A3A66] dark:hover:text-white transition duration-300 backdrop-blur-md"
             >
                <TbExchange className="text-4" /> Save Changes
             </button>
@@ -162,14 +162,14 @@ type InputProps = {
 
 const Input = ({ label, name, value, onChange, type = "text" }: InputProps) => (
   <div className="flex flex-col">
-    <label className="text-sm font-semibold text-gray-700 mb-1">{label}</label>
+    <label className="text-sm font-semibold text-gray-700 mb-1 dark:text-white">{label}</label>
     <input
       type={type}
       name={name}
       value={value}
       onChange={onChange}
       placeholder={`Enter ${label.toLowerCase()}`}
-      className="px-4 py-2 rounded-lg border border-gray-300 shadow-inner focus:outline-none focus:ring-2 focus:ring-[#0A3A66] focus:border-transparent transition"
+      className="px-4 py-2 rounded-lg border dark:border-gray-700 dark:text-white border-gray-300 shadow-inner focus:outline-none focus:ring-2 focus:ring-[#0A3A66] focus:border-transparent transition"
       required
     />
   </div>

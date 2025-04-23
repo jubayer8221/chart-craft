@@ -234,7 +234,7 @@ const TopSelling = () => {
                 <Draggable key={cardId} draggableId={cardId} index={index}>
                   {(provided) => (
                     <div
-                      className="flex-1 bg-white p-4 rounded-xl shadow-md"
+                      className="flex-1 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
@@ -248,7 +248,7 @@ const TopSelling = () => {
                             {filteredData.length > 6 && (
                               <button
                                 onClick={() => setShowAll(!showAll)}
-                                className="text-black text-sm font-medium"
+                                className="text-black dark:text-white text-sm font-medium"
                               >
                                 {showAll ? "Show Less ←" : "View All →"}
                               </button>
@@ -287,7 +287,7 @@ const TopSelling = () => {
                                             className={`text-center hover:text-gray-900 ${
                                               snapshot.isDragging
                                                 ? "bg-[#00A9B4]/30 text-gray-900"
-                                                : "hover:bg-[#00A9B4]/30 hover:text-gray-900"
+                                                : "hover:bg-[#00A9B4]/30 dark:hover:text-white hover:text-gray-900"
                                             }`}
                                           >
                                             <td className="p-1 text-left">
