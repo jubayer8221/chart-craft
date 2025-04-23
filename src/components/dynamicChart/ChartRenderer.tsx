@@ -12,10 +12,11 @@ import {
   Tooltip,
   Legend,
   ChartData,
-  ChartType as ChartJSType,
+  ChartOptions,
 } from "chart.js";
 import { Bar, Line, Pie, Doughnut, Radar } from "react-chartjs-2";
 
+// Register Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -28,37 +29,41 @@ ChartJS.register(
   Legend
 );
 
-const chartMap = {
-  Bar,
-  Line,
-  Pie,
-  Doughnut,
-  Radar,
-};
-
 // Define allowed chart types
-type ChartType = keyof typeof chartMap;
+type ChartType = "bar" | "line" | "pie" | "doughnut" | "radar";
 
-// Define a type for the chart component to ensure it accepts the correct props
-type ChartComponentType = React.ComponentType<{
-  data: ChartData<ChartJSType, number[], string>;
-}>;
+// Map of chart types to their components
+const chartComponents = {
+  bar: Bar,
+  line: Line,
+  pie: Pie,
+  doughnut: Doughnut,
+  radar: Radar,
+} as const;
 
-type ChartRendererProps = {
-  data: ChartData<ChartJSType, number[], string>;
-  type: ChartType;
+// Define props for ChartRenderer
+type ChartRendererProps<T extends ChartType> = {
+  data: ChartData<T, number[], string>;
+  type: T;
+  options?: ChartOptions<T>;
 };
 
-const ChartRenderer: React.FC<ChartRendererProps> = ({ data, type }) => {
-  const ChartComponent: ChartComponentType = chartMap[type];
+const ChartRenderer = <T extends ChartType>({
+  data,
+  type,
+  options,
+}: ChartRendererProps<T>) => {
+  const ChartComponent = chartComponents[type];
+  const mergedOptions = {
+    maintainAspectRatio: false,
+    responsive: true,
+    ...options,
+  };
+
   return (
     <div className="w-full md:w-1/2 h-[300px]">
-      <ChartComponent
-        data={data}
-        // options={{ maintainAspectRatio: false }}
-      />
+      <ChartComponent data={data} options={mergedOptions} />
     </div>
-
   );
 };
 
