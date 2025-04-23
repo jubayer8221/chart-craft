@@ -1,62 +1,75 @@
-// import ChartRenderer from "./ChartRenderer";
-// import ChartToolbar from "./ChartToolbar";
-// import EditableChartTable from "./EditableChartTable";
-// import { ChartCardProps } from "@/types/chartTypes";
+import React from "react";
+import ChartRenderer from "./ChartRenderer";
+import ChartToolbar from "./ChartToolbar";
+import EditableChartTable from "./EditableChartTable";
+import type { ChartData, ChartType } from "@/types/chartTypes";
 
-// export interface ChartCardComponentProps extends ChartCardProps {
-//   onSelect?: (id: string, selected: boolean) => void;
-//   onEdit?: (id: string, data: ChartCardProps["data"]) => void;
-//   onExport?: (id: string, format: "csv" | "image" | "pdf") => void;
-// }
+interface ChartCardProps {
+  id: string;
+  title?: string;
+  type: ChartType;
+  data: ChartData;
+  editable?: boolean;
+  selectable?: boolean;
+  selected?: boolean;
+  onEdit: (id: string, data: ChartData) => void;
+  onSelect: (id: string, selected: boolean) => void;
+  onExport: (id: string, format: "csv" | "image" | "pdf") => void;
+  onTypeChange: (id: string, type: ChartType) => void;
+}
 
-// const ChartCard = ({
-//   id,
-//   title,
-//   type,
-//   data,
-//   editable,
-//   selected,
-//   selectable,
-//   onSelect,
-//   onEdit,
-//   onExport,
-// }: ChartCardComponentProps) => {
-//   const handleTypeChange = (newType: ChartCardProps["type"]) => {
-//     if (onEdit) onEdit(id, data, newType);
-//   };
+const ChartCard: React.FC<ChartCardProps> = ({
+  id,
+  title = "Chart",
+  type,
+  data,
+  editable = false,
+  selected = false,
+  selectable = false,
+  onEdit,
+  onSelect,
+  onExport,
+  onTypeChange,
+}) => {
+  return (
+    <div
+      className={`rounded-xl shadow p-4 border transition-colors ${
+        selected ? "border-blue-500 bg-blue-50" : "border-gray-300 bg-white"
+      }`}
+    >
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-semibold">{title}</h3>
+        {selectable && (
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={selected}
+              onChange={(e) => onSelect(id, e.target.checked)}
+              className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+            />
+            <span className="text-sm">Select</span>
+          </label>
+        )}
+      </div>
 
-//   const handleDataChange = (newData: ChartCardProps["data"]) => {
-//     if (onEdit) onEdit(id, newData, type);
-//   };
+      <ChartToolbar
+        type={type}
+        onTypeChange={(newType) => onTypeChange(id, newType)}
+        onExport={(format) => onExport(id, format)}
+      />
 
-//   return (
-//     <div
-//       className={`rounded-xl shadow p-4 border ${
-//         selected ? "border-blue-500" : "border-gray-300"
-//       }`}
-//     >
-//       <div className="flex justify-between items-center mb-2">
-//         <h3 className="text-lg font-semibold">{title || "Chart"}</h3>
-//         {selectable && (
-//           <input
-//             type="checkbox"
-//             checked={selected}
-//             onChange={(e) => onSelect?.(id, e.target.checked)}
-//           />
-//         )}
-//       </div>
+      <div className="my-4 h-64">
+        <ChartRenderer type={type} data={data} />
+      </div>
 
-//       <ChartToolbar
-//         type={type}
-//         onTypeChange={handleTypeChange}
-//         onExport={(format) => onExport?.(id, format)}
-//       />
-//       <ChartRenderer type={type} data={data} />
-//       {editable && (
-//         <EditableChartTable data={data} onDataChange={handleDataChange} />
-//       )}
-//     </div>
-//   );
-// };
+      {editable && (
+        <EditableChartTable
+          data={data}
+          onDataChange={(newData) => onEdit(id, newData)}
+        />
+      )}
+    </div>
+  );
+};
 
-// export default ChartCard;
+export default ChartCard;
