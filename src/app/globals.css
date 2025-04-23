@@ -1,5 +1,42 @@
 @import "tailwindcss";
 @tailwind utilities;
+
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@theme {
+  --shadow-box-shadow-first: 0px 1px 0px var(--shadow-color);
+  --color-button-border-color: var(--border-color);
+  --color-hover-background: var(--hover-background);
+  --color-active-background: var(--active-background);
+}
+
+@layer base {
+  :root {
+    --shadow-color: rgba(0, 0, 0, 0.09);
+    --border-color: rgba(55, 53, 47, 0.09);
+    --hover-background: rgba(0, 0, 0, 0.06);
+    --active-background: rgba(0, 0, 0, 0.16);
+  }
+  .dark {
+    --shadow-color: rgba(0, 0, 0, 0.094);
+    --border-color: rgba(0, 0, 0, 0.094);
+    --hover-background: rgba(0, 0, 0, 0.055);
+    --active-background: rgba(0, 0, 0, 0.03);
+  }
+}
+
+
 .scrollbar-hiden {
   scrollbar-width: none;
 }
