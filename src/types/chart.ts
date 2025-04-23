@@ -11,3 +11,4 @@ export interface ChartType {
   data: ChartData[];
   color: string;
 }
+

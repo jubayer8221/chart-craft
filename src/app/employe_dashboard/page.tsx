@@ -12,6 +12,7 @@ import TopSellingCard from "@/components/Cards/TopSellingCard";
 import StockReportCard from "@/components/Cards/StockReportCard";
 import RecentOrdersCard from "@/components/Cards/RecentOrdersCard";
 import SellsTable from "@/components/Cards/SellsTable";
+import FileConvert from "@/components/Cards/FileConvert";
 import { useRouter } from "next/navigation";
 
 // Define card content map
@@ -32,6 +33,10 @@ const cardContentMap = {
     component: <SellsTable></SellsTable>,
     path: "/employe_dashboard/cards/sells-table",
   },
+  "file-Convert": {
+    component: <FileConvert></FileConvert>,
+    path: "/employe_dashboard/cards/fileConvert",
+  },
   // Add more cards here if neede
 };
 
@@ -43,6 +48,7 @@ const Dashboard = () => {
     "stock-report",
     "recent-orders",
     "sells-table",
+    "file-Convert",
   ]);
   const [filterText, setFilterText] = useState("");
 
@@ -52,7 +58,6 @@ const Dashboard = () => {
     const updatedCards = Array.from(cards);
     const [movedCard] = updatedCards.splice(result.source.index, 1);
     updatedCards.splice(result.destination.index, 0, movedCard);
-
     setCards(updatedCards);
   };
 
