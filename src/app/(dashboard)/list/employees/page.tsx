@@ -1,18 +1,20 @@
 "use client";
 
-import FormModal from "@/components/Home/FormModeal";
-import Pagination from "@/components/Home/Pagination";
-import Table from "@/components/Home/Table";
-import TableSearch from "@/components/Home/TableSearch";
-import { employeesData, role } from "@/lib/data";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-// import { FaPlus } from "react-icons/fa6";
 import { FaArrowDownWideShort } from "react-icons/fa6";
 import { IoFilterSharp } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
-import { useState } from "react";
+import { FaArrowUpShortWide } from "react-icons/fa6";
+import { FaPlus } from "react-icons/fa6";
+
+import FormModal from "@/components/Home/FormModeal";
+import Pagination from "@/components/Home/Pagination";
+import Table from "@/components/Home/Table";
 import EmployeePopup from "@/components/Home/EmployeePopup";
+import CreateEmployeePopup from "@/components/Home/CreateEmployeePopup";
+import { employeesData, role } from "@/lib/data";
 
 type Employee = {
   id: number;
@@ -21,96 +23,150 @@ type Employee = {
   email?: string;
   photo: string;
   phone?: string;
-  subjects?: string[];
   grade: number;
-  classes: string[]; // <- FIXED HERE
+  subjects?: string[];
+  classes: string[];
   address: string;
-  blood:string;
+  blood: string;
 };
 
-
 const columns = [
-  {
-    header: "Info",
-    accessor: "info",
-  },
-  {
-    header: "Employee ID",
-    accessor: "EmployeeId",
-    className: "hidden md:table-cell",
-  },
-  {
-    header: "Grade",
-    accessor: "grade",
-    className: "hidden lg:table-cell",
-  },
-  {
-    header: "Phone",
-    accessor: "phone",
-    className: "hidden lg:table-cell",
-  },
-  {
-    header: "Address",
-    accessor: "address",
-    className: "hidden lg:table-cell",
-  },
-  {
-    header: "Actions",
-    accessor: "action",
-  },
+  { header: "Info", accessor: "info" },
+  { header: "Employee ID", accessor: "teacherId", className: "hidden md:table-cell" },
+  { header: "Grade", accessor: "grade", className: "hidden lg:table-cell" },
+  { header: "Phone", accessor: "phone", className: "hidden lg:table-cell" },
+  { header: "Address", accessor: "address", className: "hidden lg:table-cell" },
+  { header: "Actions", accessor: "action" },
 ];
 
 const EmployeesListPage = () => {
-    const [isPopupOpen, setPopupOpen] = useState(false);
-    const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+  const [isCreatePopup, setCreatePopup] = useState(false);
+  const [sortConfig, setSortConfig] = useState<{ key: keyof Employee; direction: "asc" | "desc" } | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5; // Number of employees per page
 
-    const handleOpenPopup = (employee: Employee) =>{
-        setSelectedEmployee(employee);
-        setPopupOpen(true);
+  useEffect(() => {
+    const stored = localStorage.getItem("employeesData");
+    if (stored) {
+      setEmployees(JSON.parse(stored));
+    } else {
+      setEmployees(employeesData);
     }
-    const handleClosePopup = () =>{
-        setPopupOpen(false);
-        setSelectedEmployee(null);
+  }, []);
+
+  const handleDeleteEmployee = (id: number) => {
+    const updatedEmployees = employees.filter((employee) => employee.id !== id);
+    setEmployees(updatedEmployees);
+    localStorage.setItem("employeesData", JSON.stringify(updatedEmployees));
+  };
+
+  const handleOpenPopup = (employee: Employee) => {
+    setSelectedEmployee(employee);
+    setPopupOpen(true);
+  };
+
+  const handleCreatePopup = () => {
+    setCreatePopup(true);
+  };
+
+  const handleAddEmployee = (newEmployee: Employee) => {
+    const updatedEmployees = [...employees, newEmployee];
+    setEmployees(updatedEmployees);
+    localStorage.setItem("employeesData", JSON.stringify(updatedEmployees));
+  };
+
+  const handleClosePopup = () => {
+    setPopupOpen(false);
+    setSelectedEmployee(null);
+    setCreatePopup(false);
+  };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    setShowSuggestions(true);
+    setCurrentPage(1); // Reset to first page on new search
+  };
+
+  const handleSuggestionClick = (value: string) => {
+    setSearchTerm(value);
+    setShowSuggestions(false);
+    setCurrentPage(1); // Reset to first page on suggestion click
+  };
+
+  const handleFilter = () => {
+    alert("Add your filter logic here!");
+  };
+
+  const filteredData = employees.filter((emp) =>
+    emp.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleSort = (key: keyof Employee) => {
+    setSortConfig((prev) =>
+      prev && prev.key === key
+        ? { ...prev, direction: prev.direction === "asc" ? "desc" : "asc" }
+        : { key, direction: "asc" }
+    );
+    setCurrentPage(1); // Reset to first page on sort
+  };
+
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    const aVal = a[key];
+    const bVal = b[key];
+    if (aVal == null || bVal == null) return 0;
+
+    if (typeof aVal === "string") {
+      return direction === "asc"
+        ? aVal.localeCompare(bVal as string)
+        : (bVal as string).localeCompare(aVal);
     }
+    if (typeof aVal === "number") {
+      return direction === "asc" ? aVal - (bVal as number) : (bVal as number) - aVal;
+    }
+    return 0;
+  });
+
+  // Calculate paginated data
+  const totalItems = sortedData.length;
+  // const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = sortedData.slice(startIndex, endIndex);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const renderRow = (item: Employee) => (
-    <tr
-      key={item.id}
-      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#F1F0FF]"
-    >
-      <td className="flex items-center gap-4 p-4 cursor-pointer " onClick={()=>handleOpenPopup(item)}>
-          <Image
-            src={item.photo}
-            alt=""
-            width={40}
-            height={40}
-            className="w-10 h-10 rounded-full object-cover"
-          />
-          <div className="flex flex-col">
-            <h3 className="font-semibold">{item.name}</h3>
-            <p className="text-gray-700">{item.email}</p>
-          </div>
+    <tr key={item.id} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#F1F0FF]">
+      <td className="flex items-center gap-4 p-4 cursor-pointer" onClick={() => handleOpenPopup(item)}>
+        <Image src={item.photo} alt="" width={40} height={40} className="w-10 h-10 rounded-full object-cover" />
+        <div className="flex flex-col">
+          <h3 className="font-semibold">{item.name}</h3>
+          <p className="text-gray-700">{item.email}</p>
+        </div>
       </td>
       <td className="hidden md:table-cell">{item.teacherId}</td>
       <td className="hidden lg:table-cell">{item.grade}</td>
-
       <td className="hidden md:table-cell">{item.phone}</td>
-      <td className="hidden md:table-cell">{item.address}</td>
+      <td className="hidden lg:table-cell">{item.address}</td>
       <td>
         <div className="flex items-center gap-2">
           <Link href={`/list/employees/edit/${item.id}`}>
             <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#00A9B4]">
-              {/* <Image src="/assets/view.png" alt="" width={16} height={16} /> */}
-              <span className="text-4 text-white">
-                <FaRegEdit />
-              </span>
+              <span className="text-white text-[14px]"><FaRegEdit /></span>
             </button>
           </Link>
           {role === "admin" && (
-            // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#CFCEFF]">
-            //   <Image src="/assets/delete.png" alt="" width={16} height={16} />
-            // </button>
-            <FormModal table="employee" type="delete" id={item.id} />
+            <FormModal table="employee" type="delete" id={item.id} onDelete={handleDeleteEmployee} />
           )}
         </div>
       </td>
@@ -118,43 +174,93 @@ const EmployeesListPage = () => {
   );
 
   return (
-    <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
+    <div className="bg-white p-4 rounded-md flex-1 mt-0">
       {/* TOP */}
       <div className="flex items-center justify-between">
         <h1 className="hidden md:block text-lg font-semibold">All Employees</h1>
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
-          <TableSearch />
-          <div className="flex items-center gap-4 self-end">
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66]">
-              <span className="text-[14px] text-white">
-                <IoFilterSharp />
-              </span>
+          {/* Search Box */}
+          <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-md ring-[1.5px] ring-gray-300 px-2">
+            <Image src="/assets/search.png" alt="search" width={14} height={14} />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={handleSearch}
+              placeholder="Search by name..."
+              className="w-[200px] p-2 bg-transparent outline-none"
+            />
+            {showSuggestions && searchTerm && (
+              <ul className="absolute top-10 left-0 bg-white shadow-lg border border-gray-300 w-full rounded-md z-10 max-h-40 overflow-y-auto text-sm">
+                {filteredData.map((emp) => (
+                  <li
+                    key={emp.id}
+                    onClick={() => handleSuggestionClick(emp.name)}
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  >
+                    <div className="flex items-center gap-4">
+                      <Image
+                        src={emp.photo}
+                        alt={emp.name}
+                        width={40}
+                        height={40}
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                      <span>{emp.name}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* Sort & Filter Buttons */}
+          <div className="flex items-center gap-2 self-end">
+            <button
+              onClick={handleFilter}
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66] text-white"
+            >
+              <IoFilterSharp />
             </button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66]">
-              <span className="text-[14px] text-white">
-                <FaArrowDownWideShort />
-              </span>
+            <button
+              onClick={() => handleSort("name")}
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66] text-white"
+            >
+              {sortConfig?.direction === "desc" ? <FaArrowUpShortWide /> : <FaArrowDownWideShort />}
             </button>
             {role === "admin" && (
-              // <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAE27C]">
-              //   <span className="text-[14px]"><FaPlus /></span>
-              // </button>
-              <FormModal table="employee" type="create" />
+              <button
+                onClick={() => handleCreatePopup()}
+                className="w-7 h-7 flex items-center justify-center rounded-full bg-[#0A3A66]"
+              >
+                <FaPlus className="text-[14px] text-white" />
+              </button>
             )}
           </div>
         </div>
       </div>
-      {/* LIST */}
-      <Table columns={columns} renderRow={renderRow} data={employeesData} />
+
+      {/* TABLE */}
+      <Table columns={columns} renderRow={renderRow} data={paginatedData} />
+
       {/* PAGINATION */}
-      <Pagination />
-      {
-        isPopupOpen && selectedEmployee && (
-            <EmployeePopup employee={selectedEmployee} onClose={handleClosePopup} />
-        )
-      }
+      <Pagination
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
+
+      {/* POPUP */}
+      {isPopupOpen && selectedEmployee && (
+        <EmployeePopup employee={selectedEmployee} onClose={handleClosePopup} />
+      )}
+
+      {/* CREATE POPUP */}
+      {isCreatePopup && (
+        <CreateEmployeePopup onClose={handleClosePopup} onAddEmployee={handleAddEmployee} />
+      )}
     </div>
   );
 };
 
-export default  EmployeesListPage;
+export default EmployeesListPage;

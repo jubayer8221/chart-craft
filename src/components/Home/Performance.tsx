@@ -10,7 +10,7 @@ const data = [
 
 const Performance = () => {
   return (
-    <div className="relative bg-white p-4 rounded-md h-80 my-4">
+    <div className="relative bg-white p-4 rounded-md h-[370px] mb-4">
       <div className="flex items-center justify-between">
         <h1>Perormance</h1>
         <Image src='/assets/moreDark.png' alt="" width={16} height={16} />

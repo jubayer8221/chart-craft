@@ -1,73 +1,74 @@
 "use client";
 import Link from "next/link";
 import { TfiLayoutMenuSeparated } from "react-icons/tfi";
-import { PieChart, Pie, ResponsiveContainer } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const data = [
   {
-    name: "Buy",
-    price: 534,
-    fill: "#00A9B4",
+    name: '2025',
+    Sells: 4000,
+    Buy: 2400,
+    amt: 2400,
   },
   {
-    name: "Sells",
-    price: 342,
-    fill: "#0A3A66",
+    name: '2024',
+    Sells: 3000,
+    Buy: 1398,
+    amt: 2210,
   },
   {
-    name: "Buy",
-    price: 454,
-    fill: "#00A9B4",
+    name: '2023',
+    Sells: 2000,
+    Buy: 9800,
+    amt: 2290,
   },
   {
-    name: "Sells",
-    price: 334,
-    fill: "#0A3A66",
+    name: '2022',
+    Salls: 2780,
+    Buy: 3908,
+    amt: 2000,
   },
   {
-    name: "Buy",
-    price: 44,
-    fill: "#00A9B4",
-  },
-  {
-    name: "Sells",
-    price: 33,
-    fill: "#0A3A66",
+    name: '0',
+    Sells: 1890,
+    Buy: 4800,
+    amt: 2181,
   },
 ];
 
 const BookChart = () => {
   return (
-    <Link href={`/category/${3}`}>
-      <div className="relative bg-white rounded-xl w-full h-full p-4 flex flex-col justify-between">
-        <div className="flex justify-between items-center">
-          <h1 className="text-lg font-semibold">Books</h1>
-          <TfiLayoutMenuSeparated width={20} height={20} />
-        </div>
-        <div className="w-full h-[80%]">
-          <ResponsiveContainer width="100%" height="90%">
-            <PieChart width={400} height={400}>
-              <Pie
-                dataKey="price"
-                startAngle={180}
-                endAngle={0}
-                data={data}
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-          <h1 className="text-3xl font-bold">92%</h1>
-          <p className="text-xs text-gray-300">of 10 max LTS</p>
-        </div>
-        <h2 className="font-medium absolute bottom-16 left-0 right-0 m-auto text-center">
-          2024 Year - 2025Year
-        </h2>
+    <div className="bg-white rounded-xl w-full h-full p-4 flex flex-col justify-between">
+      {/* TITLE */}
+      <div className="flex justify-between items-center">
+        <h1 className="text-lg font-semibold text-primary">Books</h1>
+        <Link href={`/category/${6}`}>
+          <TfiLayoutMenuSeparated className="text-secondary" size={20} />
+        </Link>
       </div>
-    </Link>
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart
+          layout="vertical"
+          width={500}
+          height={300}
+          data={data}
+          margin={{
+            top: 20,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+          <XAxis type="number" tick={{ fill: "#6b7280", fontSize: 12 }} />
+          <YAxis dataKey="name" type="category" tick={{ fill: "#6b7280", fontSize: 12 }} />
+          <Tooltip />
+          <Legend />
+          <Line dataKey="Sells" stroke="#0A3A66" strokeWidth={2} />
+          <Line dataKey="Buy" stroke="#00A9B4" strokeWidth={2} />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 
