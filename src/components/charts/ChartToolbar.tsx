@@ -1,5 +1,11 @@
 import { ChartType } from "@/types/chartTypes";
 
+// interface ChartToolbarProps {
+//   type: ChartType;
+//   onTypeChange: (newType: ChartType) => void; // Made required
+//   onExport: (format: "csv" | "image" | "pdf") => void;
+// }
+
 export default function ChartToolbar({
   type,
   onTypeChange,

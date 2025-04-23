@@ -8,6 +8,10 @@ const ChartRenderer = ({
   type: ChartCardProps["type"];
   data: ChartCardProps["data"];
 }) => {
+  if (!data || !data.datasets || !data.labels) {
+    return <div className="text-red-500">Invalid chart data</div>;
+  }
+
   if (type === "bar") return <Bar data={data} />;
   if (type === "line") return <Line data={data} />;
   if (type === "pie") return <Pie data={data} />;
