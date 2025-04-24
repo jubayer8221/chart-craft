@@ -1,3 +1,5 @@
+"use client";
+
 // File: app/page.tsx
 import { UploadZone } from "@/components/ConverterCompo/UploadZone";
 import { DataViewer } from "@/components/ConverterCompo/DataViewer";

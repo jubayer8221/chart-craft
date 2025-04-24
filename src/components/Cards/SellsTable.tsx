@@ -9,6 +9,8 @@ const SellsTable = () => {
     { name: "Green Jacket", price: "$200", sold: 180 },
     { name: "Yellow Cap", price: "$40", sold: 120 },
     { name: "Black Shoes", price: "$250", sold: 90 },
+    { name: "Blue T-shirt", price: "$100", sold: 300 },
+    { name: "Red Hoodie", price: "$150", sold: 200 },
   ]);
 
   const [selectedRowIndex, setSelectedRowIndex] = useState<number | null>(null);
@@ -82,13 +84,13 @@ const SellsTable = () => {
   };
 
   return (
-    <div className="p-4 w-full max-w-full md:max-w-2xl mx-auto">
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
+    <div className="w-full max-w-full md:max-w-2xl mx-auto">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2">
         <h1 className="text-lg font-semibold">Sells</h1>
         <div className="flex gap-2">
           <button
             onClick={handlePrint}
-            className="border border-gray-300 hover:bg-[#0A3A66] text-black hover:text-white px-4 py-2 rounded-md text-sm font-semibold"
+            className="border border-gray-300 hover:bg-[#0A3A66] text-black hover:text-white px-4 py-1 rounded-md text-sm font-semibold"
           >
             Print {selectedRowIndex !== null ? "" : ""}
           </button>
@@ -110,7 +112,7 @@ const SellsTable = () => {
       /> */}
 
       <div className="overflow-x-auto">
-        <table className="w-full border border-gray-300">
+        <table className="w-full border rounded-lg border-gray-300">
           <thead>
             <tr className="bg-gray-100 text-left">
               <th className="px-4 py-2 border">Item</th>
@@ -122,14 +124,14 @@ const SellsTable = () => {
             {filteredItems.map((item, index) => (
               <tr
                 key={index}
-                className={`cursor-pointer ${
-                  index === selectedRowIndex ? "bg-blue-100" : ""
+                className={`cursor-pointer hover:bg-gray-200 ${
+                  index === selectedRowIndex ? "bg-blue-200" : ""
                 }`}
                 onClick={() => handleRowClick(index)}
               >
-                <td className="px-4 py-2 border">{item.name}</td>
-                <td className="px-4 py-2 border">{item.price}</td>
-                <td className="px-4 py-2 border">{item.sold}</td>
+                <td className="px-4 py-1 border">{item.name}</td>
+                <td className="px-4 py-1 border">{item.price}</td>
+                <td className="px-4 py-1 border">{item.sold}</td>
               </tr>
             ))}
           </tbody>

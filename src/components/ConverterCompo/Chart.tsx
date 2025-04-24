@@ -17,7 +17,7 @@ export function Chart({ data }: { data: ParsedRow[] }) {
   if (!numericKey || !labelKey) return null;
 
   return (
-    <div>
+    <div className="py-6 my-2">
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data}>
           <XAxis dataKey={labelKey} />

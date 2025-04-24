@@ -196,7 +196,7 @@ const TopSelling = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: "top" as const,
+        position: "bottom" as const, // Changed from "top" to "bottom"
       },
       title: {
         display: true,
