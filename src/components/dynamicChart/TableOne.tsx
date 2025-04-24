@@ -123,8 +123,8 @@ export default function TableOne() {
 
       {/* Toolbar */}
       <div className="flex flex-wrap gap-2 md:gap-3 mb-4">
-        <button onClick={addColumn} className="flex items-center gap-3 px-3 py-2 bg-[#0A3A66] rounded-md"><FiPlus /> Add Column</button>
-          <button onClick={addRow} className="flex items-center gap-3 px-3 py-2 bg-[#0A3A66] rounded-md"><FiPlus /> Add Row</button>
+        <button onClick={addColumn} className="flex items-center gap-3 px-3 py-2 bg-[#0A3A66] rounded-md text-white"><FiPlus /> Add Column</button>
+          <button onClick={addRow} className="flex items-center gap-3 px-3 py-2 bg-[#0A3A66] rounded-md text-white"><FiPlus /> Add Row</button>
         <CSVLink data={data} filename="table-data.csv">
           <button className="bg-green-600 text-white px-3 py-2 rounded-md">Export CSV</button>
         </CSVLink>
@@ -132,11 +132,11 @@ export default function TableOne() {
           <FaPrint /> Print
         </button>
         <select value={selectedChart || ""} onChange={(e) => setSelectedChart(e.target.value as ChartType)} className="border px-3 py-2 rounded-md text-sm">
-          <option value="">Select Chart Type</option>
-          {chartTypes.map((type) => <option key={type} value={type}>{type} Chart</option>)}
+          <option className="border-none dark:text-white dark:bg-gray-800" value="">Select Chart Type</option>
+          {chartTypes.map((type) => <option className="bg-white dark:bg-gray-800 text-black dark:text-white" key={type} value={type}>{type} Chart</option>)}
         </select>
         <select value={rowsPerPage} onChange={(e) => setRowsPerPage(Number(e.target.value))} className="border px-3 py-2 rounded-md text-sm">
-          {[5, 10, 25].map((n) => <option key={n} value={n}>Show {n}</option>)}
+          {[5, 10, 25].map((n) => <option className="bg-white dark:bg-gray-800 text-black dark:text-white" key={n} value={n}>Show {n}</option>)}
         </select>
       </div>
 
@@ -205,7 +205,7 @@ export default function TableOne() {
       {/* Chart */}
       {selectedChart && (
         <div className="mt-6">
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">{selectedChart} Chart</h3>
+          <h3 className="text-lg font-semibold text-gray-700 dark:text-white mb-2">{selectedChart} Chart</h3>
           <ChartRenderer data={getChartData()} type={selectedChart} />
         </div>
       )}
