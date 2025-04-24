@@ -12,11 +12,11 @@ import {
   Tooltip,
   Legend,
   ChartData,
-  ChartType as ChartJSType,
+  ChartOptions,
 } from "chart.js";
 import { Bar, Line, Pie, Doughnut, Radar } from "react-chartjs-2";
 
-// Register chart components
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
