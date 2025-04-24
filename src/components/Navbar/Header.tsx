@@ -23,7 +23,7 @@ const Header = () => {
   return (
     <div
       className={cn(
-        "bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-700 transition-all",
+        "bg-white dark:bg-[#191919] border-b border-gray-200 dark:border-zinc-700 transition-all",
         scrolled && "bg-white/75 dark:bg-zinc-900/75 backdrop-blur-lg"
       )}
     >

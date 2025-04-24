@@ -11,11 +11,11 @@ import Image from "next/image";
 
 const LeftSide = () => {
   return (
-    <div className="md:w-60 bg-white dark:bg-[#191919] h-screen flex-1 fixed border-r border-zinc-200 hidden md:flex">
+    <div className="md:w-60 bg-white dark:bg-[#191919] h-screen flex-1 fixed border-r dark:border-gray-700 border-zinc-200 hidden md:flex">
       <div className="flex flex-col space-y-6 w-full">
         <Link
           href="/"
-          className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 dark:bg-gray-900 h-[47px] w-full"
+          className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 dark:bg-[#191919] dark:border-gray-700 h-[47px] w-full"
         >
           {/* <span className='h-7 w-7 bg-zinc-200 rounded-lg'></span> */}
           {/* <span className="font-bold text-xl hidden md:flex"> */}
