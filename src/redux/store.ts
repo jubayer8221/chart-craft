@@ -5,6 +5,7 @@ import exportReducer from './slices/exportSlice';
 import chartThemeSlice from './slices/exportSlice';
 import recentOrderReducer from "./slices/recent-orderSlice";
 import dataReducer from "@/redux/slices/convertDataSlice";
+import printSlice from "@/redux/slices/printSlice"
 
 // import { ChartCardProps } from "@/types/chartTypes";
 
@@ -12,12 +13,12 @@ import dataReducer from "@/redux/slices/convertDataSlice";
 
 export const store = configureStore({
   reducer: {
-        charts: chartReducer,
-        export: exportReducer,
+    charts: chartReducer,
+    export: exportReducer,
     chartsTheme: chartThemeSlice,
     recentOrders: recentOrderReducer,
     data: dataReducer,
-
+    printData: printSlice,
 
   },
 });
