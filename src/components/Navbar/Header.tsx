@@ -3,20 +3,22 @@ import React from "react";
 import useScroll from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { FiMoon, FiSearch, FiSun } from "react-icons/fi";
+// import { FiMoon, FiSearch, FiSun } from "react-icons/fi";
 import { GrNotification } from "react-icons/gr";
 import Image from "next/image";
-import { useTheme } from "next-themes";
+import ThemeToggle from "./ThemeToggle";
+import { FiSearch } from "react-icons/fi";
+// import { useTheme } from "next-themes";
 
 const Header = () => {
   const scrolled = useScroll(5);
-  const { setTheme, resolvedTheme } = useTheme();
+  // const { setTheme, resolvedTheme } = useTheme();
 
-  const isDark = resolvedTheme === "dark";
+  // const isDark = resolvedTheme === "dark";
 
-  const handleThemeToggle = () => {
-    setTheme(isDark ? "light" : "dark");
-  };
+  // const handleThemeToggle = () => {
+  //   setTheme(isDark ? "light" : "dark");
+  // };
 
   return (
     <div
@@ -54,7 +56,7 @@ const Header = () => {
         <div className="hidden md:block">
           <div className="flex flex-row items-center space-x-4">
             {/* Dark mode toggle */}
-            <div
+            {/* <div
               onClick={handleThemeToggle}
               className="flex items-center space-x-2 border border-zinc-100 dark:border-zinc-700 rounded-full p-1 px-2 cursor-pointer"
             >
@@ -69,7 +71,9 @@ const Header = () => {
                   <span className="text-sm text-zinc-700">Dark Mode</span>
                 </>
               )}
-            </div>
+            </div> */}
+
+            <ThemeToggle />
 
             <span className="h-8 w-8 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 flex items-center justify-center cursor-pointer">
               <GrNotification width={24} height={24} />

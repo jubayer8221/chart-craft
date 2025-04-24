@@ -49,7 +49,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
 
       {/* Modal Content */}
       <div
-        className="relative z-50 w-full max-w-6xl bg-zinc-400 rounded-lg shadow-lg flex flex-col"
+        className="relative z-50 w-full max-w-6xl bg-zinc-400 dark:bg-gray-700 rounded-lg shadow-lg flex flex-col"
       >
         <button
           onClick={onClose}
@@ -67,7 +67,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
             {/* Top Section */}
             <div className="flex flex-col lg:flex-row gap-4">
               {/* User Info Card */}
-              <div className="bg-[#C3EBFA] py-6 px-4 rounded-md w-full sm:w-full md:w-full xl:w-1/2 flex items-center flex-wrap gap-4">
+              <div className="bg-[#C3EBFA] dark:bg-[#2f5c6d] py-6 px-4 rounded-md w-full sm:w-full md:w-full xl:w-1/2 flex items-center flex-wrap gap-4">
                 <div>
                   <Image
                     src={
@@ -84,8 +84,8 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                   />
                 </div>
                 <div className="w-full xl:w-1/2 flex flex-col justify-between">
-                  <h1 className="text-xl font-semibold">{customar.name}</h1>
-                  <p className="text-sm text-gray-500">
+                  <h1 className="text-xl font-semibold dark:text-white">{customar.name}</h1>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                   </p>
                   <div className="flex items-center justify-between gap-2 flex-wrap text-xs font-medium">
@@ -96,8 +96,9 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                         width={14}
                         height={14}
                         onError={(e) => (e.currentTarget.src = defaultIcon)}
+                        className="dark:text-white"
                       />
-                      <span>{customar.blood}</span>
+                      <span className="dark:text-white">{customar.blood}</span>
                     </div>
                     <div className="flex w-full items-center gap-2 md:w-1/3 lg:w-full 2xl:w-full">
                       <Image
@@ -107,7 +108,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                         height={14}
                         onError={(e) => (e.currentTarget.src = defaultIcon)}
                       />
-                      <span>January 2025</span>
+                      <span className="dark:text-white">January 2025</span>
                     </div>
                     <div className="flex w-full items-center gap-2 md:w-1/3 lg:w-full 2xl:w-full">
                       <Image
@@ -117,7 +118,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                         height={14}
                         onError={(e) => (e.currentTarget.src = defaultIcon)}
                       />
-                      <span>{customar.email || "N/A"}</span>
+                      <span className="dark:text-white">{customar.email || "N/A"}</span>
                     </div>
                     <div className="flex w-full items-center gap-2 md:w-1/3 lg:w-full 2xl:w-full">
                       <Image
@@ -127,7 +128,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                         height={14}
                         onError={(e) => (e.currentTarget.src = defaultIcon)}
                       />
-                      <span>
+                      <span className="dark:text-white">
                         {customar.phone ? `+880${customar.phone}` : "N/A"}
                       </span>
                     </div>
@@ -137,7 +138,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
               {/* Small Cards and Shortcuts */}
               <div className="flex gap-4 w-full sm:w-full md:w-full xl:w-1/2">
                 <div className="flex gap-4 justify-between flex-wrap w-full sm:w-full md:w-full xl:w-1/2">
-                  <div className="bg-white p-3 rounded-md flex flex-col gap-2 w-full">
+                  <div className="bg-white dark:bg-gray-600 p-3 rounded-md flex flex-col gap-2 w-full">
                     <div className="flex items-center gap-4">
                       <Image
                         src="/assets/singleAttendance.png"
@@ -153,7 +154,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                       Work Attendance
                     </span>
                   </div>
-                  <div className="bg-white p-3 rounded-md flex flex-col gap-2 w-full">
+                  <div className="bg-white dark:bg-gray-600 p-3 rounded-md flex flex-col gap-2 w-full">
                     <div className="flex gap-4 items-center">
                       <Image
                         src="/assets/singleBranch.png"
@@ -167,7 +168,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                     </div>
                     <span className="text-sm text-gray-400">Branches</span>
                   </div>
-                  <div className="bg-white p-3 rounded-md flex flex-col gap-2 w-full">
+                  <div className="bg-white dark:bg-gray-600 p-3 rounded-md flex flex-col gap-2 w-full">
                     <div className="flex gap-4 items-center">
                       <RiProjectorLine
                         width={24}
@@ -178,7 +179,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                     </div>
                     <span className="text-sm text-gray-400">Projects</span>
                   </div>
-                  <div className="bg-white p-3 rounded-md flex flex-col gap-2 w-full">
+                  <div className="bg-white dark:bg-gray-600 p-3 rounded-md flex flex-col gap-2 w-full">
                     <div className="flex items-center gap-4">
                       <Image
                         src="/assets/singleLesson.png"
@@ -195,16 +196,16 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                 </div>
                 {/* Shortcuts */}
                 <div className="flex flex-col gap-4 w-full sm:w-full md:w-full xl:w-1/2">
-                  <h1 className="text-xl font-semibold bg-white p-3 rounded-md h-[80px]">
+                  <h1 className="text-xl font-semibold bg-white dark:bg-gray-600 p-3 rounded-md h-[80px]">
                     Shortcuts
                   </h1>
-                  <Link href="/" className="bg-white p-3 rounded-md h-[80px]">
+                  <Link href="/" className="bg-white dark:bg-gray-600 p-3 rounded-md h-[80px]">
                     Employees
                   </Link>
-                  <Link href="/" className="p-3 rounded-md bg-white h-[80px]">
+                  <Link href="/" className="p-3 rounded-md dark:bg-gray-600 bg-white h-[80px]">
                     Events
                   </Link>
-                  <Link href="/" className="p-3 rounded-md bg-white h-[80px]">
+                  <Link href="/" className="p-3 rounded-md dark:bg-gray-600 bg-white h-[80px]">
                     Announcements
                   </Link>
                 </div>
@@ -212,7 +213,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
             </div>
 
             {/* Bottom Section */}
-            <div className="mt-4 bg-white rounded-md p-4 h-[800px]">
+            <div className="mt-4 bg-white dark:bg-gray-800 rounded-md p-4 h-[800px]">
               <h1 className="text-xl font-semibold">Customer&apos;s Schedule</h1>
               <BigCalendar />
             </div>

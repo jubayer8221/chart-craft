@@ -107,13 +107,13 @@ const CreateCustomarPopup = ({
           </div>
         </button>
 
-        <div className="bg-white rounded-md shadow-2xl p-6 sm:p-8 lg:p-14 transition-all duration-300 w-full max-h-[90vh] overflow-y-auto scrollbar-hiden">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center text-[#0A3A66] mb-8 tracking-wide">
+        <div className="bg-white dark:bg-gray-800 rounded-md shadow-2xl p-6 sm:p-8 lg:p-14 transition-all duration-300 w-full max-h-[90vh] overflow-y-auto scrollbar-hiden">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center text-[#0A3A66] dark:text-white mb-8 tracking-wide">
             Create Customar 
           </h2>
           {/* Profile Image Upload */}
           <div className="md:col-span-2 lg:col-span-3 flex flex-col items-center mb-6">
-            <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden shadow-lg mb-4 border-4 border-white">
+            <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-gray-200 dark:bg-gray-500 flex items-center justify-center overflow-hidden shadow-lg mb-4 border-4 border-white dark:border-gray-700">
               {previewImage ? (
                 <Image
                   src={previewImage}
@@ -135,7 +135,7 @@ const CreateCustomarPopup = ({
                 onChange={handleChange}
                 className="absolute inset-0 opacity-0 w-full h-full z-10 cursor-pointer"
               />
-              <span className="inline-block px-6 py-2 bg-white border border-gray-300 rounded-full text-sm font-medium text-[#0A3A66] hover:bg-gray-100 transition shadow-sm">
+              <span className="inline-block px-6 py-2 bg-white border border-gray-300 rounded-full text-sm font-medium text-[#0A3A66] hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white transition shadow-sm">
                 Upload New Photo
               </span>
             </label>
@@ -244,7 +244,7 @@ const CreateCustomarPopup = ({
             <div className="md:col-span-2 lg:col-span-3 flex justify-center mt-6">
               <button
                 type="submit"
-                className="px-6 py-3 flex items-center gap-2 text-base sm:text-lg font-semibold bg-white bg-opacity-70 border border-gray-300 rounded-md shadow-lg hover:scale-105 hover:bg-opacity-100 hover:text-[#0A3A66] transition duration-300 backdrop-blur-md"
+                className="px-6 py-3 flex items-center gap-2 text-base sm:text-lg font-semibold bg-white bg-opacity-70 border border-gray-300 dark:border-gray-700 dark:text-white dark:bg-gray-800 rounded-md shadow-lg hover:scale-105 hover:bg-opacity-100 hover:text-[#0A3A66] transition duration-300 backdrop-blur-md"
               >
                 <VscGitPullRequestCreate className="text-xl" /> Create
               </button>

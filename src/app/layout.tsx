@@ -10,6 +10,7 @@ import PageWrapper from "@/components/Navbar/PageWrapper";
 import HeaderMobile from "@/components/Navbar/HeaderMobile";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
+import ThemeProvider from "./theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,28 +33,35 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressContentEditableWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-[#191919] text-[#37352f] dark:text-[#ffffffcf]`}
       >
-        <Provider store={store}>
-          <div className="flex">
-            <div className="print:hidden">
-              <LeftSide />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Provider store={store}>
+            <div className="flex">
+              <div className="print:hidden">
+                <LeftSide />
+              </div>
+              <main className="flex-1 ">
+                <MarginWidthWrapper>
+                  <div className="print:hidden sticky top-0 z-50 bg-white">
+                    <Header />
+                  </div>
+                  <div className="print:hidden">
+                    <HeaderMobile />
+                  </div>
+                  <PageWrapper>{children}</PageWrapper>
+                </MarginWidthWrapper>
+              </main>
             </div>
-            <main className="flex-1 ">
-              <MarginWidthWrapper>
-                <div className="print:hidden sticky top-0 z-50 bg-white">
-                  <Header />
-                </div>
-                <div className="print:hidden">
-                  <HeaderMobile />
-                </div>
-                <PageWrapper>{children}</PageWrapper>
-              </MarginWidthWrapper>
-            </main>
-          </div>
-        </Provider>
+          </Provider>
+        </ThemeProvider>
       </body>
     </html>
   );
