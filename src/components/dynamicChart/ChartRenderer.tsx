@@ -15,7 +15,6 @@ import {
   ChartOptions,
 } from "chart.js";
 import { Bar, Line, Pie, Doughnut, Radar } from "react-chartjs-2";
-
 // Register Chart.js components
 ChartJS.register(
   CategoryScale,
@@ -28,7 +27,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
 // Define allowed chart types
 type ChartType = "bar" | "line" | "pie" | "doughnut" | "radar";
 

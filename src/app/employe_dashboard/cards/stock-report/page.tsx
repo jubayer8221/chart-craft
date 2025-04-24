@@ -310,7 +310,7 @@ const SellsTable: React.FC = () => {
               <div ref={dropdownRef} className="relative max-w-40">
                 <button
                   onClick={() => setIsOpen(!isOpen)}
-                  className="p-2 w-full rounded-md shadow-md px-4 py-2 border border-gray-300 hover:bg-gray-50 transition-colors"
+                  className="p-2 w-full rounded-md shadow-md px-4 py-2 border bg-[#0A3A66] text-white border-gray-300 hover:bg-[#0F5494] transition-colors"
                 >
                   {selectedItems.length > 0
                     ? `${selectedItems.length} item(s) selected`
@@ -345,7 +345,7 @@ const SellsTable: React.FC = () => {
             </div>
             <button
               onClick={handleExport}
-              className="rounded-md shadow-md px-4 py-2 border border-gray-300 hover:bg-gray-50 transition-colors"
+              className="rounded-md shadow-md text-white px-4 py-2 border border-gray-300 duration-200 active:scale-95 active:bg-opacity-80 bg-[#0A3A66] hover:bg-[#0F5494] transition-colors"
             >
               Export
             </button>

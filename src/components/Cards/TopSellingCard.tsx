@@ -58,9 +58,9 @@ const TopSellingCard = () => {
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, -1)}
                 >
-                  <th className="border-gray-300 px-1 py-1">Item</th>
-                  <th className="border-gray-300 px-1 py-1">Price</th>
-                  <th className="border-gray-300 px-1 py-1">Sold</th>
+                  <th className="border-gray-300 px-1 py-[0.5px]">Item</th>
+                  <th className="border-gray-300 px-1 py-[0.5px]">Price</th>
+                  <th className="border-gray-300 px-1 py-[0.5px]">Sold</th>
                 </tr>
               </thead>
               <tbody className="text-center">
@@ -73,9 +73,9 @@ const TopSellingCard = () => {
                     onDragOver={handleDragOver}
                     onDrop={(e) => handleDrop(e, index)}
                   >
-                    <td className="border-gray-300 py-2">{item.name}</td>
-                    <td className="border-gray-300 py-2">{item.price}</td>
-                    <td className="border-gray-300 py-2">{item.sold}</td>
+                    <td className="border-gray-300 py-1">{item.name}</td>
+                    <td className="border-gray-300 py-1">{item.price}</td>
+                    <td className="border-gray-300 py-1">{item.sold}</td>
                   </tr>
                 ))}
               </tbody>
@@ -84,7 +84,7 @@ const TopSellingCard = () => {
         </div>
         {!showAll && (
           <button
-            className="mt-2 text-blue-500 hover:underline"
+            className="mt-1 text-blue-500 hover:underline"
             onClick={() => setShowAll(true)}
           >
             View More
