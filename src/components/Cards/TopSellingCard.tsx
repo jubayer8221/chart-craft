@@ -47,9 +47,9 @@ const TopSellingCard = () => {
     <div className="w-full max-w-full mx-auto">
       <h1 className="text-lg font-semibold pb-2">Top Selling</h1>
       <div className="max-h-[260px]">
-        <div className="overflow-y-auto max-h-64 border border-gray-300 rounded">
+        <div className="overflow-y-auto max-h-64 border border-gray-300 dark:border-none rounded">
           <div className="overflow-x-auto">
-            <table className="table-auto w-full border-collapse border-[#0A3A66]">
+            <table className="table-auto w-full border-collapse border-[#0A3A66] dark:border-none">
               <thead className="bg-[#0A3A66] text-white text-center">
                 <tr
                   className="text-center"
@@ -67,7 +67,7 @@ const TopSellingCard = () => {
                 {visibleItems.map((item, index) => (
                   <tr
                     key={index}
-                    className={index % 2 === 1 ? "bg-gray-200" : "bg-white"}
+                    className={index % 2 === 1 ? "bg-gray-200 dark:bg-gray-600" : "bg-white dark:bg-gray-500"}
                     draggable
                     onDragStart={(e) => handleDragStart(e, index)}
                     onDragOver={handleDragOver}

@@ -3,9 +3,9 @@ import React from "react";
 
 const FileConvert = () => {
   return (
-    <div className="max-w-md mx-auto p-2 bg-white rounded-lg">
+    <div className="max-w-md mx-auto p-2 bg-white dark:bg-gray-500 rounded-lg">
       <div className="flex justify-between items-center">
-        <h2 className="text-lg font-semibold text-gray-800">
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
           Convert Your File
         </h2>
         {/* <button
@@ -26,7 +26,7 @@ const FileConvert = () => {
         />
       </div>
 
-      <p className="text-sm text-gray-600 text-center">
+      <p className="text-sm text-gray-600 text-center dark:text-white">
         To convert your data, click the button above.
       </p>
     </div>

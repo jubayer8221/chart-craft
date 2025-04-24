@@ -84,17 +84,17 @@ const SellsTable = () => {
   return (
     <div className="p-4 w-full max-w-full md:max-w-2xl mx-auto">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
-        <h1 className="text-lg font-semibold">Sells</h1>
+        <h1 className="text-lg font-semibold dark:text-white">Sells</h1>
         <div className="flex gap-2">
           <button
             onClick={handlePrint}
-            className="border border-gray-300 hover:bg-[#0A3A66] text-black hover:text-white px-4 py-2 rounded-md text-sm font-semibold"
+            className="sm:text-[12px] md:text-[12px] xl:text-[16px] border border-gray-300 dark:border-gray-600 hover:bg-[#0A3A66] text-black dark:text-white hover:text-white px-3 py-2 rounded-md text-sm font-semibold"
           >
             Print {selectedRowIndex !== null ? "" : ""}
           </button>
           <button
             onClick={exportCSV}
-            className="border border-gray-300 hover:bg-[#0A3A66] text-black hover:text-white px-2 py-1 rounded-md text-sm font-semibold"
+            className="border border-gray-300 sm:text-[12px] md:text-[12px] xl:text-[16px] dark:border-gray-600 dark:text-white hover:bg-[#0A3A66] text-black hover:text-white px-3 py-1 rounded-md text-sm font-semibold"
           >
             Export {selectedRowIndex !== null ? "" : ""} CSV
           </button>
@@ -109,13 +109,13 @@ const SellsTable = () => {
         className="mb-4 px-4 py-2 border border-gray-300 rounded-md w-full sm:w-1/2"
       /> */}
 
-      <div className="overflow-x-auto">
-        <table className="w-full border border-gray-300">
+      <div className="overflow-x-auto max-h-[360px] ">
+        <table className="w-full min-w-[280px] border border-gray-300 dark:rounded-md">
           <thead>
-            <tr className="bg-gray-100 text-left">
-              <th className="px-4 py-2 border">Item</th>
-              <th className="px-4 py-2 border">Price</th>
-              <th className="px-4 py-2 border">Sold</th>
+            <tr className="bg-gray-100 dark:bg-[#0A3A66] text-left">
+              <th className="px-4 py-2 border dark:border-gray-600">Item</th>
+              <th className="px-4 py-2 border dark:border-gray-600">Price</th>
+              <th className="px-4 py-2 border dark:border-gray-600">Sold</th>
             </tr>
           </thead>
           <tbody>
@@ -127,9 +127,9 @@ const SellsTable = () => {
                 }`}
                 onClick={() => handleRowClick(index)}
               >
-                <td className="px-4 py-2 border">{item.name}</td>
-                <td className="px-4 py-2 border">{item.price}</td>
-                <td className="px-4 py-2 border">{item.sold}</td>
+                <td className="px-4 py-2 border dark:border-gray-600">{item.name}</td>
+                <td className="px-4 py-2 border dark:border-gray-600">{item.price}</td>
+                <td className="px-4 py-2 border dark:border-gray-600">{item.sold}</td>
               </tr>
             ))}
           </tbody>
