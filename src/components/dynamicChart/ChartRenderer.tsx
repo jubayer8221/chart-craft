@@ -12,9 +12,11 @@ import {
   Tooltip,
   Legend,
   ChartData,
-  ChartOptions,
+  ChartType as ChartJSType,
 } from "chart.js";
 import { Bar, Line, Pie, Doughnut, Radar } from "react-chartjs-2";
+
+// Register chart components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -44,9 +46,10 @@ type ChartRendererProps = {
 };
 
 const ChartRenderer: React.FC<ChartRendererProps> = ({ data, type }) => {
-  const ChartComponent = chartMap[type] as React.ComponentType<{ data: ChartData<ChartJSType, number[], string> }>;
+  const ChartComponent = chartMap[type] as React.ComponentType<{
+    data: ChartData<ChartJSType, number[], string>;
+  }>;
 
-  
   return (
     <div className="w-full md:w-1/2 h-[300px]">
       <ChartComponent data={data} />
