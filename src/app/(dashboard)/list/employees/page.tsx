@@ -146,12 +146,12 @@ const EmployeesListPage = () => {
   };
 
   const renderRow = (item: Employee) => (
-    <tr key={item.id} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#F1F0FF]">
+    <tr key={item.id} className="border-b border-gray-200 dark:border-gray-600 even:bg-slate-50 dark:even:bg-gray-700 text-sm hover:bg-[#F1F0FF] dark:hover:bg-gray-600">
       <td className="flex items-center gap-4 p-4 cursor-pointer" onClick={() => handleOpenPopup(item)}>
         <Image src={item.photo} alt="" width={40} height={40} className="w-10 h-10 rounded-full object-cover" />
         <div className="flex flex-col">
           <h3 className="font-semibold">{item.name}</h3>
-          <p className="text-gray-700">{item.email}</p>
+          <p className="text-gray-700 dark:text-gray-500">{item.email}</p>
         </div>
       </td>
       <td className="hidden md:table-cell">{item.teacherId}</td>
@@ -174,13 +174,13 @@ const EmployeesListPage = () => {
   );
 
   return (
-    <div className="bg-white p-4 rounded-md flex-1 mt-0">
+    <div className="bg-white dark:bg-gray-800 p-4 rounded-md flex-1">
       {/* TOP */}
       <div className="flex items-center justify-between">
         <h1 className="hidden md:block text-lg font-semibold">All Employees</h1>
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
           {/* Search Box */}
-          <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-md ring-[1.5px] ring-gray-300 px-2">
+          <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-md ring-[1.5px] ring-gray-300 dark:ring-gray-700 px-2">
             <Image src="/assets/search.png" alt="search" width={14} height={14} />
             <input
               type="text"
@@ -190,12 +190,12 @@ const EmployeesListPage = () => {
               className="w-[200px] p-2 bg-transparent outline-none"
             />
             {showSuggestions && searchTerm && (
-              <ul className="absolute top-10 left-0 bg-white shadow-lg border border-gray-300 w-full rounded-md z-10 max-h-40 overflow-y-auto text-sm">
+              <ul className="absolute top-10 left-0 bg-white dark:bg-gray-800 shadow-lg border border-gray-300 dark:border-gray-700 w-full rounded-md z-10 max-h-40 overflow-y-auto text-sm">
                 {filteredData.map((emp) => (
                   <li
                     key={emp.id}
                     onClick={() => handleSuggestionClick(emp.name)}
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer"
                   >
                     <div className="flex items-center gap-4">
                       <Image

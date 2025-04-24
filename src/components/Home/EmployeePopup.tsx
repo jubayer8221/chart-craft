@@ -69,7 +69,7 @@ const EmployeePopup = ({ employee, onClose }: EmployeePopupProps) => {
             {/* Top Section */}
             <div className="flex flex-col lg:flex-row gap-4">
               {/* User Info Card */}
-              <div className="bg-[#C3EBFA] py-6 px-4 rounded-md w-full sm:w-full md:w-full xl:w-1/2 flex items-center flex-wrap gap-4">
+              <div className="bg-[#C3EBFA] dark:bg-[#2f5c6d] py-6 px-4 rounded-md w-full sm:w-full md:w-full xl:w-1/2 flex items-center flex-wrap gap-4">
                 <div>
                   <Image
                     src={employee.photo || defaultPhoto}
@@ -82,7 +82,7 @@ const EmployeePopup = ({ employee, onClose }: EmployeePopupProps) => {
                 </div>
                 <div className="w-full xl:w-1/2 flex flex-col justify-between">
                   <h1 className="text-xl font-semibold">{employee.name}</h1>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                   </p>
                   <div className="flex items-center justify-between gap-2 flex-wrap text-xs font-medium">
@@ -135,7 +135,7 @@ const EmployeePopup = ({ employee, onClose }: EmployeePopupProps) => {
               {/* Small Cards and shortcuts */}
               <div className="flex gap-4 w-full sm:w-full md:w-full xl:w-1/2">
                 <div className="flex gap-4 justify-between flex-wrap w-full sm:w-full md:w-full xl:w-1/2 ">
-                  <div className="bg-white p-3 rounded-md flex flex-col gap-2 w-full">
+                  <div className="bg-white dark:bg-gray-600 p-3 rounded-md flex flex-col gap-2 w-full">
                     <div className="flex items-center gap-4">
                       <Image
                         src="/assets/singleAttendance.png"
@@ -151,7 +151,7 @@ const EmployeePopup = ({ employee, onClose }: EmployeePopupProps) => {
                       Work Attendance
                     </span>
                   </div>
-                  <div className="bg-white p-3 rounded-md flex flex-col gap-2 w-full">
+                  <div className="bg-white dark:bg-gray-600 p-3 rounded-md flex flex-col gap-2 w-full">
                     <div className="flex gap-4 items-center">
                       <Image
                         src="/assets/singleBranch.png"
@@ -166,7 +166,7 @@ const EmployeePopup = ({ employee, onClose }: EmployeePopupProps) => {
                     </div>
                     <span className="text-sm text-gray-400">Branches</span>
                   </div>
-                  <div className="bg-white p-3 rounded-md flex flex-col gap-2 w-full">
+                  <div className="bg-white dark:bg-gray-600 p-3 rounded-md flex flex-col gap-2 w-full">
                     <div className="flex gap-4 items-center">
                       <RiProjectorLine
                         width={24}
@@ -177,7 +177,7 @@ const EmployeePopup = ({ employee, onClose }: EmployeePopupProps) => {
                     </div>
                     <span className="text-sm text-gray-400">Projects</span>
                   </div>
-                  <div className="bg-white p-3 rounded-md flex flex-col gap-2 w-full">
+                  <div className="bg-white dark:bg-gray-600 p-3 rounded-md flex flex-col gap-2 w-full">
                     <div className="flex items-center gap-4">
                       <Image
                         src="/assets/singleLesson.png"
@@ -194,16 +194,16 @@ const EmployeePopup = ({ employee, onClose }: EmployeePopupProps) => {
                 </div>
                 {/* Shortcuts  */}
                 <div className="flex flex-col gap-4 w-full sm:w-full md:w-full xl:w-1/2">
-                  <h1 className="text-xl font-semibold bg-white p-3 rounded-md h-[80px]">
+                  <h1 className="text-xl font-semibold bg-white dark:bg-gray-600 p-3 rounded-md h-[80px]">
                     Shortcuts
                   </h1>
-                  <Link href="/" className="bg-white p-3 rounded-md h-[80px]">
+                  <Link href="/" className="bg-white dark:bg-gray-600 p-3 rounded-md h-[80px]">
                     Employee&apos;s
                   </Link>
-                  <Link href="/" className="p-3 rounded-md bg-white h-[80px]">
+                  <Link href="/" className="p-3 rounded-md dark:bg-gray-600 bg-white h-[80px]">
                     Event&apos;s
                   </Link>
-                  <Link href="/" className="p-3 rounded-md bg-white h-[80px]">
+                  <Link href="/" className="p-3 rounded-md dark:bg-gray-600 bg-white h-[80px]">
                     Announcement&apos;s
                   </Link>
                 </div>
@@ -211,7 +211,7 @@ const EmployeePopup = ({ employee, onClose }: EmployeePopupProps) => {
             </div>
 
             {/* Bottom Section */}
-            <div className="mt-4 bg-white rounded-md p-4 h-[800px]">
+            <div className="mt-4 bg-white dark:bg-gray-800 rounded-md p-4 h-[800px]">
               <h1 className="text-xl font-semibold">
                 Employee&apos;s Schedule
               </h1>

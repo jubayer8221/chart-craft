@@ -11,11 +11,11 @@ import Image from "next/image";
 
 const LeftSide = () => {
   return (
-    <div className="md:w-60 bg-white h-screen flex-1 fixed border-r border-zinc-200 hidden md:flex">
+    <div className="md:w-60 bg-white dark:bg-[#191919] h-screen flex-1 fixed border-r border-zinc-200 hidden md:flex">
       <div className="flex flex-col space-y-6 w-full">
         <Link
           href="/"
-          className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 h-[47px] w-full"
+          className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 dark:bg-gray-900 h-[47px] w-full"
         >
           {/* <span className='h-7 w-7 bg-zinc-200 rounded-lg'></span> */}
           {/* <span className="font-bold text-xl hidden md:flex"> */}
@@ -71,8 +71,8 @@ const SubMenuItem = ({ item }: { item: SideNavItem }) => {
         <>
           <button
             onClick={toggleSubMenu}
-            className={`flex flex-row items-center p-2 rounded-lg  w-full justify-between hover:bg-zinc-100 ${
-              pathname.startsWith(item.path || "#") ? "bg-zinc-100" : ""
+            className={`flex flex-row items-center p-2 rounded-lg  w-full justify-between hover:bg-zinc-100 dark:hover:bg-gray-900 ${
+              pathname.startsWith(item.path || "#") ? "bg-zinc-100 dark:bg-gray-900" : ""
             }`}
           >
             <div className="flex flex-row space-x-4 items-center">
@@ -107,8 +107,8 @@ const SubMenuItem = ({ item }: { item: SideNavItem }) => {
       ) : (
         <Link
           href={item.path || "#"}
-          className={`flex flex-row items-center p-2 rounded-lg hover:bg-zinc-100 w-full space-x-4 ${
-            item.path === pathname ? "bg-zinc-100" : ""
+          className={`flex flex-row items-center p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-gray-900 w-full space-x-4 ${
+            item.path === pathname ? "bg-zinc-100 dark:bg-gray-900" : ""
           }`}
         >
           {item.icon}

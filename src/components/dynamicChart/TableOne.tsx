@@ -1,39 +1,25 @@
 "use client";
+
 import { useState } from "react";
-import { FiPlus } from "react-icons/fi";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { FiPlus, FiMove } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 import { CSVLink } from "react-csv";
 import { FaPrint } from "react-icons/fa";
-import { BsChevronDown } from "react-icons/bs";
 import ChartRenderer from "./ChartRenderer";
+import type { DropResult } from "react-beautiful-dnd";
 
-type RowData = {
-  [key: string]: string;
-};
-
-// Define ChartType to match ChartRenderer's expected types
+type RowData = { [key: string]: string };
 type ChartType = "Bar" | "Line" | "Pie" | "Doughnut" | "Radar";
 
 export default function TableOne() {
   const [columns, setColumns] = useState<string[]>(["Name", "Age"]);
   const [data, setData] = useState<RowData[]>([{ Name: "Alice", Age: "23" }]);
-  const [sortConfig, setSortConfig] = useState<{ key: string; direction: "asc" | "desc" } | null>(null);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [selectedChart, setSelectedChart] = useState<ChartType | null>(null);
 
   const chartTypes: ChartType[] = ["Bar", "Line", "Pie", "Doughnut", "Radar"];
-
-  const sortedData = [...data];
-  if (sortConfig) {
-    sortedData.sort((a, b) => {
-      const aVal = a[sortConfig.key] || "";
-      const bVal = b[sortConfig.key] || "";
-      return sortConfig.direction === "asc"
-        ? aVal.localeCompare(bVal)
-        : bVal.localeCompare(aVal);
-    });
-  }
 
   const addRow = () => {
     const newRow: RowData = {};
@@ -43,18 +29,16 @@ export default function TableOne() {
 
   const deleteRow = (index: number) => {
     const newData = [...data];
-    newData.splice(index, 1);//one element delete
+    newData.splice(index, 1);
     setData(newData);
   };
 
   const handleEdit = (rowIdx: number, colName: string, value: string) => {
-    setData((prevData) => {
-      const newData = [...prevData];
-      const updatedRow = { ...newData[rowIdx] }; // 👈 clone the row object
-      updatedRow[colName] = value;
-      newData[rowIdx] = updatedRow;
-      return newData;
-    });
+    setData((prev) =>
+      prev.map((row, i) =>
+        i === rowIdx ? { ...row, [colName]: value } : row
+      )
+    );
   };
 
   const addColumn = () => {
@@ -67,21 +51,11 @@ export default function TableOne() {
 
   const deleteColumn = (colToDelete: string) => {
     setColumns(columns.filter((col) => col !== colToDelete));
-    setData(
-      data.map((row) => {
-        const newRow = { ...row };
-        delete newRow[colToDelete];
-        return newRow;
-      })
-    );
-  };
-
-  const requestSort = (key: string) => {
-    let direction: "asc" | "desc" = "asc";
-    if (sortConfig?.key === key && sortConfig.direction === "asc") {
-      direction = "desc";
-    }
-    setSortConfig({ key, direction });
+    setData(data.map((row) => {
+      const newRow = { ...row };
+      delete newRow[colToDelete];
+      return newRow;
+    }));
   };
 
   const printTable = () => {
@@ -96,13 +70,9 @@ export default function TableOne() {
     }
   };
 
-  // Convert table data to Chart.js format
   const getChartData = () => {
     const labels = data.map((row) => row[columns[0]] || "Unknown");
-    const datasetData = data.map((row) => {
-      const value = row[columns[1]] || "0";
-      return parseFloat(value) || 0;
-    });
+    const datasetData = data.map((row) => parseFloat(row[columns[1]] || "0") || 0);
 
     return {
       labels,
@@ -130,96 +100,109 @@ export default function TableOne() {
     };
   };
 
-  return (
-    <div className="bg-white p-4 rounded-md">
-      <h2 className="text-xl font-bold text-gray-700 mb-4">Enhanced Table</h2>
+  const onDragEnd = (result: DropResult) => {
+    const { source, destination, type } = result;
+    if (!destination) return;
 
-      <div className="flex flex-wrap gap-3 mb-4">
-        <button onClick={addRow} className="bg-[rgb(10,58,102)] text-white px-4 py-2 rounded-md flex items-center gap-2">
-          <FiPlus className="text-[16px]" /> Add Row
-        </button>
-        <button onClick={addColumn} className="bg-teal-500 text-white px-4 py-2 rounded-md flex items-center gap-2">
-          <FiPlus className="text-[16px]" /> Add Column
-        </button>
+    if (type === "column") {
+      const newCols = [...columns];
+      const [moved] = newCols.splice(source.index, 1);
+      newCols.splice(destination.index, 0, moved);
+      setColumns(newCols);
+    } else if (type === "row") {
+      const newRows = [...data];
+      const [moved] = newRows.splice(source.index, 1);
+      newRows.splice(destination.index, 0, moved);
+      setData(newRows);
+    }
+  };
+
+  return (
+    <div className="bg-white dark:bg-gray-800 p-4 rounded-md max-w-full">
+      <h2 className="text-xl md:text-2xl font-bold text-gray-700 dark:text-white mb-4">Enhanced Table</h2>
+
+      {/* Toolbar */}
+      <div className="flex flex-wrap gap-2 md:gap-3 mb-4">
+        <button onClick={addColumn} className="flex items-center gap-3 px-3 py-2 bg-[#0A3A66] rounded-md"><FiPlus /> Add Column</button>
+          <button onClick={addRow} className="flex items-center gap-3 px-3 py-2 bg-[#0A3A66] rounded-md"><FiPlus /> Add Row</button>
         <CSVLink data={data} filename="table-data.csv">
-          <button className="bg-green-600 text-white px-4 py-2 rounded-md">Export CSV</button>
+          <button className="bg-green-600 text-white px-3 py-2 rounded-md">Export CSV</button>
         </CSVLink>
-        <button onClick={printTable} className="bg-orange-500 text-white px-4 py-2 rounded-md flex items-center gap-2">
+        <button onClick={printTable} className="bg-orange-500 text-white px-3 py-2 rounded-md flex items-center gap-2">
           <FaPrint /> Print
         </button>
-        <select
-          value={selectedChart || ""}
-          onChange={(e) => setSelectedChart((e.target.value as ChartType) || null)}
-          className="border border-gray-300 px-2 py-1 rounded-md"
-        >
-          <option value="" className="">Select Chart Type</option>
-          {chartTypes.map((type) => (
-            <option key={type} value={type} className="">
-              {type} Chart
-            </option>
-          ))}
+        <select value={selectedChart || ""} onChange={(e) => setSelectedChart(e.target.value as ChartType)} className="border px-3 py-2 rounded-md text-sm">
+          <option value="">Select Chart Type</option>
+          {chartTypes.map((type) => <option key={type} value={type}>{type} Chart</option>)}
         </select>
-        <select
-          value={rowsPerPage}
-          onChange={(e) => setRowsPerPage(Number(e.target.value))}
-          className="border border-gray-300 px-2 py-1 rounded-md"
-        >
-          {[5, 10, 25].map((n) => (
-            <option key={n} value={n}>
-              Show {n}
-            </option>
-          ))}
+        <select value={rowsPerPage} onChange={(e) => setRowsPerPage(Number(e.target.value))} className="border px-3 py-2 rounded-md text-sm">
+          {[5, 10, 25].map((n) => <option key={n} value={n}>Show {n}</option>)}
         </select>
       </div>
 
-      <div id="printable-table" className="overflow-x-auto rounded shadow">
-        <table className="min-w-max w-full table-auto text-gray-700">
-          <thead>
-            <tr className="bg-[#0A3A66]">
-              {columns.map((col) => (
-                <th
-                  key={col}
-                  className="p-3 text-left text-white cursor-pointer"
-                  onClick={() => requestSort(col)}
-                >
-                  <div className="flex items-center gap-2">
-                    {col} <BsChevronDown className="text-sm" />
-                    <button onClick={() => deleteColumn(col)}>
-                      <RxCross2 className="text-[16px]" />
-                    </button>
-                  </div>
-                </th>
-              ))}
-              <th className="p-3 text-left font-semibold text-white">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedData.slice(0, rowsPerPage).map((row, rowIdx) => (
-              <tr key={rowIdx} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#F1F0FF]">
-                {columns.map((col) => (
-                  <td key={col} className="p-2">
-                    <input
-                      value={row[col] || ""}
-                      onChange={(e) => handleEdit(rowIdx, col, e.target.value)}
-                      className="w-full bg-transparent text-gray-700 outline-none"
-                      placeholder={col}
-                    />
-                  </td>
-                ))}
-                <td className="p-2">
-                  <button
-                    onClick={() => deleteRow(rowIdx)}
-                    className="w-8 h-8 flex items-center justify-center bg-[#0A3A66] text-white rounded-full"
-                  >
-                    <RiDeleteBin6Line className="text-[16px]" />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      {/* Table */}
+      <div id="printable-table" className="overflow-auto rounded shadow max-w-full">
+        <DragDropContext onDragEnd={onDragEnd}>
+          {/* Columns Drag-Drop */}
+          <Droppable droppableId="columns" direction="horizontal" type="column">
+            {(provided) => (
+              <table className="min-w-full table-auto" ref={provided.innerRef} {...provided.droppableProps}>
+                <thead>
+                  <tr>
+                    {columns.map((col, index) => (
+                      <Draggable key={col} draggableId={`col-${col}`} index={index}>
+                        {(provided) => (
+                          <th ref={provided.innerRef} {...provided.draggableProps} className="p-3 bg-[#0A3A66] text-white text-left">
+                            <div className="flex items-center gap-2">
+                              <span {...provided.dragHandleProps}><FiMove /></span>
+                              {col}
+                              <button onClick={() => deleteColumn(col)}><RxCross2 /></button>
+                            </div>
+                          </th>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                    <th className="p-3 bg-[#0A3A66] text-white text-left">Action</th>
+                  </tr>
+                </thead>
+
+                {/* Rows Drag-Drop */}
+                <Droppable droppableId="rows" type="row">
+                  {(provided) => (
+                    <tbody ref={provided.innerRef} {...provided.droppableProps}>
+                      {data.slice(0, rowsPerPage).map((row, rowIdx) => (
+                        <Draggable key={`row-${rowIdx}`} draggableId={`row-${rowIdx}`} index={rowIdx}>
+                          {(provided) => (
+                            <tr ref={provided.innerRef} {...provided.draggableProps} className="even:bg-slate-50 dark:even:bg-gray-700 dark:odd:bg-gray-600 hover:bg-[#F1F0FF] border-b dark:border-gray-500 text-sm">
+                              {columns.map((col) => (
+                                <td key={col} className="p-2">
+                                  <input
+                                    value={row[col] || ""}
+                                    onChange={(e) => handleEdit(rowIdx, col, e.target.value)}
+                                    className="w-full bg-transparent text-gray-700 dark:text-white outline-none"
+                                  />
+                                </td>
+                              ))}
+                              <td className="p-2 flex items-center gap-2">
+                                <button onClick={() => deleteRow(rowIdx)} className="bg-[#0A3A66] text-white p-1 rounded-full"><RiDeleteBin6Line /></button>
+                                <div {...provided.dragHandleProps} className="bg-[#0A3A66] text-white p-1 rounded-full cursor-move"><FiMove /></div>
+                              </td>
+                            </tr>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </tbody>
+                  )}
+                </Droppable>
+              </table>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
 
+      {/* Chart */}
       {selectedChart && (
         <div className="mt-6">
           <h3 className="text-lg font-semibold text-gray-700 mb-2">{selectedChart} Chart</h3>

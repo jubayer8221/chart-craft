@@ -1,7 +1,53 @@
 @import "tailwindcss";
 @tailwind utilities;
+
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@theme {
+  --shadow-box-shadow-first: 0px 1px 0px var(--shadow-color);
+  --color-button-border-color: var(--border-color);
+  --color-hover-background: var(--hover-background);
+  --color-active-background: var(--active-background);
+}
+
+@layer base {
+  :root {
+    --shadow-color: rgba(0, 0, 0, 0.09);
+    --border-color: rgba(55, 53, 47, 0.09);
+    --hover-background: rgba(0, 0, 0, 0.06);
+    --active-background: rgba(0, 0, 0, 0.16);
+  }
+  .dark {
+    --shadow-color: rgba(0, 0, 0, 0.094);
+    --border-color: rgba(0, 0, 0, 0.094);
+    --hover-background: rgba(0, 0, 0, 0.055);
+    --active-background: rgba(0, 0, 0, 0.03);
+  }
+}
+
+
 .scrollbar-hiden {
   scrollbar-width: none;
+}
+.dark ::-webkit-scrollbar {
+  background: #111827;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #374151;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
 }
 
 ::-webkit-scrollbar {
@@ -19,10 +65,70 @@
   background: #555;
 }
 
+/* Light mode background */
+.react-calendar,
+.rbc-time-view,
+.rbc-time-content,
+.rbc-timeslot-group {
+  background-color: #ffffff; /* light background */
+}
+
+/* Dark mode background override */
+.dark .react-calendar,
+.dark .rbc-time-view,
+.dark .rbc-time-content,
+.dark .rbc-timeslot-group {
+  background-color: #1f2937; /* dark gray or customize as needed */
+}
+
+.dark .rbc-day-slot,
+.dark .rbc-time-gutter.rbc-time-column {
+  background-color: #1f2937 !important; /* match dark bg */
+  color: #e5e7eb !important; /* light text for dark background */
+}
+
+.dark .rbc-time-view, 
+.dark .rbc-time-content {
+  border-color: #1f1f1f;
+}
+
+
+/* big calender */
+.dark .rbc-calendar,
+.dark .rbc-time-view,
+.dark .rbc-time-content,
+.dark .rbc-timeslot-group,
+.dark .rbc-day-slot,
+.dark .rbc-time-gutter.rbc-time-column {
+  background-color: #1f2937 !important;
+  color: #e5e7eb !important;
+  border: #28323f ;
+}
+
+.dark .rbc-time-view, 
+.dark .rbc-time-content {
+  border-color: #000000;
+}
+.dark .rbc-day-slot{
+  border: none !important;
+}
+.dark .rbc-event {
+  color: #111827 !important; /* almost-black for legibility on pastel backgrounds */
+  font-weight: 500;
+}
+
+.dark .rbc-event-label {
+  color: #d1d5db !important;
+}
+
+
+
+
 .react-calendar {
   width: 100% !important;
   border: none !important;
   font-family: "Inter", sans-serif !important;
+  
 }
 
 /* Ensure the calendar container supports horizontal scrolling */
