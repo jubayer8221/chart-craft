@@ -16,6 +16,7 @@ import {
 } from "chart.js";
 import { Bar, Line, Pie, Doughnut, Radar } from "react-chartjs-2";
 
+// Register chart components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -28,21 +29,16 @@ ChartJS.register(
   Legend
 );
 
+// Define allowed chart types and map
 const chartMap = {
   Bar,
   Line,
   Pie,
   Doughnut,
   Radar,
-};
+} as const;
 
-// Define allowed chart types
 type ChartType = keyof typeof chartMap;
-
-// Define a type for the chart component to ensure it accepts the correct props
-type ChartComponentType = React.ComponentType<{
-  data: ChartData<ChartJSType, number[], string>;
-}>;
 
 type ChartRendererProps = {
   data: ChartData<ChartJSType, number[], string>;
@@ -50,15 +46,13 @@ type ChartRendererProps = {
 };
 
 const ChartRenderer: React.FC<ChartRendererProps> = ({ data, type }) => {
-  const ChartComponent: ChartComponentType = chartMap[type];
+  const ChartComponent = chartMap[type] as React.ComponentType<{ data: ChartData<ChartJSType, number[], string> }>;
+
+  
   return (
     <div className="w-full md:w-1/2 h-[300px]">
-      <ChartComponent
-        data={data}
-        // options={{ maintainAspectRatio: false }}
-      />
+      <ChartComponent data={data} />
     </div>
-
   );
 };
 

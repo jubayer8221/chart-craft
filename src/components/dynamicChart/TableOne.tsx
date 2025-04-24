@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FiPlus, FiMove } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -14,42 +14,12 @@ type RowData = { [key: string]: string };
 type ChartType = "Bar" | "Line" | "Pie" | "Doughnut" | "Radar";
 
 export default function TableOne() {
-  const [columns, setColumns] = useState<string[]>(["Items", "Sells"]);
-  const [data, setData] = useState<RowData[]>([{ Items: "Alice", Sells: "23" }]);
+  const [columns, setColumns] = useState<string[]>(["Name", "Age"]);
+  const [data, setData] = useState<RowData[]>([{ Name: "Alice", Age: "23" }]);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [selectedChart, setSelectedChart] = useState<ChartType | null>(null);
 
   const chartTypes: ChartType[] = ["Bar", "Line", "Pie", "Doughnut", "Radar"];
-
-  const LOCAL_STORAGE_COLUMNS_KEY = "table-columns";
-  const LOCAL_STORAGE_DATA_KEY = "table-data";
-
-  // Load from localStorage on first render
-  useEffect(() => {
-    const storedColumns = localStorage.getItem(LOCAL_STORAGE_COLUMNS_KEY);
-    const storedData = localStorage.getItem(LOCAL_STORAGE_DATA_KEY);
-
-    if (storedColumns && storedData) {
-      setColumns(JSON.parse(storedColumns));
-      setData(JSON.parse(storedData));
-    } else {
-      // Default data if nothing saved yet
-      const defaultCols = ["Name", "Age"];
-      const defaultData = [{ Name: "Alice", Age: "23" }];
-      setColumns(defaultCols);
-      setData(defaultData);
-    }
-  }, []);
-
-  // Save to localStorage on any change
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_COLUMNS_KEY, JSON.stringify(columns));
-  }, [columns]);
-
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_DATA_KEY, JSON.stringify(data));
-  }, [data]);
-
 
   const addRow = () => {
     const newRow: RowData = {};
@@ -153,19 +123,19 @@ export default function TableOne() {
 
       {/* Toolbar */}
       <div className="flex flex-wrap gap-2 md:gap-3 mb-4">
-        <button onClick={addColumn} className="flex items-center gap-2 bg-[#0A3A66] rounded-md p-3"><FiPlus /> Add Column</button>
-        <button onClick={addRow} className="flex items-center gap-2 bg-[#0A3A66] rounded-md p-3"><FiPlus /> Add Row</button>
+        <button onClick={addColumn} className="flex items-center gap-3 px-3 py-2 bg-[#0A3A66] rounded-md"><FiPlus /> Add Column</button>
+          <button onClick={addRow} className="flex items-center gap-3 px-3 py-2 bg-[#0A3A66] rounded-md"><FiPlus /> Add Row</button>
         <CSVLink data={data} filename="table-data.csv">
           <button className="bg-green-600 text-white px-3 py-2 rounded-md">Export CSV</button>
         </CSVLink>
-        <button onClick={printTable} className="bg-orange-500 text-white px-3 rounded-md flex items-center gap-2">
+        <button onClick={printTable} className="bg-orange-500 text-white px-3 py-2 rounded-md flex items-center gap-2">
           <FaPrint /> Print
         </button>
-        <select value={selectedChart || ""} onChange={(e) => setSelectedChart(e.target.value as ChartType)} className="border px-3 rounded-md text-sm">
+        <select value={selectedChart || ""} onChange={(e) => setSelectedChart(e.target.value as ChartType)} className="border px-3 py-2 rounded-md text-sm">
           <option value="">Select Chart Type</option>
           {chartTypes.map((type) => <option key={type} value={type}>{type} Chart</option>)}
         </select>
-        <select value={rowsPerPage} onChange={(e) => setRowsPerPage(Number(e.target.value))} className="border px-3 rounded-md text-sm">
+        <select value={rowsPerPage} onChange={(e) => setRowsPerPage(Number(e.target.value))} className="border px-3 py-2 rounded-md text-sm">
           {[5, 10, 25].map((n) => <option key={n} value={n}>Show {n}</option>)}
         </select>
       </div>
@@ -204,13 +174,13 @@ export default function TableOne() {
                       {data.slice(0, rowsPerPage).map((row, rowIdx) => (
                         <Draggable key={`row-${rowIdx}`} draggableId={`row-${rowIdx}`} index={rowIdx}>
                           {(provided) => (
-                            <tr ref={provided.innerRef} {...provided.draggableProps} className="border-b border-gray-200 dark:border-gray-600 even:bg-slate-50 dark:even:bg-gray-700 text-sm hover:bg-[#F1F0FF] dark:hover:bg-gray-600">
+                            <tr ref={provided.innerRef} {...provided.draggableProps} className="even:bg-slate-50 dark:even:bg-gray-700 dark:odd:bg-gray-600 hover:bg-[#F1F0FF] border-b dark:border-gray-500 text-sm">
                               {columns.map((col) => (
                                 <td key={col} className="p-2">
                                   <input
                                     value={row[col] || ""}
                                     onChange={(e) => handleEdit(rowIdx, col, e.target.value)}
-                                    className="w-full bg-transparent text-gray-700 outline-none dark:text-white"
+                                    className="w-full bg-transparent text-gray-700 dark:text-white outline-none"
                                   />
                                 </td>
                               ))}
