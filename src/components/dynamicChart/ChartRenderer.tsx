@@ -15,8 +15,6 @@ import {
   ChartOptions,
 } from "chart.js";
 import { Bar, Line, Pie, Doughnut, Radar } from "react-chartjs-2";
-
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
