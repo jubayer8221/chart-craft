@@ -100,10 +100,26 @@ const SellsTable: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [chartColor, setChartColor] = useState("#4BC0C0"); // Default chart color
-  const [searchQuery, setSearchQuery] = useState(""); // Search query state
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Handle click outside to close the dropdown
+  // Generate random colors for each chart initially
+  const getRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
+  const [chartColors, setChartColors] = useState<Record<string, string>>(() => {
+    const initialColors: Record<string, string> = {};
+    mockData.forEach((item) => {
+      initialColors[item.id] = getRandomColor();
+    });
+    return initialColors;
+  });
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -127,6 +143,13 @@ const SellsTable: React.FC = () => {
 
   const handleClearSelections = () => {
     dispatch(clearSelections());
+  };
+
+  const handleChartColorChange = (id: string, color: string) => {
+    setChartColors((prev) => ({
+      ...prev,
+      [id]: color,
+    }));
   };
 
   const onExportCSV = (itemsToExport: string[] = []) => {
@@ -233,33 +256,9 @@ const SellsTable: React.FC = () => {
     });
   };
 
-  // Filter data based on search query
   const filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const barData = {
-    labels: ["T-shirt", "Hoodie", "Shirt", "Jeans"],
-    datasets: [
-      {
-        label: "Stock Quantity",
-        data: [120, 200, 150, 80],
-        backgroundColor: chartColor,
-        borderColor: chartColor,
-        borderWidth: 1,
-      },
-    ],
-  };
-
-  const barOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { position: "top" as const },
-      title: { display: true, text: "Stock Report" },
-    },
-    scales: { y: { beginAtZero: true } },
-  };
 
   return (
     <div className="p-4 min-h-screen relative bg-white">
@@ -270,19 +269,21 @@ const SellsTable: React.FC = () => {
         />
       )}
       <div className="flex justify-between">
-        <h1 className="text-2xl font-bold text-center">Bar Chart Theme</h1>
+        <h1 className="text-2xl font-bold text-center print:text-center">
+          Chart Theme
+        </h1>
         <input
           type="text"
           placeholder="Search items..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="p-2 rounded-md border border-gray-300 max-w-40 max-h-10"
+          className="p-2 rounded-md border border-gray-300 max-w-40 max-h-10 print:hidden"
         />
       </div>
 
       <div className="flex flex-wrap justify-between gap-4 mb-4">
         <div className="flex flex-wrap gap-4 justify-between">
-          <div className="flex flex-col md:flex-row items-center gap-4 py-2 mb-4">
+          <div className="flex flex-col md:flex-row items-center gap-4 py-2 mb-4 print:hidden">
             <div className="">
               <h3 className="font-semibold text-lg">Select Items to Export:</h3>
             </div>
@@ -309,7 +310,7 @@ const SellsTable: React.FC = () => {
               <div ref={dropdownRef} className="relative max-w-40">
                 <button
                   onClick={() => setIsOpen(!isOpen)}
-                  className="p-2 w-full rounded-md shadow-md px-4 py-2 border border-gray-300 hover:bg-gray-50 transition-colors"
+                  className="p-2 w-full rounded-md shadow-md px-4 py-2 border bg-[#0A3A66] text-white border-gray-300 hover:bg-[#0F5494] transition-colors"
                 >
                   {selectedItems.length > 0
                     ? `${selectedItems.length} item(s) selected`
@@ -342,18 +343,9 @@ const SellsTable: React.FC = () => {
                 )}
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <label className="text-sm font-medium">Chart Color:</label>
-              <input
-                type="color"
-                value={chartColor}
-                onChange={(e) => setChartColor(e.target.value)}
-                className="w-8 h-8 rounded-md cursor-pointer"
-              />
-            </div>
             <button
               onClick={handleExport}
-              className="rounded-md shadow-md px-4 py-2 border border-gray-300 hover:bg-gray-50 transition-colors"
+              className="rounded-md shadow-md text-white px-4 py-2 border border-gray-300 duration-200 active:scale-95 active:bg-opacity-80 bg-[#0A3A66] hover:bg-[#0F5494] transition-colors"
             >
               Export
             </button>
@@ -372,35 +364,18 @@ const SellsTable: React.FC = () => {
         ref={chartRef}
         className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8"
       >
-        {/* Static Chart */}
-        <div
-          ref={(el) => {
-            if (el) chartRefs.current["bar-static"] = el;
-          }}
-          className="p-4 rounded-xl shadow-md"
-        >
-          <h2 className="font-semibold mb-2 text-center">Stock Bar Chart</h2>
-          <div className="relative h-[200px]">
-            <Bar data={barData} options={barOptions} />
-          </div>
-        </div>
-
-        {/* Dynamic Charts */}
         {filteredData.map((item, idx) => {
-          const colors = [
-            chartColor,
-            "rgba(54, 162, 235, 0.6)",
-            "rgba(255, 206, 86, 0.6)",
-            "rgba(75, 192, 192, 0.6)",
-            "rgba(153, 102, 255, 0.6)",
-          ];
-          const borderColors = [
-            chartColor,
-            "rgba(54, 162, 235, 1)",
-            "rgba(255, 206, 86, 1)",
-            "rgba(75, 192, 192, 1)",
-            "rgba(153, 102, 255, 1)",
-          ];
+          const primaryColor = chartColors[item.id];
+
+          const hexToRgb = (hex: string) => {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return `${r}, ${g}, ${b}`;
+          };
+
+          const backgroundColor = `rgba(${hexToRgb(primaryColor)}, 0.6)`;
+          const borderColor = `rgba(${hexToRgb(primaryColor)}, 1)`;
 
           const datasetData = [
             item.price + 5,
@@ -415,8 +390,8 @@ const SellsTable: React.FC = () => {
               {
                 label: `Stock for ${item.name}`,
                 data: datasetData,
-                backgroundColor: colors[idx % colors.length],
-                borderColor: borderColors[idx % borderColors.length],
+                backgroundColor: backgroundColor,
+                borderColor: borderColor,
                 borderWidth: 1,
                 fill: true,
               },
@@ -446,9 +421,19 @@ const SellsTable: React.FC = () => {
               }}
               className="p-4 rounded-xl shadow-md"
             >
-              <h2 className="font-semibold mb-2 text-center">
-                Chart for {item.name}
-              </h2>
+              <div className="flex justify-between items-center mb-2">
+                <h2 className="font-semibold">Chart for {item.name}</h2>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="color"
+                    value={chartColors[item.id]}
+                    onChange={(e) =>
+                      handleChartColorChange(item.id, e.target.value)
+                    }
+                    className="w-6 h-6 rounded-md cursor-pointer"
+                  />
+                </div>
+              </div>
               <div className="relative h-[200px]">
                 {idx === 0 ? (
                   <Bar data={chartData} options={chartOptions} />
@@ -466,8 +451,13 @@ const SellsTable: React.FC = () => {
                       datasets: [
                         {
                           data: datasetData,
-                          backgroundColor: colors,
-                          borderColor: borderColors,
+                          backgroundColor: [
+                            backgroundColor,
+                            `rgba(${hexToRgb(primaryColor)}, 0.4)`,
+                            `rgba(${hexToRgb(primaryColor)}, 0.2)`,
+                            `rgba(${hexToRgb(primaryColor)}, 0.8)`,
+                          ],
+                          borderColor: borderColor,
                           borderWidth: 1,
                         },
                       ],
