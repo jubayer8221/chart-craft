@@ -18,7 +18,7 @@ import {
 } from "chart.js";
 import { Bar, Line, Pie, Doughnut, Radar } from "react-chartjs-2";
 
-// Define two-user-friendly colors
+// Define two user-friendly colors
 const PRIMARY_COLOR = "rgb(0,169,180)";
 const SECONDARY_COLOR = "rgb(10,58,102)";
 
@@ -37,15 +37,25 @@ ChartJS.register(
 
 const chartMap = { Bar, Line, Pie, Doughnut, Radar } as const;
 type ChartType = keyof typeof chartMap;
-type SupportedTypes = "bar" | "line" | "pie" | "doughnut" | "radar";
 
+// Map capitalized ChartType to lowercase chart.js types
+type ChartTypeToLowercase = {
+  Bar: "bar";
+  Line: "line";
+  Pie: "pie";
+  Doughnut: "doughnut";
+  Radar: "radar";
+};
+
+// Interface for ChartRendererProps
 interface ChartRendererProps {
   data: ChartData<ChartJSType, number[], string>;
   type: ChartType;
 }
 
 const ChartRenderer: React.FC<ChartRendererProps> = ({ data, type }) => {
-  const chartRef = useRef<ChartJSInstance<SupportedTypes, number[], string> | null>(null);
+  // Use mapped type for chartRef
+  const chartRef = useRef<ChartJSInstance<ChartTypeToLowercase[ChartType], number[], string> | null>(null);
   const [isDark, setIsDark] = useState(false);
 
   // Detect light/dark mode to invert text if needed
@@ -71,16 +81,16 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({ data, type }) => {
   // Apply colors to datasets
   const styledData = {
     ...data,
-    datasets: data.datasets.map(ds => ({
+    datasets: data.datasets.map((ds) => ({
       ...ds,
-      backgroundColor: type === "bar" || type === "doughnut" ? createGradient() : PRIMARY_COLOR,
-      borderColor: type === "line" ? createGradient() : SECONDARY_COLOR,
+      backgroundColor: type === "Bar" || type === "Doughnut" ? createGradient() : PRIMARY_COLOR,
+      borderColor: type === "Line" ? createGradient() : SECONDARY_COLOR,
       borderWidth: 2,
       pointBackgroundColor: SECONDARY_COLOR,
       pointBorderColor: PRIMARY_COLOR,
       pointRadius: 5,
       pointHoverRadius: 7,
-      tension: type === "line" ? 0.3 : undefined,
+      tension: type === "Line" ? 0.3 : undefined,
     })),
   };
 
@@ -125,14 +135,18 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({ data, type }) => {
 
   // Type-safe chart component
   const TypedChart = chartMap[type] as React.ForwardRefExoticComponent<
-    React.RefAttributes<ChartJSInstance<SupportedTypes, number[], string>> & {
+    React.RefAttributes<ChartJSInstance<ChartTypeToLowercase[ChartType], number[], string>> & {
       data: ChartData<ChartJSType, number[], string>;
       options?: ChartOptions;
     }
   >;
 
   return (
-    <div className={`w-full md:w-[600px] h-[350px] p-4 rounded-xl shadow-md bg-${isDark ? "neutral-900" : "white"}`}>        
+    <div
+      className={`w-full md:w-[600px] h-[350px] p-4 rounded-xl shadow-md bg-${
+        isDark ? "neutral-900" : "white"
+      }`}
+    >
       <TypedChart ref={chartRef} data={styledData} options={options} />
     </div>
   );

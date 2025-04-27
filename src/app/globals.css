@@ -109,8 +109,8 @@
   border: none !important;
 }
 
-.dark .rbc-time-content > * + * > *{
-  border-color:#616161 !important ;
+.dark .rbc-time-content > * + * > * {
+  border-color: #616161 !important;
 }
 
 /* Remove center lines */
@@ -122,21 +122,20 @@
   box-shadow: none !important;
 }
 
-.rbc-timeslot-group{
+.rbc-timeslot-group {
   border-color: #616161 !important;
 }
 
-.rbc-day-slot .rbc-event-content{
+.rbc-day-slot .rbc-event-content {
   text-align: center !important;
 }
-.rbc-day-slot .rbc-event-label{
+.rbc-day-slot .rbc-event-label {
   padding-right: 0px !important;
   font-size: 90% !important;
 }
-.dark .rbc-event-label{
+.dark .rbc-event-label {
   color: rgb(177, 177, 177) !important;
 }
-
 
 /* --- Toolbar --- */
 .rbc-toolbar-label {
@@ -163,9 +162,72 @@
   box-shadow: none !important;
 }
 
-/* --- Time View Adjustments --- */
+
+
+
+/* Style the weekday labels in the header */
+
+.rbc-header + .rbc-header{
+  border: none !important;
+}
+
+.rbc-header{
+  border: none !important;
+}
+
+
+.rbc-day-bg + .rbc-day-bg {
+  border: none !important;
+}
+
+/* header  */
+.dark .rbc-time-header-content{
+  border-color: gray !important;
+}
+
+
+
+.rbc-time-header-cell {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  padding: 10px 0 !important; /* Ensure padding is applied */
+  color: #000000 !important; /* Black text in light mode */
+}
+
+/* Remove the conflicting padding rule */
+.rbc-time-header-cell {
+  padding: 10px 0 !important; /* Consistent padding */
+}
+
+/* Dark mode for weekday labels */
+.dark .rbc-time-header-cell {
+  color: #e5e7eb !important; /* Light text in dark mode */
+}
+
+/* Ensure day slots have enough width for labels */
+.rbc-day-slot {
+  font-size: 10px !important;
+  min-width: 120px !important; /* Increase width slightly to fit labels */
+}
+
+/* Ensure the time header has enough space */
 .rbc-time-header {
-  display: none !important;
+  display: flex !important;
+  background-color: #f7fdff !important;
+  border-bottom: 1px solid #616161 !important;
+  min-height: 40px !important; /* Ensure header has enough height */
+}
+
+/* Dark mode styling for the header */
+.dark .rbc-time-header {
+  background-color: #312c4a !important;
+  color: #e5e7eb !important;
+}
+
+.rbc-time-header-cell{
+  padding: 0 !important;
+  height: 60px !important;
 }
 
 .rbc-time-view {
@@ -178,10 +240,19 @@
   display: flex !important;
 }
 
+.rbc-time-view .rbc-row{
+  min-height: 0 !important;
+}
+
 /* --- Day Slot --- */
 .rbc-day-slot {
   font-size: 10px !important;
   min-width: 100px !important;
+}
+
+/* Ensure day slots in day view are wide enough */
+.rbc-day-view .rbc-day-slot {
+  min-width: 200px !important; /* Wider for day view */
 }
 
 /* Responsive adjustments */

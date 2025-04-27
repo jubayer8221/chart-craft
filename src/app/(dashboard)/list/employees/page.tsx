@@ -146,7 +146,7 @@ const EmployeesListPage = () => {
   };
 
   const renderRow = (item: Employee) => (
-    <tr key={item.id} className="border-b border-gray-200 dark:border-gray-600 even:bg-slate-50 dark:even:bg-gray-700 text-sm hover:bg-[#F1F0FF] dark:hover:bg-gray-600">
+    <tr key={item.id} className="border-b border-gray-200 dark:border-[#312c4a] even:bg-slate-50 dark:even:bg-gray-700 text-sm hover:bg-[#F1F0FF] dark:hover:bg-gray-600">
       <td className="flex items-center gap-4 p-4 cursor-pointer" onClick={() => handleOpenPopup(item)}>
         <Image src={item.photo} alt="" width={40} height={40} className="w-10 h-10 rounded-full object-cover" />
         <div className="flex flex-col">

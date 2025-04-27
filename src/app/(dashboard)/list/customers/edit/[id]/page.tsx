@@ -92,7 +92,7 @@ const EditCustomarPage = () => {
 
   return (
     <div className=""> 
-      <div className="max-w-6xl mx-auto bg-white dark:bg-gray-800 dark:text-white rounded-md shadow-2xl p-8 lg:p-14 transition-all duration-300">
+      <div className="w-full mx-auto bg-white dark:bg-[#312c4a] dark:text-white rounded-md shadow-2xl p-8 lg:p-14 transition-all duration-300">
 
         <h2 className="text-3xl md:text-4xl font-extrabold text-center dark:text-white text-[#0A3A66] mb-10 tracking-wide">
           Edit Customer Profile

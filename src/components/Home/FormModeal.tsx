@@ -82,7 +82,7 @@ const FormModal = <T,>({
           aria-hidden="true"
           onClick={handleBackgroundClick}
         >
-          <div className="bg-white dark:bg-gray-800 p-4 rounded-md relative w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[50%]">
+          <div className="bg-white dark:bg-[#312c4a] p-4 rounded-md relative w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[50%]">
             <Form />
             <div
               className="absolute top-4 right-4 cursor-pointer"
