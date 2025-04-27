@@ -1,7 +1,16 @@
 "use client";
 
-import { useState, useMemo, useEffect, ReactElement } from "react";
+import { useState, useMemo, useEffect, ReactElement, useRef } from "react";
 import type { LayoutType, ScaleType } from "recharts/types/util/types";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  requestExport,
+  resetExport,
+  toggleItemSelection,
+  toggleExportOption,
+} from "@/redux/slices/exportSlice";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import {
   BarChart,
   Bar,
@@ -22,8 +31,9 @@ import {
   Scatter,
   ZAxis,
 } from "recharts";
+import { Button } from "../ui/button";
 
-// Enhanced interface definitions
+// Interface definitions
 export interface ParsedRow {
   [key: string]: string | number | null;
 }
@@ -53,12 +63,25 @@ interface ChartConfig {
   showTooltip?: boolean;
 }
 
+interface ExportState {
+  exportFormat: "pdf" | "image" | null;
+  exportRequested: boolean;
+  selectedItems: string[];
+  selectedExportOptions: string[];
+}
+
 export function Chart({
   data,
   initialChartType = "bar",
   theme = "light",
 }: ChartProps) {
-  // State management
+  // State and refs
+  const chartRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
+  const exportState = useSelector(
+    (state: { export: ExportState }) => state.export
+  );
+  const [showExportDropdown, setShowExportDropdown] = useState(false);
   const [chartConfig, setChartConfig] = useState<ChartConfig>({
     type: initialChartType,
     stacked: false,
@@ -67,16 +90,13 @@ export function Chart({
     showGrid: true,
     showTooltip: true,
   });
-
   const [labelColumn, setLabelColumn] = useState<string>("");
   const [valueColumns, setValueColumns] = useState<string[]>([]);
   const [colors, setColors] = useState<Record<string, string>>({});
   const [showValueDropdown, setShowValueDropdown] = useState<boolean>(false);
-  // const [aggregation, setAggregation] = useState<
-  //   "none" | "sum" | "average" | "max"
-  // >("none");
   const [showOptionsDropdown, setShowOptionsDropdown] = useState(false);
 
+  // Default colors for charts
   const defaultColors = useMemo(
     () => [
       "#36A2EB",
@@ -98,16 +118,13 @@ export function Chart({
       return { columns: [], processedData: [] };
     }
 
-    // Get all unique columns
     const columns = Array.from(
       new Set(data.flatMap((row) => Object.keys(row)))
-    ).filter((col) => col); // Filter out empty column names
+    ).filter((col) => col);
 
-    // Process data with type conversion
     const processedData = data.map((row) => {
       const newRow: ParsedRow = {};
       columns.forEach((col) => {
-        // Convert numeric strings to numbers
         if (row[col] !== null && row[col] !== undefined) {
           const numValue = Number(row[col]);
           newRow[col] = isNaN(numValue) ? String(row[col]) : numValue;
@@ -140,35 +157,16 @@ export function Chart({
     return { numericColumns: numericCols, nonNumericColumns: nonNumericCols };
   }, [columns, processedData]);
 
-  // const valueDropdownRef = useRef<HTMLDivElement>(null);
-
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (
-  //       showValueDropdown &&
-  //       valueDropdownRef.current &&
-  //       !valueDropdownRef.current.contains(event.target as Node)
-  //     ) {
-  //       setShowValueDropdown(false);
-  //     }
-  //   };
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => document.removeEventListener("mousedown", handleClickOutside);
-  // }, [showValueDropdown]);
-
   // Initialize default selections
   useEffect(() => {
     if (columns.length > 0) {
-      // Auto-select first non-numeric column as label if available
       const firstNonNumeric = nonNumericColumns[0] || columns[0];
       setLabelColumn(firstNonNumeric);
 
-      // Auto-select numeric columns (limit to 3 for better visualization)
       const autoSelectedValues = numericColumns.slice(0, 3);
       if (autoSelectedValues.length > 0) {
         setValueColumns(autoSelectedValues);
 
-        // Set default colors for auto-selected columns
         const newColors: Record<string, string> = {};
         autoSelectedValues.forEach((col, index) => {
           newColors[col] = defaultColors[index % defaultColors.length];
@@ -176,14 +174,118 @@ export function Chart({
         setColors(newColors);
       }
     }
-  }, [columns, numericColumns, nonNumericColumns, defaultColors]);
+  }, [columns, numericColumns, nonNumericColumns, defaultColors]); // Added defaultColors
+
+  useEffect(() => {
+    if (chartRef.current) {
+      const elements = chartRef.current.querySelectorAll("*");
+      elements.forEach((el) => {
+        const htmlEl = el as HTMLElement; // Add type assertion
+        const style = window.getComputedStyle(htmlEl);
+        [
+          "color",
+          "background",
+          "backgroundColor",
+          "border",
+          "borderColor",
+        ].forEach((prop) => {
+          const value = style.getPropertyValue(prop);
+          if (value.includes("oklch(")) {
+            console.error(
+              "Found oklch in:",
+              htmlEl,
+              "property:",
+              prop,
+              "value:",
+              value
+            );
+            htmlEl.style.setProperty(prop, "#36A2EB");
+          }
+        });
+      });
+    }
+  }, [chartConfig, valueColumns, labelColumn]);
+
+  // Export logic
+  useEffect(() => {
+    if (
+      exportState.exportRequested &&
+      exportState.selectedItems.includes("chart")
+    ) {
+      const exportChart = async () => {
+        if (!chartRef.current) {
+          console.warn("Chart reference is not available for export");
+          dispatch(resetExport());
+          return;
+        }
+
+        try {
+          const canvas = await html2canvas(chartRef.current, {
+            scale: exportState.selectedExportOptions.includes("highResolution")
+              ? 2
+              : 1,
+            backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF", // HEX format only
+            useCORS: true,
+            logging: true, // Enable to see more debug info
+            onclone: (clonedDoc) => {
+              const elements = clonedDoc.querySelectorAll("*");
+              elements.forEach((el) => {
+                const htmlEl = el as HTMLElement; // Add type assertion
+                const style = window.getComputedStyle(htmlEl);
+                ["color", "background-color", "border-color"].forEach(
+                  (prop) => {
+                    if (style.getPropertyValue(prop).includes("oklch(")) {
+                      htmlEl.style.setProperty(prop, "#36A2EB");
+                    }
+                  }
+                );
+              });
+            },
+          });
+
+          const imgData = canvas.toDataURL("image/png");
+
+          if (exportState.exportFormat === "image") {
+            const link = document.createElement("a");
+            link.href = imgData;
+            link.download = "chart.png";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          } else if (exportState.exportFormat === "pdf") {
+            const pdf = new jsPDF({
+              orientation: "landscape",
+              unit: "px",
+              format: [canvas.width / 2, canvas.height / 2],
+            });
+            pdf.addImage(
+              imgData,
+              "PNG",
+              0,
+              0,
+              canvas.width / 2,
+              canvas.height / 2
+            );
+            pdf.save("chart.pdf");
+          }
+
+          dispatch(resetExport());
+        } catch (error) {
+          console.error("Export failed:", error);
+          dispatch(resetExport());
+        }
+      };
+
+      exportChart();
+    }
+  }, [exportState, theme, dispatch]);
 
   // Prepare data for Pie chart
   const pieData = useMemo<PieDataEntry[]>(() => {
     if (!labelColumn || !valueColumns.length || !processedData.length)
       return [];
 
-    const selectedValueColumn = valueColumns[0]; // Use first value column for pie chart
+    const selectedValueColumn = valueColumns[0];
     return processedData
       .filter(
         (item) =>
@@ -196,27 +298,31 @@ export function Chart({
         name: String(item[labelColumn]),
         value: item[selectedValueColumn] as number,
       }))
-      .filter((entry) => entry.value > 0); // Ensure non-zero values for pie chart
+      .filter((entry) => entry.value > 0);
   }, [processedData, labelColumn, valueColumns]);
 
   // Color management with localStorage persistence
   const handleColorChange = (column: string, color: string) => {
     setColors((prev) => {
       const newColors = { ...prev, [column]: color };
-      localStorage.setItem("chartColors", JSON.stringify(newColors));
+      try {
+        localStorage.setItem("chartColors", JSON.stringify(newColors));
+      } catch (e) {
+        console.error("Failed to save colors to localStorage", e);
+      }
       return newColors;
     });
   };
 
   // Initialize colors from localStorage
   useEffect(() => {
-    const savedColors = localStorage.getItem("chartColors");
-    if (savedColors) {
-      try {
+    try {
+      const savedColors = localStorage.getItem("chartColors");
+      if (savedColors) {
         setColors(JSON.parse(savedColors));
-      } catch (e) {
-        console.error("Failed to parse saved colors", e);
       }
+    } catch (e) {
+      console.error("Failed to parse saved colors from localStorage", e);
     }
   }, []);
 
@@ -237,7 +343,7 @@ export function Chart({
         ? "vertical"
         : "horizontal") as LayoutType,
       animationDuration: 500,
-      animationEasing: "ease-in-out",
+      animationEasing: "ease-in-out" as const,
     };
 
     const xAxisProps = {
@@ -403,7 +509,6 @@ export function Chart({
         ? prev.filter((c) => c !== column)
         : [...prev, column];
 
-      // Update colors for new columns
       setColors((prevColors) => {
         const newColors = { ...prevColors };
         newColumns.forEach((col) => {
@@ -428,7 +533,7 @@ export function Chart({
       }`}
     >
       {/* Controls */}
-      <div className="mb-4 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 items-start sm:items-center">
+      <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 items-start sm:items-center">
         {/* Chart Type Dropdown */}
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <label
@@ -440,8 +545,11 @@ export function Chart({
           <select
             id="chartType"
             value={chartConfig.type}
-            onChange={(e) =>
-              setChartConfig({ ...chartConfig, type: e.target.value as any })
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              setChartConfig({
+                ...chartConfig,
+                type: e.target.value as ChartConfig["type"],
+              })
             }
             className="px-2 py-1 sm:px-3 sm:py-2 border rounded-md bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base w-full sm:w-auto"
           >
@@ -453,11 +561,11 @@ export function Chart({
           </select>
         </div>
         {/* Dropdown for Chart Options */}
-        <div className="relative inline-block text-left">
+        <div className="inline-block text-left">
           <div>
             <button
               type="button"
-              className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="relative flex justify-between items-center px-3 py-2 sm:px-4 sm:py-1.5 border border-gray-300 rounded-md bg-white text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
               id="chart-options-menu"
               aria-expanded="true"
               aria-haspopup="true"
@@ -477,95 +585,92 @@ export function Chart({
                   clipRule="evenodd"
                 />
               </svg>
+              {showOptionsDropdown && (
+                <div
+                  className="top-10 absolute right-0 mt-2 w-full rounded-md shadow-lg bg-white ring-opacity-5 focus:outline-none z-10"
+                  role="menu"
+                  aria-orientation="vertical"
+                  aria-labelledby="chart-options-menu"
+                >
+                  <div className="py-1" role="none">
+                    {["bar", "area"].includes(chartConfig.type) && (
+                      <div className="px-4 py-2 border-b border-gray-100">
+                        <label className="flex items-center justify-between cursor-pointer">
+                          <span className="text-sm text-gray-700">Stacked</span>
+                          <input
+                            type="checkbox"
+                            checked={chartConfig.stacked}
+                            onChange={(e) =>
+                              setChartConfig({
+                                ...chartConfig,
+                                stacked: e.target.checked,
+                              })
+                            }
+                            className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          />
+                        </label>
+                      </div>
+                    )}
+                    {["bar"].includes(chartConfig.type) && (
+                      <div className="px-4 py-2 border-b border-gray-100">
+                        <label className="flex items-center justify-between cursor-pointer">
+                          <span className="text-sm text-gray-700">
+                            Horizontal
+                          </span>
+                          <input
+                            type="checkbox"
+                            checked={chartConfig.horizontal}
+                            onChange={(e) =>
+                              setChartConfig({
+                                ...chartConfig,
+                                horizontal: e.target.checked,
+                              })
+                            }
+                            className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          />
+                        </label>
+                      </div>
+                    )}
+                    <div className="px-4 py-2 border-b border-gray-100">
+                      <label className="flex items-center justify-between cursor-pointer">
+                        <span className="text-sm text-gray-700">
+                          Show Legend
+                        </span>
+                        <input
+                          type="checkbox"
+                          checked={chartConfig.showLegend}
+                          onChange={(e) =>
+                            setChartConfig({
+                              ...chartConfig,
+                              showLegend: e.target.checked,
+                            })
+                          }
+                          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        />
+                      </label>
+                    </div>
+                    <div className="px-4 py-2">
+                      <label className="flex items-center justify-between cursor-pointer">
+                        <span className="text-sm text-gray-700">Show Grid</span>
+                        <input
+                          type="checkbox"
+                          checked={chartConfig.showGrid}
+                          onChange={(e) =>
+                            setChartConfig({
+                              ...chartConfig,
+                              showGrid: e.target.checked,
+                            })
+                          }
+                          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              )}
             </button>
           </div>
-
-          {showOptionsDropdown && (
-            <div
-              className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="chart-options-menu"
-            >
-              <div className="py-1 " role="none">
-                {/* Layout Options */}
-                {["bar", "area"].includes(chartConfig.type) && (
-                  <div className="px-4 py-2 border-b border-gray-100">
-                    <label className="flex items-center justify-between cursor-pointer">
-                      <span className="text-sm text-gray-700">Stacked</span>
-                      <input
-                        type="checkbox"
-                        checked={chartConfig.stacked}
-                        onChange={(e) =>
-                          setChartConfig({
-                            ...chartConfig,
-                            stacked: e.target.checked,
-                          })
-                        }
-                        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                      />
-                    </label>
-                  </div>
-                )}
-
-                {["bar"].includes(chartConfig.type) && (
-                  <div className="px-4 py-2 border-b border-gray-100">
-                    <label className="flex items-center justify-between cursor-pointer">
-                      <span className="text-sm text-gray-700">Horizontal</span>
-                      <input
-                        type="checkbox"
-                        checked={chartConfig.horizontal}
-                        onChange={(e) =>
-                          setChartConfig({
-                            ...chartConfig,
-                            horizontal: e.target.checked,
-                          })
-                        }
-                        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                      />
-                    </label>
-                  </div>
-                )}
-
-                {/* Display Options */}
-                <div className="px-4 py-2 border-b border-gray-100">
-                  <label className="flex items-center justify-between cursor-pointer">
-                    <span className="text-sm text-gray-700">Show Legend</span>
-                    <input
-                      type="checkbox"
-                      checked={chartConfig.showLegend}
-                      onChange={(e) =>
-                        setChartConfig({
-                          ...chartConfig,
-                          showLegend: e.target.checked,
-                        })
-                      }
-                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                  </label>
-                </div>
-
-                <div className="px-4 py-2">
-                  <label className="flex items-center justify-between cursor-pointer">
-                    <span className="text-sm text-gray-700">Show Grid</span>
-                    <input
-                      type="checkbox"
-                      checked={chartConfig.showGrid}
-                      onChange={(e) =>
-                        setChartConfig({
-                          ...chartConfig,
-                          showGrid: e.target.checked,
-                        })
-                      }
-                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                  </label>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
-
         {/* Value Columns Selector */}
         <div className="relative w-full sm:w-[160px]">
           <button
@@ -593,7 +698,6 @@ export function Chart({
               />
             </svg>
           </button>
-
           {showValueDropdown && (
             <div className="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md border border-gray-200 max-h-96 overflow-auto">
               <div className="p-2">
@@ -625,29 +729,6 @@ export function Chart({
             </div>
           )}
         </div>
-
-        {/* Label Column Selector */}
-        {/* <div className="flex items-center gap-2 w-full sm:w-auto">
-          <label
-            htmlFor="labelColumn"
-            className="font-medium text-sm sm:text-base"
-          >
-            Label Column:
-          </label>
-          <select
-            id="labelColumn"
-            value={labelColumn}
-            onChange={(e) => setLabelColumn(e.target.value)}
-            className="px-2 py-1 sm:px-3 sm:py-2 border rounded-md bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base w-full sm:w-auto"
-          >
-            {columns.map((col) => (
-              <option key={col} value={col}>
-                {col}
-              </option>
-            ))}
-          </select>
-        </div> */}
-
         {/* Color Selectors */}
         {valueColumns.length > 0 && (
           <div className="flex flex-wrap gap-2 items-center w-full sm:w-auto">
@@ -675,12 +756,92 @@ export function Chart({
           </div>
         )}
       </div>
-
-      {/* Chart Container */}
-      <div className="w-full" style={{ height: "clamp(300px, 60vh, 600px)" }}>
+      <div
+        ref={chartRef}
+        className="w-full"
+        style={{
+          height: "clamp(300px, 60vh, 600px)",
+          backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF", // Changed to HEX
+          color: theme === "dark" ? "#FFFFFF" : "#000000", // Changed to HEX
+          borderColor: theme === "dark" ? "#4B5563" : "#D1D5DB", // Changed to HEX
+        }}
+      >
         <ResponsiveContainer width="100%" height="100%">
           {renderChart()}
         </ResponsiveContainer>
+      </div>
+      {/* Export Button Section */}
+      <div className="pb-4 px-4 relative">
+        <Button
+          onClick={() => setShowExportDropdown(!showExportDropdown)}
+          className={`inline-flex items-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            theme === "dark"
+              ? "bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
+              : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+          }`}
+        >
+          Export
+          <svg
+            className="ml-2 -mr-1 h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </Button>
+        {showExportDropdown && (
+          <div
+            className={`absolute z-10 mt-2 w-48 rounded-md shadow-lg ring-1 ring-opacity-5 ${
+              theme === "dark"
+                ? "bg-gray-700 text-white ring-gray-600"
+                : "bg-white text-gray-800 ring-black"
+            }`}
+          >
+            <div className="py-1">
+              <button
+                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"
+                onClick={() => {
+                  dispatch(toggleItemSelection("chart"));
+                  dispatch(requestExport("image"));
+                  setShowExportDropdown(false);
+                }}
+              >
+                Export as Image
+              </button>
+              <button
+                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"
+                onClick={() => {
+                  dispatch(toggleItemSelection("chart"));
+                  dispatch(requestExport("pdf"));
+                  setShowExportDropdown(false);
+                }}
+              >
+                Export as PDF
+              </button>
+              <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-600">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={exportState.selectedExportOptions.includes(
+                      "highResolution"
+                    )}
+                    onChange={() =>
+                      dispatch(toggleExportOption("highResolution"))
+                    }
+                    className="h-4 w-4 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600"
+                  />
+                  <span className="text-sm">High Resolution</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
