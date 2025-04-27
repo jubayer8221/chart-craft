@@ -3,5 +3,9 @@ export interface ParsedRow {
 }
 
 export interface DataState {
-    data: ParsedRow[];
+  data: ParsedRow[];
+  searchTerm: string;
+  filtered: ParsedRow[];
+  isLoading: boolean;
+  error: string | null;
 }

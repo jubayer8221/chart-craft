@@ -1,9 +1,10 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import {
   useReactTable,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   ColumnDef,
 } from "@tanstack/react-table";
 import { setDataToPrint, printData } from "@/redux/slices/printSlice";
@@ -13,27 +14,49 @@ import { Button } from "../ui/button";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import { setSearchTerm } from "@/redux/slices/convertDataSlice";
+import Pagination from "@/components/ui/pagination";
 
-export function Table({ data }: { data: ParsedRow[] }) {
+// Define the shape of the data slice in Redux
+interface DataState {
+  filtered: ParsedRow[];
+  searchTerm: string;
+}
+
+interface TableProps {
+  data: ParsedRow[];
+  showAll?: boolean;
+}
+
+export function Table({ data, showAll = false }: TableProps) {
   const dispatch = useDispatch();
   const { filtered, searchTerm } = useSelector(
-    (state: RootState) => state.data
+    (state: RootState) =>
+      (state.data as DataState) || { filtered: [], searchTerm: "" }
   );
+  const tableContainerRef = useRef<HTMLDivElement>(null); // Ref for the container div
+
   const handlePrint = () => {
-    dispatch(setDataToPrint(data)); // full data, not filtered
+    // Print the filtered data (or data, depending on requirements)
+    dispatch(setDataToPrint(filtered));
     dispatch(printData());
   };
 
-  // Update search term on input
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchTerm(e.target.value));
   };
 
-  // Add row index and dynamic columns
-  const columns = useMemo<
-    ColumnDef<ParsedRow & { __rowNum?: number }>[]
-  >(() => {
-    const dynamicCols = Object.keys(data[0] || {}).map((key) => ({
+  const columns = useMemo<ColumnDef<ParsedRow>[]>(() => {
+    // Handle empty data case
+    if (data.length === 0) {
+      return [
+        {
+          header: "#",
+          cell: ({ row }) => row.index + 1,
+        },
+      ];
+    }
+
+    const dynamicCols = Object.keys(data[0]).map((key) => ({
       header: key,
       accessorKey: key,
     }));
@@ -48,13 +71,19 @@ export function Table({ data }: { data: ParsedRow[] }) {
   }, [data]);
 
   const table = useReactTable({
-    data: filtered, // use filtered data for searching
+    data: filtered,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 10,
+      },
+    },
   });
 
   return (
-    <div>
+    <div ref={tableContainerRef} className="w-full">
       <div className="text-sm font-semibold text-gray-700 mt-4 flex justify-between items-center">
         <span>Total Rows: {filtered.length}</span>
         <Input
@@ -62,43 +91,67 @@ export function Table({ data }: { data: ParsedRow[] }) {
           placeholder="Search anything..."
           value={searchTerm}
           onChange={handleSearch}
-          className="w-1/2"
+          className="w-1/2 max-w-xs"
         />
-        <Button className="p-4" onClick={handlePrint}>
-          Print
-        </Button>
+        <Button onClick={handlePrint}>Print</Button>
       </div>
 
-      <table className="w-full border border-gray-300 shadow-lg my-4 py-2">
-        <thead className="bg-[#0A3A66]">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className="p-2 border bg-[#0A3A66]/10 text-white"
+      <div className="overflow-x-auto">
+        <table className="w-full border border-gray-300 shadow-lg my-4">
+          <thead className="bg-[#0A3A66]">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th
+                    key={header.id}
+                    className="p-2 border bg-[#0A3A66]/10 text-white text-left"
+                    scope="col"
+                  >
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  className="p-4 text-center text-gray-500"
                 >
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext()
-                  )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} className="hover:bg-gray-200 text-center">
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="p-2 border">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  No data available
                 </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              </tr>
+            ) : (
+              table.getRowModel().rows.map((row) => (
+                <tr key={row.id} className="hover:bg-gray-200 text-center">
+                  {row.getVisibleCells().map((cell) => (
+                    <td key={cell.id} className="p-2 border">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <Pagination<ParsedRow>
+        table={table}
+        showAll={showAll}
+        tableRef={tableContainerRef}
+        pageSizeOptions={[10, 20, 50]}
+      />
     </div>
   );
 }
+
+export default Table;
