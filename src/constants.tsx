@@ -4,10 +4,12 @@ import { FiHome } from "react-icons/fi";
 import { RiMessage3Line } from "react-icons/ri";
 import { LiaHireAHelper } from "react-icons/lia";
 import { LuSettings } from "react-icons/lu";
-import { MdOutlineSchool } from "react-icons/md";
+// import { MdOutlineSchool } from "react-icons/md";
 import { TbReportSearch } from "react-icons/tb";
 import { MdOutlineManageAccounts } from "react-icons/md";
 import { MdOutlinePrivacyTip } from "react-icons/md";
+import { LuLayoutDashboard } from "react-icons/lu";
+import { TiThListOutline } from "react-icons/ti";
 // import { MdElectricBolt } from "react-icons/md";
 // import { SiWikibooks } from "react-icons/si";
 // import { LuShoppingBasket } from "react-icons/lu";
@@ -30,6 +32,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
       {
         title: "Dashboard",
         path: "/dashboard",
+        icon: <LuLayoutDashboard className="text-[16px]" />,
         visible: ["admin"],
         submenu: true,
         subMenuItems: [
@@ -68,7 +71,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
       {
         title: "Themes",
         path: "/themes",
-        icon: <MdOutlineSchool className="w-[16px] h-[16px]" />,
+        icon: <TiThListOutline className="w-[16px] h-[16px]" />,
         visible: ["admin", "employee", "customer"],
         submenu: false,
         subMenuItems: [
