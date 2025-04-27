@@ -1,6 +1,10 @@
 "use client";
 
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import * as XLSX from "xlsx";
 import * as pdfjsLib from "pdfjs-dist";
 import { TextContent, TextItem, TextMarkedContent } from "pdfjs-dist/types/src/display/api";
@@ -8,46 +12,62 @@ import Tesseract from "tesseract.js";
 import { DataState, ParsedRow } from "@/types/convertType";
 import Papa from "papaparse";
 
-const initialState: DataState & { searchTerm: string; filtered: ParsedRow[] } = {
+const initialState: DataState = {
   data: [],
   searchTerm: "",
   filtered: [],
+  isLoading: false,
+  error: null,
 };
 
 const isTextItem = (item: TextItem | TextMarkedContent): item is TextItem => {
   return "str" in item;
 };
 
-export const handleFileUpload = createAsyncThunk<ParsedRow[], File>(
-  "data/handleFileUpload",
-  async (file) => {
+export const handleFileUpload = createAsyncThunk<
+  ParsedRow[],
+  File,
+  { rejectValue: string }
+>("data/handleFileUpload", async (file: File, { rejectWithValue }) => {
+  try {
     const extension = file.name.split(".").pop()?.toLowerCase();
+    const mimeType = file.type;
 
-    if (extension === "xlsx") {
+    if (
+      (extension === "xlsx" || extension === "xls") &&
+      mimeType === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    ) {
       const data = await file.arrayBuffer();
       const workbook = XLSX.read(data, { type: "array" });
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
-      return XLSX.utils.sheet_to_json(sheet) as ParsedRow[];
+      const jsonData = XLSX.utils.sheet_to_json<ParsedRow>(sheet);
+      return jsonData;
     }
 
-    if (extension === "csv") {
+    if (extension === "csv" && mimeType === "text/csv") {
       return new Promise<ParsedRow[]>((resolve, reject) => {
-        const results: ParsedRow[] = [];
-        Papa.parse(file, {
+        Papa.parse<ParsedRow>(file, {
           header: true,
           dynamicTyping: true,
           skipEmptyLines: true,
-          chunk: (chunk) => {
-            results.push(...(chunk.data as ParsedRow[]));
+          complete: (results: Papa.ParseResult<ParsedRow>) => {
+            resolve(results.data);
           },
-          complete: () => resolve(results),
-          error: (err) => reject(err),
+          error: (error: Error) => {
+            reject(rejectWithValue(error.message));
+          },
         });
       });
     }
 
-    if (extension === "pdf") {
+    if (extension === "pdf" && mimeType === "application/pdf") {
+      if (typeof window === "undefined") {
+        return rejectWithValue("PDF processing requires browser environment");
+      }
+
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
+
       const data = new Uint8Array(await file.arrayBuffer());
       const pdf = await pdfjsLib.getDocument({ data }).promise;
       const textContent: ParsedRow[] = [];
@@ -57,7 +77,7 @@ export const handleFileUpload = createAsyncThunk<ParsedRow[], File>(
         const content: TextContent = await page.getTextContent();
         const pageText = content.items
           .filter(isTextItem)
-          .map((item: TextItem) => item.str)
+          .map((item) => item.str)
           .join(" ");
         textContent.push({ Page: i, Text: pageText });
       }
@@ -65,14 +85,23 @@ export const handleFileUpload = createAsyncThunk<ParsedRow[], File>(
       return textContent;
     }
 
-    if (file.type.startsWith("image/")) {
-      const text = await Tesseract.recognize(file, "eng");
-      return [{ Text: text.data.text }];
+    if (
+      mimeType.startsWith("image/") &&
+      ["image/jpeg", "image/png", "image/gif"].includes(mimeType)
+    ) {
+      const result = await Tesseract.recognize(file, "eng");
+      return [{ Text: result.data.text }];
     }
 
-    return [];
+    return rejectWithValue(
+      `Unsupported file type: ${extension} (MIME: ${mimeType})`
+    );
+  } catch (error) {
+    return rejectWithValue(
+      error instanceof Error ? error.message : "Unknown error"
+    );
   }
-);
+});
 
 const dataSlice = createSlice({
   name: "data",
@@ -80,6 +109,10 @@ const dataSlice = createSlice({
   reducers: {
     setSearchTerm: (state, action: PayloadAction<string>) => {
       state.searchTerm = action.payload;
+      if (!action.payload) {
+        state.filtered = state.data;
+        return;
+      }
       const searchLower = action.payload.toLowerCase();
       state.filtered = state.data.filter((row) =>
         Object.values(row).some((val) =>
@@ -87,14 +120,37 @@ const dataSlice = createSlice({
         )
       );
     },
+    clearData: (state) => {
+      state.data = [];
+      state.filtered = [];
+      state.searchTerm = "";
+      state.error = null;
+      state.isLoading = false;
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(handleFileUpload.fulfilled, (state, action) => {
-      state.data = action.payload;
-      state.filtered = action.payload;
-    });
+    builder
+      .addCase(handleFileUpload.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(
+        handleFileUpload.fulfilled,
+        (state, action: PayloadAction<ParsedRow[]>) => {
+          state.isLoading = false;
+          state.data = action.payload;
+          state.filtered = action.payload;
+          state.searchTerm = "";
+        }
+      )
+      .addCase(handleFileUpload.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || "Failed to process file";
+      });
   },
 });
 
-export const { setSearchTerm } = dataSlice.actions;
+export const { setSearchTerm, clearData } = dataSlice.actions;
+
+// export const { setSearchTerm, requestExport, clearData } = dataSlice.actions;
 export default dataSlice.reducer;

@@ -30,17 +30,20 @@ export function UploadZone() {
   });
 
   return (
-    <div>
+    <div className="dark:bg-gray-900">
       <div>
-        <h2 className="text-2xl font-semibold py-2 pb-10">
-          Upload your data file to generate visual representations as both a
-          table and chart.
+        <h2 className="text-2xl font-semibold py-2 pb-10 text-center dark:text-white">
+          EXCEL to CHART Converter
+          <span className="text-sm block">
+            Upload your data file to generate visual representations as both a
+            table and chart.
+          </span>
         </h2>
         {/* <h1 className="text-2xl font-semibold ">Your Data as Table</h1> */}
       </div>
       <div
         {...getRootProps()}
-        className="border-2 border-dashed h-[270px] border-gray-300 p-4 md:p-6 lg:p-8 rounded-xl text-center cursor-pointer hover:bg-white transition-colors duration-200 w-full max-w-2xl mx-auto shadow-lg hover:shadow-xl"
+        className="border-2 border-dashed h-[270px] border-gray-300 p-4 md:p-6 lg:p-8 rounded-xl text-center cursor-pointer hover:bg-white transition-colors duration-200 w-full max-w-2xl mx-auto shadow-lg hover:shadow-xl bg-white"
       >
         <input {...getInputProps()} />
         <div className="flex flex-col items-center justify-center space-y-2 md:space-y-3">

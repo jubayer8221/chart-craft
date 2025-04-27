@@ -52,7 +52,7 @@ const ExportAlert = ({
   onClose: () => void;
 }) => {
   return (
-    <div className="fixed top-4 right-4 z-50 animate-fade-in">
+    <div className="fixed top-4 right-4 z-50 animate-fade-in ">
       <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-4 max-w-sm">
         <div className="flex items-start">
           <div className="flex-shrink-0 text-red-500 mt-0.5">

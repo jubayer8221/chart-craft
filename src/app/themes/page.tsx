@@ -19,23 +19,23 @@ import { useRouter } from "next/navigation";
 const cardContentMap = {
   "top-selling": {
     component: <TopSellingCard />,
-    path: "/employe_dashboard/cards/top-selling",
+    path: "/themes/cards/top-selling",
   },
-  "stock-report": {
+  "chart-theme": {
     component: <StockReportCard />,
-    path: "/employe_dashboard/cards/stock-report",
+    path: "/themes/cards/chart-theme",
   },
   "recent-orders": {
     component: <RecentOrdersCard />,
-    path: "/employe_dashboard/cards/recent-orders",
+    path: "/themes/cards/recent-orders",
   },
   "sells-table": {
     component: <SellsTable></SellsTable>,
-    path: "/employe_dashboard/cards/sells-table",
+    path: "/themes/cards/sells-table",
   },
   "file-Convert": {
     component: <FileConvert></FileConvert>,
-    path: "/employe_dashboard/cards/fileConvert",
+    path: "/themes/cards/fileConvert",
   },
   // Add more cards here if neede
 };
@@ -45,7 +45,7 @@ type CardID = keyof typeof cardContentMap;
 const Dashboard = () => {
   const [cards, setCards] = useState<CardID[]>([
     "top-selling",
-    "stock-report",
+    "chart-theme",
     "recent-orders",
     "sells-table",
     "file-Convert",
