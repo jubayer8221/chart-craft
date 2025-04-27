@@ -9,7 +9,7 @@ import { TbReportSearch } from "react-icons/tb";
 import { MdOutlineManageAccounts } from "react-icons/md";
 import { MdOutlinePrivacyTip } from "react-icons/md";
 // import { MdElectricBolt } from "react-icons/md";
-import { SiWikibooks } from "react-icons/si";
+// import { SiWikibooks } from "react-icons/si";
 // import { LuShoppingBasket } from "react-icons/lu";
 // import { MdOutlineToys } from "react-icons/md";
 // import { GiScrollUnfurled } from "react-icons/gi";
@@ -57,17 +57,17 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
         icon: <FiUsers className="w-[16px] h-[16px]" />,
         visible: ["admin", "customer"],
       },
-      {
-        title: "Buy & Sell Report",
-        path: "/buySellChart",
-        // submenu: true,
-        icon: <SiWikibooks className="w-[16px] h-[16px]" />,
-        visible: ["admin"],
-      },
+      // {
+      //   title: "Buy & Sell Report",
+      //   path: "/buySellChart",
+      //   // submenu: true,
+      //   icon: <SiWikibooks className="w-[16px] h-[16px]" />,
+      //   visible: ["admin"],
+      // },
 
       {
         title: "Themes",
-        path: "/employe_dashboard",
+        path: "/themes",
         icon: <MdOutlineSchool className="w-[16px] h-[16px]" />,
         visible: ["admin", "employee", "customer"],
         submenu: false,
@@ -93,7 +93,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
       },
       {
         title: "Report",
-        path: "/training/report",
+        path: "/buySellChart",
         icon: <TbReportSearch className="w-[16px] h-[16px]" />,
         visible: ["admin", "employee", "customer"],
       },

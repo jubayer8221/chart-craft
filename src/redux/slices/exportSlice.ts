@@ -1,43 +1,51 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ExportState {
-  selectedItems: string[];
-  selectedExportOptions: string[];
+  exportFormat: "pdf" | "image" | null;
+  exportRequested: boolean;
+  selectedItems: string[]; // Tracks selected chart items (e.g., IDs of charts)
+  selectedExportOptions: string[]; // Tracks export options (e.g., "includeLegend", "highResolution")
 }
 
 const initialState: ExportState = {
+  exportFormat: null,
+  exportRequested: false,
   selectedItems: [],
-  selectedExportOptions: ["csv"],
+  selectedExportOptions: [],
 };
 
-export const exportSlice = createSlice({
+const exportSlice = createSlice({
   name: "export",
   initialState,
   reducers: {
+    requestExport: (state, action: PayloadAction<"pdf" | "image">) => {
+      state.exportFormat = action.payload;
+      state.exportRequested = true;
+    },
+    resetExport: (state) => {
+      state.exportFormat = null;
+      state.exportRequested = false;
+      state.selectedItems = [];
+      state.selectedExportOptions = [];
+    },
     toggleItemSelection: (state, action: PayloadAction<string>) => {
-      const itemId = action.payload;
-      if (state.selectedItems.includes(itemId)) {
-        state.selectedItems = state.selectedItems.filter(id => id !== itemId);
-      } else {
-        state.selectedItems.push(itemId);
-      }
+      const item = action.payload;
+      state.selectedItems = state.selectedItems.includes(item)
+        ? state.selectedItems.filter((i) => i !== item)
+        : [...state.selectedItems, item];
     },
     toggleExportOption: (state, action: PayloadAction<string>) => {
       const option = action.payload;
-      if (state.selectedExportOptions.includes(option)) {
-        state.selectedExportOptions = state.selectedExportOptions.filter(
-          opt => opt !== option
-        );
-      } else {
-        state.selectedExportOptions.push(option);
-      }
+      state.selectedExportOptions = state.selectedExportOptions.includes(option)
+        ? state.selectedExportOptions.filter((o) => o !== option)
+        : [...state.selectedExportOptions, option];
     },
-    clearSelections: state => {
+    clearSelections: (state) => {
       state.selectedItems = [];
+      state.selectedExportOptions = [];
     },
   },
 });
 
-export const { toggleItemSelection, toggleExportOption, clearSelections } =
-  exportSlice.actions;
+export const { requestExport, resetExport, toggleItemSelection, toggleExportOption, clearSelections } = exportSlice.actions;
 export default exportSlice.reducer;

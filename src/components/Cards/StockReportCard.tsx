@@ -72,7 +72,7 @@ const StockReportCard = () => {
 
   return (
     <div className="">
-      <h1 className="text-lg font-semibold pb-2">Stock Report</h1>
+      <h1 className="text-lg font-semibold pb-2">Chart Theme</h1>
       <div className="h-[280px]">
         <Bar data={data} options={options} />
       </div>
