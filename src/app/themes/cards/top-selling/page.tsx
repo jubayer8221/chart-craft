@@ -135,7 +135,7 @@ const SellsTable = () => {
   };
 
   return (
-    <div className="p-4 bg-gray-50 min-h-[500px]">
+    <div className="p-4 bg-gray-50 dark:bg-gray-600 min-h-[500px]">
       <div className="">
         <h1 className="text-2xl font-bold py-4">Top Selling Report</h1>
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
@@ -164,14 +164,14 @@ const SellsTable = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full border border-gray-300 text-sm sm:text-base">
+        <table className="w-full border border-gray-300 dark:bg-gray-700 text-sm sm:text-base">
           <thead>
-            <tr className="bg-gray-100 text-left">
-              <th className="px-4 py-2 border">Item</th>
-              <th className="px-4 py-2 border">Price</th>
-              <th className="px-4 py-2 border">Sold</th>
-              <th className="px-4 py-2 border">Category</th>
-              <th className="px-4 py-2 border">Stock</th>
+            <tr className="bg-gray-100 dark:bg-gray-800 text-left">
+              <th className="px-4 py-2 border dark:border-gray-500">Item</th>
+              <th className="px-4 py-2 border dark:border-gray-500">Price</th>
+              <th className="px-4 py-2 border dark:border-gray-500">Sold</th>
+              <th className="px-4 py-2 border dark:border-gray-500">Category</th>
+              <th className="px-4 py-2 border dark:border-gray-500">Stock</th>
             </tr>
           </thead>
           <tbody>
@@ -183,11 +183,11 @@ const SellsTable = () => {
                 }`}
                 onClick={() => handleRowClick(index)}
               >
-                <td className="px-4 py-2 border">{item.name}</td>
-                <td className="px-4 py-2 border">{item.price}</td>
-                <td className="px-4 py-2 border">{item.sold}</td>
-                <td className="px-4 py-2 border">{item.category}</td>
-                <td className="px-4 py-2 border">{item.stock}</td>
+                <td className="px-4 py-2 border dark:border-gray-500">{item.name}</td>
+                <td className="px-4 py-2 border dark:border-gray-500">{item.price}</td>
+                <td className="px-4 py-2 border dark:border-gray-500">{item.sold}</td>
+                <td className="px-4 py-2 border dark:border-gray-500">{item.category}</td>
+                <td className="px-4 py-2 border dark:border-gray-500">{item.stock}</td>
               </tr>
             ))}
           </tbody>

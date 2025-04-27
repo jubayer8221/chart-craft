@@ -88,7 +88,7 @@ const CreateEmployeePopup = ({
         aria-hidden="true"
       ></div>
 
-      <div className="relative z-50 p-4 bg-zinc-400 rounded-lg shadow-lg flex flex-col w-full max-w-4xl">
+      <div className="relative z-50 p-4 bg-zinc-400 dark:bg-[#463f59] rounded-lg shadow-lg flex flex-col w-full max-w-4xl">
         <button
           onClick={onClose}
           className="transition-colors pb-4 self-end"
@@ -99,7 +99,7 @@ const CreateEmployeePopup = ({
           </div>
         </button>
 
-        <div className="bg-white dark:bg-gray-800 rounded-md shadow-2xl p-6 sm:p-8 lg:p-14 transition-all duration-300 w-full max-h-[90vh] overflow-y-auto scrollbar-hiden">
+        <div className="bg-white dark:bg-[#312c4a] rounded-md shadow-2xl p-6 sm:p-4 lg:p-8 transition-all duration-300 w-full max-h-[90vh] overflow-y-auto scrollbar-hiden">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center text-[#0A3A66] dark:text-white mb-8 tracking-wide">
             Create Employee
           </h2>
@@ -127,7 +127,7 @@ const CreateEmployeePopup = ({
                 onChange={handleChange}
                 className="absolute inset-0 opacity-0 w-full h-full z-10 cursor-pointer"
               />
-              <span className="inline-block px-6 py-2 bg-white dark:bg-gray-800 dark:border-gray-700 border border-gray-300 rounded-full text-sm font-medium text-[#0A3A66] dark:hover:bg-gray-500 dark:text-white hover:bg-gray-100 transition shadow-sm">
+              <span className="inline-block px-6 py-2 bg-white dark:bg-[#685e74] dark:border-gray-700 border border-gray-300 rounded-full text-sm font-medium text-[#0A3A66] dark:hover:bg-gray-500 dark:text-white hover:bg-gray-100 transition shadow-sm">
                 Upload New Photo
               </span>
             </label>
@@ -236,7 +236,7 @@ const CreateEmployeePopup = ({
             <div className="md:col-span-2 lg:col-span-3 flex justify-center mt-6">
               <button
                 type="submit"
-                className="px-6 py-3 flex items-center gap-2 text-base sm:text-lg font-semibold bg-white dark:border-gray-700 dark:bg-gray-800 bg-opacity-70 border border-gray-300 rounded-md shadow-lg hover:scale-105 hover:bg-opacity-100 hover:text-[#0A3A66] dark:hover:text-white transition duration-300 backdrop-blur-md"
+                className="px-6 py-3 flex items-center gap-2 text-base sm:text-lg font-semibold bg-white dark:border-gray-700 dark:bg-[#685e74] bg-opacity-70 border border-gray-300 rounded-md shadow-lg hover:scale-105 hover:bg-opacity-100 hover:text-[#0A3A66] dark:hover:text-white transition duration-300 backdrop-blur-md"
               >
                 <VscGitPullRequestCreate className="text-xl" /> Create
               </button>

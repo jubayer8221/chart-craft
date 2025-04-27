@@ -1,11 +1,13 @@
 import Image from "next/image";
-import { IoClose } from "react-icons/io5";
+import { IoCalendarOutline, IoClose } from "react-icons/io5";
 import Performance from "./Performance";
 import Announcements from "./Announcements";
 import Link from "next/link";
 import BigCalendar from "./BigCalendar";
 import { useEffect } from "react";
 import { RiProjectorLine } from "react-icons/ri";
+import { MdOutlineBloodtype, MdOutlineMail } from "react-icons/md";
+import { TbPhoneRinging } from "react-icons/tb";
 
 type Customar = {
   id: number;
@@ -49,7 +51,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
 
       {/* Modal Content */}
       <div
-        className="relative z-50 w-full max-w-6xl bg-zinc-400 dark:bg-gray-700 rounded-lg shadow-lg flex flex-col"
+        className="relative z-50 w-full max-w-6xl bg-zinc-400 dark:bg-[#463f59] rounded-lg shadow-lg flex flex-col"
       >
         <button
           onClick={onClose}
@@ -67,7 +69,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
             {/* Top Section */}
             <div className="flex flex-col lg:flex-row gap-4">
               {/* User Info Card */}
-              <div className="bg-[#C3EBFA] dark:bg-[#2f5c6d] py-6 px-4 rounded-md w-full sm:w-full md:w-full xl:w-1/2 flex items-center flex-wrap gap-4">
+              <div className="bg-[#C3EBFA] dark:bg-[#312c4a] py-6 px-4 rounded-md w-full sm:w-full md:w-full xl:w-1/2 flex items-center flex-wrap gap-4">
                 <div>
                   <Image
                     src={
@@ -88,46 +90,21 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                   </p>
-                  <div className="flex items-center justify-between gap-2 flex-wrap text-xs font-medium">
+                  <div className=" mt-2 flex items-center justify-between gap-2 flex-wrap text-xs font-medium">
                     <div className="flex w-full items-center gap-2 md:w-1/3 lg:w-full 2xl:w-full">
-                      <Image
-                        src="/assets/blood.png"
-                        alt="Blood type icon"
-                        width={14}
-                        height={14}
-                        onError={(e) => (e.currentTarget.src = defaultIcon)}
-                        className="dark:text-white"
-                      />
+                      <MdOutlineBloodtype className="text-[16px] dark:text-white" />
                       <span className="dark:text-white">{customar.blood}</span>
                     </div>
                     <div className="flex w-full items-center gap-2 md:w-1/3 lg:w-full 2xl:w-full">
-                      <Image
-                        src="/assets/date.png"
-                        alt="Date icon"
-                        width={14}
-                        height={14}
-                        onError={(e) => (e.currentTarget.src = defaultIcon)}
-                      />
+                      <IoCalendarOutline className="text-[16px] dark:text-white" />
                       <span className="dark:text-white">January 2025</span>
                     </div>
                     <div className="flex w-full items-center gap-2 md:w-1/3 lg:w-full 2xl:w-full">
-                      <Image
-                        src="/assets/mail.png"
-                        alt="Email icon"
-                        width={14}
-                        height={14}
-                        onError={(e) => (e.currentTarget.src = defaultIcon)}
-                      />
+                      <MdOutlineMail className="text-[16px] dark:text-white" />
                       <span className="dark:text-white">{customar.email || "N/A"}</span>
                     </div>
                     <div className="flex w-full items-center gap-2 md:w-1/3 lg:w-full 2xl:w-full">
-                      <Image
-                        src="/assets/phone.png"
-                        alt="Phone icon"
-                        width={14}
-                        height={14}
-                        onError={(e) => (e.currentTarget.src = defaultIcon)}
-                      />
+                      <TbPhoneRinging className="text-[16px] dark:text-white"/>
                       <span className="dark:text-white">
                         {customar.phone ? `+880${customar.phone}` : "N/A"}
                       </span>
@@ -138,7 +115,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
               {/* Small Cards and Shortcuts */}
               <div className="flex gap-4 w-full sm:w-full md:w-full xl:w-1/2">
                 <div className="flex gap-4 justify-between flex-wrap w-full sm:w-full md:w-full xl:w-1/2">
-                  <div className="bg-white dark:bg-gray-600 p-3 rounded-md flex flex-col gap-2 w-full">
+                  <div className="bg-white dark:bg-[#312c4a] p-3 rounded-md flex flex-col gap-2 w-full">
                     <div className="flex items-center gap-4">
                       <Image
                         src="/assets/singleAttendance.png"
@@ -154,7 +131,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                       Work Attendance
                     </span>
                   </div>
-                  <div className="bg-white dark:bg-gray-600 p-3 rounded-md flex flex-col gap-2 w-full">
+                  <div className="bg-white dark:bg-[#312c4a] p-3 rounded-md flex flex-col gap-2 w-full">
                     <div className="flex gap-4 items-center">
                       <Image
                         src="/assets/singleBranch.png"
@@ -168,7 +145,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                     </div>
                     <span className="text-sm text-gray-400">Branches</span>
                   </div>
-                  <div className="bg-white dark:bg-gray-600 p-3 rounded-md flex flex-col gap-2 w-full">
+                  <div className="bg-white dark:bg-[#312c4a] p-3 rounded-md flex flex-col gap-2 w-full">
                     <div className="flex gap-4 items-center">
                       <RiProjectorLine
                         width={24}
@@ -179,7 +156,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                     </div>
                     <span className="text-sm text-gray-400">Projects</span>
                   </div>
-                  <div className="bg-white dark:bg-gray-600 p-3 rounded-md flex flex-col gap-2 w-full">
+                  <div className="bg-white dark:bg-[#312c4a] p-3 rounded-md flex flex-col gap-2 w-full">
                     <div className="flex items-center gap-4">
                       <Image
                         src="/assets/singleLesson.png"
@@ -196,16 +173,16 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
                 </div>
                 {/* Shortcuts */}
                 <div className="flex flex-col gap-4 w-full sm:w-full md:w-full xl:w-1/2">
-                  <h1 className="text-xl font-semibold bg-white dark:bg-gray-600 p-3 rounded-md h-[80px]">
+                  <h1 className="text-xl font-semibold bg-white dark:bg-[#312c4a] p-3 rounded-md h-[80px]">
                     Shortcuts
                   </h1>
-                  <Link href="/" className="bg-white dark:bg-gray-600 p-3 rounded-md h-[80px]">
+                  <Link href="/" className="bg-white dark:bg-[#312c4a] p-3 rounded-md h-[80px]">
                     Employees
                   </Link>
-                  <Link href="/" className="p-3 rounded-md dark:bg-gray-600 bg-white h-[80px]">
+                  <Link href="/" className="p-3 rounded-md dark:bg-[#312c4a] bg-white h-[80px]">
                     Events
                   </Link>
-                  <Link href="/" className="p-3 rounded-md dark:bg-gray-600 bg-white h-[80px]">
+                  <Link href="/" className="p-3 rounded-md dark:bg-[#312c4a] bg-white h-[80px]">
                     Announcements
                   </Link>
                 </div>
@@ -213,7 +190,7 @@ const CustomarPopup = ({ customar, onClose }: CustomarPopupProps) => {
             </div>
 
             {/* Bottom Section */}
-            <div className="mt-4 bg-white dark:bg-gray-800 rounded-md p-4 h-[800px]">
+            <div className="mt-4 bg-white dark:bg-[#312c4a] rounded-md p-4 h-[800px]">
               <h1 className="text-xl font-semibold">Customer&apos;s Schedule</h1>
               <BigCalendar />
             </div>

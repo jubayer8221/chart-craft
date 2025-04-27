@@ -10,9 +10,9 @@ const data = [
 
 const Performance = () => {
   return (
-    <div className="relative bg-white dark:bg-gray-800 p-4 rounded-md h-[370px] mb-4">
+    <div className="relative bg-white dark:bg-[#312c4a] p-4 rounded-md h-[370px] mb-4">
       <div className="flex items-center justify-between">
-        <h1>Perormance</h1>
+        <h1 className="font-semibold text-xl">Perormance</h1>
         <Image src='/assets/moreDark.png' alt="" width={16} height={16} />
       </div>
       <ResponsiveContainer width="100%" height="100%">

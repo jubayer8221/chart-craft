@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @tailwind utilities;
 
-
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
@@ -36,7 +35,6 @@
   }
 }
 
-
 .scrollbar-hiden {
   scrollbar-width: none;
 }
@@ -65,91 +63,90 @@
   background: #555;
 }
 
-/* Light mode background */
-.react-calendar,
+/* ========== Small Calendar (react-calendar) ========== */
+
+/* Light mode */
+.react-calendar {
+  width: 100% !important;
+  border: none !important;
+  background-color: #ffffff;
+  font-family: "Inter", sans-serif !important;
+}
+
+/* Dark mode */
+.dark .react-calendar {
+  background-color: #312c4a !important;
+  color: #e5e7eb !important;
+}
+
+/* ========== Big Calendar (react-big-calendar) ========== */
+
+/* --- General Layout --- */
+
+/* Light mode */
 .rbc-time-view,
 .rbc-time-content,
 .rbc-timeslot-group {
-  background-color: #ffffff; /* light background */
+  background-color: #ffffff;
+  border-color: #000000 !important;
 }
 
-/* Dark mode background override */
-.dark .react-calendar,
-.dark .rbc-time-view,
-.dark .rbc-time-content,
-.dark .rbc-timeslot-group {
-  background-color: #1f2937; /* dark gray or customize as needed */
-}
-
-.dark .rbc-day-slot,
-.dark .rbc-time-gutter.rbc-time-column {
-  background-color: #1f2937 !important; /* match dark bg */
-  color: #e5e7eb !important; /* light text for dark background */
-}
-
-.dark .rbc-time-view, 
-.dark .rbc-time-content {
-  border-color: #1f1f1f;
-}
-
-
-/* big calender */
+/* Dark mode */
 .dark .rbc-calendar,
 .dark .rbc-time-view,
 .dark .rbc-time-content,
 .dark .rbc-timeslot-group,
 .dark .rbc-day-slot,
 .dark .rbc-time-gutter.rbc-time-column {
-  background-color: #1f2937 !important;
+  background-color: #312c4a !important;
   color: #e5e7eb !important;
-  border: #28323f ;
 }
-
-.dark .rbc-time-view, 
+.dark .rbc-time-view,
 .dark .rbc-time-content {
-  border-color: #000000;
+  border-color: #616161 !important;
 }
-.dark .rbc-day-slot{
+.dark .rbc-day-slot {
   border: none !important;
 }
-.dark .rbc-event {
-  color: #111827 !important; /* almost-black for legibility on pastel backgrounds */
-  font-weight: 500;
+
+.dark .rbc-time-content > * + * > * {
+  border-color: #616161 !important;
 }
 
+/* Remove center lines */
+.rbc-time-slot,
+.rbc-time-slot-group {
+  border-top: none !important;
+  border-bottom: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.rbc-timeslot-group {
+  border-color: #616161 !important;
+}
+
+.rbc-day-slot .rbc-event-content {
+  text-align: center !important;
+}
+.rbc-day-slot .rbc-event-label {
+  padding-right: 0px !important;
+  font-size: 90% !important;
+}
 .dark .rbc-event-label {
-  color: #d1d5db !important;
+  color: rgb(177, 177, 177) !important;
 }
 
-
-
-
-.react-calendar {
-  width: 100% !important;
-  border: none !important;
-  font-family: "Inter", sans-serif !important;
-  
-}
-
-/* Ensure the calendar container supports horizontal scrolling */
-.rbc-time-view {
-  border-color: #eee !important;
-  overflow-x: auto !important; /* Enable horizontal scrolling */
-  white-space: nowrap !important; /* Prevent wrapping of days */
-}
-
-/* Hide the time header as per original design */
-.rbc-time-header {
-  display: none !important;
-}
-
-/* Style for the toolbar label */
+/* --- Toolbar --- */
 .rbc-toolbar-label {
   text-align: right !important;
   padding: 0px 20px !important;
 }
 
-/* Style for the view toggle buttons */
+.rbc-btn-group:first-child {
+  display: none !important;
+}
+
 .rbc-btn-group:last-child {
   font-size: 13px !important;
 }
@@ -165,92 +162,197 @@
   box-shadow: none !important;
 }
 
-/* Hide the first button group (navigation) */
-.rbc-btn-group:first-child {
-  display: none !important;
-}
 
-/* Time content styling */
-.rbc-time-content {
+
+
+/* Style the weekday labels in the header */
+
+.rbc-header + .rbc-header{
   border: none !important;
-  display: flex !important; /* Ensure days are laid out in a row */
 }
 
-/* Ensure each day column has a minimum width for readability */
+.rbc-header{
+  border: none !important;
+}
+
+
+.rbc-day-bg + .rbc-day-bg {
+  border: none !important;
+}
+
+/* header  */
+.dark .rbc-time-header-content{
+  border-color: gray !important;
+}
+
+
+
+.rbc-time-header-cell {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  padding: 10px 0 !important; /* Ensure padding is applied */
+  color: #000000 !important; /* Black text in light mode */
+}
+
+/* Remove the conflicting padding rule */
+.rbc-time-header-cell {
+  padding: 10px 0 !important; /* Consistent padding */
+}
+
+/* Dark mode for weekday labels */
+.dark .rbc-time-header-cell {
+  color: #e5e7eb !important; /* Light text in dark mode */
+}
+
+/* Ensure day slots have enough width for labels */
 .rbc-day-slot {
   font-size: 10px !important;
-  min-width: 100px !important; /* Set a minimum width for each day column */
+  min-width: 120px !important; /* Increase width slightly to fit labels */
 }
 
-/* Time gutter (left side with hours) */
+/* Ensure the time header has enough space */
+.rbc-time-header {
+  display: flex !important;
+  background-color: #f7fdff !important;
+  border-bottom: 1px solid #616161 !important;
+  min-height: 40px !important; /* Ensure header has enough height */
+}
+
+/* Dark mode styling for the header */
+.dark .rbc-time-header {
+  background-color: #312c4a !important;
+  color: #e5e7eb !important;
+}
+
+.rbc-time-header-cell{
+  padding: 0 !important;
+  height: 60px !important;
+}
+
+.rbc-time-view {
+  overflow-x: auto !important;
+  white-space: wrap !important;
+}
+
+.rbc-time-content {
+  border: none !important;
+  display: flex !important;
+}
+
+.rbc-time-view .rbc-row{
+  min-height: 0 !important;
+}
+
+/* --- Day Slot --- */
+.rbc-day-slot {
+  font-size: 10px !important;
+  min-width: 100px !important;
+}
+
+/* Ensure day slots in day view are wide enough */
+.rbc-day-view .rbc-day-slot {
+  min-width: 200px !important; /* Wider for day view */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .rbc-time-view {
+    max-width: 100% !important;
+  }
+  .rbc-day-slot {
+    min-width: 120px !important;
+  }
+}
+
+/* --- Time Gutter --- */
 .rbc-time-gutter.rbc-time-column {
   font-size: 12px !important;
-  position: sticky !important; /* Keep the time gutter fixed while scrolling */
+  position: sticky !important;
   left: 0 !important;
   background-color: #f7fdff !important;
   z-index: 1 !important;
 }
 
 .rbc-time-gutter.rbc-time-column .rbc-timeslot-group {
-  padding: 0px 8px !important;
+  padding: 0px 0px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .rbc-timeslot-group {
   background-color: #f7fdff !important;
 }
 
-/* Event styling */
+/* --- Event Styling --- */
 .rbc-event {
   border: none !important;
   color: black !important;
-  padding: 2px !important;
-  display: flex;
-  align-items: center;
-  justify-items: center; /* Reduced padding */
-  margin: 0px !important;      /* Reduced margin */
-  width: 100% !important;      /* Make sure it fills the slot */
-  font-size: 10px !important;  
+  padding-top: 2px !important;
+  margin: 0 !important;
+  width: 100% !important;
+  font-size: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
+.dark .rbc-event {
+  color: #e5e7eb !important;
+  font-weight: 500;
+}
+
+/* Event Content Center */
 .rbc-event-content {
-  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 5px !important;
   margin: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
   line-height: 1.2 !important;
 }
 
-
-/* Event colors */
-.rbc-event:nth-child(1) {
-  background-color: #e2f8ff !important;
-}
-.rbc-event:nth-child(2) {
-  background-color: #fefce8 !important;
-}
-.rbc-event:nth-child(3) {
-  background-color: #f2f1ff !important;
-}
-.rbc-event:nth-child(4) {
-  background-color: #fdf2fb !important;
-}
-.rbc-event:nth-child(5) {
-  background-color: #e2f8ff !important;
-}
-.rbc-event:nth-child(6) {
-  background-color: #fefce8 !important;
-}
-.rbc-event:nth-child(7) {
-  background-color: #f2f1ff !important;
-}
-.rbc-event:nth-child(8) {
-  background-color: #fdf2fb !important;
+/* Events Position in Slot */
+.rbc-day-slot .rbc-events-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 10px 5px 0 5px !important;
+  border: none !important;
 }
 
+/* Event Label */
 .rbc-event-label {
   color: gray !important;
-  margin-bottom: 5px;
+  margin-bottom: 0px !important;
 }
 
-/* Print styles for charts, tables, and dashboards */
+/* --- Event Background Colors (Light Mode) --- */
+.rbc-event:nth-child(1) { background-color: #e2f8ff !important; }
+.rbc-event:nth-child(2) { background-color: #fefce8 !important; }
+.rbc-event:nth-child(3) { background-color: #f2f1ff !important; }
+.rbc-event:nth-child(4) { background-color: #fdf2fb !important; }
+.rbc-event:nth-child(5) { background-color: #e2f8ff !important; }
+.rbc-event:nth-child(6) { background-color: #fefce8 !important; }
+.rbc-event:nth-child(7) { background-color: #f2f1ff !important; }
+.rbc-event:nth-child(8) { background-color: #fdf2fb !important; }
+
+/* --- Event Background Colors (Dark Mode) --- */
+.dark .rbc-event:nth-child(1) { background-color: #685e74 !important; }
+.dark .rbc-event:nth-child(2) { background-color: #6b7280 !important; }
+.dark .rbc-event:nth-child(3) { background-color: #4b5563 !important; }
+.dark .rbc-event:nth-child(4) { background-color: #374151 !important; }
+.dark .rbc-event:nth-child(5) { background-color: #1f2937 !important; }
+.dark .rbc-event:nth-child(6) { background-color: #111827 !important; }
+.dark .rbc-event:nth-child(7) { background-color: #334155 !important; }
+.dark .rbc-event:nth-child(8) { background-color: #475569 !important; }
+
+/* --- Print Support (for Charts/Dashboard) --- */
 @media print {
   body {
     margin: 0;
@@ -262,7 +364,6 @@
   .no-print {
     display: none !important;
   }
-
   .print-container {
     display: flex;
     flex-direction: column;
@@ -270,36 +371,12 @@
     page-break-inside: avoid;
     margin: 20mm auto;
     width: 100%;
-    max-width: 210mm; /* A4 width */
+    max-width: 210mm;
   }
-  .print-area {
-    margin: 0;
-    padding: 0;
-  }
-
-  .chart-block {
-    page-break-inside: avoid;
-    page-break-after: auto;
-    break-inside: avoid;
-    margin-bottom: 20mm;
-    text-align: center;
-  }
-
   img,
   canvas {
     max-width: 100%;
     height: auto;
     page-break-inside: avoid;
-    break-inside: avoid;
-  }
-}
-
-/* Responsive styles for react-big-calendar on smaller screens */
-@media (max-width: 768px) {
-  .rbc-time-view {
-    max-width: 100% !important;
-  }
-  .rbc-day-slot {
-    min-width: 120px !important; /* Reduce column width for smaller screens */
   }
 }

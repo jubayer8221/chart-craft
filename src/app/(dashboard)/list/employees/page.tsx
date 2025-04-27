@@ -146,7 +146,7 @@ const EmployeesListPage = () => {
   };
 
   const renderRow = (item: Employee) => (
-    <tr key={item.id} className="border-b border-gray-200 dark:border-gray-600 even:bg-slate-50 dark:even:bg-gray-700 text-sm hover:bg-[#F1F0FF] dark:hover:bg-gray-600">
+    <tr key={item.id} className="border-b border-gray-200 dark:border-[#312c4a] even:bg-slate-50 dark:even:bg-gray-700 text-sm hover:bg-[#F1F0FF] dark:hover:bg-gray-600">
       <td className="flex items-center gap-4 p-4 cursor-pointer" onClick={() => handleOpenPopup(item)}>
         <Image src={item.photo} alt="" width={40} height={40} className="w-10 h-10 rounded-full object-cover" />
         <div className="flex flex-col">
@@ -161,7 +161,7 @@ const EmployeesListPage = () => {
       <td>
         <div className="flex items-center gap-2">
           <Link href={`/list/employees/edit/${item.id}`}>
-            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#00A9B4]">
+            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#00A9B4] dark:bg-[#685e74]">
               <span className="text-white text-[14px]"><FaRegEdit /></span>
             </button>
           </Link>
@@ -174,13 +174,13 @@ const EmployeesListPage = () => {
   );
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-4 rounded-md flex-1">
+    <div className="bg-white dark:bg-[#312c4a] p-4 rounded-md flex-1">
       {/* TOP */}
       <div className="flex items-center justify-between">
         <h1 className="hidden md:block text-lg font-semibold">All Employees</h1>
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
           {/* Search Box */}
-          <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-md ring-[1.5px] ring-gray-300 dark:ring-gray-700 px-2">
+          <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-md ring-[1.5px] ring-gray-300 dark:ring-[#897c8f] px-2">
             <Image src="/assets/search.png" alt="search" width={14} height={14} />
             <input
               type="text"
@@ -190,7 +190,7 @@ const EmployeesListPage = () => {
               className="w-[200px] p-2 bg-transparent outline-none"
             />
             {showSuggestions && searchTerm && (
-              <ul className="absolute top-10 left-0 bg-white dark:bg-gray-800 shadow-lg border border-gray-300 dark:border-gray-700 w-full rounded-md z-10 max-h-40 overflow-y-auto text-sm">
+              <ul className="absolute top-10 left-0 bg-white dark:bg-[#463f59] shadow-lg border border-gray-300 dark:border-[#897c8f] w-full rounded-md z-10 max-h-40 overflow-y-auto text-sm">
                 {filteredData.map((emp) => (
                   <li
                     key={emp.id}
@@ -217,20 +217,20 @@ const EmployeesListPage = () => {
           <div className="flex items-center gap-2 self-end">
             <button
               onClick={handleFilter}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66] text-white"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66] dark:bg-[#000022] text-white"
             >
               <IoFilterSharp />
             </button>
             <button
               onClick={() => handleSort("name")}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66] text-white"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66] dark:bg-[#000022] text-white"
             >
               {sortConfig?.direction === "desc" ? <FaArrowUpShortWide /> : <FaArrowDownWideShort />}
             </button>
             {role === "admin" && (
               <button
                 onClick={() => handleCreatePopup()}
-                className="w-7 h-7 flex items-center justify-center rounded-full bg-[#0A3A66]"
+                className="w-7 h-7 flex items-center justify-center rounded-full dark:bg-[#000022] bg-[#0A3A66]"
               >
                 <FaPlus className="text-[14px] text-white" />
               </button>

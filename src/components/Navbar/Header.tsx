@@ -23,7 +23,7 @@ const Header = () => {
   return (
     <div
       className={cn(
-        "bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-700 transition-all",
+        "bg-white dark:bg-[#000022] border-b border-gray-200 dark:border-zinc-700 transition-all",
         scrolled && "bg-white/75 dark:bg-zinc-900/75 backdrop-blur-lg"
       )}
     >
@@ -42,7 +42,7 @@ const Header = () => {
           </Link>
 
           <div className="hidden md:block">
-            <div className="w-[300px] h-8 border border-gray-300 dark:border-zinc-600 rounded-lg flex items-center px-2 bg-white dark:bg-zinc-800">
+            <div className="w-[300px] h-8 border border-gray-300 dark:border-gray-700 rounded-lg flex items-center px-2 bg-white dark:bg-[#0f0f22]">
               <FiSearch className="text-gray-400 text-[20px] mr-2" />
               <input
                 type="text"

@@ -42,14 +42,14 @@ const RecentOrdersCard = () => {
 
   return (
     <div className="w-full max-w-full mx-auto">
-      <h1 className="text-lg font-semibold pb-2">Recent Orders</h1>
+      <h1 className="text-lg font-semibold pb-2 dark:text-white">Recent Orders</h1>
       <div className="overflow-x-auto">
-        <div className="max-h-[260px] overflow-y-auto">
-          <table className="text-sm text-gray-600 border-collapse border rounded border-gray-300 w-full">
+        <div className="max-h-[260px] min-w-[300px] overflow-y-auto">
+          <table className="text-sm text-gray-600 dark:text-white border-collapse border rounded border-gray-300 dark:border-gray-600 w-full">
             <thead>
-              <tr className="justify-around">
+              <tr className="justify-around dark:bg-[#0A3A66]">
                 <th
-                  className="border-gray-300 px-1 py-1 cursor-pointer"
+                  className="border-gray-300 dark:border-gray-600 px-1 py-1 cursor-pointer"
                   onClick={() =>
                     setOrders([...orders].sort((a, b) => a.id - b.id))
                   }
@@ -86,7 +86,7 @@ const RecentOrdersCard = () => {
                   </span>
                 </th>
                 <th
-                  className="border-gray-300 px-1 py-1 cursor-pointer"
+                  className="border-gray-300 dark:border-gray-500 px-1 py-1 cursor-pointer"
                   onClick={() =>
                     setOrders(
                       [...orders].sort((a, b) => a.order.localeCompare(b.order))
@@ -108,7 +108,7 @@ const RecentOrdersCard = () => {
                   </span>
                 </th>
                 <th
-                  className="border-gray-300 px-1 py-1 cursor-pointer"
+                  className="border-gray-300 dark:border-gray-600 px-1 py-1 cursor-pointer"
                   onClick={() =>
                     setOrders(
                       [...orders].sort((a, b) =>
@@ -141,7 +141,7 @@ const RecentOrdersCard = () => {
                   onDragStart={(e) => handleDragStart(e, index)}
                   onDrop={(e) => handleDrop(e, index)}
                   onDragOver={handleDragOver}
-                  className="cursor-move justify-around border border-gray-300"
+                  className="cursor-move justify-around border border-gray-300 dark:border-gray-600"
                 >
                   <td className="px-4 md:p-2 py-2">{order.id}</td>
                   <td className="px-4 md:p-2 py-2 ">{order.name}</td>

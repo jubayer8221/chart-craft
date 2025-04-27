@@ -38,7 +38,7 @@ const data = [
 
 const BookChart = () => {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl w-full h-full p-4 flex flex-col justify-between">
+    <div className="bg-white dark:bg-[#312c4a] rounded-xl w-full h-full p-4 flex flex-col justify-between">
       {/* TITLE */}
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-semibold text-primary">Books</h1>
