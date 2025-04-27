@@ -66,20 +66,20 @@ const Pagination = ({totalItems, itemsPerPage, currentPage, onPageChange}: Pagin
         <button
         onClick={handlePrev}
           disabled = {currentPage === 1}
-          className="py-2 px-4 rounded-md bg-slate-200 text-xs font-semibold disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+          className="py-2 px-4 rounded-md bg-slate-200 dark:bg-[#685e74] dark:text-white text-xs font-semibold disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
         >
           Prev
         </button>
         <div className="flex items-center gap-2 text-sm">
           {getPageNumbers().map((page, index)=>typeof page === "number" ? (
-            <button key={page} onClick={()=>onPageChange(page)} className={`px-2 rounded-sm ${currentPage === page ? "bg-[#C3EBFA]":"hover:bg-slate-100"}`}>{page}</button>
+            <button key={page} onClick={()=>onPageChange(page)} className={`px-2 rounded-sm ${currentPage === page ? "bg-[#C3EBFA] dark:bg-[#685e74] dark:text-white":"hover:bg-slate-100"}`}>{page}</button>
           ) : (
             <span key={`ellipsis-${index}`} className="px-2">
               {page}
             </span>
           ))}
         </div>
-        <button onClick={handleNext} disabled={currentPage === totalPages} className="py-2 px-4 rounded-md bg-slate-200 text-xs font-semibold disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed">
+        <button onClick={handleNext} disabled={currentPage === totalPages} className="py-2 px-4 rounded-md bg-slate-200 dark:bg-[#685e74] dark:text-white text-xs font-semibold disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed">
           Next
         </button>
       </div>

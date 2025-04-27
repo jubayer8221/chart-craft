@@ -25,9 +25,10 @@ const BigCalendar = () => {
       view={view}
       style={{ height: "98%" }}
       onView={handleOnChangeView}
+      onNavigate={() => {}} // ← Add this to BLOCK automatic navigate
       min={new Date(2025, 1, 0, 8, 0, 0)}
       max={new Date(2025, 1, 0, 17, 0, 0)}
-      defaultDate={new Date(2025, 7, 12)} // Set default date to August 12, 2025
+      defaultDate={new Date(2025, 7, 12)} // August 12, 2025
     />
   );
 };

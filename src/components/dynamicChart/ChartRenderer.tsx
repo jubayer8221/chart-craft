@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,12 +12,17 @@ import {
   Tooltip,
   Legend,
   ChartData,
-  ChartType as ChartJSType,
   ChartOptions,
+  ChartType as ChartJSType,
+  Chart as ChartJSInstance,
 } from "chart.js";
 import { Bar, Line, Pie, Doughnut, Radar } from "react-chartjs-2";
 
-// Register chart components
+// Define two-user-friendly colors
+const PRIMARY_COLOR = "rgb(0,169,180)";
+const SECONDARY_COLOR = "rgb(10,58,102)";
+
+// Register core chart components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -30,77 +35,105 @@ ChartJS.register(
   Legend
 );
 
-const chartMap = {
-  Bar,
-  Line,
-  Pie,
-  Doughnut,
-  Radar,
-} as const;
-
+const chartMap = { Bar, Line, Pie, Doughnut, Radar } as const;
 type ChartType = keyof typeof chartMap;
+type SupportedTypes = "bar" | "line" | "pie" | "doughnut" | "radar";
 
-type ChartRendererProps = {
+interface ChartRendererProps {
   data: ChartData<ChartJSType, number[], string>;
   type: ChartType;
-};
+}
 
 const ChartRenderer: React.FC<ChartRendererProps> = ({ data, type }) => {
-  const ChartComponent = chartMap[type] as React.ComponentType<{
-    data: ChartData<ChartJSType, number[], string>;
-    options?: ChartOptions;
-  }>;
-
+  const chartRef = useRef<ChartJSInstance<SupportedTypes, number[], string> | null>(null);
   const [isDark, setIsDark] = useState(false);
 
+  // Detect light/dark mode to invert text if needed
   useEffect(() => {
-    const checkDark = () =>
-      setIsDark(document.documentElement.classList.contains("dark"));
-    checkDark();
-
-    const observer = new MutationObserver(checkDark);
-    observer.observe(document.documentElement, { attributes: true });
-
-    return () => observer.disconnect();
+    const check = () => setIsDark(document.documentElement.classList.contains("dark"));
+    check();
+    const mo = new MutationObserver(check);
+    mo.observe(document.documentElement, { attributes: true });
+    return () => mo.disconnect();
   }, []);
 
-  const commonOptions: ChartOptions = {
+  // Create a simple vertical gradient between the two colors
+  const createGradient = useCallback(() => {
+    const chart = chartRef.current;
+    if (!chart) return PRIMARY_COLOR;
+    const ctx = chart.ctx;
+    const grad = ctx.createLinearGradient(0, 0, 0, chart.height);
+    grad.addColorStop(0, PRIMARY_COLOR);
+    grad.addColorStop(1, SECONDARY_COLOR);
+    return grad;
+  }, []);
+
+  // Apply colors to datasets
+  const styledData = {
+    ...data,
+    datasets: data.datasets.map(ds => ({
+      ...ds,
+      backgroundColor: type === "bar" || type === "doughnut" ? createGradient() : PRIMARY_COLOR,
+      borderColor: type === "line" ? createGradient() : SECONDARY_COLOR,
+      borderWidth: 2,
+      pointBackgroundColor: SECONDARY_COLOR,
+      pointBorderColor: PRIMARY_COLOR,
+      pointRadius: 5,
+      pointHoverRadius: 7,
+      tension: type === "line" ? 0.3 : undefined,
+    })),
+  };
+
+  // Common options
+  const options: ChartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
+    animation: { duration: 1000, easing: "easeOutCubic" },
     plugins: {
       legend: {
         labels: {
           color: isDark ? "#fff" : "#333",
+          font: { size: 12 },
         },
       },
       tooltip: {
-        backgroundColor: isDark ? "#333" : "#fff",
-        titleColor: isDark ? "#fff" : "#000",
-        bodyColor: isDark ? "#fff" : "#000",
+        backgroundColor: isDark ? SECONDARY_COLOR : "#fff",
+        titleColor: isDark ? "#fff" : PRIMARY_COLOR,
+        bodyColor: isDark ? "#ddd" : SECONDARY_COLOR,
+        borderColor: PRIMARY_COLOR,
+        borderWidth: 1,
+        cornerRadius: 6,
+        padding: 8,
       },
     },
     scales: {
       x: {
-        ticks: {
-          color: isDark ? "#fff" : "#333",
-        },
-        grid: {
-          color: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)",
-        },
+        ticks: { color: isDark ? "#ccc" : "#555", font: { size: 11 } },
+        grid: { color: "transparent" },
       },
       y: {
-        ticks: {
-          color: isDark ? "#fff" : "#333",
-        },
-        grid: {
-          color: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)",
-        },
+        ticks: { color: isDark ? "#ccc" : "#555", font: { size: 11 } },
+        grid: { color: "rgba(0,0,0,0.05)" },
       },
+    },
+    elements: {
+      bar: { borderRadius: 4 },
+      line: { tension: 0.3, fill: false },
+      point: { hoverBorderWidth: 2 },
     },
   };
 
+  // Type-safe chart component
+  const TypedChart = chartMap[type] as React.ForwardRefExoticComponent<
+    React.RefAttributes<ChartJSInstance<SupportedTypes, number[], string>> & {
+      data: ChartData<ChartJSType, number[], string>;
+      options?: ChartOptions;
+    }
+  >;
+
   return (
-    <div className="w-full md:w-1/2 h-[300px]">
-      <ChartComponent data={data} options={commonOptions} />
+    <div className={`w-full md:w-[600px] h-[350px] p-4 rounded-xl shadow-md bg-${isDark ? "neutral-900" : "white"}`}>        
+      <TypedChart ref={chartRef} data={styledData} options={options} />
     </div>
   );
 };

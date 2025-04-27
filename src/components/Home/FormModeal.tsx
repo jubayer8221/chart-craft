@@ -71,7 +71,7 @@ const FormModal = <T,>({
   return (
     <>
       <button
-        className={`${size} flex items-center justify-center rounded-full bg-[#0A3A66]`}
+        className={`${size} flex items-center justify-center rounded-full bg-[#0A3A66] dark:bg-[#000022]`}
         onClick={() => setOpen(true)}
       >
         {iconMap[type]}

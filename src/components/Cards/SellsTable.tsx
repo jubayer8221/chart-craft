@@ -9,6 +9,8 @@ const SellsTable = () => {
     { name: "Green Jacket", price: "$200", sold: 180 },
     { name: "Yellow Cap", price: "$40", sold: 120 },
     { name: "Black Shoes", price: "$250", sold: 90 },
+    { name: "Blue T-shirt", price: "$100", sold: 300 },
+    { name: "Red Hoodie", price: "$150", sold: 200 },
   ]);
 
   const [selectedRowIndex, setSelectedRowIndex] = useState<number | null>(null);
@@ -108,7 +110,6 @@ const SellsTable = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="mb-4 px-4 py-2 border border-gray-300 rounded-md w-full sm:w-1/2"
       /> */}
-
       <div className="overflow-x-auto max-h-[360px] ">
         <table className="w-full min-w-[280px] border border-gray-300 dark:rounded-md">
           <thead>
@@ -122,14 +123,20 @@ const SellsTable = () => {
             {filteredItems.map((item, index) => (
               <tr
                 key={index}
-                className={`cursor-pointer ${
-                  index === selectedRowIndex ? "bg-blue-100" : ""
+                className={`cursor-pointer hover:bg-gray-200 ${
+                  index === selectedRowIndex ? "bg-blue-200" : ""
                 }`}
                 onClick={() => handleRowClick(index)}
               >
-                <td className="px-4 py-2 border dark:border-gray-600">{item.name}</td>
-                <td className="px-4 py-2 border dark:border-gray-600">{item.price}</td>
-                <td className="px-4 py-2 border dark:border-gray-600">{item.sold}</td>
+                <td className="px-4 py-2 border dark:border-gray-600">
+                  {item.name}
+                </td>
+                <td className="px-4 py-2 border dark:border-gray-600">
+                  {item.price}
+                </td>
+                <td className="px-4 py-2 border dark:border-gray-600">
+                  {item.sold}
+                </td>
               </tr>
             ))}
           </tbody>

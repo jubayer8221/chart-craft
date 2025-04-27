@@ -195,7 +195,7 @@ const CustomarListPage = () => {
       <td>
         <div className="flex items-center gap-2">
           <Link href={`/list/customers/edit/${item.id}`}>
-            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[rgb(0,169,180)]">
+            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[rgb(0,169,180)] dark:bg-[#685e74]">
               {/* <Image src="/assets/view.png" alt="" width={16} height={16} /> */}
               <span className="text-4 text-white">
                 <FaRegEdit />
@@ -214,13 +214,13 @@ const CustomarListPage = () => {
   );
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-4 rounded-md flex-1 mt-0">
+    <div className="bg-white dark:bg-[#312c4a] p-4 rounded-md flex-1 mt-0">
       {/* TOP */}
       <div className="flex items-center justify-between">
         <h1 className="hidden md:block text-lg font-semibold">All Customars</h1>
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
           {/* search  */}
-          <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-md ring-[1.5px] ring-gray-300 dark:ring-gray-700 px-2">
+          <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-md ring-[1.5px] ring-gray-300 dark:border-[#897c8f] px-2">
             <Image src="/assets/search.png" alt="" width={14} height={14} />
             <input
               type="text"
@@ -230,7 +230,7 @@ const CustomarListPage = () => {
               className="w-[200px] p-2 bg-transparent outline-none"
             />
             {showSuggestions && searchTerm && (
-              <ul className="absolute w-full top-10 left-0 z-10 rounded-md bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 max-h-[100px] overflow-y-auto">
+              <ul className="absolute w-full top-10 left-0 z-10 rounded-md bg-white dark:bg-[#463f59] border border-gray-300 dark:border-[#897c8f] max-h-[100px] overflow-y-auto">
                 {filteredData.map((cu) => (
                   <li
                     key={cu.id}
@@ -254,7 +254,7 @@ const CustomarListPage = () => {
           </div>
           <div className="flex items-center gap-4 self-end">
             <button
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66]"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66] dark:bg-[#000022]"
               onClick={handleFilter}
             >
               <span className="text-[14px] text-white">
@@ -263,7 +263,7 @@ const CustomarListPage = () => {
             </button>
             <button
               onClick={handleSort}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66]"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66] dark:bg-[#000022]"
             >
               {sortDirection === "asc" ? (
                 <span className="text-[14px] text-white">
@@ -279,7 +279,7 @@ const CustomarListPage = () => {
               // <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAE27C]">
               //   <span className="text-[14px]"><FaPlus /></span>
               // </button>
-               <button onClick={()=>handleCreatePopup()} className="w-7 h-7 flex items-center justify-center rounded-full bg-[#0A3A66]" ><FaPlus className="text-[14px] text-white" /></button>
+               <button onClick={()=>handleCreatePopup()} className="w-7 h-7 flex items-center justify-center rounded-full bg-[#0A3A66] dark:bg-[#000022]" ><FaPlus className="text-[14px] text-white" /></button>
             )}
           </div>
         </div>

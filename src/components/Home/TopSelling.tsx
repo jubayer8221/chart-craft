@@ -196,7 +196,7 @@ const TopSelling = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: "top" as const,
+        position: "bottom" as const, // Changed from "top" to "bottom"
       },
       title: {
         display: true,
@@ -234,7 +234,7 @@ const TopSelling = () => {
                 <Draggable key={cardId} draggableId={cardId} index={index}>
                   {(provided) => (
                     <div
-                      className="flex-1 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md"
+                      className="flex-1 bg-white dark:bg-[#312c4a] p-4 rounded-xl shadow-md"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
