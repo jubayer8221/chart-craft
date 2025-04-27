@@ -120,9 +120,6 @@ const dataSlice = createSlice({
         )
       );
     },
-    requestExport: (state, action: PayloadAction<"pdf" | "image">) => {
-      // Handled in exportSlice or component
-    },
     clearData: (state) => {
       state.data = [];
       state.filtered = [];
@@ -133,7 +130,6 @@ const dataSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    // .addCase(someAction, (_state, _action) => {
       .addCase(handleFileUpload.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -154,5 +150,7 @@ const dataSlice = createSlice({
   },
 });
 
-export const { setSearchTerm, requestExport, clearData } = dataSlice.actions;
+export const { setSearchTerm, clearData } = dataSlice.actions;
+
+// export const { setSearchTerm, requestExport, clearData } = dataSlice.actions;
 export default dataSlice.reducer;
