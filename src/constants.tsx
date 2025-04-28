@@ -1,4 +1,4 @@
-import { SideNavItem } from "./types";
+import { SideNavItem } from "./types/types";
 
 import { FiHome } from "react-icons/fi";
 import { RiMessage3Line } from "react-icons/ri";

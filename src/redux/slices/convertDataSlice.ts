@@ -6,11 +6,17 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import * as XLSX from "xlsx";
-import * as pdfjsLib from "pdfjs-dist";
-import { TextContent, TextItem, TextMarkedContent } from "pdfjs-dist/types/src/display/api";
+import { getDocument, GlobalWorkerOptions } from "pdfjs-dist";
+import type { TextItem } from "pdfjs-dist/types/src/display/api";
 import Tesseract from "tesseract.js";
 import { DataState, ParsedRow } from "@/types/convertType";
 import Papa from "papaparse";
+
+// Use CDN worker or local worker
+GlobalWorkerOptions.workerSrc = 
+  process.env.NODE_ENV === 'production'
+    ? '/pdf.worker.min.js'
+    : 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
 const initialState: DataState = {
   data: [],
@@ -20,8 +26,8 @@ const initialState: DataState = {
   error: null,
 };
 
-const isTextItem = (item: TextItem | TextMarkedContent): item is TextItem => {
-  return "str" in item;
+const isTextItem = (item: unknown): item is TextItem => {
+  return typeof item === "object" && item !== null && "str" in item;
 };
 
 export const handleFileUpload = createAsyncThunk<
@@ -33,6 +39,7 @@ export const handleFileUpload = createAsyncThunk<
     const extension = file.name.split(".").pop()?.toLowerCase();
     const mimeType = file.type;
 
+    // Handle Excel files
     if (
       (extension === "xlsx" || extension === "xls") &&
       mimeType === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -45,6 +52,7 @@ export const handleFileUpload = createAsyncThunk<
       return jsonData;
     }
 
+    // Handle CSV files
     if (extension === "csv" && mimeType === "text/csv") {
       return new Promise<ParsedRow[]>((resolve, reject) => {
         Papa.parse<ParsedRow>(file, {
@@ -61,20 +69,15 @@ export const handleFileUpload = createAsyncThunk<
       });
     }
 
+    // Handle PDF files
     if (extension === "pdf" && mimeType === "application/pdf") {
-      if (typeof window === "undefined") {
-        return rejectWithValue("PDF processing requires browser environment");
-      }
-
-      pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
-
       const data = new Uint8Array(await file.arrayBuffer());
-      const pdf = await pdfjsLib.getDocument({ data }).promise;
+      const pdf = await getDocument(data).promise;
       const textContent: ParsedRow[] = [];
 
       for (let i = 1; i <= pdf.numPages; i++) {
         const page = await pdf.getPage(i);
-        const content: TextContent = await page.getTextContent();
+        const content = await page.getTextContent();
         const pageText = content.items
           .filter(isTextItem)
           .map((item) => item.str)
@@ -85,6 +88,7 @@ export const handleFileUpload = createAsyncThunk<
       return textContent;
     }
 
+    // Handle image files
     if (
       mimeType.startsWith("image/") &&
       ["image/jpeg", "image/png", "image/gif"].includes(mimeType)
@@ -114,7 +118,7 @@ const dataSlice = createSlice({
         return;
       }
       const searchLower = action.payload.toLowerCase();
-      state.filtered = state.data.filter((row) =>
+      state.filtered = state.data.filter((row) => 
         Object.values(row).some((val) =>
           String(val).toLowerCase().includes(searchLower)
         )
@@ -151,6 +155,4 @@ const dataSlice = createSlice({
 });
 
 export const { setSearchTerm, clearData } = dataSlice.actions;
-
-// export const { setSearchTerm, requestExport, clearData } = dataSlice.actions;
 export default dataSlice.reducer;

@@ -16,7 +16,6 @@ import { RootState } from "@/redux/store";
 import { setSearchTerm } from "@/redux/slices/convertDataSlice";
 import Pagination from "@/components/ui/pagination";
 
-// Define the shape of the data slice in Redux
 interface DataState {
   filtered: ParsedRow[];
   searchTerm: string;
@@ -25,18 +24,18 @@ interface DataState {
 interface TableProps {
   data: ParsedRow[];
   showAll?: boolean;
+  title?: string;
 }
 
-export function Table({ data, showAll = false }: TableProps) {
+export function Table({ data, showAll = false, title }: TableProps) {
   const dispatch = useDispatch();
   const { filtered, searchTerm } = useSelector(
     (state: RootState) =>
       (state.data as DataState) || { filtered: [], searchTerm: "" }
   );
-  const tableContainerRef = useRef<HTMLDivElement>(null); // Ref for the container div
+  const tableContainerRef = useRef<HTMLDivElement>(null);
 
   const handlePrint = () => {
-    // Print the filtered data (or data, depending on requirements)
     dispatch(setDataToPrint(filtered));
     dispatch(printData());
   };
@@ -46,7 +45,6 @@ export function Table({ data, showAll = false }: TableProps) {
   };
 
   const columns = useMemo<ColumnDef<ParsedRow>[]>(() => {
-    // Handle empty data case
     if (data.length === 0) {
       return [
         {
@@ -98,6 +96,12 @@ export function Table({ data, showAll = false }: TableProps) {
 
       <div className="overflow-x-auto">
         <table className="w-full border border-gray-300 shadow-lg my-4">
+          {/* Add table caption/header here */}
+          {title && (
+            <caption className="caption-top bg-[#0A3A66] text-white p-4 text-lg font-bold border-b">
+              {title}
+            </caption>
+          )}
           <thead className="bg-[#0A3A66]">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>

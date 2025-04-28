@@ -4,7 +4,7 @@ import React, { ReactNode, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SIDENAV_ITEMS } from "@/constants";
-import { SideNavItem } from "@/types";
+import { SideNavItem } from "@/types/types";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { motion, useCycle, SVGMotionProps } from "framer-motion";
 
