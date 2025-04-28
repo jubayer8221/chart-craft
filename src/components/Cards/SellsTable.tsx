@@ -123,7 +123,7 @@ const SellsTable = () => {
             {filteredItems.map((item, index) => (
               <tr
                 key={index}
-                className={`cursor-pointer hover:bg-gray-200 ${
+                className={`cursor-pointer hover:bg-gray-600 ${
                   index === selectedRowIndex ? "bg-blue-200" : ""
                 }`}
                 onClick={() => handleRowClick(index)}

@@ -36,24 +36,31 @@ ChartJS.register(
   PointElement
 );
 
-const mockData = [
+interface Item {
+  id: string;
+  name: string;
+  price: number;
+}
+
+const mockData: Item[] = [
   { id: "1", name: "Item 1", price: 10 },
+  { id: "2", name: "Item 2", price: 20 },
+  { id: "3", name: "Item 3", price: 30 },
   { id: "2", name: "Item 2", price: 20 },
   { id: "3", name: "Item 3", price: 30 },
   { id: "4", name: "Item 4", price: 40 },
   { id: "5", name: "Item 5", price: 50 },
 ];
 
-const ExportAlert = ({
-  message,
-  onClose,
-}: {
+interface ExportAlertProps {
   message: string;
   onClose: () => void;
-}) => {
+}
+
+const ExportAlert: React.FC<ExportAlertProps> = ({ message, onClose }) => {
   return (
-    <div className="fixed top-4 right-4 z-50 animate-fade-in ">
-      <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-4 max-w-sm">
+    <div className="fixed top-4 right-4 z-50 animate-fade-in">
+      <div className="bg-white dark:bg-[#312c4a] border border-gray-200 rounded-lg shadow-lg p-4 max-w-sm">
         <div className="flex items-start">
           <div className="flex-shrink-0 text-red-500 mt-0.5">
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -65,14 +72,14 @@ const ExportAlert = ({
             </svg>
           </div>
           <div className="ml-3">
-            <h3 className="text-sm font-medium text-gray-800">
+            <h3 className="text-sm font-medium text-gray-800 dark:text-white">
               Export Required
             </h3>
-            <p className="mt-1 text-sm text-gray-600">{message}</p>
+            <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">{message}</p>
           </div>
           <button
             onClick={onClose}
-            className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8"
+            className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:bg-[#312c4a] dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700"
           >
             <span className="sr-only">Close</span>
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -94,7 +101,7 @@ const SellsTable: React.FC = () => {
   const { selectedItems, selectedExportOptions } = useSelector(
     (state: RootState) => state.export
   );
-  const [data] = useState(mockData);
+  const [data] = useState<Item[]>(mockData);
   const chartRef = useRef<HTMLDivElement>(null);
   const chartRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -103,7 +110,7 @@ const SellsTable: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Generate random colors for each chart initially
-  const getRandomColor = () => {
+  const getRandomColor = (): string => {
     const letters = "0123456789ABCDEF";
     let color = "#";
     for (let i = 0; i < 6; i++) {
@@ -261,7 +268,7 @@ const SellsTable: React.FC = () => {
   );
 
   return (
-    <div className="p-4 min-h-screen relative bg-white">
+    <div className="p-4 min-h-screen relative bg-white dark:bg-[#312c4a]">
       {showAlert && (
         <ExportAlert
           message="Please select at least one export format (CSV, Image, or PDF)"
@@ -269,7 +276,7 @@ const SellsTable: React.FC = () => {
         />
       )}
       <div className="flex justify-between">
-        <h1 className="text-2xl font-bold text-center print:text-center">
+        <h1 className="text-2xl font-bold text-center print:text-center dark:text-white">
           Chart Theme
         </h1>
         <input
@@ -277,28 +284,28 @@ const SellsTable: React.FC = () => {
           placeholder="Search items..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="p-2 rounded-md border border-gray-300 max-w-40 max-h-10 print:hidden"
+          className="p-2 rounded-md border border-gray-300 max-w-40 max-h-10 print:hidden dark:bg-[#463f59] dark:text-white dark:border-gray-600"
         />
       </div>
 
       <div className="flex flex-wrap justify-between gap-4 mb-4">
         <div className="flex flex-wrap gap-4 justify-between">
           <div className="flex flex-col md:flex-row items-center gap-4 py-2 mb-4 print:hidden">
-            <div className="">
-              <h3 className="font-semibold text-lg">Select Items to Export:</h3>
+            <div>
+              <h3 className="font-semibold text-lg dark:text-white">Select Items to Export:</h3>
             </div>
 
             <div className="flex flex-wrap gap-2">
               {["csv", "image", "pdf"].map((option) => (
                 <label
                   key={option}
-                  className="flex items-center gap-2 px-3 py-1 rounded-md cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-1 rounded-md cursor-pointer dark:text-white"
                 >
                   <input
                     type="checkbox"
                     checked={selectedExportOptions.includes(option)}
                     onChange={() => handleExportOptionChange(option)}
-                    className="w-4 h-4"
+                    className="w-4 h-4 dark:accent-gray-300"
                   />
                   <span className="text-sm font-medium">
                     {option.toUpperCase()}
@@ -310,7 +317,7 @@ const SellsTable: React.FC = () => {
               <div ref={dropdownRef} className="relative max-w-40">
                 <button
                   onClick={() => setIsOpen(!isOpen)}
-                  className="p-2 w-full rounded-md shadow-md px-4 py-2 border bg-[#0A3A66] text-white border-gray-300 hover:bg-[#0F5494] transition-colors"
+                  className="p-2 w-full rounded-md shadow-md px-4 py-2 border bg-[#0A3A66] dark:bg-[#685e74] dark:border-none text-white border-gray-300 transition-colors"
                 >
                   {selectedItems.length > 0
                     ? `${selectedItems.length} item(s) selected`
@@ -318,24 +325,24 @@ const SellsTable: React.FC = () => {
                 </button>
 
                 {isOpen && (
-                  <div className="absolute z-10 mt-1 border border-gray-100 w-full rounded-md bg-gray-50 shadow-lg max-w-40 max-h-60 overflow-y-auto">
+                  <div className="absolute z-10 mt-1 border border-gray-100 w-full rounded-md bg-gray-50 max-w-40 max-h-60 overflow-y-auto dark:bg-[#463f59] dark:border-gray-600">
                     {filteredData.length > 0 ? (
                       filteredData.map((item) => (
                         <label
                           key={item.id}
-                          className="flex items-center gap-2 px-3 py-1 cursor-pointer hover:bg-gray-100"
+                          className="flex items-center gap-2 px-3 py-1 cursor-pointer hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         >
                           <input
                             type="checkbox"
                             checked={selectedItems.includes(item.id)}
                             onChange={() => handleItemSelection(item.id)}
-                            className="w-4 h-4"
+                            className="w-4 h-4 dark:accent-gray-300"
                           />
                           <span>{item.name}</span>
                         </label>
                       ))
                     ) : (
-                      <div className="px-3 py-1 text-sm text-gray-500">
+                      <div className="px-3 py-1 text-sm text-gray-500 dark:text-gray-300">
                         No items found
                       </div>
                     )}
@@ -345,14 +352,14 @@ const SellsTable: React.FC = () => {
             </div>
             <button
               onClick={handleExport}
-              className="rounded-md shadow-md text-white px-4 py-2 border border-gray-300 duration-200 active:scale-95 active:bg-opacity-80 bg-[#0A3A66] hover:bg-[#0F5494] transition-colors"
+              className="rounded-md text-white px-4 py-2 border border-gray-300 duration-200 active:scale-95 active:bg-opacity-80 bg-[#0A3A66] dark:border-none dark:bg-[#685e74] transition-colors"
             >
               Export
             </button>
 
             <button
               onClick={handleClearSelections}
-              className="px-3 py-1 text-sm hover:text-gray-600 hover:border-b-1 transition-colors"
+              className="px-3 py-1 text-sm hover:text-gray-600 dark:text-white dark:hover:text-gray-300 hover:border-b-1 transition-colors"
             >
               Clear Selections
             </button>
@@ -367,15 +374,16 @@ const SellsTable: React.FC = () => {
         {filteredData.map((item, idx) => {
           const primaryColor = chartColors[item.id];
 
-          const hexToRgb = (hex: string) => {
+          const hexToRgb = (hex: string): string => {
             const r = parseInt(hex.slice(1, 3), 16);
             const g = parseInt(hex.slice(3, 5), 16);
             const b = parseInt(hex.slice(5, 7), 16);
             return `${r}, ${g}, ${b}`;
           };
 
+          const isDarkMode = document.documentElement.classList.contains('dark');
           const backgroundColor = `rgba(${hexToRgb(primaryColor)}, 0.6)`;
-          const borderColor = `rgba(${hexToRgb(primaryColor)}, 1)`;
+          const borderColor = isDarkMode ? `rgba(${hexToRgb(primaryColor)}, 1)` :  '#ffffff' ;
 
           const datasetData = [
             item.price + 5,
@@ -401,15 +409,37 @@ const SellsTable: React.FC = () => {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: { position: "top" as const },
+              legend: {
+                position: "top" as const,
+                labels: {
+                  color: isDarkMode ? '#000000' : '#ffffff' ,
+                },
+              },
               title: {
                 display: true,
                 text: `Chart Report: ${item.name}`,
+                color: isDarkMode ? '#000000'  : '#ffffff',
               },
             },
             scales: {
-              x: { beginAtZero: true },
-              y: { beginAtZero: true },
+              x: {
+                beginAtZero: true,
+                ticks: {
+                  color: isDarkMode ? '#000000' : '#ffffff',
+                },
+                grid: {
+                  color: isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)',
+                },
+              },
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  color: isDarkMode ? '#000000' :  '#ffffff',
+                },
+                grid: {
+                  color: isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)',
+                },
+              },
             },
           };
 
@@ -419,7 +449,7 @@ const SellsTable: React.FC = () => {
               ref={(el) => {
                 if (el) chartRefs.current[item.id] = el;
               }}
-              className="p-4 rounded-xl shadow-md"
+              className="p-4 rounded-xl shadow-md bg-white dark:bg-[#463f59] dark:text-white"
             >
               <div className="flex justify-between items-center mb-2">
                 <h2 className="font-semibold">Chart for {item.name}</h2>

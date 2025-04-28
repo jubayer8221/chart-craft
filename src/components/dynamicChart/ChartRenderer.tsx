@@ -19,8 +19,8 @@ import {
 import { Bar, Line, Pie, Doughnut, Radar } from "react-chartjs-2";
 
 // Define two user-friendly colors
-const PRIMARY_COLOR = "rgb(0,169,180)";
-const SECONDARY_COLOR = "rgb(10,58,102)";
+const PRIMARY_COLOR = "#685e74";
+const SECONDARY_COLOR = "#4d4d4d";
 
 // Register core chart components
 ChartJS.register(
@@ -109,7 +109,7 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({ data, type }) => {
       tooltip: {
         backgroundColor: isDark ? SECONDARY_COLOR : "#fff",
         titleColor: isDark ? "#fff" : PRIMARY_COLOR,
-        bodyColor: isDark ? "#ddd" : SECONDARY_COLOR,
+        bodyColor: isDark ? SECONDARY_COLOR : "#black" ,
         borderColor: PRIMARY_COLOR,
         borderWidth: 1,
         cornerRadius: 6,

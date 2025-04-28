@@ -185,7 +185,9 @@
   border-color: gray !important;
 }
 
-
+.rbc-today {
+  background-color: transparent !important;
+}
 
 .rbc-time-header-cell {
   font-size: 14px !important;

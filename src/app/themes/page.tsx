@@ -67,7 +67,7 @@ const Dashboard = () => {
   const router = useRouter();
 
   return (
-    <div className="p-4 bg-gray-50 dark:bg-gray-800 min-h-screen">
+    <div className="p-4 bg-gray-50 dark:bg-[#312c4a] min-h-screen">
       {/* Header and Search */}
       <div className="mb-6 pt-2 flex flex-col justify-between sm:flex-row gap-2">
         <h1 className="text-2xl font-bold mb-2">Themes</h1>
@@ -102,7 +102,7 @@ const Dashboard = () => {
                   >
                     {(provided) => (
                       <div
-                        className="bg-white dark:bg-gray-700 p-4 rounded-xl shadow-lg hover:shadow-xl cursor-pointer"
+                        className="bg-white dark:bg-[#463f59] p-4 rounded-xl shadow-lg hover:shadow-xl cursor-pointer"
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
