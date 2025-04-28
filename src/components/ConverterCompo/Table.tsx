@@ -82,14 +82,14 @@ export function Table({ data, showAll = false, title }: TableProps) {
 
   return (
     <div ref={tableContainerRef} className="w-full">
-      <div className="text-sm font-semibold text-gray-700 mt-4 flex justify-between items-center">
+      <div className="text-sm font-semibold text-gray-700 mt-4 flex dark:text-white justify-between items-center">
         <span>Total Rows: {filtered.length}</span>
         <Input
           type="text"
           placeholder="Search anything..."
           value={searchTerm}
           onChange={handleSearch}
-          className="w-1/2 max-w-xs"
+          className="w-1/2 max-w-xs dark:bg-[#312c4a] dark:text-white dark:border-gray-300"
         />
         <Button onClick={handlePrint}>Print</Button>
       </div>
@@ -132,7 +132,10 @@ export function Table({ data, showAll = false, title }: TableProps) {
               </tr>
             ) : (
               table.getRowModel().rows.map((row) => (
-                <tr key={row.id} className="hover:bg-gray-200 text-center">
+                <tr
+                  key={row.id}
+                  className="hover:bg-gray-100 dark:hover:bg-[#685e74] text-center"
+                >
                   {row.getVisibleCells().map((cell) => (
                     <td key={cell.id} className="p-2 border">
                       {flexRender(
