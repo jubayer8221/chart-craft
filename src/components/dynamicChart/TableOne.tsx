@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FiPlus, FiMove } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -51,18 +51,22 @@ export default function TableOne() {
 
   const deleteColumn = (colToDelete: string) => {
     setColumns(columns.filter((col) => col !== colToDelete));
-    setData(data.map((row) => {
-      const newRow = { ...row };
-      delete newRow[colToDelete];
-      return newRow;
-    }));
+    setData(
+      data.map((row) => {
+        const newRow = { ...row };
+        delete newRow[colToDelete];
+        return newRow;
+      })
+    );
   };
 
   const printTable = () => {
     const printContent = document.getElementById("printable-table");
     const printWindow = window.open("", "", "width=800,height=600");
     if (printWindow && printContent) {
-      printWindow.document.write("<html><head><title>Print</title></head><body>");
+      printWindow.document.write(
+        "<html><head><title>Print</title></head><body>"
+      );
       printWindow.document.write(printContent.outerHTML);
       printWindow.document.write("</body></html>");
       printWindow.document.close();
@@ -72,7 +76,9 @@ export default function TableOne() {
 
   const getChartData = () => {
     const labels = data.map((row) => row[columns[0]] || "Unknown");
-    const datasetData = data.map((row) => parseFloat(row[columns[1]] || "0") || 0);
+    const datasetData = data.map(
+      (row) => parseFloat(row[columns[1]] || "0") || 0
+    );
 
     return {
       labels,
@@ -100,7 +106,7 @@ export default function TableOne() {
     };
   };
 
-  const onDragEnd = (result: DropResult) => {
+  const onDragEnd = useCallback((result: DropResult) => {
     const { source, destination, type } = result;
     if (!destination) return;
 
@@ -115,97 +121,191 @@ export default function TableOne() {
       newRows.splice(destination.index, 0, moved);
       setData(newRows);
     }
-  };
+  }, [columns, data]);
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-4 rounded-md max-w-full">
-      <h2 className="text-xl md:text-2xl font-bold text-gray-700 dark:text-white mb-4">Enhanced Table</h2>
+    <div className="bg-white dark:bg-[#312c4a] p-4 rounded-md max-w-full">
+      <h2 className="text-xl md:text-2xl font-bold text-gray-700 dark:text-white mb-4">
+        Enhanced Table
+      </h2>
 
       {/* Toolbar */}
       <div className="flex flex-wrap gap-2 md:gap-3 mb-4">
-        <button onClick={addColumn} className="flex items-center gap-3 px-3 py-2 bg-[#0A3A66] rounded-md text-white"><FiPlus /> Add Column</button>
-          <button onClick={addRow} className="flex items-center gap-3 px-3 py-2 bg-[#0A3A66] rounded-md text-white"><FiPlus /> Add Row</button>
+        <button
+          onClick={addColumn}
+          className="flex items-center gap-3 px-3 py-2 bg-[#0A3A66] dark:bg-[#685e74] rounded-md text-white"
+        >
+          <FiPlus /> Add Column
+        </button>
+        <button
+          onClick={addRow}
+          className="flex items-center gap-3 px-3 py-2 bg-[#0A3A66] dark:bg-[#685e74] rounded-md text-white"
+        >
+          <FiPlus /> Add Row
+        </button>
         <CSVLink data={data} filename="table-data.csv">
-          <button className="bg-green-600 text-white px-3 py-2 rounded-md">Export CSV</button>
+          <button className="bg-green-600 dark:bg-[#685e74] text-white px-3 py-2 rounded-md">
+            Export CSV
+          </button>
         </CSVLink>
-        <button onClick={printTable} className="bg-orange-500 text-white px-3 py-2 rounded-md flex items-center gap-2">
+        <button
+          onClick={printTable}
+          className="bg-orange-500 dark:bg-[#685e74] text-white px-3 py-2 rounded-md flex items-center gap-2"
+        >
           <FaPrint /> Print
         </button>
-        <select value={selectedChart || ""} onChange={(e) => setSelectedChart(e.target.value as ChartType)} className="border px-3 py-2 rounded-md text-sm">
-          <option className="border-none dark:text-white dark:bg-gray-800" value="">Select Chart Type</option>
-          {chartTypes.map((type) => <option className="bg-white dark:bg-gray-800 text-black dark:text-white" key={type} value={type}>{type} Chart</option>)}
+        <select
+          value={selectedChart || ""}
+          onChange={(e) => setSelectedChart(e.target.value as ChartType)}
+          className="border px-3 py-2 rounded-md text-sm"
+        >
+          <option
+            className="border-none dark:text-white dark:bg-gray-800"
+            value=""
+          >
+            Select Chart Type
+          </option>
+          {chartTypes.map((type) => (
+            <option
+              className="bg-white dark:bg-gray-800 text-black dark:text-white"
+              key={type}
+              value={type}
+            >
+              {type} Chart
+            </option>
+          ))}
         </select>
-        <select value={rowsPerPage} onChange={(e) => setRowsPerPage(Number(e.target.value))} className="border px-3 py-2 rounded-md text-sm">
-          {[5, 10, 25].map((n) => <option className="bg-white dark:bg-gray-800 text-black dark:text-white" key={n} value={n}>Show {n}</option>)}
+        <select
+          value={rowsPerPage}
+          onChange={(e) => setRowsPerPage(Number(e.target.value))}
+          className="border px-3 py-2 rounded-md text-sm"
+        >
+          {[5, 10, 25].map((n) => (
+            <option
+              className="bg-white dark:bg-gray-800 text-black dark:text-white"
+              key={n}
+              value={n}
+            >
+              Show {n}
+            </option>
+          ))}
         </select>
       </div>
 
       {/* Table */}
       <div id="printable-table" className="overflow-auto rounded shadow max-w-full">
         <DragDropContext onDragEnd={onDragEnd}>
-          {/* Columns Drag-Drop */}
-          <Droppable droppableId="columns" direction="horizontal" type="column">
-            {(provided) => (
-              <table className="min-w-full table-auto" ref={provided.innerRef} {...provided.droppableProps}>
-                <thead>
-                  <tr>
+          <table className="min-w-full table-auto">
+            {/* Columns Drag-Drop */}
+            <thead>
+              <Droppable droppableId="columns" direction="horizontal" type="column">
+                {(provided, snapshot) => (
+                  <tr
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    className={snapshot.isDraggingOver ? "bg-gray-200" : ""}
+                  >
                     {columns.map((col, index) => (
-                      <Draggable key={col} draggableId={`col-${col}`} index={index}>
-                        {(provided) => (
-                          <th ref={provided.innerRef} {...provided.draggableProps} className="p-3 bg-[#0A3A66] text-white text-left">
+                      <Draggable key={`col-${col}`} draggableId={`col-${col}`} index={index}>
+                        {(provided, snapshot) => (
+                          <th
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            className={`p-3 bg-[#0A3A66] dark:bg-[#685e74] text-white text-left ${
+                              snapshot.isDragging ? "opacity-50" : ""
+                            }`}
+                            style={{
+                              ...provided.draggableProps.style,
+                              minWidth: "100px", // Ensure columns have enough space
+                            }}
+                          >
                             <div className="flex items-center gap-2">
-                              <span {...provided.dragHandleProps}><FiMove /></span>
+                              <span {...provided.dragHandleProps}>
+                                <FiMove />
+                              </span>
                               {col}
-                              <button onClick={() => deleteColumn(col)}><RxCross2 /></button>
+                              <button onClick={() => deleteColumn(col)}>
+                                <RxCross2 />
+                              </button>
                             </div>
                           </th>
                         )}
                       </Draggable>
                     ))}
                     {provided.placeholder}
-                    <th className="p-3 bg-[#0A3A66] text-white text-left">Action</th>
+                    <th className="p-3 bg-[#0A3A66] dark:bg-[#685e74] text-white text-left">
+                      Action
+                    </th>
                   </tr>
-                </thead>
+                )}
+              </Droppable>
+            </thead>
 
-                {/* Rows Drag-Drop */}
-                <Droppable droppableId="rows" type="row">
-                  {(provided) => (
-                    <tbody ref={provided.innerRef} {...provided.droppableProps}>
-                      {data.slice(0, rowsPerPage).map((row, rowIdx) => (
-                        <Draggable key={`row-${rowIdx}`} draggableId={`row-${rowIdx}`} index={rowIdx}>
-                          {(provided) => (
-                            <tr ref={provided.innerRef} {...provided.draggableProps} className="even:bg-slate-50 dark:even:bg-gray-700 dark:odd:bg-gray-600 hover:bg-[#F1F0FF] border-b dark:border-gray-500 text-sm">
-                              {columns.map((col) => (
-                                <td key={col} className="p-2">
-                                  <input
-                                    value={row[col] || ""}
-                                    onChange={(e) => handleEdit(rowIdx, col, e.target.value)}
-                                    className="w-full bg-transparent text-gray-700 dark:text-white outline-none"
-                                  />
-                                </td>
-                              ))}
-                              <td className="p-2 flex items-center gap-2">
-                                <button onClick={() => deleteRow(rowIdx)} className="bg-[#0A3A66] text-white p-1 rounded-full"><RiDeleteBin6Line /></button>
-                                <div {...provided.dragHandleProps} className="bg-[#0A3A66] text-white p-1 rounded-full cursor-move"><FiMove /></div>
-                              </td>
-                            </tr>
-                          )}
-                        </Draggable>
-                      ))}
-                      {provided.placeholder}
-                    </tbody>
-                  )}
-                </Droppable>
-              </table>
-            )}
-          </Droppable>
+            {/* Rows Drag-Drop */}
+            <Droppable droppableId="rows" type="row">
+              {(provided, snapshot) => (
+                <tbody
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className={snapshot.isDraggingOver ? "bg-gray-100" : ""}
+                >
+                  {data.slice(0, rowsPerPage).map((row, rowIdx) => (
+                    <Draggable
+                      key={`row-${rowIdx}`}
+                      draggableId={`row-${rowIdx}`}
+                      index={rowIdx}
+                    >
+                      {(provided, snapshot) => (
+                        <tr
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          className={`${
+                            snapshot.isDragging ? "bg-blue-100" : ""
+                          } even:bg-slate-50 dark:even:bg-[#383042] dark:odd:bg-[#403d43] dark:hover:bg-[#4d4d4d] dark:text-black border-b dark:border-gray-500 text-sm`}
+                        >
+                          {columns.map((col) => (
+                            <td key={col} className="p-2">
+                              <input
+                                value={row[col] || ""}
+                                onChange={(e) =>
+                                  handleEdit(rowIdx, col, e.target.value)
+                                }
+                                className="w-full bg-transparent text-gray-700 dark:text-white outline-none"
+                              />
+                            </td>
+                          ))}
+                          <td className="p-2 flex items-center gap-2">
+                            <button
+                              onClick={() => deleteRow(rowIdx)}
+                              className="bg-[#0A3A66] dark:bg-[#685e74] text-white p-1 rounded-full"
+                            >
+                              <RiDeleteBin6Line />
+                            </button>
+                            <div
+                              {...provided.dragHandleProps}
+                              className="bg-[#0A3A66] dark:bg-[#2f2b33] text-white p-1 rounded-full cursor-move"
+                            >
+                              <FiMove />
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </tbody>
+              )}
+            </Droppable>
+          </table>
         </DragDropContext>
       </div>
 
       {/* Chart */}
       {selectedChart && (
         <div className="mt-6">
-          <h3 className="text-lg font-semibold text-gray-700 dark:text-white mb-2">{selectedChart} Chart</h3>
+          <h3 className="text-lg font-semibold text-gray-700 dark:text-white mb-2">
+            {selectedChart} Chart
+          </h3>
           <ChartRenderer data={getChartData()} type={selectedChart} />
         </div>
       )}

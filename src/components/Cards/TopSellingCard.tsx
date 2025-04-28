@@ -67,7 +67,7 @@ const TopSellingCard = () => {
                 {visibleItems.map((item, index) => (
                   <tr
                     key={index}
-                    className={index % 2 === 1 ? "bg-gray-200 dark:bg-gray-600" : "bg-white dark:bg-gray-500"}
+                    className={index % 2 === 1 ? "bg-gray-200 dark:even:bg-gray-700" : "bg-white dark:bg-gray-600"}
                     draggable
                     onDragStart={(e) => handleDragStart(e, index)}
                     onDragOver={handleDragOver}
@@ -84,7 +84,7 @@ const TopSellingCard = () => {
         </div>
         {!showAll && (
           <button
-            className="mt-1 text-blue-500 hover:underline"
+            className="mt-2 cursor-pointer text-sm text-blue-500 dark:text-white hover:underline"
             onClick={() => setShowAll(true)}
           >
             View More
