@@ -52,28 +52,28 @@ const Pagination = <TData,>({
   const getPageRange = useMemo(() => {
     const totalPages = pageCount;
     const current = currentPage;
-    const delta = 1;
     const range: (number | string)[] = [];
 
+    // Always include the first page
     range.push(1);
 
-    if (current - delta > 2) {
+    // Calculate the start and end of the middle range (2 pages before and after current)
+    const start = Math.max(2, current - 2);
+    const end = Math.min(totalPages, current + 1);
+
+    // Add ellipsis if there's a gap between page 1 and the start of the range
+    if (start > 2) {
       range.push("...");
     }
 
-    for (
-      let i = Math.max(2, current - delta);
-      i <= Math.min(totalPages - 1, current + delta);
-      i++
-    ) {
+    // Add the middle range (2 before, current, 2 after)
+    for (let i = start; i <= end; i++) {
       range.push(i);
     }
 
-    if (current + delta < totalPages - 1) {
+    // Add ellipsis if there's a gap between the last page and the end of the range
+    if (end < totalPages - 1) {
       range.push("...");
-    }
-
-    if (totalPages > 1) {
       range.push(totalPages);
     }
 
@@ -88,7 +88,7 @@ const Pagination = <TData,>({
     <div
       className={`flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 ${className}`}
     >
-      <div className="flex items-center gap-2 text-sm text-gray-600">
+      <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-200">
         {showPageSizeOptions && (
           <>
             <span>Rows per page:</span>
@@ -118,7 +118,7 @@ const Pagination = <TData,>({
       <div className="flex items-center gap-2">
         <Button
           onClick={scrollToTop}
-          className="p-2 rounded-full hover:bg-gray-100"
+          className="p-2 rounded-full hover:bg-gray-600"
           aria-label="Scroll to top"
           title="Scroll to top"
         >
@@ -162,8 +162,8 @@ const Pagination = <TData,>({
                   disabled={currentPage === page}
                   className={`px-3 py-1 text-sm rounded-md ${
                     currentPage === page
-                      ? "bg-blue-500 text-white font-semibold cursor-not-allowed"
-                      : "hover:bg-gray-100"
+                      ? "bg-blue-900 text-white font-semibold cursor-not-allowed"
+                      : "hover:bg-blue-900/55"
                   }`}
                   aria-label={`Page ${page}`}
                   aria-current={currentPage === page ? "page" : undefined}
@@ -174,7 +174,7 @@ const Pagination = <TData,>({
             )}
 
             <Button
-              onClick={() => handlePageChange(currentPage)} // Note: This should be currentPage + 1 (see below)
+              onClick={() => handlePageChange(currentPage, false)}
               disabled={!table.getCanNextPage()}
               className="px-3 py-1 text-sm rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label="Next page"

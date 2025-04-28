@@ -107,12 +107,12 @@ export function Chart({
   const defaultColors = useMemo(
     () => [
       "#36A2EB",
-      "#FFCE56",
+      "#F57C00",
       "#4BC0C0",
       "#9966FF",
       "#FF9F40",
       "#8AC24A",
-      "#F06292",
+      "#1976D2",
       "#7986CB",
       "#A1887F",
     ],
@@ -501,7 +501,7 @@ export function Chart({
   return (
     <div
       className={`pt-6 mt-2 rounded-md px-4 border ${
-        theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-gray-800"
+        theme === "dark" ? "bg-[#312c4a] text-white" : " text-gray-800"
       }`}
     >
       {/* Controls */}
@@ -510,7 +510,7 @@ export function Chart({
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <label
             htmlFor="chartType"
-            className="font-medium text-sm sm:text-base"
+            className="font-medium text-sm sm:text-base dark:text-white"
           >
             Chart Type:
           </label>
@@ -708,7 +708,7 @@ export function Chart({
         {/* Color Selectors */}
         {valueColumns.length > 0 && (
           <div className="flex flex-wrap gap-2 items-center w-full sm:w-auto">
-            <span className="font-medium text-sm sm:text-base hidden sm:inline">
+            <span className="font-medium text-sm sm:text-base hidden sm:inline dark:text-white">
               Colors:
             </span>
             <div className="flex flex-wrap gap-1">
@@ -736,7 +736,7 @@ export function Chart({
       </div>
       <div
         ref={chartRef}
-        className="w-full"
+        className="w-full dark:bg-[#312c4a] dark:text-white rounded-md border mt-4"
         style={{
           height: "clamp(300px, 60vh, 600px)",
           backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
@@ -744,7 +744,11 @@ export function Chart({
           borderColor: theme === "dark" ? "#4B5563" : "#D1D5DB",
         }}
       >
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer
+          width="100%"
+          height="100%"
+          className="dark:bg-[#312c4a]"
+        >
           {renderChart()}
         </ResponsiveContainer>
       </div>
