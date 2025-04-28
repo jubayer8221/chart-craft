@@ -1,11 +1,9 @@
 // import { employeesData } from "@/lib/data";
-import { Employee } from "@/types";
+import { Employee } from "@/types/types";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { VscGitPullRequestCreate } from "react-icons/vsc";
-
-
 
 type EmployeePopupProps = {
   onClose: () => void;

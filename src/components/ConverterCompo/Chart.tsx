@@ -9,6 +9,7 @@ import {
   toggleItemSelection,
   toggleExportOption,
 } from "@/redux/slices/exportSlice";
+import { setColor, setColors } from "@/redux/slices/colorSlice";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import {
@@ -70,6 +71,10 @@ interface ExportState {
   selectedExportOptions: string[];
 }
 
+interface ColorState {
+  colors: Record<string, string>;
+}
+
 export function Chart({
   data,
   initialChartType = "bar",
@@ -80,6 +85,9 @@ export function Chart({
   const dispatch = useDispatch();
   const exportState = useSelector(
     (state: { export: ExportState }) => state.export
+  );
+  const { colors } = useSelector(
+    (state: { colors: ColorState }) => state.colors
   );
   const [showExportDropdown, setShowExportDropdown] = useState(false);
   const [chartConfig, setChartConfig] = useState<ChartConfig>({
@@ -92,7 +100,6 @@ export function Chart({
   });
   const [labelColumn, setLabelColumn] = useState<string>("");
   const [valueColumns, setValueColumns] = useState<string[]>([]);
-  const [colors, setColors] = useState<Record<string, string>>({});
   const [showValueDropdown, setShowValueDropdown] = useState<boolean>(false);
   const [showOptionsDropdown, setShowOptionsDropdown] = useState(false);
 
@@ -119,12 +126,12 @@ export function Chart({
     }
 
     const columns = Array.from(
-      new Set(data.flatMap((row) => Object.keys(row)))
-    ).filter((col) => col);
+      new Set(data.flatMap((row: ParsedRow) => Object.keys(row)))
+    ).filter((col: string) => col);
 
-    const processedData = data.map((row) => {
+    const processedData = data.map((row: ParsedRow) => {
       const newRow: ParsedRow = {};
-      columns.forEach((col) => {
+      columns.forEach((col: string) => {
         if (row[col] !== null && row[col] !== undefined) {
           const numValue = Number(row[col]);
           newRow[col] = isNaN(numValue) ? String(row[col]) : numValue;
@@ -143,68 +150,55 @@ export function Chart({
     if (!processedData.length)
       return { numericColumns: [], nonNumericColumns: [] };
 
-    const numericCols = columns.filter((col) =>
+    const numericCols = columns.filter((col: string) =>
       processedData.some(
-        (row) =>
+        (row: ParsedRow) =>
           row[col] !== null &&
           row[col] !== undefined &&
           typeof row[col] === "number"
       )
     );
 
-    const nonNumericCols = columns.filter((col) => !numericCols.includes(col));
+    const nonNumericCols = columns.filter(
+      (col: string) => !numericCols.includes(col)
+    );
 
     return { numericColumns: numericCols, nonNumericColumns: nonNumericCols };
   }, [columns, processedData]);
 
   // Initialize default selections
   useEffect(() => {
-    if (columns.length > 0) {
+    if (columns.length > 0 && !labelColumn) {
       const firstNonNumeric = nonNumericColumns[0] || columns[0];
       setLabelColumn(firstNonNumeric);
+    }
 
+    if (columns.length > 0 && valueColumns.length === 0) {
       const autoSelectedValues = numericColumns.slice(0, 3);
       if (autoSelectedValues.length > 0) {
         setValueColumns(autoSelectedValues);
 
         const newColors: Record<string, string> = {};
-        autoSelectedValues.forEach((col, index) => {
-          newColors[col] = defaultColors[index % defaultColors.length];
-        });
-        setColors(newColors);
-      }
-    }
-  }, [columns, numericColumns, nonNumericColumns, defaultColors]); // Added defaultColors
-
-  useEffect(() => {
-    if (chartRef.current) {
-      const elements = chartRef.current.querySelectorAll("*");
-      elements.forEach((el) => {
-        const htmlEl = el as HTMLElement; // Add type assertion
-        const style = window.getComputedStyle(htmlEl);
-        [
-          "color",
-          "background",
-          "backgroundColor",
-          "border",
-          "borderColor",
-        ].forEach((prop) => {
-          const value = style.getPropertyValue(prop);
-          if (value.includes("oklch(")) {
-            console.error(
-              "Found oklch in:",
-              htmlEl,
-              "property:",
-              prop,
-              "value:",
-              value
-            );
-            htmlEl.style.setProperty(prop, "#36A2EB");
+        autoSelectedValues.forEach((col: string, index: number) => {
+          if (!colors[col]) {
+            newColors[col] = defaultColors[index % defaultColors.length];
           }
         });
-      });
+        if (Object.keys(newColors).length > 0) {
+          dispatch(setColors({ ...colors, ...newColors }));
+        }
+      }
     }
-  }, [chartConfig, valueColumns, labelColumn]);
+  }, [
+    columns,
+    numericColumns,
+    nonNumericColumns,
+    defaultColors,
+    dispatch,
+    labelColumn,
+    valueColumns,
+    colors,
+  ]);
 
   // Export logic
   useEffect(() => {
@@ -224,16 +218,16 @@ export function Chart({
             scale: exportState.selectedExportOptions.includes("highResolution")
               ? 2
               : 1,
-            backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF", // HEX format only
+            backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
             useCORS: true,
-            logging: true, // Enable to see more debug info
-            onclone: (clonedDoc) => {
+            logging: true,
+            onclone: (clonedDoc: Document) => {
               const elements = clonedDoc.querySelectorAll("*");
-              elements.forEach((el) => {
-                const htmlEl = el as HTMLElement; // Add type assertion
+              elements.forEach((el: Element) => {
+                const htmlEl = el as HTMLElement;
                 const style = window.getComputedStyle(htmlEl);
                 ["color", "background-color", "border-color"].forEach(
-                  (prop) => {
+                  (prop: string) => {
                     if (style.getPropertyValue(prop).includes("oklch(")) {
                       htmlEl.style.setProperty(prop, "#36A2EB");
                     }
@@ -270,7 +264,7 @@ export function Chart({
           }
 
           dispatch(resetExport());
-        } catch (error) {
+        } catch (error: unknown) {
           console.error("Export failed:", error);
           dispatch(resetExport());
         }
@@ -288,43 +282,23 @@ export function Chart({
     const selectedValueColumn = valueColumns[0];
     return processedData
       .filter(
-        (item) =>
+        (item: ParsedRow) =>
           item[labelColumn] !== null &&
           item[labelColumn] !== undefined &&
           typeof item[selectedValueColumn] === "number" &&
           item[selectedValueColumn] !== null
       )
-      .map((item) => ({
+      .map((item: ParsedRow) => ({
         name: String(item[labelColumn]),
         value: item[selectedValueColumn] as number,
       }))
-      .filter((entry) => entry.value > 0);
+      .filter((entry: PieDataEntry) => entry.value > 0);
   }, [processedData, labelColumn, valueColumns]);
 
-  // Color management with localStorage persistence
+  // Color management
   const handleColorChange = (column: string, color: string) => {
-    setColors((prev) => {
-      const newColors = { ...prev, [column]: color };
-      try {
-        localStorage.setItem("chartColors", JSON.stringify(newColors));
-      } catch (e) {
-        console.error("Failed to save colors to localStorage", e);
-      }
-      return newColors;
-    });
+    dispatch(setColor({ column, color }));
   };
-
-  // Initialize colors from localStorage
-  useEffect(() => {
-    try {
-      const savedColors = localStorage.getItem("chartColors");
-      if (savedColors) {
-        setColors(JSON.parse(savedColors));
-      }
-    } catch (e) {
-      console.error("Failed to parse saved colors from localStorage", e);
-    }
-  }, []);
 
   // Dynamic chart rendering
   const renderChart = (): ReactElement => {
@@ -349,7 +323,9 @@ export function Chart({
     const xAxisProps = {
       dataKey: labelColumn,
       angle: chartConfig.horizontal ? 0 : -45,
-      textAnchor: chartConfig.horizontal ? "middle" : ("end" as const),
+      textAnchor: (chartConfig.horizontal ? "middle" : "end") as
+        | "middle"
+        | "end",
       height: 70,
       scale: (chartConfig.horizontal ? "band" : "auto") as ScaleType,
     };
@@ -376,7 +352,7 @@ export function Chart({
             )}
             {chartConfig.showTooltip && <Tooltip />}
             {chartConfig.showLegend && <Legend />}
-            {valueColumns.map((key) => (
+            {valueColumns.map((key: string) => (
               <Bar
                 key={key}
                 dataKey={key}
@@ -395,7 +371,7 @@ export function Chart({
             <YAxis />
             {chartConfig.showTooltip && <Tooltip />}
             {chartConfig.showLegend && <Legend />}
-            {valueColumns.map((key) => (
+            {valueColumns.map((key: string) => (
               <Line
                 key={key}
                 type="monotone"
@@ -426,7 +402,7 @@ export function Chart({
               outerRadius={150}
               label
             >
-              {pieData.map((_, index) => (
+              {pieData.map((_: PieDataEntry, index: number) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={
@@ -448,7 +424,7 @@ export function Chart({
             <YAxis />
             {chartConfig.showTooltip && <Tooltip />}
             {chartConfig.showLegend && <Legend />}
-            {valueColumns.map((key) => (
+            {valueColumns.map((key: string) => (
               <Area
                 key={key}
                 type="monotone"
@@ -504,22 +480,18 @@ export function Chart({
 
   // Toggle value column selection
   const toggleValueColumn = (column: string) => {
-    setValueColumns((prev) => {
+    setValueColumns((prev: string[]) => {
       const newColumns = prev.includes(column)
-        ? prev.filter((c) => c !== column)
+        ? prev.filter((c: string) => c !== column)
         : [...prev, column];
 
-      setColors((prevColors) => {
-        const newColors = { ...prevColors };
-        newColumns.forEach((col) => {
-          if (!newColors[col]) {
-            newColors[col] =
-              defaultColors[
-                Object.keys(newColors).length % defaultColors.length
-              ];
-          }
-        });
-        return newColors;
+      const newColors: Record<string, string> = { ...colors };
+      newColumns.forEach((col: string) => {
+        if (!newColors[col]) {
+          newColors[col] =
+            defaultColors[Object.keys(newColors).length % defaultColors.length];
+          dispatch(setColor({ column: col, color: newColors[col] }));
+        }
       });
 
       return newColumns;
@@ -600,7 +572,9 @@ export function Chart({
                           <input
                             type="checkbox"
                             checked={chartConfig.stacked}
-                            onChange={(e) =>
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) =>
                               setChartConfig({
                                 ...chartConfig,
                                 stacked: e.target.checked,
@@ -620,7 +594,9 @@ export function Chart({
                           <input
                             type="checkbox"
                             checked={chartConfig.horizontal}
-                            onChange={(e) =>
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) =>
                               setChartConfig({
                                 ...chartConfig,
                                 horizontal: e.target.checked,
@@ -639,7 +615,7 @@ export function Chart({
                         <input
                           type="checkbox"
                           checked={chartConfig.showLegend}
-                          onChange={(e) =>
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setChartConfig({
                               ...chartConfig,
                               showLegend: e.target.checked,
@@ -655,7 +631,7 @@ export function Chart({
                         <input
                           type="checkbox"
                           checked={chartConfig.showGrid}
-                          onChange={(e) =>
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setChartConfig({
                               ...chartConfig,
                               showGrid: e.target.checked,
@@ -704,7 +680,7 @@ export function Chart({
                 <div className="px-3 py-1 text-xs font-medium text-gray-500">
                   Select Value Columns
                 </div>
-                {numericColumns.map((col) => (
+                {numericColumns.map((col: string) => (
                   <div
                     key={`column-${col}`}
                     className={`px-3 py-2 cursor-pointer ${
@@ -736,7 +712,7 @@ export function Chart({
               Colors:
             </span>
             <div className="flex flex-wrap gap-1">
-              {valueColumns.map((col) => (
+              {valueColumns.map((col: string) => (
                 <div
                   key={col}
                   className="flex items-center gap-1 bg-blue-50 px-2 py-1 rounded text-xs sm:text-sm"
@@ -747,7 +723,9 @@ export function Chart({
                   <input
                     type="color"
                     value={colors[col] || defaultColors[0]}
-                    onChange={(e) => handleColorChange(col, e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      handleColorChange(col, e.target.value)
+                    }
                     className="w-4 h-4 border-none cursor-pointer"
                   />
                 </div>
@@ -761,9 +739,9 @@ export function Chart({
         className="w-full"
         style={{
           height: "clamp(300px, 60vh, 600px)",
-          backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF", // Changed to HEX
-          color: theme === "dark" ? "#FFFFFF" : "#000000", // Changed to HEX
-          borderColor: theme === "dark" ? "#4B5563" : "#D1D5DB", // Changed to HEX
+          backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
+          color: theme === "dark" ? "#FFFFFF" : "#000000",
+          borderColor: theme === "dark" ? "#4B5563" : "#D1D5DB",
         }}
       >
         <ResponsiveContainer width="100%" height="100%">

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { SIDENAV_ITEMS } from "@/constants";
-import { SideNavItem } from "@/types";
+import { SideNavItem } from "@/types/types";
 import Link from "next/link";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { usePathname } from "next/navigation";
@@ -72,7 +72,9 @@ const SubMenuItem = ({ item }: { item: SideNavItem }) => {
           <button
             onClick={toggleSubMenu}
             className={`flex flex-row items-center p-2 rounded-lg  w-full justify-between hover:bg-zinc-100 dark:hover:bg-gray-900 ${
-              pathname.startsWith(item.path || "#") ? "bg-zinc-100 dark:bg-gray-900" : ""
+              pathname.startsWith(item.path || "#")
+                ? "bg-zinc-100 dark:bg-gray-900"
+                : ""
             }`}
           >
             <div className="flex flex-row space-x-4 items-center">

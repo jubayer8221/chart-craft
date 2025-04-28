@@ -1,10 +1,9 @@
 // import { employeesData } from "@/lib/data";
-import { Customar } from "@/types";
+import { Customar } from "@/types/types";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { VscGitPullRequestCreate } from "react-icons/vsc";
-
 
 // type Employee = typeof employeesData[0];
 // type Customar = {
@@ -66,24 +65,24 @@ const CreateCustomarPopup = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Validate and convert grade
-  const grade = parseInt(formData.grade);
-  if (isNaN(grade)) {
-    alert("Please enter a valid grade number");
-    return;
-  }
+    const grade = parseInt(formData.grade);
+    if (isNaN(grade)) {
+      alert("Please enter a valid grade number");
+      return;
+    }
 
-  const newCustomar: Customar = {
-    id: Date.now(), // Generates a number (correct for id: number)
-    name: `${formData.firstName} ${formData.lastName}`,
-    email: formData.email || undefined, // Handle optional field
-    phone: formData.phone || undefined, // Handle optional field
-    address: formData.address,
-    grade, // Use validated number
-    studentId: `C${Math.floor(1000 + Math.random() * 9000)}`, // Fix typo (studetnId -> studentId)
-    photo: previewImage || "/default-photo.png", // Use default if no photo
-    class: formData.class,
-    blood: formData.blood,
-  };
+    const newCustomar: Customar = {
+      id: Date.now(), // Generates a number (correct for id: number)
+      name: `${formData.firstName} ${formData.lastName}`,
+      email: formData.email || undefined, // Handle optional field
+      phone: formData.phone || undefined, // Handle optional field
+      address: formData.address,
+      grade, // Use validated number
+      studentId: `C${Math.floor(1000 + Math.random() * 9000)}`, // Fix typo (studetnId -> studentId)
+      photo: previewImage || "/default-photo.png", // Use default if no photo
+      class: formData.class,
+      blood: formData.blood,
+    };
     onAddCustomar(newCustomar); // Call the callback to add employee
     onClose(); // Close the popup
   };
@@ -109,7 +108,7 @@ const CreateCustomarPopup = ({
 
         <div className="bg-white dark:bg-[#312c4a] rounded-md shadow-2xl p-6 sm:p-4 lg:p-8 transition-all duration-300 w-full max-h-[90vh] overflow-y-auto scrollbar-hiden">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center text-[#0A3A66] dark:text-white mb-8 tracking-wide">
-            Create Customar 
+            Create Customar
           </h2>
           {/* Profile Image Upload */}
           <div className="md:col-span-2 lg:col-span-3 flex flex-col items-center mb-6">
