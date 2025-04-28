@@ -1,3 +1,5 @@
+"use client";
+
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import chartReducer from './slices/chartSlice';
@@ -5,6 +7,7 @@ import exportReducer from './slices/exportSlice';
 import recentOrderReducer from "./slices/recent-orderSlice";
 import dataReducer from "./slices/convertDataSlice";
 import printSlice from "./slices/printSlice";
+import colorSlice from "./slices/colorSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +17,7 @@ export const store = configureStore({
     recentOrders: recentOrderReducer,
     data: dataReducer,
     printData: printSlice,
+    colors: colorSlice,
   },
 });
 
