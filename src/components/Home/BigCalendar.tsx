@@ -9,17 +9,29 @@ import { useState } from "react";
 const localizer = momentLocalizer(moment);
 
 const BigCalendar = () => {
-  const [view, setView] = useState<View>(Views.WORK_WEEK);
-  const [date, setDate] = useState<Date>(new Date(2025, 7, 12)); // August 12, 2025
+  const [view, setView] = useState<View>(Views.WEEK); 
+  const [date, setDate] = useState<Date>(new Date(2025, 3, 27)); 
 
   const handleOnChangeView = (selectedView: View) => {
     setView(selectedView);
   };
 
-  // Handle day click to switch to day view and navigate to the clicked date
   const handleNavigate = (newDate: Date) => {
-    setDate(newDate); // Update the date to the clicked date
-    setView(Views.DAY); // Switch to day view
+    setDate(newDate);
+    setView(Views.DAY);
+  };
+
+  // friyday hidden dayPropGetter 
+  const dayPropGetter = (date: Date) => {
+    const day = date.getDay(); 
+    if (day === 5) { 
+      return {
+        style: {
+          display: "none", 
+        },
+      };
+    }
+    return {};
   };
 
   return (
@@ -28,17 +40,17 @@ const BigCalendar = () => {
       events={calendarEvents}
       startAccessor="start"
       endAccessor="end"
-      views={["work_week", "day"]}
+      views={["week", "day"]} 
       view={view}
-      date={date} // Controlled date prop
+      date={date}
       style={{ height: "98%" }}
       onView={handleOnChangeView}
-      onNavigate={handleNavigate} // Handle day clicks
-      min={new Date(2025, 1, 0, 8, 0, 0)}
-      max={new Date(2025, 1, 0, 17, 0, 0)}
-      defaultDate={new Date(2025, 7, 12)} // August 12, 2025
+      onNavigate={handleNavigate}
+      min={new Date(2025, 3, 27, 8, 0, 0)} 
+      max={new Date(2025, 3, 27, 17, 0, 0)} 
+      defaultDate={new Date(2025, 3, 27)} 
+      dayPropGetter={dayPropGetter} 
     />
   );
 };
-
 export default BigCalendar;
