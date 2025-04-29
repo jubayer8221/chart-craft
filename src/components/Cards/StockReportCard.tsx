@@ -23,7 +23,9 @@ interface StockReportCardProps {
   isDarkMode?: boolean; // Prop to toggle dark mode
 }
 
-const StockReportCard: React.FC<StockReportCardProps> = ({ isDarkMode = false }) => {
+const StockReportCard: React.FC<StockReportCardProps> = ({
+  isDarkMode = false,
+}) => {
   // Define theme-based colors for light and dark modes
   const chartColors = {
     backgroundColor: "rgba(75, 192, 192, 0.6)", // Teal for bars
@@ -117,14 +119,12 @@ const StockReportCard: React.FC<StockReportCardProps> = ({ isDarkMode = false })
         },
       },
     },
-    backgroundColor: chartColors.background, // Chart canvas background
+    backgroundColor: chartColors.background,
   };
 
   return (
     <div
-      className={`p-4 ${
-        isDarkMode ?"text-gray-900" : "text-white"
-      }`}
+      className={` text-black ${isDarkMode ? "text-gray-900" : "text-white"}`}
     >
       <h1 className="text-lg font-semibold pb-2">Chart Theme</h1>
       <div className="h-[280px]">
