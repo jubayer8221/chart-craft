@@ -19,7 +19,7 @@ const SellsTable = () => {
 
   const [selectedRowIndex, setSelectedRowIndex] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 7;
+  const rowsPerPage = 6;
 
   const totalPages = Math.ceil(items.length / rowsPerPage);
   const startIndex = (currentPage - 1) * rowsPerPage;

@@ -14,6 +14,7 @@ import RecentOrdersCard from "@/components/Cards/RecentOrdersCard";
 import SellsTable from "@/components/Cards/SellsTable";
 import FileConvert from "@/components/Cards/FileConvert";
 import { useRouter } from "next/navigation";
+import TableThemes from "@/components/Cards/TableThemes";
 
 // Define card content map
 const cardContentMap = {
@@ -37,6 +38,10 @@ const cardContentMap = {
     component: <FileConvert></FileConvert>,
     path: "/themes/cards/fileConvert",
   },
+  "table-theme": {
+    component: <TableThemes></TableThemes>,
+    path: "/themes/cards/table-theme",
+  },
   // Add more cards here if neede
 };
 
@@ -49,6 +54,7 @@ const Dashboard = () => {
     "recent-orders",
     "sells-table",
     "file-Convert",
+    "table-theme",
   ]);
   const [filterText, setFilterText] = useState("");
 
