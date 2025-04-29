@@ -27,7 +27,7 @@ const FileConvert = () => {
       </div>
 
       <p className="text-sm text-gray-600 text-center dark:text-white">
-        To convert your data, click the button above.
+        To convert your data into chart, click the button above.
       </p>
     </div>
   );

@@ -127,8 +127,10 @@ export const TableCard: React.FC<TableCardProps> = ({
                 });
 
                 // Ensure cell borders are visible
-                const cells = tableElement.querySelectorAll("td, th");
-                cells.forEach((cell: HTMLElement) => {
+                const cells = tableElement.querySelectorAll(
+                  "td, th"
+                ) as NodeListOf<HTMLElement>;
+                cells.forEach((cell) => {
                   cell.style.border =
                     variant === "bordered" ? "1px solid #D1D5DB" : "";
                   cell.style.borderBottom =
