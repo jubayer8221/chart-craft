@@ -34,10 +34,10 @@ const Header = () => {
             className="flex flex-row space-x-3 items-center justify-center md:hidden"
           >
             <Image
-              src="/logo.jpg"
+              src="/logo.png"
               alt="Chart Crafter Logo"
-              width={80}
-              height={50}
+              width={70}
+              height={40}
             />
           </Link>
 

@@ -23,6 +23,8 @@ import {
   toggleExportOption,
   clearSelections,
 } from "@/redux/slices/exportSlice";
+import Image from "next/image";
+import { useTheme } from "next-themes";
 
 ChartJS.register(
   CategoryScale,
@@ -44,8 +46,6 @@ interface Item {
 
 const mockData: Item[] = [
   { id: "1", name: "Item 1", price: 10 },
-  { id: "2", name: "Item 2", price: 20 },
-  { id: "3", name: "Item 3", price: 30 },
   { id: "2", name: "Item 2", price: 20 },
   { id: "3", name: "Item 3", price: 30 },
   { id: "4", name: "Item 4", price: 40 },
@@ -75,7 +75,9 @@ const ExportAlert: React.FC<ExportAlertProps> = ({ message, onClose }) => {
             <h3 className="text-sm font-medium text-gray-800 dark:text-white">
               Export Required
             </h3>
-            <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">{message}</p>
+            <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+              {message}
+            </p>
           </div>
           <button
             onClick={onClose}
@@ -108,6 +110,15 @@ const SellsTable: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
+
+  // Define theme-based colors
+  const chartThemeColors = {
+    textColor: isDarkMode ? "#E5E7EB" : "#1F2937", // Light gray for dark, dark gray for light
+    gridColor: isDarkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)", // Subtle white for dark, black for light
+    tooltipBackground: isDarkMode ? "#374151" : "#F9FAFB", // Dark gray for dark, light gray for light
+  };
 
   // Generate random colors for each chart initially
   const getRandomColor = (): string => {
@@ -279,20 +290,25 @@ const SellsTable: React.FC = () => {
         <h1 className="text-2xl font-bold text-center print:text-center dark:text-white">
           Chart Theme
         </h1>
-        <input
-          type="text"
-          placeholder="Search items..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="p-2 rounded-md border border-gray-300 max-w-40 max-h-10 print:hidden dark:bg-[#463f59] dark:text-white dark:border-gray-600"
-        />
+        <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-md ring-[1.5px] ring-gray-300 dark:ring-[#897c8f] px-2">
+          <Image src="/assets/search.png" alt="search" width={14} height={14} />
+          <input
+            type="text"
+            placeholder="Search items..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-[200px] p-2 bg-transparent outline-none dark:text-white"
+          />
+        </div>
       </div>
 
       <div className="flex flex-wrap justify-between gap-4 mb-4">
         <div className="flex flex-wrap gap-4 justify-between">
           <div className="flex flex-col md:flex-row items-center gap-4 py-2 mb-4 print:hidden">
             <div>
-              <h3 className="font-semibold text-lg dark:text-white">Select Items to Export:</h3>
+              <h3 className="font-semibold text-lg dark:text-white">
+                Select Items to Export:
+              </h3>
             </div>
 
             <div className="flex flex-wrap gap-2">
@@ -381,9 +397,9 @@ const SellsTable: React.FC = () => {
             return `${r}, ${g}, ${b}`;
           };
 
-          const isDarkMode = document.documentElement.classList.contains('dark');
-          const backgroundColor = `rgba(${hexToRgb(primaryColor)}, 0.6)`;
-          const borderColor = isDarkMode ? `rgba(${hexToRgb(primaryColor)}, 1)` :  '#ffffff' ;
+          // Theme-based colors for data
+          const backgroundColor = `rgba(${hexToRgb(primaryColor)}, ${isDarkMode ? 0.6 : 0.4})`;
+          const borderColor = `rgba(${hexToRgb(primaryColor)}, 1)`;
 
           const datasetData = [
             item.price + 5,
@@ -412,32 +428,51 @@ const SellsTable: React.FC = () => {
               legend: {
                 position: "top" as const,
                 labels: {
-                  color: isDarkMode ? '#000000' : '#ffffff' ,
+                  color: chartThemeColors.textColor, // Theme-based text color
+                  font: { size: 12 },
                 },
               },
               title: {
                 display: true,
                 text: `Chart Report: ${item.name}`,
-                color: isDarkMode ? '#000000'  : '#ffffff',
+                color: chartThemeColors.textColor, // Theme-based text color
+                font: { size: 14 },
+              },
+              tooltip: {
+                backgroundColor: chartThemeColors.tooltipBackground,
+                titleColor: chartThemeColors.textColor,
+                bodyColor: chartThemeColors.textColor,
+                borderColor: chartThemeColors.gridColor,
+                borderWidth: 1,
               },
             },
             scales: {
               x: {
                 beginAtZero: true,
                 ticks: {
-                  color: isDarkMode ? '#000000' : '#ffffff',
+                  color: chartThemeColors.textColor, // Theme-based tick color
                 },
                 grid: {
-                  color: isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)',
+                  color: chartThemeColors.gridColor, // Theme-based grid color
+                },
+                title: {
+                  display: true,
+                  text: "Items",
+                  color: chartThemeColors.textColor,
                 },
               },
               y: {
                 beginAtZero: true,
                 ticks: {
-                  color: isDarkMode ? '#000000' :  '#ffffff',
+                  color: chartThemeColors.textColor, // Theme-based tick color
                 },
                 grid: {
-                  color: isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)',
+                  color: chartThemeColors.gridColor, // Theme-based grid color
+                },
+                title: {
+                  display: true,
+                  text: "Quantity",
+                  color: chartThemeColors.textColor,
                 },
               },
             },
@@ -483,9 +518,9 @@ const SellsTable: React.FC = () => {
                           data: datasetData,
                           backgroundColor: [
                             backgroundColor,
-                            `rgba(${hexToRgb(primaryColor)}, 0.4)`,
-                            `rgba(${hexToRgb(primaryColor)}, 0.2)`,
-                            `rgba(${hexToRgb(primaryColor)}, 0.8)`,
+                            `rgba(${hexToRgb(primaryColor)}, ${isDarkMode ? 0.8 : 0.6})`,
+                            `rgba(${hexToRgb(primaryColor)}, ${isDarkMode ? 0.4 : 0.2})`,
+                            `rgba(${hexToRgb(primaryColor)}, ${isDarkMode ? 1 : 0.8})`,
                           ],
                           borderColor: borderColor,
                           borderWidth: 1,

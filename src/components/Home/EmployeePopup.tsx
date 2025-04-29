@@ -67,7 +67,7 @@ const EmployeePopup = ({ employee, onClose }: EmployeePopupProps) => {
           </div>
         </button>
         {/* employee info  */}
-        <div className="flex flex-col xl:flex-row p-4 gap-4 max-h-[90vh] overflow-y-auto">
+        <div className="flex flex-col xl:flex-row p-4 gap-4 max-h-[90vh] overflow-y-auto scrollbar-hiden ">
           {/* Left Section */}
           <div className="w-full xl:w-2/3">
             {/* Top Section */}

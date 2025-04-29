@@ -15,7 +15,7 @@ import SellsTable from "@/components/Cards/SellsTable";
 import FileConvert from "@/components/Cards/FileConvert";
 import { useRouter } from "next/navigation";
 import TableThemes from "@/components/Cards/TableThemes";
-
+import Image from "next/image";
 // Define card content map
 const cardContentMap = {
   "top-selling": {
@@ -77,13 +77,17 @@ const Dashboard = () => {
       {/* Header and Search */}
       <div className="mb-6 pt-2 flex flex-col justify-between sm:flex-row gap-2">
         <h1 className="text-2xl font-bold mb-2">Themes</h1>
-        <input
-          type="text"
-          value={filterText}
-          onChange={(e) => setFilterText(e.target.value)}
-          placeholder="Search cards..."
-          className="border-1 px-4 mb-2 rounded shadow-sm text-sm "
-        />
+
+        <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-md ring-[1.5px] ring-gray-300 dark:ring-[#897c8f] px-2">
+          <Image src="/assets/search.png" alt="search" width={14} height={14} />
+          <input
+            type="text"
+            value={filterText}
+            onChange={(e) => setFilterText(e.target.value)}
+            placeholder="Search cards..."
+            className="w-[200px] p-2 bg-transparent outline-none"
+          />
+        </div>
       </div>
 
       <DragDropContext onDragEnd={handleDragEnd}>
