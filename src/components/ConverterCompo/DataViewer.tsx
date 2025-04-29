@@ -9,7 +9,7 @@ export function DataViewer() {
   if (!data || data.length === 0) return null;
 
   return (
-    <div className="w-full">
+    <div className="w-full dark:bg-[#312c4a] dark:text-white rounded-md shadow-md">
       {/* <h1 className="text-2xl font-bold mb-4 text-black">Data Visualizer</h1> */}
 
       <div className="p-4 rounded-md">
