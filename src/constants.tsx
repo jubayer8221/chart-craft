@@ -55,7 +55,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
         visible: ["admin", "employee"],
       },
       {
-        title: "Customers",
+        title: "Clients",
         path: "/list/customers",
         icon: <FiUsers className="w-[16px] h-[16px]" />,
         visible: ["admin", "customer"],

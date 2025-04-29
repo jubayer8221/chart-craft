@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useTheme } from "next-themes";
 
 ChartJS.register(
   CategoryScale,
@@ -19,21 +20,21 @@ ChartJS.register(
   Legend
 );
 
-interface StockReportCardProps {
-  isDarkMode?: boolean; // Prop to toggle dark mode
-}
+const StockReportCard: React.FC = () => {
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark"; // Derive dark mode from theme
 
-const StockReportCard: React.FC<StockReportCardProps> = ({ isDarkMode = false }) => {
   // Define theme-based colors for light and dark modes
   const chartColors = {
-    backgroundColor: "rgba(75, 192, 192, 0.6)", // Teal for bars
-    borderColor: "rgba(75, 192, 192, 1)", // Teal border for bars
-    textColor: isDarkMode ? " #1F2937" : "#FFFFFF", // Light gray for dark mode, dark gray for light
-    gridColor: isDarkMode ? "rgba(0, 0, 0, 0.1) " : "rgba(255, 255, 255, 0.15)", // Subtle white vs black for grid
-    background: isDarkMode ? "#1F2937" : "#FFFFFF", // Chart background
+    backgroundColor: isDarkMode ? "rgba(75, 192, 192, 0.6)" : "rgba(54, 162, 235, 0.6)", // Teal for dark, blue for light
+    borderColor: isDarkMode ? "rgba(75, 192, 192, 1)" : "rgba(54, 162, 235, 1)", // Teal for dark, blue for light
+    textColor: isDarkMode ? "#E5E7EB" : "#1F2937", // Light gray for dark mode, dark gray for light mode
+    gridColor: isDarkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)", // Subtle white for dark, black for light
+    background: isDarkMode ? "#1F2937" : "#FFFFFF", // Dark gray for dark mode, white for light mode
+    tooltipBackground: isDarkMode ? "#374151" : "#F9FAFB", // Darker gray for dark mode, light gray for light mode
   };
 
-  // Chart data
+  // Chart data with dynamic colors
   const data = {
     labels: [
       "T-shirt",
@@ -78,7 +79,7 @@ const StockReportCard: React.FC<StockReportCardProps> = ({ isDarkMode = false })
         },
       },
       tooltip: {
-        backgroundColor: chartColors.background, // Tooltip background matches chart
+        backgroundColor: chartColors.tooltipBackground, // Tooltip background
         titleColor: chartColors.textColor, // Tooltip title
         bodyColor: chartColors.textColor, // Tooltip body
         borderColor: chartColors.gridColor,
@@ -94,7 +95,7 @@ const StockReportCard: React.FC<StockReportCardProps> = ({ isDarkMode = false })
         },
         ticks: {
           color: chartColors.textColor, // Y-axis tick labels
-          stepSize: 40, // Consistent tick intervals
+          stepSize: 40,
         },
         title: {
           display: true,
@@ -117,14 +118,12 @@ const StockReportCard: React.FC<StockReportCardProps> = ({ isDarkMode = false })
         },
       },
     },
-    backgroundColor: chartColors.background, // Chart canvas background
   };
 
   return (
     <div
-      className={`p-4 ${
-        isDarkMode ?"text-gray-900" : "text-white"
-      }`}
+      className={`p-4 rounded-lg ${isDarkMode ? "text-gray-100" : "bg-white text-gray-900"}`}
+      
     >
       <h1 className="text-lg font-semibold pb-2">Chart Theme</h1>
       <div className="h-[280px]">
