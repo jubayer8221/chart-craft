@@ -26,7 +26,9 @@ const StockReportCard: React.FC = () => {
 
   // Define theme-based colors for light and dark modes
   const chartColors = {
-    backgroundColor: isDarkMode ? "rgba(75, 192, 192, 0.6)" : "rgba(54, 162, 235, 0.6)", // Teal for dark, blue for light
+    backgroundColor: isDarkMode
+      ? "rgba(75, 192, 192, 0.6)"
+      : "rgba(54, 162, 235, 0.6)", // Teal for dark, blue for light
     borderColor: isDarkMode ? "rgba(75, 192, 192, 1)" : "rgba(54, 162, 235, 1)", // Teal for dark, blue for light
     textColor: isDarkMode ? "#E5E7EB" : "#1F2937", // Light gray for dark mode, dark gray for light mode
     gridColor: isDarkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)", // Subtle white for dark, black for light
@@ -122,8 +124,9 @@ const StockReportCard: React.FC = () => {
 
   return (
     <div
-      className={`p-4 rounded-lg ${isDarkMode ? "text-gray-100" : "bg-white text-gray-900"}`}
-      
+      className={`rounded-lg ${
+        isDarkMode ? "text-gray-100" : "bg-white text-gray-900"
+      }`}
     >
       <h1 className="text-lg font-semibold pb-2">Chart Theme</h1>
       <div className="h-[280px]">
