@@ -33,7 +33,7 @@ function ChatPageContent() {
           messages={messages}
         />
       </div>
-      <div className="fixed top-[6%] left-[11%] w-[100%] h-[106%] z-10 flex flex-col">
+      <div className="fixed top-[6%] left-[11%] w-[100%] h-[80%] z-10 flex flex-col">
         {selectedUser ? (
           <ChatWindow selectedUser={selectedUser} currentUser={currentUser} />
         ) : (
