@@ -20,10 +20,10 @@ const LeftSide = () => {
           {/* <span className='h-7 w-7 bg-zinc-200 rounded-lg'></span> */}
           {/* <span className="font-bold text-xl hidden md:flex"> */}
           <Image
-            src="/logo.jpg"
+            src="/logo.png"
             alt="Chart Crafter Logo"
-            width={100}
-            height={60}
+            width={80}
+            height={40}
           />
           {/* </span> */}
         </Link>

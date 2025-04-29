@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { saveAs } from "file-saver";
+import Image from "next/image";
 
 const SellsTable = () => {
   const [items] = useState([
@@ -139,13 +140,26 @@ const SellsTable = () => {
       <div className="">
         <h1 className="text-2xl font-bold py-4">Top Selling Report</h1>
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
-          <input
+          {/* search  */}
+          {/* <input
             type="text"
             placeholder="Search by item name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="mb-4 px-4 py-2 border border-gray-300 rounded-md w-full sm:w-1/2"
-          />
+          /> */}
+
+          <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-md ring-[1.5px] ring-gray-300 dark:border-[#897c8f] px-2">
+            <Image src="/assets/search.png" alt="" width={14} height={14} />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search..."
+              className="w-[200px] p-2 bg-transparent outline-none"
+            />
+          </div>
+
           <div className="flex gap-2">
             <button
               onClick={handlePrint}
@@ -170,7 +184,9 @@ const SellsTable = () => {
               <th className="px-4 py-2 border dark:border-gray-500">Item</th>
               <th className="px-4 py-2 border dark:border-gray-500">Price</th>
               <th className="px-4 py-2 border dark:border-gray-500">Sold</th>
-              <th className="px-4 py-2 border dark:border-gray-500">Category</th>
+              <th className="px-4 py-2 border dark:border-gray-500">
+                Category
+              </th>
               <th className="px-4 py-2 border dark:border-gray-500">Stock</th>
             </tr>
           </thead>
@@ -183,11 +199,21 @@ const SellsTable = () => {
                 }`}
                 onClick={() => handleRowClick(index)}
               >
-                <td className="px-4 py-2 border dark:border-gray-500">{item.name}</td>
-                <td className="px-4 py-2 border dark:border-gray-500">{item.price}</td>
-                <td className="px-4 py-2 border dark:border-gray-500">{item.sold}</td>
-                <td className="px-4 py-2 border dark:border-gray-500">{item.category}</td>
-                <td className="px-4 py-2 border dark:border-gray-500">{item.stock}</td>
+                <td className="px-4 py-2 border dark:border-gray-500">
+                  {item.name}
+                </td>
+                <td className="px-4 py-2 border dark:border-gray-500">
+                  {item.price}
+                </td>
+                <td className="px-4 py-2 border dark:border-gray-500">
+                  {item.sold}
+                </td>
+                <td className="px-4 py-2 border dark:border-gray-500">
+                  {item.category}
+                </td>
+                <td className="px-4 py-2 border dark:border-gray-500">
+                  {item.stock}
+                </td>
               </tr>
             ))}
           </tbody>
