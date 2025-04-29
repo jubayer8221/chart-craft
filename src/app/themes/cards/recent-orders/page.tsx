@@ -36,14 +36,8 @@ const itemsPerPage = 6;
 const TableComponent = () => {
   const dispatch = useDispatch();
 
-  const {
-    data,
-    sortConfig,
-    progressFilter,
-    visibleColumns,
-    darkMode,
-    currentPage,
-  } = useSelector((state: RootState) => state.recentOrders);
+  const { data, sortConfig, progressFilter, visibleColumns, currentPage } =
+    useSelector((state: RootState) => state.recentOrders);
 
   useEffect(() => {
     dispatch(setData(mockRecentOrders));
@@ -102,11 +96,7 @@ const TableComponent = () => {
   );
 
   return (
-    <div
-      className={`${
-        darkMode ? "dark" : ""
-      } p-4 overflow-x-auto bg-gray-50 rounded-md`}
-    >
+    <div className={`p-4 overflow-x-auto bg-gray-50 dark:bg-[#312c4a]`}>
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-2">
         <h2 className="text-2xl font-semibold">Recent Order</h2>
       </div>
@@ -122,11 +112,11 @@ const TableComponent = () => {
                     <TableHead
                       key={key}
                       onClick={() => handleSort(key as keyof Item)}
-                      className="cursor-pointer whitespace-nowrap group relative"
+                      className="cursor-pointer whitespace-nowrap group "
                     >
                       <div className="flex items-center gap-1">
                         {key.charAt(0).toUpperCase() + key.slice(1)}
-                        <span className="w-4 h-4 inline-flex items-center justify-center">
+                        <span className="w-4 h-4 inline-flex items-center justify-center relative">
                           {sortConfig?.key === key ? (
                             sortConfig.direction === "asc" ? (
                               <FaSortUp className="text-primary" />
@@ -136,18 +126,19 @@ const TableComponent = () => {
                           ) : (
                             <span className="w-4 h-4" />
                           )}
+                          <button
+                            className="hidden group-hover:inline-block text-red-500"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteColumn(key);
+                            }}
+                          >
+                            <FaTimes />
+                          </button>
                         </span>
                       </div>
+
                       {/* Button to delete the column header */}
-                      <button
-                        className="absolute top-0 right-0 hidden group-hover:inline-block text-red-500"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteColumn(key);
-                        }}
-                      >
-                        <FaTimes />
-                      </button>
                     </TableHead>
                   )
               )}
@@ -158,7 +149,7 @@ const TableComponent = () => {
             {paginatedData.map((item) => (
               <TableRow
                 key={item.id}
-                className="group relative hover:bg-gray-100 dark:hover:bg-gray-200"
+                className="group relative hover:bg-gray-100 dark:hover:bg-[#685e74]"
               >
                 {visibleColumns.includes("id") && (
                   <TableCell className="whitespace-nowrap">{item.id}</TableCell>
