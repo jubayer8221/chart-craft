@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/redux/store";
+import { RootState, AppDispatch } from "@/redux/store";
 import {
   setData,
   setSortConfig,
@@ -31,10 +31,11 @@ interface Item {
   progress: string;
 }
 
+const allColumns: (keyof Item)[] = ["id", "name", "price", "order", "progress"];
 const itemsPerPage = 6;
 
 const TableComponent = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const { data, sortConfig, progressFilter, visibleColumns, currentPage } =
     useSelector((state: RootState) => state.recentOrders);
@@ -49,10 +50,7 @@ const TableComponent = () => {
         ? "desc"
         : "asc";
 
-    if (progressFilter) {
-      dispatch(setProgressFilter(""));
-    }
-
+    dispatch(setProgressFilter("")); // Reset filter
     dispatch(setSortConfig({ key, direction }));
   };
 
@@ -60,7 +58,7 @@ const TableComponent = () => {
     dispatch(deleteRow(id));
   };
 
-  const handleDeleteColumn = (key: string) => {
+  const handleDeleteColumn = (key: keyof Item) => {
     dispatch(setVisibleColumns(visibleColumns.filter((col) => col !== key)));
   };
 
@@ -89,10 +87,11 @@ const TableComponent = () => {
     }
   });
 
-  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
+  const totalPages = Math.max(1, Math.ceil(sortedData.length / itemsPerPage));
+  const currentValidPage = Math.min(currentPage, totalPages);
   const paginatedData = sortedData.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    (currentValidPage - 1) * itemsPerPage,
+    currentValidPage * itemsPerPage
   );
 
   return (
@@ -105,14 +104,13 @@ const TableComponent = () => {
         <Table className="min-w-[700px]">
           <TableHeader>
             <TableRow>
-              {["id", "name", "price", "order", "progress"].map(
+              {allColumns.map(
                 (key) =>
-                  // Only render the TableHead if the column is visible
                   visibleColumns.includes(key) && (
                     <TableHead
                       key={key}
-                      onClick={() => handleSort(key as keyof Item)}
-                      className="cursor-pointer whitespace-nowrap group "
+                      onClick={() => handleSort(key)}
+                      className="cursor-pointer whitespace-nowrap group"
                     >
                       <div className="flex items-center gap-1">
                         {key.charAt(0).toUpperCase() + key.slice(1)}
@@ -137,8 +135,6 @@ const TableComponent = () => {
                           </button>
                         </span>
                       </div>
-
-                      {/* Button to delete the column header */}
                     </TableHead>
                   )
               )}
@@ -174,7 +170,6 @@ const TableComponent = () => {
                     ${item.price}
                   </TableCell>
                 )}
-                {/* Delete Row button */}
                 <TableCell className="absolute right-0 pr-2 opacity-0 group-hover:opacity-100">
                   <button
                     className="text-red-500"
@@ -189,33 +184,31 @@ const TableComponent = () => {
         </Table>
       </div>
 
-      {/* Pagination and Hidden Columns Section */}
+      {/* Pagination */}
       <div className="flex flex-col md:flex-row justify-between items-center mt-4 gap-2">
         <Button
-          onClick={() => dispatch(setCurrentPage(currentPage - 1))}
-          disabled={currentPage === 1}
+          onClick={() => dispatch(setCurrentPage(currentValidPage - 1))}
+          disabled={currentValidPage === 1}
         >
           Previous
         </Button>
         <span>
-          Page {currentPage} of {totalPages}
+          Page {currentValidPage} of {totalPages}
         </span>
         <Button
-          onClick={() => dispatch(setCurrentPage(currentPage + 1))}
-          disabled={currentPage === totalPages}
+          onClick={() => dispatch(setCurrentPage(currentValidPage + 1))}
+          disabled={currentValidPage === totalPages}
         >
           Next
         </Button>
       </div>
 
-      {/* Only show hidden columns section if any columns are hidden */}
-      {["id", "name", "price", "order", "progress"].some(
-        (col) => !visibleColumns.includes(col)
-      ) && (
+      {/* Hidden Columns */}
+      {allColumns.some((col) => !visibleColumns.includes(col)) && (
         <div className="mt-4">
           <h3 className="text-sm font-medium mb-2">Hidden Columns:</h3>
           <div className="flex gap-2 flex-wrap">
-            {["id", "name", "price", "order", "progress"]
+            {allColumns
               .filter((col) => !visibleColumns.includes(col))
               .map((col) => (
                 <Button
