@@ -49,7 +49,7 @@ const HeaderMobile = () => {
       ref={containerRef}
     >
       <motion.div
-        className="absolute inset-0 right-0 w-full bg-white"
+        className="absolute inset-0 right-0 w-full bg-white dark:bg-gray-800"
         variants={sidebar}
       />
       <motion.ul
@@ -89,7 +89,7 @@ const HeaderMobile = () => {
                     </MenuItem>
                   )}
                   {!isLastItem && (
-                    <MenuItem className="my-3 h-px w-full bg-gray-300" />
+                    <MenuItem className="my-3 h-px w-full bg-gray-300 dark:bg-gray-800" />
                   )}
                 </div>
               );
