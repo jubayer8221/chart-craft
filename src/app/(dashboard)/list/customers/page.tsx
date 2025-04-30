@@ -2,7 +2,7 @@
 
 import FormModal from "@/components/Home/FormModeal";
 import Pagination from "@/components/Home/Pagination";
-import Table from "@/components/Home/Table";
+import { Table } from "@/components/Home/Table";
 // import TableSearch from "@/components/Home/TableSearch";
 import { customarsData, role } from "@/lib/data";
 import Image from "next/image";
@@ -73,34 +73,33 @@ const CustomarListPage = () => {
 
   //paginatin states
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5; 
+  const itemsPerPage = 5;
 
   // console.log("locaddlsdf======: ", customars)
   useEffect(() => {
-  if (typeof window !== "undefined") {
-    const stored = localStorage.getItem("customarsData");
-    if (stored) {
-      setCustomars(JSON.parse(stored));
-    } else {
-      setCustomars(customarsData);
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("customarsData");
+      if (stored) {
+        setCustomars(JSON.parse(stored));
+      } else {
+        setCustomars(customarsData);
+      }
     }
-  }
-}, []);
-
+  }, []);
 
   //create new data handle
-  const handleAddCustomar = (newCustomar: Customar)=>{
+  const handleAddCustomar = (newCustomar: Customar) => {
     const updatedCustomars = [...customars, newCustomar];
     setCustomars(updatedCustomars);
     localStorage.setItem("customarsData", JSON.stringify(updatedCustomars));
-  }
+  };
 
   //handle deletion of a customer
-  const handleDeletecustomar = (id: number) =>{
-    const updatedCustomars = customars.filter((customar)=>customar.id !== id);
+  const handleDeletecustomar = (id: number) => {
+    const updatedCustomars = customars.filter((customar) => customar.id !== id);
     setCustomars(updatedCustomars);
     localStorage.setItem("customarsData", JSON.stringify(updatedCustomars));
-  }
+  };
 
   const handleOpenPopup = (customar: Customar) => {
     setSelectedCustomar(customar);
@@ -109,24 +108,24 @@ const CustomarListPage = () => {
   const handleClosePopup = () => {
     setPopupOpen(false);
     setSelectedCustomar(null);
-    setCreatePopup(false)
+    setCreatePopup(false);
   };
 
-  const handleCreatePopup = () =>{
+  const handleCreatePopup = () => {
     setCreatePopup(true);
-  }
+  };
 
   // search
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setShowSuggestions(true);
-    setCurrentPage(1)
+    setCurrentPage(1);
   };
 
   const handleSuggestionClick = (value: string) => {
     setSearchTerm(value);
     setShowSuggestions(false);
-    setCurrentPage(1)
+    setCurrentPage(1);
   };
 
   // filter
@@ -153,15 +152,15 @@ const CustomarListPage = () => {
     return sortDirection === "asc" ? comparison : -comparison;
   });
 
- // Calculate paginated data
+  // Calculate paginated data
   const totalItems = sortedData.length;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const PaginationData = sortedData.slice(startIndex, endIndex);
 
- const handlePageChange = (page: number) =>{
-    setCurrentPage(page)
- }
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const renderRow = (item: Customar) => (
     <tr
@@ -206,7 +205,12 @@ const CustomarListPage = () => {
             // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#CFCEFF]">
             //   <Image src="/assets/delete.png" alt="" width={16} height={16} />
             // </button>
-            <FormModal table="customar" type="delete" id={item.id} onDelete={handleDeletecustomar} />
+            <FormModal
+              table="customar"
+              type="delete"
+              id={item.id}
+              onDelete={handleDeletecustomar}
+            />
           )}
         </div>
       </td>
@@ -279,7 +283,12 @@ const CustomarListPage = () => {
               // <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAE27C]">
               //   <span className="text-[14px]"><FaPlus /></span>
               // </button>
-               <button onClick={()=>handleCreatePopup()} className="w-7 h-7 flex items-center justify-center rounded-full bg-[#0A3A66] dark:bg-[#000022]" ><FaPlus className="text-[14px] text-white" /></button>
+              <button
+                onClick={() => handleCreatePopup()}
+                className="w-7 h-7 flex items-center justify-center rounded-full bg-[#0A3A66] dark:bg-[#000022]"
+              >
+                <FaPlus className="text-[14px] text-white" />
+              </button>
             )}
           </div>
         </div>
@@ -287,16 +296,22 @@ const CustomarListPage = () => {
       {/* LIST */}
       <Table columns={columns} renderRow={renderRow} data={PaginationData} />
       {/* PAGINATION */}
-      <Pagination totalItems={totalItems} itemsPerPage={itemsPerPage} currentPage={currentPage} onPageChange={handlePageChange} />
+      <Pagination
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
       {isPopupOpen && selectedCustomar && (
         <CustomarPopup customar={selectedCustomar} onClose={handleClosePopup} />
       )}
 
-      {
-        isCreatePopup && (
-          <CreateCustomarPopup onAddCustomar={handleAddCustomar} onClose={handleClosePopup}/>
-        )
-      }
+      {isCreatePopup && (
+        <CreateCustomarPopup
+          onAddCustomar={handleAddCustomar}
+          onClose={handleClosePopup}
+        />
+      )}
     </div>
   );
 };

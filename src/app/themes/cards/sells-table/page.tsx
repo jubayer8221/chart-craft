@@ -1,19 +1,21 @@
+// src/app/themes/cards/sells-table/page.tsx
+
 "use client";
 
-import dynamic from "next/dynamic";
 import React from "react";
+import dynamic from "next/dynamic";
 
-// Dynamically import TableOne with SSR disabled
 const TableOne = dynamic(() => import("@/components/dynamicChart/TableOne"), {
   ssr: false,
 });
 
-const SellsTable = () => {
+const Page = () => {
   return (
-    <div>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Sells Table Page</h1>
       <TableOne />
     </div>
   );
 };
 
-export default SellsTable;
+export default Page;

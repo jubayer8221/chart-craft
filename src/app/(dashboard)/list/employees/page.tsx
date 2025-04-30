@@ -3,17 +3,26 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaArrowDownWideShort } from "react-icons/fa6";
+import {
+  FaArrowDownWideShort,
+  FaArrowUpShortWide,
+  FaPlus,
+} from "react-icons/fa6";
 import { IoFilterSharp } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
-import { FaArrowUpShortWide } from "react-icons/fa6";
-import { FaPlus } from "react-icons/fa6";
-
-import FormModal from "@/components/Home/FormModeal";
-import Pagination from "@/components/Home/Pagination";
-import Table from "@/components/Home/Table";
 import dynamic from "next/dynamic";
 
+// Dynamically import components that might use browser APIs
+const FormModal = dynamic(() => import("@/components/Home/FormModeal"), {
+  ssr: false,
+});
+const Pagination = dynamic(() => import("@/components/Home/Pagination"), {
+  ssr: false,
+});
+// const Table = dynamic(() => import("@/components/Home/Table"), {
+//   ssr: false,
+// });
+import { Table } from "@/components/Home/Table";
 const EmployeePopup = dynamic(() => import("@/components/Home/EmployeePopup"), {
   ssr: false,
 });
@@ -64,23 +73,26 @@ const EmployeesListPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [employees, setEmployees] = useState<Employee[]>([]);
-  // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5; // Number of employees per page
+  const itemsPerPage = 5;
 
   useEffect(() => {
-    const stored = localStorage.getItem("employeesData");
-    if (stored) {
-      setEmployees(JSON.parse(stored));
-    } else {
-      setEmployees(employeesData);
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("employeesData");
+      if (stored) {
+        setEmployees(JSON.parse(stored));
+      } else {
+        setEmployees(employeesData);
+      }
     }
   }, []);
 
   const handleDeleteEmployee = (id: number) => {
     const updatedEmployees = employees.filter((employee) => employee.id !== id);
     setEmployees(updatedEmployees);
-    localStorage.setItem("employeesData", JSON.stringify(updatedEmployees));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("employeesData", JSON.stringify(updatedEmployees));
+    }
   };
 
   const handleOpenPopup = (employee: Employee) => {
@@ -95,7 +107,9 @@ const EmployeesListPage = () => {
   const handleAddEmployee = (newEmployee: Employee) => {
     const updatedEmployees = [...employees, newEmployee];
     setEmployees(updatedEmployees);
-    localStorage.setItem("employeesData", JSON.stringify(updatedEmployees));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("employeesData", JSON.stringify(updatedEmployees));
+    }
   };
 
   const handleClosePopup = () => {
@@ -107,13 +121,13 @@ const EmployeesListPage = () => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setShowSuggestions(true);
-    setCurrentPage(1); // Reset to first page on new search
+    setCurrentPage(1);
   };
 
   const handleSuggestionClick = (value: string) => {
     setSearchTerm(value);
     setShowSuggestions(false);
-    setCurrentPage(1); // Reset to first page on suggestion click
+    setCurrentPage(1);
   };
 
   const handleFilter = () => {
@@ -130,7 +144,7 @@ const EmployeesListPage = () => {
         ? { ...prev, direction: prev.direction === "asc" ? "desc" : "asc" }
         : { key, direction: "asc" }
     );
-    setCurrentPage(1); // Reset to first page on sort
+    setCurrentPage(1);
   };
 
   const sortedData = [...filteredData].sort((a, b) => {
@@ -153,9 +167,7 @@ const EmployeesListPage = () => {
     return 0;
   });
 
-  // Calculate paginated data
   const totalItems = sortedData.length;
-  // const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = sortedData.slice(startIndex, endIndex);
@@ -213,11 +225,9 @@ const EmployeesListPage = () => {
 
   return (
     <div className="bg-white dark:bg-[#312c4a] p-4 rounded-md flex-1">
-      {/* TOP */}
       <div className="flex items-center justify-between">
         <h1 className="hidden md:block text-lg font-semibold">All Employees</h1>
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
-          {/* Search Box */}
           <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-md ring-[1.5px] ring-gray-300 dark:ring-[#897c8f] px-2">
             <Image
               src="/assets/search.png"
@@ -255,8 +265,6 @@ const EmployeesListPage = () => {
               </ul>
             )}
           </div>
-
-          {/* Sort & Filter Buttons */}
           <div className="flex items-center gap-2 self-end">
             <button
               onClick={handleFilter}
@@ -285,24 +293,20 @@ const EmployeesListPage = () => {
           </div>
         </div>
       </div>
-
-      {/* TABLE */}
-      <Table columns={columns} renderRow={renderRow} data={paginatedData} />
-
-      {/* PAGINATION */}
+      <Table<Employee>
+        columns={columns}
+        renderRow={renderRow}
+        data={paginatedData}
+      />
       <Pagination
         totalItems={totalItems}
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={handlePageChange}
       />
-
-      {/* POPUP */}
       {isPopupOpen && selectedEmployee && (
         <EmployeePopup employee={selectedEmployee} onClose={handleClosePopup} />
       )}
-
-      {/* CREATE POPUP */}
       {isCreatePopup && (
         <CreateEmployeePopup
           onClose={handleClosePopup}

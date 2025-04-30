@@ -2,7 +2,7 @@
 
 import { TableCard } from "@/components/TableCompo/TableCard";
 import React from "react";
-import { TableColumn, TableData } from "@/components/TableCompo/types"; // adjust path as needed
+import { TableColumn, TableData } from "@/components/TableCompo/types";
 
 const variants = [
   "bordered",
@@ -33,26 +33,14 @@ const columns: TableColumn[] = [
 
 const Page: React.FC = () => {
   return (
-    <div className="">
-      {/* <h1 className="text-lg font-semibold pb-2">Table Themes</h1> */}
-      <div>
-        {/* <TableCard
-          title="Preview Table"
-          columns={columns}
-          data={data}
-          variant="rounded"
-        /> */}
-      </div>
-
+    <div>
       <div className="space-y-6">
         <h1 className="text-2xl font-bold">Table Themes</h1>
 
         {variants.map((variant) => (
           <TableCard
             key={variant}
-            title={`${
-              variant.charAt(0).toUpperCase() + variant.slice(1)
-            } Table`}
+            title={`${variant} Theme`}
             data={data}
             columns={columns}
             variant={variant}

@@ -8,6 +8,8 @@ import recentOrderReducer from "./slices/recent-orderSlice";
 import dataReducer from "./slices/convertDataSlice";
 import printSlice from "./slices/printSlice";
 import colorSlice from "./slices/colorSlice";
+import headerReducer from "./slices/headerSlice";
+
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +20,8 @@ export const store = configureStore({
     data: dataReducer,
     printData: printSlice,
     colors: colorSlice,
+    headers: headerReducer,
+
   },
 });
 

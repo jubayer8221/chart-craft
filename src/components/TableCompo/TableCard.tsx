@@ -1,19 +1,13 @@
 "use client";
 
-import { TableColumn, TableData } from "./types";
-import { Button } from "@/components/ui/button";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GripVertical, Download, Printer } from "lucide-react";
+import { GripVertical } from "lucide-react";
 import { motion } from "framer-motion";
-import {
-  requestExport,
-  resetExport,
-  toggleItemSelection,
-  toggleExportOption,
-} from "@/redux/slices/exportSlice";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { TableColumn, TableData } from "./types";
+import { resetExport } from "@/redux/slices/exportSlice";
 
 interface TableCardProps {
   title: string;
@@ -51,7 +45,6 @@ const styleVariants = {
   darkmode: "bg-gray-900 text-gray-100 rounded-md shadow",
   lightmode: "bg-gray-100 text-gray-900 rounded-md shadow",
   hoverable: "bg-gray-100 hover:bg-gray-200",
-  // hoverable: "bg-gray-100 hover:bg-gray-200",
 };
 
 export const TableCard: React.FC<TableCardProps> = ({
@@ -65,7 +58,6 @@ export const TableCard: React.FC<TableCardProps> = ({
   const exportState = useSelector(
     (state: { export: ExportState }) => state.export
   );
-  const [showExportDropdown, setShowExportDropdown] = useState(false);
   const theme =
     useSelector(
       (state: { theme?: { mode: "light" | "dark" } }) => state.theme?.mode
@@ -87,7 +79,6 @@ export const TableCard: React.FC<TableCardProps> = ({
         }
 
         try {
-          // Force color scheme to use RGB values
           document.documentElement.style.colorScheme = "normal";
           const canvas = await html2canvas(tableRef.current, {
             scale: exportState.selectedExportOptions.includes("highResolution")
@@ -99,7 +90,6 @@ export const TableCard: React.FC<TableCardProps> = ({
             onclone: (clonedDoc: Document) => {
               const tableElement = clonedDoc.querySelector("table");
               if (tableElement) {
-                // Customize styles based on the variant and theme
                 tableElement.style.backgroundColor =
                   theme === "dark" ? "#1F2937" : "#FFFFFF";
                 tableElement.style.color =
@@ -110,7 +100,6 @@ export const TableCard: React.FC<TableCardProps> = ({
                     "linear-gradient(to right, #6366F1, #A855F7, #EC4899)";
                   tableElement.style.color = "#FFFFFF";
                 }
-                // More customization logic for other variants (e.g., zebra, minimal)
                 const rows = tableElement.querySelectorAll("tr");
                 rows.forEach((row: HTMLElement, idx: number) => {
                   row.style.backgroundColor =
@@ -123,13 +112,6 @@ export const TableCard: React.FC<TableCardProps> = ({
                         ? "#E5E7EB"
                         : "#9CA3AF"
                       : "transparent";
-                });
-
-                // Handle the cells and headers styling
-                const cells = tableElement.querySelectorAll("td, th");
-                cells.forEach(() => {
-                  // cell.style.padding = "8px 12px";
-                  // cell.style.whiteSpace = "nowrap";
                 });
               }
             },
@@ -185,83 +167,6 @@ export const TableCard: React.FC<TableCardProps> = ({
         <div className="flex items-center gap-2">
           <GripVertical className="text-gray-400" />
           <h2 className="text-base sm:text-lg font-semibold">{title}</h2>
-        </div>
-
-        {/* Export Button Section */}
-        <div className="pb-4 px-4 relative">
-          <Button
-            onClick={() => setShowExportDropdown(!showExportDropdown)}
-            className={`inline-flex items-center bg-amber-500 px-4 py-2 border rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              theme === "dark"
-                ? "bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
-                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-            }`}
-          >
-            <Download className="mr-2 h-5 w-5" />
-            Export
-            <svg
-              className="ml-2 -mr-1 h-5 w-5"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </Button>
-          {showExportDropdown && (
-            <div
-              className={`absolute z-10 mt-2 w-48 rounded-md shadow-lg ring-1 ring-opacity-5 ${
-                theme === "dark"
-                  ? "bg-gray-700 text-white ring-gray-600"
-                  : "bg-white text-gray-800 ring-black"
-              }`}
-            >
-              <div className="py-1">
-                <button
-                  className="flex items-center w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"
-                  onClick={() => {
-                    dispatch(toggleItemSelection(title));
-                    dispatch(requestExport("image"));
-                    setShowExportDropdown(false);
-                  }}
-                >
-                  <Download className="mr-2 h-5 w-5" />
-                  Export as Image
-                </button>
-                <button
-                  className="flex items-center w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"
-                  onClick={() => {
-                    dispatch(toggleItemSelection(title));
-                    dispatch(requestExport("pdf"));
-                    setShowExportDropdown(false);
-                  }}
-                >
-                  <Printer className="mr-2 h-5 w-5" />
-                  Export as PDF
-                </button>
-                <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-600">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={exportState.selectedExportOptions.includes(
-                        "highResolution"
-                      )}
-                      onChange={() =>
-                        dispatch(toggleExportOption("highResolution"))
-                      }
-                      className="h-4 w-4 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600"
-                    />
-                    <span className="text-sm">High Resolution</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
