@@ -49,12 +49,12 @@ type CardID = keyof typeof cardContentMap;
 
 const Dashboard = () => {
   const [cards, setCards] = useState<CardID[]>([
+    "file-Convert",
+    "table-theme",
     "top-selling",
     "chart-theme",
     "recent-orders",
     "sells-table",
-    "file-Convert",
-    "table-theme",
   ]);
   const [filterText, setFilterText] = useState("");
 

@@ -89,7 +89,7 @@ export function UploadZone() {
                 <p className="text-xs sm:text-sm text-blue-900 dark:text-[#b8b0c5] hover:underline">
                   or click to browse files
                 </p>
-                <Button className="hover:bg-blue-600 dark:hover:bg-[#897c8f] transition-colors duration-200">
+                <Button className="hover:bg-blue-800 dark:hover:bg-[#897c8f] transition-colors duration-200">
                   Upload your file
                 </Button>
               </>

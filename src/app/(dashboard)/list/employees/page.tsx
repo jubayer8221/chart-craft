@@ -12,8 +12,16 @@ import { FaPlus } from "react-icons/fa6";
 import FormModal from "@/components/Home/FormModeal";
 import Pagination from "@/components/Home/Pagination";
 import Table from "@/components/Home/Table";
-import EmployeePopup from "@/components/Home/EmployeePopup";
-import CreateEmployeePopup from "@/components/Home/CreateEmployeePopup";
+import dynamic from "next/dynamic";
+
+const EmployeePopup = dynamic(() => import("@/components/Home/EmployeePopup"), {
+  ssr: false,
+});
+const CreateEmployeePopup = dynamic(
+  () => import("@/components/Home/CreateEmployeePopup"),
+  { ssr: false }
+);
+
 import { employeesData, role } from "@/lib/data";
 
 type Employee = {
@@ -32,7 +40,11 @@ type Employee = {
 
 const columns = [
   { header: "Info", accessor: "info" },
-  { header: "Employee ID", accessor: "teacherId", className: "hidden md:table-cell" },
+  {
+    header: "Employee ID",
+    accessor: "teacherId",
+    className: "hidden md:table-cell",
+  },
   { header: "Grade", accessor: "grade", className: "hidden lg:table-cell" },
   { header: "Phone", accessor: "phone", className: "hidden lg:table-cell" },
   { header: "Address", accessor: "address", className: "hidden lg:table-cell" },
@@ -41,9 +53,14 @@ const columns = [
 
 const EmployeesListPage = () => {
   const [isPopupOpen, setPopupOpen] = useState(false);
-  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
+    null
+  );
   const [isCreatePopup, setCreatePopup] = useState(false);
-  const [sortConfig, setSortConfig] = useState<{ key: keyof Employee; direction: "asc" | "desc" } | null>(null);
+  const [sortConfig, setSortConfig] = useState<{
+    key: keyof Employee;
+    direction: "asc" | "desc";
+  } | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -129,7 +146,9 @@ const EmployeesListPage = () => {
         : (bVal as string).localeCompare(aVal);
     }
     if (typeof aVal === "number") {
-      return direction === "asc" ? aVal - (bVal as number) : (bVal as number) - aVal;
+      return direction === "asc"
+        ? aVal - (bVal as number)
+        : (bVal as number) - aVal;
     }
     return 0;
   });
@@ -146,9 +165,21 @@ const EmployeesListPage = () => {
   };
 
   const renderRow = (item: Employee) => (
-    <tr key={item.id} className="border-b border-gray-200 dark:border-[#312c4a] even:bg-slate-50 dark:even:bg-gray-700 text-sm hover:bg-[#F1F0FF] dark:hover:bg-gray-600">
-      <td className="flex items-center gap-4 p-4 cursor-pointer" onClick={() => handleOpenPopup(item)}>
-        <Image src={item.photo} alt="" width={40} height={40} className="w-10 h-10 rounded-full object-cover" />
+    <tr
+      key={item.id}
+      className="border-b border-gray-200 dark:border-[#312c4a] even:bg-slate-50 dark:even:bg-gray-700 text-sm hover:bg-[#F1F0FF] dark:hover:bg-gray-600"
+    >
+      <td
+        className="flex items-center gap-4 p-4 cursor-pointer"
+        onClick={() => handleOpenPopup(item)}
+      >
+        <Image
+          src={item.photo}
+          alt=""
+          width={40}
+          height={40}
+          className="w-10 h-10 rounded-full object-cover"
+        />
         <div className="flex flex-col">
           <h3 className="font-semibold">{item.name}</h3>
           <p className="text-gray-700 dark:text-gray-500">{item.email}</p>
@@ -162,11 +193,18 @@ const EmployeesListPage = () => {
         <div className="flex items-center gap-2">
           <Link href={`/list/employees/edit/${item.id}`}>
             <button className="w-7 h-7 flex items-center justify-center rounded-full bg-[#00A9B4] dark:bg-[#685e74]">
-              <span className="text-white text-[14px]"><FaRegEdit /></span>
+              <span className="text-white text-[14px]">
+                <FaRegEdit />
+              </span>
             </button>
           </Link>
           {role === "admin" && (
-            <FormModal table="employee" type="delete" id={item.id} onDelete={handleDeleteEmployee} />
+            <FormModal
+              table="employee"
+              type="delete"
+              id={item.id}
+              onDelete={handleDeleteEmployee}
+            />
           )}
         </div>
       </td>
@@ -181,7 +219,12 @@ const EmployeesListPage = () => {
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
           {/* Search Box */}
           <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-md ring-[1.5px] ring-gray-300 dark:ring-[#897c8f] px-2">
-            <Image src="/assets/search.png" alt="search" width={14} height={14} />
+            <Image
+              src="/assets/search.png"
+              alt="search"
+              width={14}
+              height={14}
+            />
             <input
               type="text"
               value={searchTerm}
@@ -225,7 +268,11 @@ const EmployeesListPage = () => {
               onClick={() => handleSort("name")}
               className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0A3A66] dark:bg-[#000022] text-white"
             >
-              {sortConfig?.direction === "desc" ? <FaArrowUpShortWide /> : <FaArrowDownWideShort />}
+              {sortConfig?.direction === "desc" ? (
+                <FaArrowUpShortWide />
+              ) : (
+                <FaArrowDownWideShort />
+              )}
             </button>
             {role === "admin" && (
               <button
@@ -257,7 +304,10 @@ const EmployeesListPage = () => {
 
       {/* CREATE POPUP */}
       {isCreatePopup && (
-        <CreateEmployeePopup onClose={handleClosePopup} onAddEmployee={handleAddEmployee} />
+        <CreateEmployeePopup
+          onClose={handleClosePopup}
+          onAddEmployee={handleAddEmployee}
+        />
       )}
     </div>
   );

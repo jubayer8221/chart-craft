@@ -27,7 +27,9 @@ interface TableCardProps {
     | "shadow"
     | "rounded"
     | "fancy"
-    | "darkmode";
+    | "darkmode"
+    | "lightmode"
+    | "hoverable";
 }
 
 interface ExportState {
@@ -47,6 +49,9 @@ const styleVariants = {
   fancy:
     "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-xl p-6 shadow-2xl",
   darkmode: "bg-gray-900 text-gray-100 rounded-md shadow",
+  lightmode: "bg-gray-100 text-gray-900 rounded-md shadow",
+  hoverable: "bg-gray-100 hover:bg-gray-200",
+  // hoverable: "bg-gray-100 hover:bg-gray-200",
 };
 
 export const TableCard: React.FC<TableCardProps> = ({
@@ -82,6 +87,8 @@ export const TableCard: React.FC<TableCardProps> = ({
         }
 
         try {
+          // Force color scheme to use RGB values
+          document.documentElement.style.colorScheme = "normal";
           const canvas = await html2canvas(tableRef.current, {
             scale: exportState.selectedExportOptions.includes("highResolution")
               ? 2
@@ -92,77 +99,38 @@ export const TableCard: React.FC<TableCardProps> = ({
             onclone: (clonedDoc: Document) => {
               const tableElement = clonedDoc.querySelector("table");
               if (tableElement) {
-                // Preserve table styles
-                tableElement.style.width = "auto";
-                tableElement.style.maxWidth = "100%";
+                // Customize styles based on the variant and theme
                 tableElement.style.backgroundColor =
                   theme === "dark" ? "#1F2937" : "#FFFFFF";
                 tableElement.style.color =
                   theme === "dark" ? "#FFFFFF" : "#000000";
 
-                // Preserve variant-specific styles
                 if (variant === "fancy") {
                   tableElement.style.background =
                     "linear-gradient(to right, #6366F1, #A855F7, #EC4899)";
                   tableElement.style.color = "#FFFFFF";
-                } else if (variant === "darkmode") {
-                  tableElement.style.backgroundColor = "#111827";
-                  tableElement.style.color = "#F3F4F6";
                 }
-
-                // Preserve row and cell styles
+                // More customization logic for other variants (e.g., zebra, minimal)
                 const rows = tableElement.querySelectorAll("tr");
                 rows.forEach((row: HTMLElement, idx: number) => {
-                  if (variant === "striped") {
-                    row.style.backgroundColor =
-                      idx % 2 === 0 ? "#F3F4F6" : "#D1D5DB";
-                  } else if (variant === "zebra") {
-                    row.style.backgroundColor =
-                      idx % 2 === 0 ? "#E5E7EB" : "#9CA3AF";
-                  } else if (variant === "minimal") {
-                    row.style.backgroundColor = "transparent";
-                  } else if (variant === "fancy") {
-                    row.style.backgroundColor = "transparent";
-                  }
-                });
-
-                // Ensure cell borders are visible
-                const cells = tableElement.querySelectorAll(
-                  "td, th"
-                ) as NodeListOf<HTMLElement>;
-                cells.forEach((cell) => {
-                  cell.style.border =
-                    variant === "bordered" ? "1px solid #D1D5DB" : "";
-                  cell.style.borderBottom =
-                    variant === "bordered" ||
-                    variant === "shadow" ||
-                    variant === "rounded"
-                      ? "1px solid #D1D5DB"
-                      : "";
-                  cell.style.padding = "8px 12px";
-                  cell.style.whiteSpace = "nowrap";
-                });
-
-                // Preserve header styles
-                const headerRow = tableElement.querySelector("thead tr");
-                if (headerRow) {
-                  headerRow.setAttribute(
-                    "class",
-                    variant === "bordered"
-                      ? "bg-gray-800 text-white"
-                      : variant === "striped"
-                      ? "bg-gray-700 text-white"
-                      : variant === "minimal"
-                      ? "bg-gray-200"
+                  row.style.backgroundColor =
+                    variant === "striped"
+                      ? idx % 2 === 0
+                        ? "#F3F4F6"
+                        : "#D1D5DB"
                       : variant === "zebra"
-                      ? "bg-gray-700 text-white"
-                      : variant === "shadow"
-                      ? "bg-gray-800 text-white"
-                      : variant === "fancy"
-                      ? "bg-transparent text-white"
-                      : "bg-gray-900 text-white"
-                  );
-                }
+                      ? idx % 2 === 0
+                        ? "#E5E7EB"
+                        : "#9CA3AF"
+                      : "transparent";
+                });
+
+                // Handle the cells and headers styling
+                const cells = tableElement.querySelectorAll("td, th");
+                cells.forEach(() => {
+                  // cell.style.padding = "8px 12px";
+                  // cell.style.whiteSpace = "nowrap";
+                });
               }
             },
           });
@@ -194,7 +162,7 @@ export const TableCard: React.FC<TableCardProps> = ({
           }
 
           dispatch(resetExport());
-        } catch (error: unknown) {
+        } catch (error) {
           console.error(`Export failed for table ${title}:`, error);
           dispatch(resetExport());
         }
@@ -223,7 +191,7 @@ export const TableCard: React.FC<TableCardProps> = ({
         <div className="pb-4 px-4 relative">
           <Button
             onClick={() => setShowExportDropdown(!showExportDropdown)}
-            className={`inline-flex items-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`inline-flex items-center bg-amber-500 px-4 py-2 border rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 ${
               theme === "dark"
                 ? "bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
                 : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
