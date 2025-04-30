@@ -33,11 +33,7 @@ import {
   ZAxis,
 } from "recharts";
 import { Button } from "../ui/button";
-
-// Interface definitions
-export interface ParsedRow {
-  [key: string]: string | number | null;
-}
+import { ParsedRow } from "@/types/convertType";
 
 interface ChartProps {
   data: ParsedRow[];
@@ -75,12 +71,15 @@ interface ColorState {
   colors: Record<string, string>;
 }
 
+interface HeaderState {
+  headerNames: { [key: string]: string };
+}
+
 export function Chart({
   data,
   initialChartType = "bar",
   theme = "light",
 }: ChartProps) {
-  // State and refs
   const chartRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const exportState = useSelector(
@@ -88,6 +87,9 @@ export function Chart({
   );
   const { colors } = useSelector(
     (state: { colors: ColorState }) => state.colors
+  );
+  const { headerNames } = useSelector(
+    (state: { headers: HeaderState }) => state.headers
   );
   const [showExportDropdown, setShowExportDropdown] = useState(false);
   const [chartConfig, setChartConfig] = useState<ChartConfig>({
@@ -125,11 +127,15 @@ export function Chart({
       return { columns: [], processedData: [] };
     }
 
+    // Skip caption row if it exists
+    const isCaptionRow = data.length > 0 && Object.keys(data[0]).length === 1;
+    const chartData = isCaptionRow ? data.slice(1) : data;
+
     const columns = Array.from(
-      new Set(data.flatMap((row: ParsedRow) => Object.keys(row)))
+      new Set(chartData.flatMap((row: ParsedRow) => Object.keys(row)))
     ).filter((col: string) => col);
 
-    const processedData = data.map((row: ParsedRow) => {
+    const processedData = chartData.map((row: ParsedRow) => {
       const newRow: ParsedRow = {};
       columns.forEach((col: string) => {
         if (row[col] !== null && row[col] !== undefined) {
@@ -220,7 +226,7 @@ export function Chart({
               : 1,
             backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
             useCORS: true,
-            logging: true,
+            logging: false,
             onclone: (clonedDoc: Document) => {
               const elements = clonedDoc.querySelectorAll("*");
               elements.forEach((el: Element) => {
@@ -229,7 +235,10 @@ export function Chart({
                 ["color", "background-color", "border-color"].forEach(
                   (prop: string) => {
                     if (style.getPropertyValue(prop).includes("oklch(")) {
-                      htmlEl.style.setProperty(prop, "#36A2EB");
+                      htmlEl.style.setProperty(
+                        prop,
+                        theme === "dark" ? "#FFFFFF" : "#000000"
+                      );
                     }
                   }
                 );
@@ -300,6 +309,26 @@ export function Chart({
     dispatch(setColor({ column, color }));
   };
 
+  // Toggle value column selection
+  const toggleValueColumn = (column: string) => {
+    setValueColumns((prev: string[]) => {
+      const newColumns = prev.includes(column)
+        ? prev.filter((c: string) => c !== column)
+        : [...prev, column];
+
+      const newColors: Record<string, string> = { ...colors };
+      newColumns.forEach((col: string) => {
+        if (!newColors[col]) {
+          newColors[col] =
+            defaultColors[Object.keys(newColors).length % defaultColors.length];
+          dispatch(setColor({ column: col, color: newColors[col] }));
+        }
+      });
+
+      return newColumns;
+    });
+  };
+
   // Dynamic chart rendering
   const renderChart = (): ReactElement => {
     if (!labelColumn || !valueColumns.length || !processedData.length) {
@@ -322,6 +351,7 @@ export function Chart({
 
     const xAxisProps = {
       dataKey: labelColumn,
+      name: headerNames[labelColumn] || labelColumn,
       angle: chartConfig.horizontal ? 0 : -45,
       textAnchor: (chartConfig.horizontal ? "middle" : "end") as
         | "middle"
@@ -356,7 +386,7 @@ export function Chart({
               <Bar
                 key={key}
                 dataKey={key}
-                name={key}
+                name={headerNames[key] || key}
                 fill={colors[key] || defaultColors[0]}
                 stackId={chartConfig.stacked ? "stack" : undefined}
               />
@@ -376,7 +406,7 @@ export function Chart({
                 key={key}
                 type="monotone"
                 dataKey={key}
-                name={key}
+                name={headerNames[key] || key}
                 stroke={colors[key] || defaultColors[0]}
                 activeDot={{ r: 8 }}
               />
@@ -429,7 +459,7 @@ export function Chart({
                 key={key}
                 type="monotone"
                 dataKey={key}
-                name={key}
+                name={headerNames[key] || key}
                 stroke={colors[key] || defaultColors[0]}
                 fill={colors[key] || defaultColors[0]}
                 fillOpacity={0.4}
@@ -451,12 +481,12 @@ export function Chart({
             {chartConfig.showGrid && <CartesianGrid strokeDasharray="3 3" />}
             <XAxis
               dataKey={valueColumns[0]}
-              name={valueColumns[0]}
+              name={headerNames[valueColumns[0]] || valueColumns[0]}
               type="number"
             />
             <YAxis
               dataKey={valueColumns[1]}
-              name={valueColumns[1]}
+              name={headerNames[valueColumns[1]] || valueColumns[1]}
               type="number"
             />
             <ZAxis range={[100, 1000]} />
@@ -478,30 +508,10 @@ export function Chart({
     }
   };
 
-  // Toggle value column selection
-  const toggleValueColumn = (column: string) => {
-    setValueColumns((prev: string[]) => {
-      const newColumns = prev.includes(column)
-        ? prev.filter((c: string) => c !== column)
-        : [...prev, column];
-
-      const newColors: Record<string, string> = { ...colors };
-      newColumns.forEach((col: string) => {
-        if (!newColors[col]) {
-          newColors[col] =
-            defaultColors[Object.keys(newColors).length % defaultColors.length];
-          dispatch(setColor({ column: col, color: newColors[col] }));
-        }
-      });
-
-      return newColumns;
-    });
-  };
-
   return (
     <div
       className={`pt-6 mt-2 rounded-md px-4 border ${
-        theme === "dark" ? "bg-[#312c4a] text-white" : " text-gray-800"
+        theme === "dark" ? "bg-[#312c4a] text-white" : "text-gray-800"
       }`}
     >
       {/* Controls */}
@@ -532,140 +542,22 @@ export function Chart({
             <option value="scatter">Scatter Plot</option>
           </select>
         </div>
-        {/* Dropdown for Chart Options */}
-        <div className="inline-block text-left">
-          <div>
-            <button
-              type="button"
-              className="relative flex justify-between items-center px-3 py-2 sm:px-4 sm:py-1.5 border border-gray-300 rounded-md bg-white text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
-              id="chart-options-menu"
-              aria-expanded="true"
-              aria-haspopup="true"
-              onClick={() => setShowOptionsDropdown(!showOptionsDropdown)}
-            >
-              Chart Options
-              <svg
-                className="-mr-1 ml-2 h-5 w-5"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              {showOptionsDropdown && (
-                <div
-                  className="top-10 absolute right-0 mt-2 w-full rounded-md shadow-lg bg-white ring-opacity-5 focus:outline-none z-10"
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="chart-options-menu"
-                >
-                  <div className="py-1" role="none">
-                    {["bar", "area"].includes(chartConfig.type) && (
-                      <div className="px-4 py-2 border-b border-gray-100">
-                        <label className="flex items-center justify-between cursor-pointer">
-                          <span className="text-sm text-gray-700">Stacked</span>
-                          <input
-                            type="checkbox"
-                            checked={chartConfig.stacked}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) =>
-                              setChartConfig({
-                                ...chartConfig,
-                                stacked: e.target.checked,
-                              })
-                            }
-                            className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                          />
-                        </label>
-                      </div>
-                    )}
-                    {["bar"].includes(chartConfig.type) && (
-                      <div className="px-4 py-2 border-b border-gray-100">
-                        <label className="flex items-center justify-between cursor-pointer">
-                          <span className="text-sm text-gray-700">
-                            Horizontal
-                          </span>
-                          <input
-                            type="checkbox"
-                            checked={chartConfig.horizontal}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) =>
-                              setChartConfig({
-                                ...chartConfig,
-                                horizontal: e.target.checked,
-                              })
-                            }
-                            className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                          />
-                        </label>
-                      </div>
-                    )}
-                    <div className="px-4 py-2 border-b border-gray-100">
-                      <label className="flex items-center justify-between cursor-pointer">
-                        <span className="text-sm text-gray-700">
-                          Show Legend
-                        </span>
-                        <input
-                          type="checkbox"
-                          checked={chartConfig.showLegend}
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            setChartConfig({
-                              ...chartConfig,
-                              showLegend: e.target.checked,
-                            })
-                          }
-                          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                        />
-                      </label>
-                    </div>
-                    <div className="px-4 py-2">
-                      <label className="flex items-center justify-between cursor-pointer">
-                        <span className="text-sm text-gray-700">Show Grid</span>
-                        <input
-                          type="checkbox"
-                          checked={chartConfig.showGrid}
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            setChartConfig({
-                              ...chartConfig,
-                              showGrid: e.target.checked,
-                            })
-                          }
-                          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                        />
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </button>
-          </div>
-        </div>
-        {/* Value Columns Selector */}
-        <div className="relative w-full sm:w-[160px]">
+        {/* Label and Value Columns Dropdown */}
+        <div className="relative w-full sm:w-auto">
           <button
             type="button"
+            className="flex justify-between items-center px-3 py-2 sm:px-4 sm:py-1.5 border border-gray-300 rounded-md bg-white text-gray-700 shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base w-full sm:w-auto"
             onClick={() => setShowValueDropdown(!showValueDropdown)}
-            className="flex justify-between items-center w-full px-3 py-2 sm:px-4 sm:py-1.5 border border-gray-300 rounded-md bg-white text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+            aria-expanded={showValueDropdown}
+            aria-haspopup="true"
           >
-            <span className="truncate">
-              {valueColumns.length > 0
-                ? `Selected Data ${valueColumns.length}`
-                : "Select Data"}
-            </span>
+            Select Columns
             <svg
-              className={`h-4 w-4 text-gray-400 ${
-                showValueDropdown ? "transform rotate-180" : ""
-              }`}
+              className="-mr-1 ml-2 h-5 w-5"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
+              aria-hidden="true"
             >
               <path
                 fillRule="evenodd"
@@ -675,32 +567,161 @@ export function Chart({
             </svg>
           </button>
           {showValueDropdown && (
-            <div className="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md border border-gray-200 max-h-96 overflow-auto">
-              <div className="p-2">
-                <div className="px-3 py-1 text-xs font-medium text-gray-500">
-                  Select Value Columns
+            <div
+              className="absolute z-10 mt-2 w-full sm:w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+              role="menu"
+              aria-orientation="vertical"
+            >
+              <div className="py-1 border-b border-gray-100">
+                {/* <div className="px-4 py-2 text-sm text-gray-700 font-medium">
+                  Label Column
+                </div> */}
+                {nonNumericColumns.map((col: string) => (
+                  <button
+                    key={col}
+                    className={` w-full text-left px-4 py-2 text-sm ${
+                      labelColumn === col
+                        ? "bg-blue-100 text-blue-900"
+                        : "text-gray-700 hover:bg-gray-100"
+                    }`}
+                    onClick={() => {
+                      setLabelColumn(col);
+                      setShowValueDropdown(false);
+                    }}
+                    role="menuitem"
+                  >
+                    {headerNames[col] || col}
+                  </button>
+                ))}
+              </div>
+              <div className="py-1">
+                <div className="px-4 py-2 text-sm text-gray-700 font-medium">
+                  Value Columns
                 </div>
                 {numericColumns.map((col: string) => (
-                  <div
-                    key={`column-${col}`}
-                    className={`px-3 py-2 cursor-pointer ${
-                      valueColumns.includes(col)
-                        ? "bg-blue-50 text-blue-700"
-                        : "hover:bg-gray-50"
-                    }`}
-                    onClick={() => toggleValueColumn(col)}
+                  <label
+                    key={col}
+                    className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                    role="menuitem"
                   >
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm">{col}</span>
-                      <input
-                        type="checkbox"
-                        checked={valueColumns.includes(col)}
-                        onChange={() => {}}
-                        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                      />
-                    </div>
-                  </div>
+                    <input
+                      type="checkbox"
+                      checked={valueColumns.includes(col)}
+                      onChange={() => toggleValueColumn(col)}
+                      className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    {headerNames[col] || col}
+                  </label>
                 ))}
+              </div>
+            </div>
+          )}
+        </div>
+        {/* Chart Options Dropdown */}
+        <div className="relative w-full sm:w-auto">
+          <button
+            type="button"
+            className="flex justify-between items-center px-3 py-2 sm:px-4 sm:py-1.5 border border-gray-300 rounded-md bg-white text-gray-700 shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base w-full sm:w-auto"
+            onClick={() => setShowOptionsDropdown(!showOptionsDropdown)}
+            aria-expanded={showOptionsDropdown}
+            aria-haspopup="true"
+          >
+            Chart Options
+            <svg
+              className="-mr-1 ml-2 h-5 w-5"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+          {showOptionsDropdown && (
+            <div
+              className="absolute z-10 mt-2 w-full sm:w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+              role="menu"
+              aria-orientation="vertical"
+            >
+              <div className="py-1">
+                {["bar", "area"].includes(chartConfig.type) && (
+                  <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={chartConfig.stacked}
+                      onChange={(e) =>
+                        setChartConfig({
+                          ...chartConfig,
+                          stacked: e.target.checked,
+                        })
+                      }
+                      className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    Stacked
+                  </label>
+                )}
+                {["bar"].includes(chartConfig.type) && (
+                  <label className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={chartConfig.horizontal}
+                      onChange={(e) =>
+                        setChartConfig({
+                          ...chartConfig,
+                          horizontal: e.target.checked,
+                        })
+                      }
+                      className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    Horizontal
+                  </label>
+                )}
+                <label className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={chartConfig.showLegend}
+                    onChange={(e) =>
+                      setChartConfig({
+                        ...chartConfig,
+                        showLegend: e.target.checked,
+                      })
+                    }
+                    className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  Show Legend
+                </label>
+                <label className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={chartConfig.showGrid}
+                    onChange={(e) =>
+                      setChartConfig({
+                        ...chartConfig,
+                        showGrid: e.target.checked,
+                      })
+                    }
+                    className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  Show Grid
+                </label>
+                <label className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={chartConfig.showTooltip}
+                    onChange={(e) =>
+                      setChartConfig({
+                        ...chartConfig,
+                        showTooltip: e.target.checked,
+                      })
+                    }
+                    className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  Show Tooltip
+                </label>
               </div>
             </div>
           )}
@@ -718,7 +739,7 @@ export function Chart({
                   className="flex items-center gap-1 bg-blue-50 px-2 py-1 rounded text-xs sm:text-sm"
                 >
                   <span className="truncate max-w-[80px] sm:max-w-[120px]">
-                    {col}
+                    {headerNames[col] || col}
                   </span>
                   <input
                     type="color"
@@ -727,87 +748,74 @@ export function Chart({
                       handleColorChange(col, e.target.value)
                     }
                     className="w-4 h-4 border-none cursor-pointer"
+                    aria-label={`Color picker for ${headerNames[col] || col}`}
                   />
                 </div>
               ))}
             </div>
           </div>
         )}
-      </div>
-      <div
-        ref={chartRef}
-        className="w-full dark:bg-[#312c4a] dark:text-white rounded-md border mt-4"
-        style={{
-          height: "clamp(300px, 60vh, 600px)",
-          backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
-          color: theme === "dark" ? "#FFFFFF" : "#000000",
-          borderColor: theme === "dark" ? "#4B5563" : "#D1D5DB",
-        }}
-      >
-        <ResponsiveContainer
-          width="100%"
-          height="100%"
-          className="dark:bg-[#312c4a]"
-        >
-          {renderChart()}
-        </ResponsiveContainer>
-      </div>
-      {/* Export Button Section */}
-      <div className="pb-4 px-4 relative">
-        <Button
-          onClick={() => setShowExportDropdown(!showExportDropdown)}
-          className={`inline-flex items-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-            theme === "dark"
-              ? "bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
-              : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-          }`}
-        >
-          Export
-          <svg
-            className="ml-2 -mr-1 h-5 w-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </Button>
-        {showExportDropdown && (
-          <div
-            className={`absolute z-10 mt-2 w-48 rounded-md shadow-lg ring-1 ring-opacity-5 ${
+        {/* Export Button */}
+        <div className="relative w-full sm:w-auto">
+          <Button
+            onClick={() => setShowExportDropdown(!showExportDropdown)}
+            className={`w-full sm:w-auto ${
               theme === "dark"
-                ? "bg-gray-700 text-white ring-gray-600"
-                : "bg-white text-gray-800 ring-black"
+                ? "bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
+                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-500 hover:text-white"
             }`}
+            aria-expanded={showExportDropdown}
+            aria-haspopup="true"
           >
-            <div className="py-1">
-              <button
-                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"
-                onClick={() => {
-                  dispatch(toggleItemSelection("chart"));
-                  dispatch(requestExport("image"));
-                  setShowExportDropdown(false);
-                }}
-              >
-                Export as Image
-              </button>
-              <button
-                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"
-                onClick={() => {
-                  dispatch(toggleItemSelection("chart"));
-                  dispatch(requestExport("pdf"));
-                  setShowExportDropdown(false);
-                }}
-              >
-                Export as PDF
-              </button>
-              <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-600">
-                <label className="flex items-center gap-2 cursor-pointer">
+            Export
+            <svg
+              className="ml-2 -mr-1 h-5 w-5"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </Button>
+          {showExportDropdown && (
+            <div
+              className={`absolute z-10 mt-2 w-full sm:w-48 rounded-md shadow-lg ring-1 ring-opacity-5 ${
+                theme === "dark"
+                  ? "bg-gray-700 text-white ring-gray-600"
+                  : "bg-white text-gray-800 ring-black"
+              }`}
+              role="menu"
+              aria-orientation="vertical"
+            >
+              <div className="py-1">
+                <button
+                  className=" w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"
+                  onClick={() => {
+                    dispatch(toggleItemSelection("chart"));
+                    dispatch(requestExport("pdf"));
+                    setShowExportDropdown(false);
+                  }}
+                  role="menuitem"
+                >
+                  Export as PDF
+                </button>
+                <button
+                  className=" w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"
+                  onClick={() => {
+                    dispatch(toggleItemSelection("chart"));
+                    dispatch(requestExport("image"));
+                    setShowExportDropdown(false);
+                  }}
+                  role="menuitem"
+                >
+                  Export as Image
+                </button>
+                <label className=" px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center">
                   <input
                     type="checkbox"
                     checked={exportState.selectedExportOptions.includes(
@@ -816,14 +824,29 @@ export function Chart({
                     onChange={() =>
                       dispatch(toggleExportOption("highResolution"))
                     }
-                    className="h-4 w-4 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600"
+                    className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600"
                   />
-                  <span className="text-sm">High Resolution</span>
+                  High Resolution
                 </label>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
+      </div>
+      {/* Chart */}
+      <div
+        ref={chartRef}
+        className="mt-4"
+        style={{
+          height: "clamp(300px, 60vh, 600px)",
+          backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
+          color: theme === "dark" ? "#FFFFFF" : "#000000",
+          borderColor: theme === "dark" ? "#4B5563" : "#D1D5DB",
+        }}
+      >
+        <ResponsiveContainer width="100%" height="100%">
+          {renderChart()}
+        </ResponsiveContainer>
       </div>
     </div>
   );

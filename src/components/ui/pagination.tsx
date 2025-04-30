@@ -9,21 +9,21 @@ interface PaginationProps<TData> {
   className?: string;
   pageSizeOptions?: number[];
   showPageSizeOptions?: boolean;
-  tableRef?: React.RefObject<HTMLElement | null>; // Allow null
+  tableRef?: React.RefObject<HTMLElement | null>;
 }
 
 const Pagination = <TData,>({
   table,
   showAll = false,
   className = "",
-  pageSizeOptions = [10, 20, 50],
+  // pageSizeOptions = [10, 20, 50],
   showPageSizeOptions = true,
   tableRef,
 }: PaginationProps<TData>) => {
   const pageCount = table.getPageCount();
   const currentPage = table.getState().pagination.pageIndex + 1;
-  const pageSize = table.getState().pagination.pageSize;
-  const totalRows = table.getFilteredRowModel().rows.length;
+  // const pageSize = table.getState().pagination.pageSize;
+  // const totalRows = table.getFilteredRowModel().rows.length;
 
   const scrollToTop = () => {
     if (tableRef?.current) {
@@ -42,39 +42,27 @@ const Pagination = <TData,>({
     }
   };
 
-  const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newSize = Number(e.target.value);
-    table.setPageSize(newSize);
-    table.setPageIndex(0);
-    scrollToTop();
-  };
+  // const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const newSize = Number(e.target.value);
+  //   table.setPageSize(newSize);
+  //   table.setPageIndex(0);
+  //   scrollToTop();
+  // };
 
   const getPageRange = useMemo(() => {
-    const totalPages = pageCount;
-    const current = currentPage;
-    const range: (number | string)[] = [];
+    const range: number[] = [];
 
-    // Always include the first page
-    range.push(1);
-
-    // Calculate the start and end of the middle range (2 pages before and after current)
-    const start = Math.max(2, current - 2);
-    const end = Math.min(totalPages, current + 1);
-
-    // Add ellipsis if there's a gap between page 1 and the start of the range
-    if (start > 2) {
-      range.push("...");
+    // Add previous page if it exists
+    if (currentPage > 1) {
+      range.push(currentPage - 1);
     }
 
-    // Add the middle range (2 before, current, 2 after)
-    for (let i = start; i <= end; i++) {
-      range.push(i);
-    }
+    // Add current page
+    range.push(currentPage);
 
-    // Add ellipsis if there's a gap between the last page and the end of the range
-    if (end < totalPages - 1) {
-      range.push("...");
-      range.push(totalPages);
+    // Add next page if it exists
+    if (currentPage < pageCount) {
+      range.push(currentPage + 1);
     }
 
     return range;
@@ -84,6 +72,7 @@ const Pagination = <TData,>({
     return null;
   }
 
+  const filtered = table.getFilteredRowModel().rows;
   return (
     <div
       className={`flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 ${className}`}
@@ -91,7 +80,12 @@ const Pagination = <TData,>({
       <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-200">
         {showPageSizeOptions && (
           <>
-            <span>Rows per page:</span>
+            <span>Total Rows: {filtered.length}</span>
+            <span className="hidden sm:inline">|</span>
+            <span className="hidden sm:inline">
+              Page No: {currentPage} out of {pageCount}
+            </span>
+            {/* <span>Rows per page:</span>
             <select
               value={pageSize}
               onChange={handlePageSizeChange}
@@ -103,22 +97,22 @@ const Pagination = <TData,>({
                   {size}
                 </option>
               ))}
-            </select>
+            </select> */}
           </>
         )}
-        <span>
+        {/* <span>
           {table.getRowModel().rows.length === 0
             ? 0
             : (currentPage - 1) * pageSize + 1}
           -{(currentPage - 1) * pageSize + table.getRowModel().rows.length} of{" "}
           {totalRows}
-        </span>
+        </span> */}
       </div>
 
       <div className="flex items-center gap-2">
         <Button
           onClick={scrollToTop}
-          className="p-2 rounded-full hover:bg-gray-600"
+          className="p-2 rounded-md hover:bg-gray-600"
           aria-label="Scroll to top"
           title="Scroll to top"
         >
@@ -147,31 +141,22 @@ const Pagination = <TData,>({
               ‹
             </Button>
 
-            {getPageRange.map((page, index) =>
-              page === "..." ? (
-                <span
-                  key={`ellipsis-${index}`}
-                  className="px-2 py-1 text-sm text-gray-500"
-                >
-                  ...
-                </span>
-              ) : (
-                <Button
-                  key={page}
-                  onClick={() => handlePageChange((page as number) - 1)}
-                  disabled={currentPage === page}
-                  className={`px-3 py-1 text-sm rounded-md ${
-                    currentPage === page
-                      ? "bg-blue-900 text-white font-semibold cursor-not-allowed"
-                      : "hover:bg-blue-900/55"
-                  }`}
-                  aria-label={`Page ${page}`}
-                  aria-current={currentPage === page ? "page" : undefined}
-                >
-                  {page}
-                </Button>
-              )
-            )}
+            {getPageRange.map((page) => (
+              <Button
+                key={page}
+                onClick={() => handlePageChange(page - 1)}
+                disabled={currentPage === page}
+                className={`px-3 py-1 text-sm rounded-md ${
+                  currentPage === page
+                    ? "bg-blue-900 text-white font-semibold cursor-not-allowed"
+                    : "hover:bg-blue-900/55"
+                }`}
+                aria-label={`Page ${page}`}
+                aria-current={currentPage === page ? "page" : undefined}
+              >
+                {page}
+              </Button>
+            ))}
 
             <Button
               onClick={() => handlePageChange(currentPage, false)}

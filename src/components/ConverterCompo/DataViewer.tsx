@@ -1,6 +1,6 @@
 "use client";
 import { useAppSelector } from "@/redux/hooks";
-import { Table } from "@/components/ConverterCompo/Table";
+import Table from "@/components/ConverterCompo/Table";
 import { Chart } from "@/components/ConverterCompo/Chart";
 
 export function DataViewer() {

@@ -1,6 +1,8 @@
-'use client';
+"use client";
 
-const Table = <T,>({
+import React from "react";
+
+export function Table<T>({
   columns,
   renderRow,
   data,
@@ -8,9 +10,9 @@ const Table = <T,>({
   columns: { header: string; accessor: string; className?: string }[];
   renderRow: (item: T) => React.ReactNode;
   data: T[];
-}) => {
+}) {
   return (
-    <table className="w-full mt-4 ">
+    <table className="w-full mt-4">
       <thead>
         <tr className="text-left text-gray-500 dark:text-gray-100 text-sm mb-4">
           {columns.map((col) => (
@@ -20,9 +22,11 @@ const Table = <T,>({
           ))}
         </tr>
       </thead>
-      <tbody>{data.map((item) => renderRow(item))}</tbody>
+      <tbody>
+        {data.map((item, index) => (
+          <React.Fragment key={index}>{renderRow(item)}</React.Fragment>
+        ))}
+      </tbody>
     </table>
   );
-};
-
-export default Table;
+}

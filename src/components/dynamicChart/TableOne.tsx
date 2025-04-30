@@ -35,9 +35,7 @@ export default function TableOne() {
 
   const handleEdit = (rowIdx: number, colName: string, value: string) => {
     setData((prev) =>
-      prev.map((row, i) =>
-        i === rowIdx ? { ...row, [colName]: value } : row
-      )
+      prev.map((row, i) => (i === rowIdx ? { ...row, [colName]: value } : row))
     );
   };
 
@@ -106,22 +104,25 @@ export default function TableOne() {
     };
   };
 
-  const onDragEnd = useCallback((result: DropResult) => {
-    const { source, destination, type } = result;
-    if (!destination) return;
+  const onDragEnd = useCallback(
+    (result: DropResult) => {
+      const { source, destination, type } = result;
+      if (!destination) return;
 
-    if (type === "column") {
-      const newCols = [...columns];
-      const [moved] = newCols.splice(source.index, 1);
-      newCols.splice(destination.index, 0, moved);
-      setColumns(newCols);
-    } else if (type === "row") {
-      const newRows = [...data];
-      const [moved] = newRows.splice(source.index, 1);
-      newRows.splice(destination.index, 0, moved);
-      setData(newRows);
-    }
-  }, [columns, data]);
+      if (type === "column") {
+        const newCols = [...columns];
+        const [moved] = newCols.splice(source.index, 1);
+        newCols.splice(destination.index, 0, moved);
+        setColumns(newCols);
+      } else if (type === "row") {
+        const newRows = [...data];
+        const [moved] = newRows.splice(source.index, 1);
+        newRows.splice(destination.index, 0, moved);
+        setData(newRows);
+      }
+    },
+    [columns, data]
+  );
 
   return (
     <div className="bg-white dark:bg-[#312c4a] p-4 rounded-md max-w-full">
@@ -193,12 +194,19 @@ export default function TableOne() {
       </div>
 
       {/* Table */}
-      <div id="printable-table" className="overflow-auto rounded shadow max-w-full">
+      <div
+        id="printable-table"
+        className="overflow-auto rounded shadow max-w-full"
+      >
         <DragDropContext onDragEnd={onDragEnd}>
           <table className="min-w-full table-auto">
             {/* Columns Drag-Drop */}
             <thead>
-              <Droppable droppableId="columns" direction="horizontal" type="column">
+              <Droppable
+                droppableId="columns"
+                direction="horizontal"
+                type="column"
+              >
                 {(provided, snapshot) => (
                   <tr
                     ref={provided.innerRef}
@@ -206,7 +214,11 @@ export default function TableOne() {
                     className={snapshot.isDraggingOver ? "bg-gray-200" : ""}
                   >
                     {columns.map((col, index) => (
-                      <Draggable key={`col-${col}`} draggableId={`col-${col}`} index={index}>
+                      <Draggable
+                        key={`col-${col}`}
+                        draggableId={`col-${col}`}
+                        index={index}
+                      >
                         {(provided, snapshot) => (
                           <th
                             ref={provided.innerRef}

@@ -1,5 +1,3 @@
-"use client";
-
 import {
   createSlice,
   createAsyncThunk,
@@ -12,11 +10,10 @@ import Tesseract from "tesseract.js";
 import { DataState, ParsedRow } from "@/types/convertType";
 import Papa from "papaparse";
 
-// Use CDN worker or local worker
-GlobalWorkerOptions.workerSrc = 
-  process.env.NODE_ENV === 'production'
-    ? '/pdf.worker.min.js'
-    : 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+GlobalWorkerOptions.workerSrc =
+  process.env.NODE_ENV === "production"
+    ? "/pdf.worker.min.js"
+    : "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js";
 
 const initialState: DataState = {
   data: [],
@@ -42,7 +39,8 @@ export const handleFileUpload = createAsyncThunk<
     // Handle Excel files
     if (
       (extension === "xlsx" || extension === "xls") &&
-      mimeType === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      mimeType ===
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     ) {
       const data = await file.arrayBuffer();
       const workbook = XLSX.read(data, { type: "array" });
@@ -118,7 +116,7 @@ const dataSlice = createSlice({
         return;
       }
       const searchLower = action.payload.toLowerCase();
-      state.filtered = state.data.filter((row) => 
+      state.filtered = state.data.filter((row) =>
         Object.values(row).some((val) =>
           String(val).toLowerCase().includes(searchLower)
         )
