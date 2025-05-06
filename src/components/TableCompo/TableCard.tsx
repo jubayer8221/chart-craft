@@ -200,7 +200,7 @@ export const TableCard: React.FC<TableCardProps> = ({
                   : variant === "shadow"
                   ? "bg-gray-800 text-white"
                   : variant === "fancy"
-                  ? "bg-transparent text-white"
+                  ? "bg-gray-600 text-white"
                   : "bg-gray-900 text-white"
               }`}
             >

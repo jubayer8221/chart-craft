@@ -515,9 +515,9 @@ export function Chart({
       }`}
     >
       {/* Controls */}
-      <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 items-start sm:items-center">
+      <div className="relative flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 items-start sm:items-center">
         {/* Chart Type Dropdown */}
-        <div className="flex items-center gap-2 w-full sm:w-auto">
+        <div className="relative flex items-center gap-2 w-full sm:w-auto">
           <label
             htmlFor="chartType"
             className="font-medium text-sm sm:text-base dark:text-white"
@@ -533,7 +533,7 @@ export function Chart({
                 type: e.target.value as ChartConfig["type"],
               })
             }
-            className="px-2 py-1 sm:px-3 sm:py-2 border rounded-md bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base w-full sm:w-auto"
+            className="px-2 py-1 sm:px-3 sm:py-2 border relative rounded-md bg-white text-gray-700 text-sm sm:text-base w-ful0l sm:w-auto"
           >
             <option value="bar">Bar Chart</option>
             <option value="line">Line Chart</option>
@@ -595,7 +595,7 @@ export function Chart({
                 ))}
               </div>
               <div className="py-1">
-                <div className="px-4 py-2 text-sm text-gray-700 font-medium">
+                <div className="relative px-4 py-2 text-sm text-gray-700 font-medium">
                   Value Columns
                 </div>
                 {numericColumns.map((col: string) => (
