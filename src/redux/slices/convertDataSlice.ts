@@ -21,6 +21,7 @@ const initialState: DataState = {
   filtered: [],
   isLoading: false,
   error: null,
+  headerNames: {}, // Added headerNames to state
 };
 
 const isTextItem = (item: unknown): item is TextItem => {
@@ -128,6 +129,35 @@ const dataSlice = createSlice({
       state.searchTerm = "";
       state.error = null;
       state.isLoading = false;
+      state.headerNames = {};
+    },
+    setHeaderName: (
+      state,
+      action: PayloadAction<{ key: string; name: string }>
+    ) => {
+      state.headerNames[action.payload.key] = action.payload.name;
+    },
+    initializeHeaderNames: (
+      state,
+      action: PayloadAction<{ [key: string]: string }>
+    ) => {
+      state.headerNames = action.payload;
+    },
+    setParsedData: (state, action: PayloadAction<ParsedRow[]>) => {
+      state.data = action.payload;
+      state.filtered = action.payload;
+      state.searchTerm = "";
+      state.isLoading = false;
+      state.error = null;
+      // Initialize headerNames when data is loaded
+      if (action.payload.length > 0) {
+        state.headerNames = Object.keys(action.payload[0]).reduce(
+          (acc, key) => ({ ...acc, [key]: key }),
+          {}
+        );
+      } else {
+        state.headerNames = {};
+      }
     },
   },
   extraReducers: (builder) => {
@@ -143,6 +173,13 @@ const dataSlice = createSlice({
           state.data = action.payload;
           state.filtered = action.payload;
           state.searchTerm = "";
+          // Initialize headerNames when data is loaded
+          if (action.payload.length > 0) {
+            state.headerNames = Object.keys(action.payload[0]).reduce(
+              (acc, key) => ({ ...acc, [key]: key }),
+              {}
+            );
+          }
         }
       )
       .addCase(handleFileUpload.rejected, (state, action) => {
@@ -152,5 +189,11 @@ const dataSlice = createSlice({
   },
 });
 
-export const { setSearchTerm, clearData } = dataSlice.actions;
+export const {
+  setSearchTerm,
+  clearData,
+  setHeaderName,
+  initializeHeaderNames,
+  setParsedData,
+} = dataSlice.actions;
 export default dataSlice.reducer;

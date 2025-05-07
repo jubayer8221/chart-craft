@@ -71,7 +71,7 @@ interface ColorState {
   colors: Record<string, string>;
 }
 
-interface HeaderState {
+interface DataState {
   headerNames: { [key: string]: string };
 }
 
@@ -89,7 +89,7 @@ export function Chart({
     (state: { colors: ColorState }) => state.colors
   );
   const { headerNames } = useSelector(
-    (state: { headers: HeaderState }) => state.headers
+    (state: { data: DataState }) => state.data
   );
   const [showExportDropdown, setShowExportDropdown] = useState(false);
   const [chartConfig, setChartConfig] = useState<ChartConfig>({
@@ -104,6 +104,9 @@ export function Chart({
   const [valueColumns, setValueColumns] = useState<string[]>([]);
   const [showValueDropdown, setShowValueDropdown] = useState<boolean>(false);
   const [showOptionsDropdown, setShowOptionsDropdown] = useState(false);
+  const valueDropdownRef = useRef<HTMLDivElement>(null);
+  const optionsDropdownRef = useRef<HTMLDivElement>(null);
+  const exportDropdownRef = useRef<HTMLDivElement>(null);
 
   // Default colors for charts
   const defaultColors = useMemo(
@@ -205,6 +208,35 @@ export function Chart({
     valueColumns,
     colors,
   ]);
+
+  // Handle click outside to close dropdowns
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        valueDropdownRef.current &&
+        !valueDropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowValueDropdown(false);
+      }
+      if (
+        optionsDropdownRef.current &&
+        !optionsDropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowOptionsDropdown(false);
+      }
+      if (
+        exportDropdownRef.current &&
+        !exportDropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowExportDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Export logic
   useEffect(() => {
@@ -333,7 +365,7 @@ export function Chart({
   const renderChart = (): ReactElement => {
     if (!labelColumn || !valueColumns.length || !processedData.length) {
       return (
-        <div className="py-6 my-2 text-center text-gray-500">
+        <div className="py-6 my-2 text-center text-gray-500 dark:text-gray-400">
           Please select a label column and at least one numeric value column
         </div>
       );
@@ -358,17 +390,24 @@ export function Chart({
         | "end",
       height: 70,
       scale: (chartConfig.horizontal ? "band" : "auto") as ScaleType,
+      tick: { fill: theme === "dark" ? "#FFFFFF" : "#000000" },
     };
 
     const yAxisProps = {
       scale: (chartConfig.horizontal ? "auto" : "band") as ScaleType,
+      tick: { fill: theme === "dark" ? "#FFFFFF" : "#000000" },
     };
 
     switch (chartConfig.type) {
       case "bar":
         return (
           <BarChart {...commonProps}>
-            {chartConfig.showGrid && <CartesianGrid strokeDasharray="3 3" />}
+            {chartConfig.showGrid && (
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke={theme === "dark" ? "#4B5563" : "#D1D5DB"}
+              />
+            )}
             {chartConfig.horizontal ? (
               <>
                 <YAxis {...xAxisProps} />
@@ -380,7 +419,18 @@ export function Chart({
                 <YAxis {...yAxisProps} />
               </>
             )}
-            {chartConfig.showTooltip && <Tooltip />}
+            {chartConfig.showTooltip && (
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
+                  color: theme === "dark" ? "#FFFFFF" : "#000000",
+                  border:
+                    theme === "dark"
+                      ? "1px solid #4B5563"
+                      : "1px solid #D1D5DB",
+                }}
+              />
+            )}
             {chartConfig.showLegend && <Legend />}
             {valueColumns.map((key: string) => (
               <Bar
@@ -396,10 +446,26 @@ export function Chart({
       case "line":
         return (
           <LineChart {...commonProps}>
-            {chartConfig.showGrid && <CartesianGrid strokeDasharray="3 3" />}
+            {chartConfig.showGrid && (
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke={theme === "dark" ? "#4B5563" : "#D1D5DB"}
+              />
+            )}
             <XAxis {...xAxisProps} />
-            <YAxis />
-            {chartConfig.showTooltip && <Tooltip />}
+            <YAxis {...yAxisProps} />
+            {chartConfig.showTooltip && (
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
+                  color: theme === "dark" ? "#FFFFFF" : "#000000",
+                  border:
+                    theme === "dark"
+                      ? "1px solid #4B5563"
+                      : "1px solid #D1D5DB",
+                }}
+              />
+            )}
             {chartConfig.showLegend && <Legend />}
             {valueColumns.map((key: string) => (
               <Line
@@ -416,7 +482,7 @@ export function Chart({
       case "pie":
         if (!pieData.length) {
           return (
-            <div className="py-6 my-2 text-center text-gray-500">
+            <div className="py-6 my-2 text-center text-gray-500 dark:text-gray-400">
               No valid data available for Pie Chart
             </div>
           );
@@ -430,7 +496,7 @@ export function Chart({
               cx="50%"
               cy="50%"
               outerRadius={150}
-              label
+              label={{ fill: theme === "dark" ? "#FFFFFF" : "#000000" }}
             >
               {pieData.map((_: PieDataEntry, index: number) => (
                 <Cell
@@ -442,17 +508,44 @@ export function Chart({
                 />
               ))}
             </Pie>
-            {chartConfig.showTooltip && <Tooltip />}
+            {chartConfig.showTooltip && (
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
+                  color: theme === "dark" ? "#FFFFFF" : "#000000",
+                  border:
+                    theme === "dark"
+                      ? "1px solid #4B5563"
+                      : "1px solid #D1D5DB",
+                }}
+              />
+            )}
             {chartConfig.showLegend && <Legend />}
           </PieChart>
         );
       case "area":
         return (
           <AreaChart {...commonProps}>
-            {chartConfig.showGrid && <CartesianGrid strokeDasharray="3 3" />}
+            {chartConfig.showGrid && (
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke={theme === "dark" ? "#4B5563" : "#D1D5DB"}
+              />
+            )}
             <XAxis {...xAxisProps} />
-            <YAxis />
-            {chartConfig.showTooltip && <Tooltip />}
+            <YAxis {...yAxisProps} />
+            {chartConfig.showTooltip && (
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
+                  color: theme === "dark" ? "#FFFFFF" : "#000000",
+                  border:
+                    theme === "dark"
+                      ? "1px solid #4B5563"
+                      : "1px solid #D1D5DB",
+                }}
+              />
+            )}
             {chartConfig.showLegend && <Legend />}
             {valueColumns.map((key: string) => (
               <Area
@@ -471,26 +564,44 @@ export function Chart({
       case "scatter":
         if (valueColumns.length < 2) {
           return (
-            <div className="py-6 my-2 text-center text-gray-500">
+            <div className="py-6 my-2 text-center text-gray-500 dark:text-gray-400">
               Scatter plot requires at least 2 value columns
             </div>
           );
         }
         return (
           <ScatterChart {...commonProps}>
-            {chartConfig.showGrid && <CartesianGrid strokeDasharray="3 3" />}
+            {chartConfig.showGrid && (
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke={theme === "dark" ? "#4B5563" : "#D1D5DB"}
+              />
+            )}
             <XAxis
               dataKey={valueColumns[0]}
               name={headerNames[valueColumns[0]] || valueColumns[0]}
               type="number"
+              tick={{ fill: theme === "dark" ? "#FFFFFF" : "#000000" }}
             />
             <YAxis
               dataKey={valueColumns[1]}
               name={headerNames[valueColumns[1]] || valueColumns[1]}
               type="number"
+              tick={{ fill: theme === "dark" ? "#FFFFFF" : "#000000" }}
             />
             <ZAxis range={[100, 1000]} />
-            {chartConfig.showTooltip && <Tooltip />}
+            {chartConfig.showTooltip && (
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
+                  color: theme === "dark" ? "#FFFFFF" : "#000000",
+                  border:
+                    theme === "dark"
+                      ? "1px solid #4B5563"
+                      : "1px solid #D1D5DB",
+                }}
+              />
+            )}
             {chartConfig.showLegend && <Legend />}
             <Scatter
               name="Data"
@@ -501,7 +612,7 @@ export function Chart({
         );
       default:
         return (
-          <div className="py-6 my-2 text-center text-gray-500">
+          <div className="py-6 my-2 text-center text-gray-500 dark:text-gray-400">
             Invalid chart type selected
           </div>
         );
@@ -511,7 +622,9 @@ export function Chart({
   return (
     <div
       className={`pt-6 mt-2 rounded-md px-4 border ${
-        theme === "dark" ? "bg-[#312c4a] text-white" : "text-gray-800"
+        theme === "dark"
+          ? "bg-[#312c4a] text-white border-gray-700"
+          : "text-gray-800 border-gray-300"
       }`}
     >
       {/* Controls */}
@@ -533,7 +646,7 @@ export function Chart({
                 type: e.target.value as ChartConfig["type"],
               })
             }
-            className="px-2 py-1 sm:px-3 sm:py-2 border relative rounded-md bg-white text-gray-700 text-sm sm:text-base w-ful0l sm:w-auto"
+            className="px-2 py-1 sm:px-3 sm:py-2 border relative rounded-md bg-white text-gray-700 text-sm sm:text-base w-full sm:w-auto dark:bg-gray-700 dark:text-white dark:border-gray-600"
           >
             <option value="bar">Bar Chart</option>
             <option value="line">Line Chart</option>
@@ -543,10 +656,10 @@ export function Chart({
           </select>
         </div>
         {/* Label and Value Columns Dropdown */}
-        <div className="relative w-full sm:w-auto">
+        <div className="relative w-full sm:w-auto" ref={valueDropdownRef}>
           <button
             type="button"
-            className="flex justify-between items-center px-3 py-2 sm:px-4 sm:py-1.5 border border-gray-300 rounded-md bg-white text-gray-700 shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base w-full sm:w-auto"
+            className="flex justify-between items-center px-3 py-2 sm:px-4 sm:py-1.5 border rounded-md bg-white text-gray-700 shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base w-full dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:bg-gray-600"
             onClick={() => setShowValueDropdown(!showValueDropdown)}
             aria-expanded={showValueDropdown}
             aria-haspopup="true"
@@ -568,21 +681,18 @@ export function Chart({
           </button>
           {showValueDropdown && (
             <div
-              className="absolute z-10 mt-2 w-full sm:w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+              className="absolute z-10 top-full mt-2 w-full rounded-md shadow-md bg-white dark:bg-gray-700 focus:outline-none"
               role="menu"
               aria-orientation="vertical"
             >
-              <div className="py-1 border-b border-gray-100">
-                {/* <div className="px-4 py-2 text-sm text-gray-700 font-medium">
-                  Label Column
-                </div> */}
+              <div className="py-1 border-b border-gray-100 dark:border-gray-600">
                 {nonNumericColumns.map((col: string) => (
                   <button
                     key={col}
-                    className={` w-full text-left px-4 py-2 text-sm ${
+                    className={`w-full text-left px-4 py-2 text-sm ${
                       labelColumn === col
-                        ? "bg-blue-100 text-blue-900"
-                        : "text-gray-700 hover:bg-gray-100"
+                        ? "bg-blue-100 text-blue-900 dark:bg-blue-900 dark:text-white"
+                        : "text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600"
                     }`}
                     onClick={() => {
                       setLabelColumn(col);
@@ -595,20 +705,20 @@ export function Chart({
                 ))}
               </div>
               <div className="py-1">
-                <div className="relative px-4 py-2 text-sm text-gray-700 font-medium">
+                <div className="relative px-4 py-2 text-sm text-gray-700 dark:text-white font-medium">
                   Value Columns
                 </div>
                 {numericColumns.map((col: string) => (
                   <label
                     key={col}
-                    className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                    className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 flex items-center"
                     role="menuitem"
                   >
                     <input
                       type="checkbox"
                       checked={valueColumns.includes(col)}
                       onChange={() => toggleValueColumn(col)}
-                      className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600"
                     />
                     {headerNames[col] || col}
                   </label>
@@ -618,10 +728,10 @@ export function Chart({
           )}
         </div>
         {/* Chart Options Dropdown */}
-        <div className="relative w-full sm:w-auto">
+        <div className="relative w-full sm:w-auto" ref={optionsDropdownRef}>
           <button
             type="button"
-            className="flex justify-between items-center px-3 py-2 sm:px-4 sm:py-1.5 border border-gray-300 rounded-md bg-white text-gray-700 shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base w-full sm:w-auto"
+            className="flex justify-between items-center px-3 py-2 sm:px-4 sm:py-1.5 border rounded-md bg-white text-gray-700 shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base w-full dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:bg-gray-600"
             onClick={() => setShowOptionsDropdown(!showOptionsDropdown)}
             aria-expanded={showOptionsDropdown}
             aria-haspopup="true"
@@ -643,13 +753,13 @@ export function Chart({
           </button>
           {showOptionsDropdown && (
             <div
-              className="absolute z-10 mt-2 w-full sm:w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+              className="absolute z-10 top-full mt-2 w-full rounded-md shadow-md bg-white dark:bg-gray-700 focus:outline-none"
               role="menu"
               aria-orientation="vertical"
             >
               <div className="py-1">
                 {["bar", "area"].includes(chartConfig.type) && (
-                  <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                  <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 flex items-center">
                     <input
                       type="checkbox"
                       checked={chartConfig.stacked}
@@ -659,13 +769,13 @@ export function Chart({
                           stacked: e.target.checked,
                         })
                       }
-                      className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600"
                     />
                     Stacked
                   </label>
                 )}
                 {["bar"].includes(chartConfig.type) && (
-                  <label className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                  <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 flex items-center">
                     <input
                       type="checkbox"
                       checked={chartConfig.horizontal}
@@ -675,12 +785,12 @@ export function Chart({
                           horizontal: e.target.checked,
                         })
                       }
-                      className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600"
                     />
                     Horizontal
                   </label>
                 )}
-                <label className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 flex items-center">
                   <input
                     type="checkbox"
                     checked={chartConfig.showLegend}
@@ -690,11 +800,11 @@ export function Chart({
                         showLegend: e.target.checked,
                       })
                     }
-                    className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600"
                   />
                   Show Legend
                 </label>
-                <label className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 flex items-center">
                   <input
                     type="checkbox"
                     checked={chartConfig.showGrid}
@@ -704,11 +814,11 @@ export function Chart({
                         showGrid: e.target.checked,
                       })
                     }
-                    className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600"
                   />
                   Show Grid
                 </label>
-                <label className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 flex items-center">
                   <input
                     type="checkbox"
                     checked={chartConfig.showTooltip}
@@ -718,7 +828,7 @@ export function Chart({
                         showTooltip: e.target.checked,
                       })
                     }
-                    className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600"
                   />
                   Show Tooltip
                 </label>
@@ -736,9 +846,9 @@ export function Chart({
               {valueColumns.map((col: string) => (
                 <div
                   key={col}
-                  className="flex items-center gap-1 bg-blue-50 px-2 py-1 rounded text-xs sm:text-sm"
+                  className="flex items-center gap-1 bg-blue-50 dark:bg-gray-600 px-2 py-1 rounded text-xs sm:text-sm"
                 >
-                  <span className="truncate max-w-[80px] sm:max-w-[120px]">
+                  <span className="truncate max-w-[80px] sm:max-w-[120px] dark:text-white">
                     {headerNames[col] || col}
                   </span>
                   <input
@@ -756,7 +866,7 @@ export function Chart({
           </div>
         )}
         {/* Export Button */}
-        <div className="relative w-full sm:w-auto">
+        <div className="relative w-full sm:w-auto" ref={exportDropdownRef}>
           <Button
             onClick={() => setShowExportDropdown(!showExportDropdown)}
             className={`w-full sm:w-auto ${
@@ -784,17 +894,13 @@ export function Chart({
           </Button>
           {showExportDropdown && (
             <div
-              className={`absolute z-10 mt-2 w-full sm:w-48 rounded-md shadow-lg ring-1 ring-opacity-5 ${
-                theme === "dark"
-                  ? "bg-gray-700 text-white ring-gray-600"
-                  : "bg-white text-gray-800 ring-black"
-              }`}
+              className="absolute z-10 top-full mt-2 w-full rounded-md shadow-md bg-white dark:bg-gray-700 focus:outline-none"
               role="menu"
               aria-orientation="vertical"
             >
               <div className="py-1">
                 <button
-                  className=" w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600"
                   onClick={() => {
                     dispatch(toggleItemSelection("chart"));
                     dispatch(requestExport("pdf"));
@@ -805,7 +911,7 @@ export function Chart({
                   Export as PDF
                 </button>
                 <button
-                  className=" w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600"
                   onClick={() => {
                     dispatch(toggleItemSelection("chart"));
                     dispatch(requestExport("image"));
@@ -815,7 +921,7 @@ export function Chart({
                 >
                   Export as Image
                 </button>
-                <label className=" px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center">
+                <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 flex items-center">
                   <input
                     type="checkbox"
                     checked={exportState.selectedExportOptions.includes(

@@ -1,13 +1,48 @@
-// File: components/UploadZone.tsx
 "use client";
-import { useCallback } from "react";
+
+import { useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { useAppDispatch } from "@/redux/hooks";
-import { handleFileUpload } from "@/redux/slices/convertDataSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  handleFileUpload,
+  setParsedData,
+} from "@/redux/slices/convertDataSlice";
 import { Button } from "../ui/button";
+import { ParsedRow } from "@/types/convertType";
 
 export function UploadZone() {
   const dispatch = useAppDispatch();
+  const parsedData = useAppSelector(
+    (state: { data: { data: ParsedRow[] } }) => state.data.data
+  );
+
+  // Initialize with stored data from sessionStorage
+  useEffect(() => {
+    try {
+      const storedData = sessionStorage.getItem("userData");
+      if (storedData) {
+        const parsedStoredData: ParsedRow[] = JSON.parse(storedData);
+        // Dispatch stored data to Redux to initialize the chart
+        dispatch(setParsedData(parsedStoredData));
+      }
+    } catch (error) {
+      console.error("Error retrieving data from sessionStorage:", error);
+    }
+  }, [dispatch]);
+
+  // Store parsed data in sessionStorage after upload
+  useEffect(() => {
+    if (parsedData && parsedData.length > 0) {
+      try {
+        // Persist parsed data in sessionStorage to survive refreshes
+        // Data clears when the tab or browser is closed
+        sessionStorage.setItem("userData", JSON.stringify(parsedData));
+      } catch (error) {
+        console.error("Error storing data in sessionStorage:", error);
+        // Optionally notify user (e.g., "Storage limit reached")
+      }
+    }
+  }, [parsedData]);
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
