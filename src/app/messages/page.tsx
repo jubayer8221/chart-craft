@@ -330,7 +330,7 @@ function InnerMessagesPage() {
               />
             </div>
           </div>
-          <div className="justify-between xl:min-w-[121.5vh]">
+          <div className="justify-between xl:min-w-[130vh]">
             <div className="flex items-center justify-between gap-2 sm:gap-3">
               {selectedUser && (
                 <div className="flex items-center gap-2 sm:gap-3">
@@ -410,7 +410,7 @@ function InnerMessagesPage() {
               />
             </div>
           </div>
-          <div className="flex-1 overflow-y-auto max-h-[68vh] scroll-smooth scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-900">
+          <div className="flex-1 overflow-y-auto max-h-[72vh] scroll-smooth scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-900">
             {filteredUsers.length === 0 ? (
               <div className="p-4 text-center text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
                 No users found
