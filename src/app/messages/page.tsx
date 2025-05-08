@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-// import { useTheme } from "next-themes";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import {
@@ -150,10 +149,44 @@ const fallbackUsers: User[] = [
     online: true,
     role: "Admin",
   },
+  {
+    id: 7,
+    name: "Frank Miller",
+    avatar: "/image/user3.png",
+    online: true,
+    role: "User",
+  },
+  {
+    id: 8,
+    name: "Grace Lee",
+    avatar: "/image/user1.png",
+    online: false,
+    role: "Moderator",
+  },
+  {
+    id: 9,
+    name: "Henry Ford",
+    avatar: "/image/user4.png",
+    online: true,
+    role: "Admin",
+  },
+  {
+    id: 10,
+    name: "Isabella Stone",
+    avatar: "/image/user2.png",
+    online: false,
+    role: "User",
+  },
+  {
+    id: 11,
+    name: "Jack Daniels",
+    avatar: "/image/user1.png",
+    online: true,
+    role: "Moderator",
+  },
 ];
 
 function InnerMessagesPage() {
-  // const {} = useTheme();
   const {
     currentUser,
     setCurrentUser,
@@ -240,7 +273,7 @@ function InnerMessagesPage() {
   );
 
   return (
-    <>
+    <div className="sticky">
       {/* Header */}
       <div className="sticky top-0 z-50 bg-white dark:bg-gray-900 shadow-md w-full">
         <div className="flex items-center justify-between p-3 sm:p-2">
@@ -297,60 +330,61 @@ function InnerMessagesPage() {
               />
             </div>
           </div>
-          <div className="flex items-center gap-2 sm:gap-3">
-            {selectedUser && (
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="relative">
-                  <Image
-                    src={selectedUser.avatar}
-                    alt="Selected user avatar"
-                    width={28}
-                    height={28}
-                    className="rounded-full sm:w-8 sm:h-8"
-                  />
-                  <span
-                    className={`absolute bottom-0 right-0 w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full border border-white dark:border-gray-900 ${
-                      selectedUser.online ? "bg-green-500" : "bg-gray-400"
-                    }`}
-                  />
-                </div>
-                <div className="hidden sm:block">
-                  <div className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-white">
-                    {selectedUser.name}
+          <div className="justify-between xl:min-w-[121.5vh]">
+            <div className="flex items-center justify-between gap-2 sm:gap-3">
+              {selectedUser && (
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="relative">
+                    <Image
+                      src={selectedUser.avatar}
+                      alt="Selected user avatar"
+                      width={28}
+                      height={28}
+                      className="rounded-full sm:w-8 sm:h-8"
+                    />
+                    <span
+                      className={`absolute bottom-0 right-0 w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full border border-white dark:border-gray-900 ${
+                        selectedUser.online ? "bg-green-500" : "bg-gray-400"
+                      }`}
+                    />
                   </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {selectedUser.role}
+                  <div className="hidden sm:block w-[120px] justify-start">
+                    <div className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-white">
+                      {selectedUser.name}
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      {selectedUser.role}
+                    </div>
                   </div>
                 </div>
+              )}
+              <div className="flex lg:gap-6 sm:gap-2">
+                <Phone
+                  size={18}
+                  className="text-gray-500 border rounded-full hover:border-rounded dark:text-gray-300 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 sm:w-5 sm:h-5"
+                  aria-label="Phone call"
+                />
+                <Video
+                  size={18}
+                  className="text-gray-500 dark:text-gray-300 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 sm:w-5 sm:h-5"
+                  aria-label="Video call"
+                />
+                <MoreVertical
+                  size={18}
+                  className="text-gray-500 dark:text-gray-300 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 sm:w-5 sm:h-5"
+                  aria-label="More options"
+                />
               </div>
-            )}
-            <div className="flex gap-2 sm:gap-3">
-              <Phone
-                size={18}
-                className="text-gray-500 dark:text-gray-300 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 sm:w-5 sm:h-5"
-                aria-label="Phone call"
-              />
-              <Video
-                size={18}
-                className="text-gray-500 dark:text-gray-300 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 sm:w-5 sm:h-5"
-                aria-label="Video call"
-              />
-
-              <MoreVertical
-                size={18}
-                className="text-gray-500 dark:text-gray-300 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 sm:w-5 sm:h-5"
-                aria-label="More options"
-              />
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-1 pt-16 md:pt-0">
+      <div className="flex flex-1 sm:pt-0 md:pt-0">
         {/* Sidebar */}
         <div
-          className={`w-full md:w-72 lg:w-80 bg-gray-100 dark:bg-gray-900 shadow-md flex flex-col
+          className={`w-full md:w-72 max-h-[80vh] lg:w-80 bg-gray-100 dark:bg-gray-900 shadow-md flex flex-col
             ${isSidebarOpen ? "block" : "hidden md:block"}
             fixed md:static top-16 left-0 z-40 md:z-auto
             h-[calc(100vh-4rem)] transition-transform duration-300
@@ -358,7 +392,7 @@ function InnerMessagesPage() {
               isSidebarOpen
                 ? "translate-x-0"
                 : "-translate-x-full md:translate-x-0"
-            }`}
+            } scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-900`}
         >
           <div className="p-3 sm:p-2">
             <div className="relative">
@@ -376,7 +410,7 @@ function InnerMessagesPage() {
               />
             </div>
           </div>
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto max-h-[68vh] scroll-smooth scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-900">
             {filteredUsers.length === 0 ? (
               <div className="p-4 text-center text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
                 No users found
@@ -430,14 +464,14 @@ function InnerMessagesPage() {
         </div>
 
         {/* Chat Window */}
-        <div className="flex-1 flex flex-col bg-gray-50 dark:bg-gray-800">
+        <div className="flex-1 flex flex-col bg-gray-50 dark:bg-gray-800 max-h-[85vh] min-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-50 dark:scrollbar-track-gray-800">
           {!selectedUser ? (
             <div className="flex-1 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm sm:text-base">
               Select a user to start chatting
             </div>
           ) : (
             <>
-              <div className="flex-1 overflow-y-auto p-3 sm:p-2 space-y-3 sm:space-y-4">
+              <div className="flex-1 overflow-y-auto p-3 sm:p-2 space-y-3 sm:space-y-4 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-50 dark:scrollbar-track-gray-800">
                 {filteredMessages.length === 0 ? (
                   <div className="text-center text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
                     {messageSearchQuery
@@ -511,7 +545,7 @@ function InnerMessagesPage() {
               <div className="p-3 sm:p-2 bg-white dark:bg-gray-900 shadow-md">
                 <div className="flex items-center gap-2 sm:gap-3 relative">
                   {showEmojiPicker && (
-                    <div className="absolute bottom-12 sm:bottom-16 left-0 z-50 shadow-lg animate-slide-up max-h-[40vh] sm:max-h-[50vh] overflow-y-auto">
+                    <div className="absolute bottom-12 sm:bottom-16 left-0 z-50 shadow-lg animate-slide-up max-h-[40vh] sm:max-h-[50vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-white dark:scrollbar-track-gray-900">
                       <div className="flex justify-end p-2">
                         <button
                           onClick={() => setShowEmojiPicker(false)}
@@ -572,15 +606,49 @@ function InnerMessagesPage() {
           )}
         </div>
       </div>
-    </>
+
+      {/* Custom Scrollbar Styles */}
+      <style jsx>{`
+        .scrollbar-thin {
+          scrollbar-width: thin;
+          scrollbar-color: #d1d5db #f3f4f6;
+        }
+        .scrollbar-thin::-webkit-scrollbar {
+          width: 6px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-track {
+          background: #f3f4f6;
+          border-radius: 3px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+          background: #d1d5db;
+          border-radius: 3px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+          background: #9ca3af;
+        }
+        .dark .scrollbar-thin {
+          scrollbar-color: #4b5563 #1f2937;
+        }
+        .dark .scrollbar-thin::-webkit-scrollbar-track {
+          background: #1f2937;
+        }
+        .dark .scrollbar-thin::-webkit-scrollbar-thumb {
+          background: #4b5563;
+        }
+        .dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+          background: #6b7280;
+        }
+      `}</style>
+    </div>
   );
 }
 
 export default function MessagesPage() {
   const currentUser = {
     id: 1,
-    name: "John Doe",
-    avatar: "/image/user4.png",
+    name: "Jubayer Al Mahmud",
+    avatar: "/image/mainuser.png",
     role: "Developer",
     online: true,
   };
