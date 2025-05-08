@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { useTheme } from "next-themes";
+// import { useTheme } from "next-themes";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import {
@@ -15,8 +15,6 @@ import {
   Edit2,
   Menu,
   X,
-  Sun,
-  Moon,
   CheckCircle,
 } from "lucide-react";
 
@@ -155,7 +153,7 @@ const fallbackUsers: User[] = [
 ];
 
 function InnerMessagesPage() {
-  const { theme, setTheme } = useTheme();
+  // const {} = useTheme();
   const {
     currentUser,
     setCurrentUser,
@@ -169,7 +167,7 @@ function InnerMessagesPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [tempName, setTempName] = useState(currentUser.name);
-  const [messageSearchQuery, setMessageSearchQuery] = useState("");
+  const [messageSearchQuery] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [text, setText] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -187,11 +185,6 @@ function InnerMessagesPage() {
       console.log(`Updated user name to: ${newName}`);
     }
     setIsEditingName(false);
-  };
-
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-    console.log("Theme toggled to:", theme === "dark" ? "light" : "dark");
   };
 
   const handleSend = () => {
@@ -250,7 +243,7 @@ function InnerMessagesPage() {
     <>
       {/* Header */}
       <div className="sticky top-0 z-50 bg-white dark:bg-gray-900 shadow-md w-full">
-        <div className="flex items-center justify-between p-3 sm:p-4">
+        <div className="flex items-center justify-between p-3 sm:p-2">
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={() => setIsSidebarOpen((prev) => !prev)}
@@ -342,17 +335,7 @@ function InnerMessagesPage() {
                 className="text-gray-500 dark:text-gray-300 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 sm:w-5 sm:h-5"
                 aria-label="Video call"
               />
-              <button
-                onClick={toggleTheme}
-                aria-label="Toggle theme"
-                className="text-gray-500 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
-              >
-                {theme === "dark" ? (
-                  <Sun size={18} className="sm:w-5 sm:h-5" />
-                ) : (
-                  <Moon size={18} className="sm:w-5 sm:h-5" />
-                )}
-              </button>
+
               <MoreVertical
                 size={18}
                 className="text-gray-500 dark:text-gray-300 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 sm:w-5 sm:h-5"
@@ -377,7 +360,7 @@ function InnerMessagesPage() {
                 : "-translate-x-full md:translate-x-0"
             }`}
         >
-          <div className="p-3 sm:p-4">
+          <div className="p-3 sm:p-2">
             <div className="relative">
               <Search
                 size={14}
@@ -406,7 +389,7 @@ function InnerMessagesPage() {
                     setSelectedUser(user);
                     setIsSidebarOpen(false);
                   }}
-                  className="p-3 sm:p-4 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer transition-colors duration-200"
+                  className="p-3 sm:p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer transition-colors duration-200"
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
@@ -454,23 +437,7 @@ function InnerMessagesPage() {
             </div>
           ) : (
             <>
-              <div className="p-3 sm:p-4 bg-white dark:bg-gray-900 shadow-md">
-                <div className="relative">
-                  <Search
-                    size={14}
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 sm:w-5 sm:h-5"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Search messages..."
-                    value={messageSearchQuery}
-                    onChange={(e) => setMessageSearchQuery(e.target.value)}
-                    className="w-full pl-8 pr-3 py-1.5 sm:pl-10 sm:pr-4 sm:py-2 rounded-full bg-gray-100 dark:bg-gray-800 shadow-sm border-none focus:ring-0 focus:border-b focus:border-blue-500 transition-colors duration-200 text-xs sm:text-sm text-gray-800 dark:text-white dark:placeholder-gray-400"
-                    aria-label="Search messages"
-                  />
-                </div>
-              </div>
-              <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">
+              <div className="flex-1 overflow-y-auto p-3 sm:p-2 space-y-3 sm:space-y-4">
                 {filteredMessages.length === 0 ? (
                   <div className="text-center text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
                     {messageSearchQuery
@@ -541,7 +508,7 @@ function InnerMessagesPage() {
                 )}
                 <div ref={messagesEndRef} />
               </div>
-              <div className="p-3 sm:p-4 bg-white dark:bg-gray-900 shadow-md">
+              <div className="p-3 sm:p-2 bg-white dark:bg-gray-900 shadow-md">
                 <div className="flex items-center gap-2 sm:gap-3 relative">
                   {showEmojiPicker && (
                     <div className="absolute bottom-12 sm:bottom-16 left-0 z-50 shadow-lg animate-slide-up max-h-[40vh] sm:max-h-[50vh] overflow-y-auto">
