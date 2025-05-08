@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface HeaderState {
+export interface HeaderState {
   headerNames: { [key: string]: string };
 }
 
-const initialState: HeaderState = {
+export const initialState: HeaderState = {
   headerNames: {},
 };
 

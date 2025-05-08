@@ -16,6 +16,8 @@ const nextConfig: NextConfig = {
             config.resolve.fallback = {
                 ...config.resolve.fallback,
                 canvas: false,
+                fs: false,
+                buffer: require.resolve("buffer/"),
             };
         }
         return config;

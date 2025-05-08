@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface ExportState {
+export interface ExportState {
   exportFormat: "pdf" | "image" | null;
   exportRequested: boolean;
   selectedItems: string[]; // Tracks selected chart items (e.g., IDs of charts)

@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface ColorState {
+export interface ColorState {
   colors: Record<string, string>;
 }
 
-const initialState: ColorState = {
+export const initialState: ColorState = {
   colors: {},
 };
 

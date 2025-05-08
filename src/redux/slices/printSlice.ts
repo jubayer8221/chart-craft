@@ -4,7 +4,7 @@ interface PrintRow {
   [key: string]: string | number | boolean | null | undefined;
 }
 
-interface PrintState {
+export interface PrintState {
   dataToPrint: PrintRow[];
 }
 
