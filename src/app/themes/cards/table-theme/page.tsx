@@ -3,6 +3,7 @@
 import { TableCard } from "@/components/TableCompo/TableCard";
 import React from "react";
 import { TableColumn, TableData } from "@/components/TableCompo/types";
+import ZoneTable from "@/components/zone_table/ZoneTable";
 
 const variants = [
   "bordered",
@@ -34,6 +35,7 @@ const columns: TableColumn[] = [
 const Page: React.FC = () => {
   return (
     <div>
+      <ZoneTable></ZoneTable>
       <div className="space-y-6">
         <h1 className="text-2xl font-bold">Table Themes</h1>
 
