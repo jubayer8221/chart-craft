@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ChartData, ChartType } from '@/types/chart';
 
-interface ChartState {
+export interface ChartState {
   charts: ChartType[];
   selectedCharts: string[];
   exportTypes: string[];

@@ -14,7 +14,7 @@ interface SortConfig {
   direction: "asc" | "desc";
 }
 
-interface TableState {
+export interface TableState {
   data: Item[];
   recentOrders: Item[];
   selectedRows: number[];
