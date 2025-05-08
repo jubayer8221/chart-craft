@@ -3,6 +3,22 @@ import ExcelJS from "exceljs";
 import Papa from "papaparse";
 import type { ParsedRow, DataState } from "@/types/convertType";
 
+// Function to convert currency strings to numbers
+function parseCurrency(value: string): number | string {
+  if (typeof value !== "string") return value;
+  // Match currency formats like $100, €50.25, 100 USD, £1,000.50
+  const currencyRegex = /^\s*[\$€£¥]?[\d,]+(?:\.[\d]+)?(?:\s*(USD|EUR|GBP|JPY))?\s*$/;
+  if (!currencyRegex.test(value)) return value;
+
+  // Remove currency symbols, spaces, and currency codes
+  const cleaned = value
+    .replace(/[\$€£¥]/g, "")
+    .replace(/\s*(USD|EUR|GBP|JPY)\s*/i, "")
+    .replace(/,/g, "");
+  const number = parseFloat(cleaned);
+  return isNaN(number) ? value : number;
+}
+
 const initialState: DataState = {
   data: [],
   searchTerm: "",
@@ -10,6 +26,7 @@ const initialState: DataState = {
   isLoading: false,
   error: null,
   headerNames: {},
+  tableTitle: "Chart",
 };
 
 export async function parseFile(file: File): Promise<ParsedRow[]> {
@@ -39,12 +56,15 @@ export async function parseFile(file: File): Promise<ParsedRow[]> {
           (Array.isArray(row.values) ? row.values.slice(1) : []).forEach(
             (val: ExcelJS.CellValue, index: number) => {
               const header = headers[index] || `Column${index + 1}`;
-              rowData[header] =
-                val == null
-                  ? null
-                  : typeof val === "object" && "text" in val
-                  ? String(val.text)
-                  : String(val);
+              let parsedValue: string | number | null;
+              if (val == null) {
+                parsedValue = null;
+              } else if (typeof val === "object" && "text" in val) {
+                parsedValue = parseCurrency(String(val.text));
+              } else {
+                parsedValue = parseCurrency(String(val));
+              }
+              rowData[header] = parsedValue;
             }
           );
           jsonData.push(rowData);
@@ -58,8 +78,11 @@ export async function parseFile(file: File): Promise<ParsedRow[]> {
       return new Promise<ParsedRow[]>((resolve, reject) => {
         Papa.parse<ParsedRow>(file, {
           header: true,
-          dynamicTyping: true,
+          dynamicTyping: false, // Disable PapaParse's automatic number conversion
           skipEmptyLines: true,
+          transform: (value: string) => {
+            return parseCurrency(value);
+          },
           complete: (results: Papa.ParseResult<ParsedRow>) => resolve(results.data),
           error: (error: Error) => reject(error),
         });
@@ -96,6 +119,7 @@ const convertDataSlice = createSlice({
       state.error = null;
       state.isLoading = false;
       state.headerNames = {};
+      state.tableTitle = "Chart";
     },
     setHeaderName: (
       state,
@@ -108,6 +132,9 @@ const convertDataSlice = createSlice({
       action: PayloadAction<Record<string, string>>
     ) => {
       state.headerNames = action.payload;
+    },
+    setTableTitle: (state, action: PayloadAction<string>) => {
+      state.tableTitle = action.payload;
     },
     setParsedData: (state, action: PayloadAction<ParsedRow[]>) => {
       state.data = action.payload;
@@ -136,6 +163,7 @@ export const {
   clearData,
   setHeaderName,
   initializeHeaderNames,
+  setTableTitle,
   setParsedData,
   setError,
 } = convertDataSlice.actions;
