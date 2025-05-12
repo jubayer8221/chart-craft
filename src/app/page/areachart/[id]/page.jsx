@@ -187,7 +187,7 @@ const AreaChartCompo = () => {
         style={{ width: "100%", height: "99vh" }} // Ensure container has height
       >
         <div className="flex items-center justify-between">
-          <h1 className="lg:text-3xl md:text-2xl font-bold mb-4">
+          <h1 className="lg:text-2xl md:text-xl font-bold mb-4">
             Area Chart of {chartData.name}
           </h1>
           <Link href="/" className="hover:text-green-600">
@@ -233,7 +233,7 @@ const AreaChartCompo = () => {
         style={{ width: "100%", height: "99vh" }} // Ensure container has height
       >
         <div className="flex items-center justify-between">
-          <h1 className="lg:text-3xl md:text-2xl font-bold mb-4">
+          <h1 className="lg:text-2xl md:text-xl font-bold mb-4">
             Area Chart of {chartData.name}
           </h1>
           <Link href="/" className="hover:text-green-600">
@@ -268,7 +268,7 @@ const AreaChartCompo = () => {
         style={{ width: "100%", height: "99vh" }} // Ensure container has height
       >
         <div className="flex items-center justify-between">
-          <h1 className="lg:text-3xl md:text-2xl font-bold mb-4">
+          <h1 className="lg:text-2xl md:text-xl font-bold mb-4">
             Pie Chart of {chartData?.name}
           </h1>
           <Link href="/" className="hover:text-green-600">

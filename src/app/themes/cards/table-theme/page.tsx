@@ -23,6 +23,7 @@ const data: TableData[] = [
   { id: "02", name: "Bob", role: "Designer", country: "Canada" },
   { id: "03", name: "Charlie", role: "Manager", country: "UK" },
   { id: "04", name: "David", role: "Tester", country: "Germany" },
+  { id: "05", name: "kavid", role: "worker", country: "Gana" },
 ];
 
 const columns: TableColumn[] = [
@@ -35,10 +36,10 @@ const columns: TableColumn[] = [
 const Page: React.FC = () => {
   return (
     <div>
-      <ZoneTable></ZoneTable>
       <div className="space-y-6">
         <h1 className="text-2xl font-bold">Table Themes</h1>
 
+        <ZoneTable></ZoneTable>
         {variants.map((variant) => (
           <TableCard
             key={variant}
