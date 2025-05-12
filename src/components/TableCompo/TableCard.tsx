@@ -175,7 +175,7 @@ export const TableCard: React.FC<TableCardProps> = ({
         className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent"
         style={{
           backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
-          padding: "16px",
+          padding: "10px",
         }}
       >
         <table

@@ -273,7 +273,7 @@ function InnerMessagesPage() {
   );
 
   return (
-    <div className="sticky">
+    <div className="sticky sm:p-0">
       {/* Header */}
       <div className="sticky top-0 z-50 bg-white dark:bg-gray-900 shadow-md w-full">
         <div className="flex items-center justify-between p-3 sm:p-2">
@@ -361,7 +361,7 @@ function InnerMessagesPage() {
               <div className="flex lg:gap-6 sm:gap-2">
                 <Phone
                   size={18}
-                  className="text-gray-500 border rounded-full hover:border-rounded dark:text-gray-300 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 sm:w-5 sm:h-5"
+                  className="text-gray-500 dark:text-gray-300 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 sm:w-5 sm:h-5"
                   aria-label="Phone call"
                 />
                 <Video
@@ -381,7 +381,7 @@ function InnerMessagesPage() {
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-1 sm:pt-0 md:pt-0">
+      <div className="flex flex-1 sm:pt-0 md:pt-0 sm:p-0">
         {/* Sidebar */}
         <div
           className={`w-full md:w-72 max-h-[80vh] lg:w-80 bg-gray-100 dark:bg-gray-900 shadow-md flex flex-col

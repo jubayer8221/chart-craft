@@ -79,7 +79,7 @@ const ZoneTable = () => {
   return (
     <>
       <div className="my-2 py-2 bg-gray-100">
-        <h1 className="text-2xl font-bold py-2">Zone Data</h1>
+        <h1 className="text-2xl font-bold py-2">Treegrid</h1>
 
         <div className="overflow-x-auto bg-white rounded-md shadow-md">
           <table className="min-w-full">
