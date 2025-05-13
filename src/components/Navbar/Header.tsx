@@ -21,6 +21,7 @@ const Header = () => {
   const { logout, token } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropDownNotification, setDropdownNotification] = useState(false);
   const [userPhoto, setUserPhoto] = useState<string>("/image/mainuser.png");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -53,6 +54,19 @@ const Header = () => {
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownNotification(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -100,8 +114,75 @@ const Header = () => {
         <div className="hidden md:block">
           <div className="flex flex-row items-center space-x-4">
             <ThemeToggle />
-            <span className="h-8 w-8 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 flex items-center justify-center cursor-pointer">
+            <span
+              className="h-8 w-8 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 flex items-center justify-center cursor-pointer"
+              onClick={() => setDropdownNotification(!dropDownNotification)}
+            >
               <GrNotification width={24} height={24} />
+              {dropDownNotification && (
+                <div className="fixed right-4 top-14 w-80 max-h-[calc(100vh-4rem)] overflow-hidden flex flex-col bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-xl z-50">
+                  {/* Header */}
+                  <div className="px-4 py-3 border-b border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-700/50 flex justify-between items-center">
+                    <h3 className="font-medium text-gray-900 dark:text-white">
+                      Notifications
+                    </h3>
+                    <button className="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+                      Mark all as read
+                    </button>
+                  </div>
+
+                  {/* Notification items container */}
+                  <div className="overflow-y-auto">
+                    {/* Individual notification items */}
+                    {[1, 2, 3, 4, 5, 6].map((item) => (
+                      <div
+                        key={item}
+                        className="px-4 py-3 border-b border-gray-100 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-700/30 transition-colors cursor-pointer"
+                      >
+                        <div className="flex items-start">
+                          <div className="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center mr-3">
+                            <svg
+                              className="h-5 w-5 text-blue-600 dark:text-blue-400"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm font-medium text-gray-900 dark:text-white">
+                              New notification
+                            </p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                              This is your notification #{item} with more
+                              details
+                            </p>
+                            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                              2 hours ago
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Footer */}
+                  <div className="px-4 py-2 border-t border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-700/50 text-center">
+                    <a
+                      href="#"
+                      className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
+                    >
+                      View all notifications
+                    </a>
+                  </div>
+                </div>
+              )}
             </span>
             <div
               className="h-8 w-8 bg-zinc-300 dark:bg-zinc-700 rounded-full flex items-center justify-center cursor-pointer"
@@ -114,8 +195,8 @@ const Header = () => {
                 >
                   <Image
                     src={userPhoto}
-                    width={40}
-                    height={40}
+                    width={35}
+                    height={35}
                     alt="user"
                     className="rounded-full"
                   />
@@ -146,7 +227,7 @@ const Header = () => {
                               <p className="text-gray-600 dark:text-gray-300 mb-6">
                                 Are you sure you want to log out?
                               </p>
-                              <div className="flex justify-end gap-4">
+                              <div className="flex justify-center gap-4">
                                 <button
                                   onClick={() => setIsOpen(false)}
                                   className="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors duration-200"
