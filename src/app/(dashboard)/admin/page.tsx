@@ -9,11 +9,14 @@ import GroceriesChart from "@/components/Home/GroceriesChart";
 import TopSelling from "@/components/Home/TopSelling";
 import Toyschart from "@/components/Home/Toyschart";
 import UserCard from "@/components/Home/UserCard";
+import { TableGrid } from "@/components/TableCompo/TableGrid";
 import React from "react";
+// import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
 
 const adminPage = () => {
   return (
     <>
+      {/* <PrivateRoute> */}
       <div className="flex flex-col md:flex-row gap-4">
         {/* left side  */}
         <div className="w-full lg:w-2/3 flex flex-col gap-8 ">
@@ -70,6 +73,10 @@ const adminPage = () => {
       <div>
         <TopSelling />
       </div>
+      <div className="w-full">
+        <TableGrid></TableGrid>
+      </div>
+      {/* </PrivateRoute> */}
     </>
   );
 };
