@@ -314,7 +314,7 @@ const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
         </div>
       </div>
 
-      <div className="overflow-x-auto min-w-[280px] max-w-[1160px] overflow-y-auto">
+      <div className="overflow-x-auto min-w-[280px] max-w-[1220px] overflow-y-auto">
         <table className="w-full border border-gray-300 shadow-lg my-4">
           <caption className="caption-top bg-blue-900/80 capitalize text-white p-2 text-lg font-bold border-b">
             {editingCaption ? (

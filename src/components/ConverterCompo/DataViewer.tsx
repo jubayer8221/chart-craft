@@ -36,7 +36,7 @@ export function DataViewer() {
   if (!data || data.length === 0) return null;
 
   return (
-    <div className="w-full max-w-full mx-auto p-4 dark:bg-gray-800 dark:text-white rounded-md shadow-md">
+    <div className="w-full max-w-full mx-auto p-2 dark:bg-gray-800 dark:text-white rounded-md shadow-md">
       <div className="p-2 rounded-md">
         <h1 className="text-2xl font-semibold mb-4">Your Data as Table</h1>
         <Table data={data} title={tableTitle} />

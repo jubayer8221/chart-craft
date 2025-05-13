@@ -664,25 +664,7 @@ export function Chart({
               </svg>
             </button>
             {showValueDropdown && (
-              <div className="absolute z-10 mt-2 w-full rounded-md shadow-md bg-white dark:bg-gray-700 overflow-y-auto max-h-[320px]">
-                <div className="py-1 border-b border-gray-100 dark:border-gray-600">
-                  {nonNumericColumns.map((col) => (
-                    <button
-                      key={col}
-                      className={`w-full text-left px-4 py-2 text-sm ${
-                        labelColumn === col
-                          ? "bg-blue-100 text-blue-900 dark:bg-blue-900 dark:text-white"
-                          : "text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600"
-                      }`}
-                      onClick={() => {
-                        setLabelColumn(col);
-                        setShowValueDropdown(false);
-                      }}
-                    >
-                      {headerNames[col] || col}
-                    </button>
-                  ))}
-                </div>
+              <div className="absolute z-10 mt-11 w-full rounded-md shadow-md bg-white dark:bg-gray-700 overflow-y-auto max-h-[320px]">
                 <div className="py-1">
                   <div className="px-4 py-2 text-sm text-gray-700 dark:text-white font-medium">
                     Value Columns
@@ -714,6 +696,24 @@ export function Chart({
                     </div>
                   ))}
                 </div>
+                <div className="py-1 border-b border-gray-100 dark:border-gray-600">
+                  {nonNumericColumns.map((col) => (
+                    <button
+                      key={col}
+                      className={`w-full text-left px-4 py-2 text-sm ${
+                        labelColumn === col
+                          ? "bg-blue-100 text-blue-900 dark:bg-blue-900 dark:text-white"
+                          : "text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600"
+                      }`}
+                      onClick={() => {
+                        setLabelColumn(col);
+                        setShowValueDropdown(false);
+                      }}
+                    >
+                      {headerNames[col] || col}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -723,7 +723,7 @@ export function Chart({
           >
             <button
               type="button"
-              className="flex justify-between items-center px-4 py-2 border rounded-md bg-white text-gray-700 hover:bg-gray-200 text-sm sm:text-base w-full dark:bg-gray-700 dark:text-white dark:border-gray-600"
+              className="flex justify-between  items-center px-4 py-2 border rounded-md bg-white text-gray-700 hover:bg-gray-200 text-sm sm:text-base w-full dark:bg-gray-700 dark:text-white dark:border-gray-600"
               onClick={() => setShowOptionsDropdown(!showOptionsDropdown)}
               aria-expanded={showOptionsDropdown}
             >
@@ -741,7 +741,7 @@ export function Chart({
               </svg>
             </button>
             {showOptionsDropdown && (
-              <div className="absolute z-10 mt-2 w-full rounded-md shadow-md bg-white dark:bg-gray-700 overflow-y-auto max-h-[320px]">
+              <div className="absolute z-10 mt-11 w-full rounded-md shadow-md bg-white dark:bg-gray-700 overflow-y-auto max-h-[320px]">
                 <div className="py-1">
                   {["bar", "area"].includes(chartConfig.type) && (
                     <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 flex items-center">
@@ -886,7 +886,7 @@ export function Chart({
           )}
         </div>
       </div>
-      <h2 className="text-xl bg-gray-50 p-2 rounded-t-lg capitalize font-semibold mb-4 text-center">
+      <h2 className="text-xl bg-gray-50 dark:bg-gray-800 dark:text-white p-2 rounded-t-lg uppercase font-semibold mb-4 text-center">
         {tableTitle}
       </h2>
 
