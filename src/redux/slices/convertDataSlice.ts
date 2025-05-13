@@ -9,14 +9,19 @@ function parseCurrency(value: string): number | string {
   // Match currency formats like $100, €50.25, 100 USD, £1,000.50
   const currencyRegex = /^\s*[\$€£¥]?[\d,]+(?:\.[\d]+)?(?:\s*(USD|EUR|GBP|JPY))?\s*$/;
   if (!currencyRegex.test(value)) return value;
+    const negative = /^\s*\(.*\)\s*$/.test(value) || value.trim().startsWith("-");
 
-  // Remove currency symbols, spaces, and currency codes
+    // Remove currency symbols, spaces, and currency codes
   const cleaned = value
-    .replace(/[\$€£¥]/g, "")
-    .replace(/\s*(USD|EUR|GBP|JPY)\s*/i, "")
-    .replace(/,/g, "");
-  const number = parseFloat(cleaned);
-  return isNaN(number) ? value : number;
+    .replace(/\(([^)]+)\)/, "$1") // remove surrounding parentheses if present
+    .replace(/[\$€£¥]/g, "") // remove currency symbols
+    .replace(/\b(USD|EUR|GBP|JPY|BDT)\b/gi, "") // remove currency codes
+    .replace(/,/g, "") // remove thousand separators
+    .trim();
+  
+    const parsed = parseFloat(cleaned);
+    if (isNaN(parsed)) return value;
+  return negative ? -Math.abs(parsed) : parsed;
 }
 
 const initialState: DataState = {
@@ -26,7 +31,7 @@ const initialState: DataState = {
   isLoading: false,
   error: null,
   headerNames: {},
-  tableTitle: "Chart",
+  tableTitle: "Data Visualization",
 };
 
 export async function parseFile(file: File): Promise<ParsedRow[]> {
