@@ -638,178 +638,189 @@ export function Chart({
             <option value="scatter">Scatter Plot</option>
           </select>
         </div>
-        <div className="relative w-full sm:w-auto" ref={valueDropdownRef}>
-          <button
-            type="button"
-            className="flex justify-between items-center px-4 py-2 border rounded-md bg-white text-gray-700 hover:bg-gray-200 text-sm sm:text-base w-full dark:bg-gray-700 dark:text-white dark:border-gray-600"
-            onClick={() => setShowValueDropdown(!showValueDropdown)}
-            aria-expanded={showValueDropdown}
+
+        <div className="flex justify-between gap-4">
+          <div
+            className="relative w-full sm:w-auto md:flex sm:flex"
+            ref={valueDropdownRef}
           >
-            Select Columns
-            <svg
-              className="ml-2 h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+            <button
+              type="button"
+              className="flex justify-between items-center px-4 py-2 border rounded-md bg-white text-gray-700 hover:bg-gray-200 text-sm sm:text-base w-full dark:bg-gray-700 dark:text-white dark:border-gray-600"
+              onClick={() => setShowValueDropdown(!showValueDropdown)}
+              aria-expanded={showValueDropdown}
             >
-              <path
-                fillRule="evenodd"
-                d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
-          {showValueDropdown && (
-            <div className="absolute z-10 mt-2 w-full rounded-md shadow-md bg-white dark:bg-gray-700">
-              <div className="py-1 border-b border-gray-100 dark:border-gray-600">
-                {nonNumericColumns.map((col) => (
-                  <button
-                    key={col}
-                    className={`w-full text-left px-4 py-2 text-sm ${
-                      labelColumn === col
-                        ? "bg-blue-100 text-blue-900 dark:bg-blue-900 dark:text-white"
-                        : "text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600"
-                    }`}
-                    onClick={() => {
-                      setLabelColumn(col);
-                      setShowValueDropdown(false);
-                    }}
-                  >
-                    {headerNames[col] || col}
-                  </button>
-                ))}
-              </div>
-              <div className="py-1">
-                <div className="px-4 py-2 text-sm text-gray-700 dark:text-white font-medium">
-                  Value Columns
+              Select Columns
+              <svg
+                className="ml-2 h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+            {showValueDropdown && (
+              <div className="absolute z-10 mt-2 w-full rounded-md shadow-md bg-white dark:bg-gray-700 overflow-y-auto max-h-[320px]">
+                <div className="py-1 border-b border-gray-100 dark:border-gray-600">
+                  {nonNumericColumns.map((col) => (
+                    <button
+                      key={col}
+                      className={`w-full text-left px-4 py-2 text-sm ${
+                        labelColumn === col
+                          ? "bg-blue-100 text-blue-900 dark:bg-blue-900 dark:text-white"
+                          : "text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600"
+                      }`}
+                      onClick={() => {
+                        setLabelColumn(col);
+                        setShowValueDropdown(false);
+                      }}
+                    >
+                      {headerNames[col] || col}
+                    </button>
+                  ))}
                 </div>
-                {numericColumns.map((col) => (
-                  <div key={col} className="flex items-center px-4 py-2">
-                    <label className="flex items-center w-full text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600">
+                <div className="py-1">
+                  <div className="px-4 py-2 text-sm text-gray-700 dark:text-white font-medium">
+                    Value Columns
+                  </div>
+                  {numericColumns.map((col) => (
+                    <div key={col} className="flex items-center px-4 py-2">
+                      <label className="flex items-center w-full text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600">
+                        <input
+                          type="checkbox"
+                          checked={valueColumns.includes(col)}
+                          onChange={() => toggleValueColumn(col)}
+                          className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500"
+                        />
+                        {headerNames[col] || col}
+                      </label>
+                      {valueColumns.includes(col) && (
+                        <input
+                          type="color"
+                          value={colors[col] || defaultColors[0]}
+                          onChange={(e) =>
+                            handleColorChange(col, e.target.value)
+                          }
+                          className="w-6 h-6 border-none cursor-pointer ml-2"
+                          aria-label={`Color picker for ${
+                            headerNames[col] || col
+                          }`}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          <div
+            className="relative w-full sm:w-auto md:flex sm:flex"
+            ref={optionsDropdownRef}
+          >
+            <button
+              type="button"
+              className="flex justify-between items-center px-4 py-2 border rounded-md bg-white text-gray-700 hover:bg-gray-200 text-sm sm:text-base w-full dark:bg-gray-700 dark:text-white dark:border-gray-600"
+              onClick={() => setShowOptionsDropdown(!showOptionsDropdown)}
+              aria-expanded={showOptionsDropdown}
+            >
+              Chart Options
+              <svg
+                className="ml-2 h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+            {showOptionsDropdown && (
+              <div className="absolute z-10 mt-2 w-full rounded-md shadow-md bg-white dark:bg-gray-700 overflow-y-auto max-h-[320px]">
+                <div className="py-1">
+                  {["bar", "area"].includes(chartConfig.type) && (
+                    <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 flex items-center">
                       <input
                         type="checkbox"
-                        checked={valueColumns.includes(col)}
-                        onChange={() => toggleValueColumn(col)}
+                        checked={chartConfig.stacked}
+                        onChange={(e) =>
+                          setChartConfig({
+                            ...chartConfig,
+                            stacked: e.target.checked,
+                          })
+                        }
                         className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500"
                       />
-                      {headerNames[col] || col}
+                      Stacked
                     </label>
-                    {valueColumns.includes(col) && (
+                  )}
+                  {["bar"].includes(chartConfig.type) && (
+                    <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 flex items-center">
                       <input
-                        type="color"
-                        value={colors[col] || defaultColors[0]}
-                        onChange={(e) => handleColorChange(col, e.target.value)}
-                        className="w-6 h-6 border-none cursor-pointer ml-2"
-                        aria-label={`Color picker for ${
-                          headerNames[col] || col
-                        }`}
+                        type="checkbox"
+                        checked={chartConfig.horizontal}
+                        onChange={(e) =>
+                          setChartConfig({
+                            ...chartConfig,
+                            horizontal: e.target.checked,
+                          })
+                        }
+                        className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500"
                       />
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-        <div className="relative w-full sm:w-auto" ref={optionsDropdownRef}>
-          <button
-            type="button"
-            className="flex justify-between items-center px-4 py-2 border rounded-md bg-white text-gray-700 hover:bg-gray-200 text-sm sm:text-base w-full dark:bg-gray-700 dark:text-white dark:border-gray-600"
-            onClick={() => setShowOptionsDropdown(!showOptionsDropdown)}
-            aria-expanded={showOptionsDropdown}
-          >
-            Chart Options
-            <svg
-              className="ml-2 h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
-          {showOptionsDropdown && (
-            <div className="absolute z-10 mt-2 w-full rounded-md shadow-md bg-white dark:bg-gray-700">
-              <div className="py-1">
-                {["bar", "area"].includes(chartConfig.type) && (
+                      Horizontal
+                    </label>
+                  )}
                   <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 flex items-center">
                     <input
                       type="checkbox"
-                      checked={chartConfig.stacked}
+                      checked={chartConfig.showLegend}
                       onChange={(e) =>
                         setChartConfig({
                           ...chartConfig,
-                          stacked: e.target.checked,
+                          showLegend: e.target.checked,
                         })
                       }
                       className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500"
                     />
-                    Stacked
+                    Show Legend
                   </label>
-                )}
-                {["bar"].includes(chartConfig.type) && (
                   <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 flex items-center">
                     <input
                       type="checkbox"
-                      checked={chartConfig.horizontal}
+                      checked={chartConfig.showGrid}
                       onChange={(e) =>
                         setChartConfig({
                           ...chartConfig,
-                          horizontal: e.target.checked,
+                          showGrid: e.target.checked,
                         })
                       }
                       className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500"
                     />
-                    Horizontal
+                    Show Grid
                   </label>
-                )}
-                <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={chartConfig.showLegend}
-                    onChange={(e) =>
-                      setChartConfig({
-                        ...chartConfig,
-                        showLegend: e.target.checked,
-                      })
-                    }
-                    className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500"
-                  />
-                  Show Legend
-                </label>
-                <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={chartConfig.showGrid}
-                    onChange={(e) =>
-                      setChartConfig({
-                        ...chartConfig,
-                        showGrid: e.target.checked,
-                      })
-                    }
-                    className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500"
-                  />
-                  Show Grid
-                </label>
-                <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={chartConfig.showTooltip}
-                    onChange={(e) =>
-                      setChartConfig({
-                        ...chartConfig,
-                        showTooltip: e.target.checked,
-                      })
-                    }
-                    className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500"
-                  />
-                  Show Tooltip
-                </label>
+                  <label className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={chartConfig.showTooltip}
+                      onChange={(e) =>
+                        setChartConfig({
+                          ...chartConfig,
+                          showTooltip: e.target.checked,
+                        })
+                      }
+                      className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500"
+                    />
+                    Show Tooltip
+                  </label>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
         <div className="relative w-full sm:w-auto" ref={exportDropdownRef}>
           <Button
