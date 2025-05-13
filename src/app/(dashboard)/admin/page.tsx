@@ -1,15 +1,18 @@
 "use client";
-import Announcements from "@/components/Home/Announcements";
-import BookChart from "@/components/Home/BookChart";
-import ClothingsChart from "@/components/Home/ClothingsChart";
-import ElectronicsCountChart from "@/components/Home/ElectronicsCountChart";
-import EventCalendar from "@/components/Home/EventCalendar";
-import FurnituresChart from "@/components/Home/FurnituresChart";
-import GroceriesChart from "@/components/Home/GroceriesChart";
-import TopSelling from "@/components/Home/TopSelling";
-import Toyschart from "@/components/Home/Toyschart";
-import UserCard from "@/components/Home/UserCard";
-import React from "react";
+// Use dynamic imports with `ssr: false` for components that depend on browser APIs
+import dynamic from "next/dynamic";
+
+const Announcements = dynamic(() => import("@/components/Home/Announcements"), { ssr: false });
+const BookChart = dynamic(() => import("@/components/Home/BookChart"), { ssr: false });
+const ClothingsChart = dynamic(() => import("@/components/Home/ClothingsChart"), { ssr: false });
+const ElectronicsCountChart = dynamic(() => import("@/components/Home/ElectronicsCountChart"), { ssr: false });
+const EventCalendar = dynamic(() => import("@/components/Home/EventCalendar"), { ssr: false });
+const FurnituresChart = dynamic(() => import("@/components/Home/FurnituresChart"), { ssr: false });
+const GroceriesChart = dynamic(() => import("@/components/Home/GroceriesChart"), { ssr: false });
+const TopSelling = dynamic(() => import("@/components/Home/TopSelling"), { ssr: false });
+const Toyschart = dynamic(() => import("@/components/Home/Toyschart"), { ssr: false });
+const UserCard = dynamic(() => import("@/components/Home/UserCard"), { ssr: false });
+
 
 const adminPage = () => {
   return (
