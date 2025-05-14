@@ -73,7 +73,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-[100vh] flex flex-col md:flex-row items-center justify-center dark:bg-[#191919] lg:px-4 sm:p-[-6px] transition-colors duration-300 gap-8 sm:gap-0">
+    <div className="min-h-[100vh] flex flex-col md:flex-row items-center justify-center dark:bg-[#463f59] lg:px-4 sm:p-[-6px] transition-colors duration-300 gap-8 sm:gap-0">
       <div className="hidden lg:flex w-1/2 justify-center p-6">
         <Image
           alt="image"
@@ -83,7 +83,7 @@ export default function LoginPage() {
         />
       </div>
       <div className="w-full md:w-1/2 items-center justify-center ">
-        <div className="lg:w-[30rem] justify-center bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:shadow-xl">
+        <div className="lg:w-[30rem] justify-center bg-white dark:bg-gray-900/50 rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:shadow-xl">
           <div>
             <h1 className="text-2xl sm:text-sm  font-bold text-center text-gray-800 dark:text-white">
               Welcome to
@@ -125,7 +125,7 @@ export default function LoginPage() {
                 height={15}
                 className="min-w-18 max-w-60"
               />
-              <span className="justify-center text-around">or</span>
+              <span className="justify-center px-2">or</span>
               <Image
                 alt="line"
                 src="/image/line.png"
