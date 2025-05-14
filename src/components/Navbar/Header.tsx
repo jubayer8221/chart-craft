@@ -73,6 +73,18 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isOpen]);
+
   const handleLogout = () => {
     logout();
     setIsOpen(false);
@@ -219,7 +231,7 @@ const Header = () => {
                           <span>Logout</span>
                         </button>
                         {isOpen && (
-                          <div className="fixed inset-0 z-50 flex items-center justify-center bg-transparent bg-opacity-75 transition-opacity duration-300">
+                          <div className="fixed overflow-hidden inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/60">
                             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 w-full max-w-md transform transition-all duration-300 scale-100">
                               <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
                                 Confirm Logout
@@ -247,6 +259,7 @@ const Header = () => {
                             </div>
                           </div>
                         )}
+
                         <FiLogOut />
                       </li>
                     </ul>
