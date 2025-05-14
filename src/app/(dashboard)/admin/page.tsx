@@ -1,4 +1,6 @@
 "use client";
+// Use dynamic imports with `ssr: false` for components that depend on browser APIs
+
 import Announcements from "@/components/Home/Announcements";
 import BookChart from "@/components/Home/BookChart";
 import ClothingsChart from "@/components/Home/ClothingsChart";
