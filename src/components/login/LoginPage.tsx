@@ -76,13 +76,13 @@ export default function LoginPage() {
     <div className="min-h-[100vh] flex flex-col md:flex-row items-center justify-center dark:bg-[#463f59] lg:px-4 sm:p-[-6px] transition-colors duration-300 gap-8 sm:gap-0">
       <div className="hidden lg:flex w-1/2 justify-center p-6">
         <Image
-          alt="image"
+          alt="Dashboard Image"
           src="/image/illustration.png"
           width={300}
           height={300}
         />
       </div>
-      <div className="w-full md:w-1/2 items-center justify-center ">
+      <div className="w-full md:w-1/2 items-center justify-center">
         <div className="lg:w-[30rem] justify-center bg-white dark:bg-gray-900/50 rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:shadow-xl">
           <div>
             <h1 className="text-2xl sm:text-sm  font-bold text-center text-gray-800 dark:text-white">
