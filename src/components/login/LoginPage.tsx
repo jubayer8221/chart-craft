@@ -73,11 +73,11 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-[100vh] flex flex-col md:flex-row items-center justify-center dark:bg-[#463f59] lg:px-4 sm:p-[-6px] transition-colors duration-300 gap-8 sm:gap-0">
-      <div className="hidden lg:flex w-1/2 justify-center p-6">
+    <div className="min-h-screen flex flex-col md:flex-row items-center justify-center dark:bg-[#463f59] sm:p-[-6px] transition-colors duration-300 gap-8 sm:gap-0">
+      <div className="hidden lg:flex w-1/2 justify-center">
         <Image
           alt="Dashboard Image"
-          src="/image/illustration.png"
+          src="/image/llustration.png"
           width={300}
           height={300}
         />
