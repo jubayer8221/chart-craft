@@ -3,6 +3,7 @@
 import { TableCard } from "@/components/TableCompo/TableCard";
 import React from "react";
 import { TableColumn, TableData } from "@/components/TableCompo/types";
+import ZoneTable from "@/components/zone_table/ZoneTable";
 
 const variants = [
   "bordered",
@@ -22,6 +23,7 @@ const data: TableData[] = [
   { id: "02", name: "Bob", role: "Designer", country: "Canada" },
   { id: "03", name: "Charlie", role: "Manager", country: "UK" },
   { id: "04", name: "David", role: "Tester", country: "Germany" },
+  { id: "05", name: "kavid", role: "worker", country: "Gana" },
 ];
 
 const columns: TableColumn[] = [
@@ -37,6 +39,7 @@ const Page: React.FC = () => {
       <div className="space-y-6">
         <h1 className="text-2xl font-bold">Table Themes</h1>
 
+        <ZoneTable></ZoneTable>
         {variants.map((variant) => (
           <TableCard
             key={variant}

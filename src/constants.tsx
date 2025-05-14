@@ -62,7 +62,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
       },
       // {
       //   title: "Buy & Sell Report",
-      //   path: "/buySellChart",
+      //   path: "/page/buySellChart",
       //   // submenu: true,
       //   icon: <SiWikibooks className="w-[16px] h-[16px]" />,
       //   visible: ["admin"],

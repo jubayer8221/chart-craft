@@ -6,7 +6,7 @@ import { DataViewer } from "@/components/ConverterCompo/DataViewer";
 
 export default function HomePage() {
   return (
-    <main className="p-6 w-full mx-auto dark:bg-[#312c4a] dark:text-white ">
+    <main className="w-full mx-auto dark:bg-[#312c4a] dark:text-white ">
       <div className="mb-5 pb-6">
         <UploadZone />
       </div>

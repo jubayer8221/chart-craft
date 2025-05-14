@@ -1,22 +1,24 @@
 "use client";
 // Use dynamic imports with `ssr: false` for components that depend on browser APIs
-import dynamic from "next/dynamic";
 
-const Announcements = dynamic(() => import("@/components/Home/Announcements"), { ssr: false });
-const BookChart = dynamic(() => import("@/components/Home/BookChart"), { ssr: false });
-const ClothingsChart = dynamic(() => import("@/components/Home/ClothingsChart"), { ssr: false });
-const ElectronicsCountChart = dynamic(() => import("@/components/Home/ElectronicsCountChart"), { ssr: false });
-const EventCalendar = dynamic(() => import("@/components/Home/EventCalendar"), { ssr: false });
-const FurnituresChart = dynamic(() => import("@/components/Home/FurnituresChart"), { ssr: false });
-const GroceriesChart = dynamic(() => import("@/components/Home/GroceriesChart"), { ssr: false });
-const TopSelling = dynamic(() => import("@/components/Home/TopSelling"), { ssr: false });
-const Toyschart = dynamic(() => import("@/components/Home/Toyschart"), { ssr: false });
-const UserCard = dynamic(() => import("@/components/Home/UserCard"), { ssr: false });
-
+import Announcements from "@/components/Home/Announcements";
+import BookChart from "@/components/Home/BookChart";
+import ClothingsChart from "@/components/Home/ClothingsChart";
+import ElectronicsCountChart from "@/components/Home/ElectronicsCountChart";
+import EventCalendar from "@/components/Home/EventCalendar";
+import FurnituresChart from "@/components/Home/FurnituresChart";
+import GroceriesChart from "@/components/Home/GroceriesChart";
+import TopSelling from "@/components/Home/TopSelling";
+import Toyschart from "@/components/Home/Toyschart";
+import UserCard from "@/components/Home/UserCard";
+import { TableGrid } from "@/components/TableCompo/TableGrid";
+import React from "react";
+// import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
 
 const adminPage = () => {
   return (
     <>
+      {/* <PrivateRoute> */}
       <div className="flex flex-col md:flex-row gap-4">
         {/* left side  */}
         <div className="w-full lg:w-2/3 flex flex-col gap-8 ">
@@ -73,6 +75,10 @@ const adminPage = () => {
       <div>
         <TopSelling />
       </div>
+      <div className="w-full">
+        <TableGrid></TableGrid>
+      </div>
+      {/* </PrivateRoute> */}
     </>
   );
 };

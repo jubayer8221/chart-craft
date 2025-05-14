@@ -8,5 +8,6 @@ export interface DataState {
   filtered: ParsedRow[];
   isLoading: boolean;
   error: string | null;
+  tableTitle: string; 
   headerNames: Record<string, string>;
 }
