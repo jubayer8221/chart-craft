@@ -216,7 +216,7 @@ const Header = () => {
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-4 w-48 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-lg">
                     <ul className="py-2">
-                      <Link href="/page/userProfile">
+                      <Link href="/settings/account">
                         <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-700 cursor-pointer">
                           Profile
                         </li>
