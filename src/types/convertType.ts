@@ -10,7 +10,9 @@ export interface DataState {
   error: string | null;
   tableTitle: string; 
   headerNames: Record<string, string>;
-  loadCount: number;
+  // loadCount: number;
   currentRowOffset: number;
   totalRows: number;
+  partitions: number;
+  loadedPartitions: number; 
 }

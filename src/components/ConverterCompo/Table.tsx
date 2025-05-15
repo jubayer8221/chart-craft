@@ -47,22 +47,22 @@ const LOAD_CHUNK_SIZE = 1000;
 
 const generatePageSizeOptions = (
   totalRows: number
-): (number | { value: number; label: string })[] => {
+): { value: number; label: string }[] => {
   const baseOptions = [10, 20, 50, 100, 200, 500, 1000];
   if (totalRows > 1000) {
     baseOptions.push(2000, 5000, 10000);
   }
-  const filteredOptions = baseOptions.filter((size) => size <= totalRows);
-  const options: (number | { value: number; label: string })[] =
-    filteredOptions;
-  if (totalRows > 0 && totalRows <= 10000) {
+  const options: { value: number; label: string }[] = baseOptions
+    .filter((size) => size <= totalRows)
+    .map((size) => ({
+      value: size,
+      label: size.toString(),
+    }));
+  // Only add "All" if totalRows is not already in the options
+  if (totalRows > 0 && totalRows <= 10000 && !baseOptions.includes(totalRows)) {
     options.push({ value: totalRows, label: "All" });
   }
-  return options.sort(
-    (a, b) =>
-      (typeof a === "number" ? a : a.value) -
-      (typeof b === "number" ? b : b.value)
-  );
+  return options.sort((a, b) => a.value - b.value);
 };
 
 const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
@@ -338,49 +338,14 @@ const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
       ref={tableContainerRef}
       className="w-full max-w-full mx-auto overflow-x-auto"
     >
-      <div className="flex flex-col sm:flex-row justify-between items-center text-sm font-semibold text-gray-700 dark:text-white mt-4 gap-4">
-        {/* <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-200">
-          {totalRows >
-            (typeof pageSizeOptions[0] === "number"
-              ? pageSizeOptions[0]
-              : pageSizeOptions[0].value) && (
-            <>
-              <span>Rows per page:</span>
-              <div className="relative group">
-                <select
-                  value={pageSize}
-                  onChange={handlePageSizeChange}
-                  className="border rounded px-2 py-1 text-sm bg-white dark:bg-gray-800 dark:text-white"
-                  aria-label="Rows per page"
-                >
-                  {pageSizeOptions.map((size) => (
-                    <option
-                      key={typeof size === "number" ? size : size.value}
-                      value={typeof size === "number" ? size : size.value}
-                    >
-                      {typeof size === "number" ? size : size.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <span>
-                {table.getRowModel().rows.length === 0
-                  ? 0
-                  : (currentPage - 1) * pageSize + 1}
-                -
-                {(currentPage - 1) * pageSize + table.getRowModel().rows.length}{" "}
-                of {totalRows}
-              </span>
-            </>
-          )}
-        </div> */}
+      <div className="flex justify-between items-center text-sm font-semibold text-gray-700 dark:text-white mt-4 gap-4">
         <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-200">
-          {totalRows <= 10 && <span>Rows per page: {totalRows} </span>}
-          {totalRows >= 10 && <span>Rows per page: </span>}
-          {totalRows >
-            (typeof pageSizeOptions[0] === "number"
-              ? pageSizeOptions[0]
-              : pageSizeOptions[0].value) && (
+          <span>
+            {totalRows <= 10 && <span>Rows per page: {totalRows} </span>}
+            {totalRows >= 10 && <span>Rows per page: </span>}
+          </span>
+
+          {totalRows > pageSizeOptions[0].value && (
             <>
               <div className="relative group">
                 <select
@@ -390,11 +355,8 @@ const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
                   aria-label="Rows per page"
                 >
                   {pageSizeOptions.map((size) => (
-                    <option
-                      key={typeof size === "number" ? size : size.value}
-                      value={typeof size === "number" ? size : size.value}
-                    >
-                      {typeof size === "number" ? size : size.label}
+                    <option key={size.value} value={size.value}>
+                      {size.label}
                     </option>
                   ))}
                 </select>
@@ -425,7 +387,8 @@ const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
         </div>
       </div>
 
-      <div className="overflow-x-auto min-w-[280px] lg:w-[1220px] overflow-y-auto">
+      <div className="w-full max-w-full mx-auto overflow-x-auto">
+        {/* <div className="overflow-x-scroll min-w-[280px]  w-[175vh] sm:max-w-[280px] overflow-y-auto"> */}
         <table className="w-full border border-gray-300 shadow-lg my-4">
           <caption className="caption-top bg-blue-900/80 capitalize text-white p-2 text-lg font-bold border-b">
             {editingCaption ? (
