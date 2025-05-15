@@ -1,14 +1,8 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import React from "react";
 
-const BuySellChart = dynamic(
-  () => import("@/components/buySellChart/BuySellChart"),
-  {
-    ssr: false,
-  }
-);
+import BuySellChart from "@/components/buySellChart/BuySellChart";
 
 const Page = () => {
   return (

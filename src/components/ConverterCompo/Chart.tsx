@@ -95,8 +95,8 @@ export function Chart({
     type: initialChartType,
     stacked: false,
     horizontal: false,
-    showLegend: true,
-    showGrid: true,
+    showLegend: false,
+    showGrid: false,
     showTooltip: true,
   });
   const [labelColumn, setLabelColumn] = useState<string>("");
@@ -351,7 +351,7 @@ export function Chart({
   const renderChart = (): ReactElement => {
     if (!labelColumn || !valueColumns.length || !processedData.length) {
       return (
-        <div className="py-6 text-center text-gray-500 dark:text-gray-400">
+        <div className="py-6 w-full text-center text-gray-500 dark:text-gray-400">
           Please select a label column and at least one numeric value column
         </div>
       );
@@ -892,7 +892,7 @@ export function Chart({
 
       <div
         ref={chartRef}
-        className="mt-4 w-full"
+        className="mt-4 w-full overflow-x-scroll max-w-screen"
         style={{
           height: "clamp(300px, 60vh, 600px)",
           backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
@@ -900,7 +900,11 @@ export function Chart({
           borderColor: theme === "dark" ? "#4B5563" : "#D1D5DB",
         }}
       >
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer
+          width="100%"
+          height="100%"
+          className="overflow-auto max-w[1000px]"
+        >
           {renderChart()}
         </ResponsiveContainer>
       </div>

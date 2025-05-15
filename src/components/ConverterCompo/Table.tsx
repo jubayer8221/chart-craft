@@ -41,9 +41,29 @@ interface TableProps {
   title?: string;
 }
 
-const PAGE_SIZE_OPTIONS = [10, 20, 50, 100, 200, 500, 1000];
 const DEFAULT_PAGE_SIZE = 10;
 const EMPTY_STATE_MESSAGE = "No data available";
+const LOAD_CHUNK_SIZE = 1000;
+
+const generatePageSizeOptions = (
+  totalRows: number
+): (number | { value: number; label: string })[] => {
+  const baseOptions = [10, 20, 50, 100, 200, 500, 1000];
+  if (totalRows > 1000) {
+    baseOptions.push(2000, 5000, 10000);
+  }
+  const filteredOptions = baseOptions.filter((size) => size <= totalRows);
+  const options: (number | { value: number; label: string })[] =
+    filteredOptions;
+  if (totalRows > 0 && totalRows <= 10000) {
+    options.push({ value: totalRows, label: "All" });
+  }
+  return options.sort(
+    (a, b) =>
+      (typeof a === "number" ? a : a.value) -
+      (typeof b === "number" ? b : b.value)
+  );
+};
 
 const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
   const dispatch = useDispatch();
@@ -57,6 +77,9 @@ const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
   const [tempHeaderValue, setTempHeaderValue] = useState<string>("");
   const [editingCaption, setEditingCaption] = useState<boolean>(false);
   const [tempCaptionValue, setTempCaptionValue] = useState<string>(tableTitle);
+  const [loadedData, setLoadedData] = useState<ParsedRow[]>(
+    filtered.slice(0, LOAD_CHUNK_SIZE)
+  );
 
   // Initialize headerNames and tableTitle
   useEffect(() => {
@@ -72,6 +95,29 @@ const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
     setTempCaptionValue(title);
     console.log("Initialized tableTitle:", title);
   }, [data, dispatch, title]);
+
+  // Sync loadedData with filtered data and implement lazy loading
+  useEffect(() => {
+    // Reset loadedData when filtered data changes (e.g., due to search)
+    setLoadedData(filtered.slice(0, LOAD_CHUNK_SIZE));
+  }, [filtered]);
+
+  // Load more data when needed
+  const loadMoreData = useCallback(() => {
+    const currentLoadedCount = loadedData.length;
+    if (currentLoadedCount < filtered.length) {
+      const nextChunk = filtered.slice(
+        currentLoadedCount,
+        currentLoadedCount + LOAD_CHUNK_SIZE
+      );
+      setLoadedData((prev) => [...prev, ...nextChunk]);
+      console.log(
+        `Loaded ${nextChunk.length} more rows, total loaded: ${
+          currentLoadedCount + nextChunk.length
+        }`
+      );
+    }
+  }, [filtered, loadedData]);
 
   // Handle header editing
   const handleHeaderEdit = useCallback(
@@ -187,7 +233,7 @@ const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
   ]);
 
   const table = useReactTable({
-    data: filtered,
+    data: loadedData,
     columns,
     state: { sorting },
     onSortingChange: setSorting,
@@ -201,7 +247,23 @@ const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
 
   const currentPage = table.getState().pagination.pageIndex + 1;
   const pageSize = table.getState().pagination.pageSize;
-  const totalRows = table.getFilteredRowModel().rows.length;
+  const totalRows = filtered.length;
+
+  const pageSizeOptions = useMemo(
+    () => generatePageSizeOptions(totalRows),
+    [totalRows]
+  );
+
+  // Check if more data needs to be loaded based on pagination
+  useEffect(() => {
+    const lastVisibleRowIndex = currentPage * pageSize;
+    if (
+      lastVisibleRowIndex > loadedData.length &&
+      loadedData.length < filtered.length
+    ) {
+      loadMoreData();
+    }
+  }, [currentPage, pageSize, loadedData, filtered, loadMoreData]);
 
   const scrollToTop = useCallback(() => {
     tableContainerRef.current?.scrollIntoView({
@@ -221,9 +283,9 @@ const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
   );
 
   const handlePrint = useCallback(() => {
-    dispatch(setDataToPrint(filtered));
+    dispatch(setDataToPrint(loadedData));
     dispatch(printData());
-  }, [dispatch, filtered]);
+  }, [dispatch, loadedData]);
 
   const handleSearch = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -277,27 +339,76 @@ const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
       className="w-full max-w-full mx-auto overflow-x-auto"
     >
       <div className="flex flex-col sm:flex-row justify-between items-center text-sm font-semibold text-gray-700 dark:text-white mt-4 gap-4">
+        {/* <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-200">
+          {totalRows >
+            (typeof pageSizeOptions[0] === "number"
+              ? pageSizeOptions[0]
+              : pageSizeOptions[0].value) && (
+            <>
+              <span>Rows per page:</span>
+              <div className="relative group">
+                <select
+                  value={pageSize}
+                  onChange={handlePageSizeChange}
+                  className="border rounded px-2 py-1 text-sm bg-white dark:bg-gray-800 dark:text-white"
+                  aria-label="Rows per page"
+                >
+                  {pageSizeOptions.map((size) => (
+                    <option
+                      key={typeof size === "number" ? size : size.value}
+                      value={typeof size === "number" ? size : size.value}
+                    >
+                      {typeof size === "number" ? size : size.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <span>
+                {table.getRowModel().rows.length === 0
+                  ? 0
+                  : (currentPage - 1) * pageSize + 1}
+                -
+                {(currentPage - 1) * pageSize + table.getRowModel().rows.length}{" "}
+                of {totalRows}
+              </span>
+            </>
+          )}
+        </div> */}
         <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-200">
-          <span>Rows per page:</span>
-          <select
-            value={pageSize}
-            onChange={handlePageSizeChange}
-            className="border rounded px-2 py-1 text-sm bg-white dark:bg-gray-800 dark:text-white"
-            aria-label="Rows per page"
-          >
-            {PAGE_SIZE_OPTIONS.map((size) => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
-          <span>
-            {table.getRowModel().rows.length === 0
-              ? 0
-              : (currentPage - 1) * pageSize + 1}
-            -{(currentPage - 1) * pageSize + table.getRowModel().rows.length} of{" "}
-            {totalRows}
-          </span>
+          {totalRows <= 10 && <span>Rows per page: {totalRows} </span>}
+          {totalRows >= 10 && <span>Rows per page: </span>}
+          {totalRows >
+            (typeof pageSizeOptions[0] === "number"
+              ? pageSizeOptions[0]
+              : pageSizeOptions[0].value) && (
+            <>
+              <div className="relative group">
+                <select
+                  value={pageSize}
+                  onChange={handlePageSizeChange}
+                  className="border rounded px-2 py-1 text-sm bg-white dark:bg-gray-800 dark:text-white"
+                  aria-label="Rows per page"
+                >
+                  {pageSizeOptions.map((size) => (
+                    <option
+                      key={typeof size === "number" ? size : size.value}
+                      value={typeof size === "number" ? size : size.value}
+                    >
+                      {typeof size === "number" ? size : size.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <span>
+                {table.getRowModel().rows.length === 0
+                  ? 0
+                  : (currentPage - 1) * pageSize + 1}
+                -
+                {(currentPage - 1) * pageSize + table.getRowModel().rows.length}
+              </span>
+              <span> of {totalRows}</span>
+            </>
+          )}
         </div>
         <div className="flex gap-4">
           <Input
@@ -314,7 +425,7 @@ const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
         </div>
       </div>
 
-      <div className="overflow-x-auto min-w-[280px] max-w-[1220px] overflow-y-auto">
+      <div className="overflow-x-auto min-w-[280px] lg:w-[1220px] overflow-y-auto">
         <table className="w-full border border-gray-300 shadow-lg my-4">
           <caption className="caption-top bg-blue-900/80 capitalize text-white p-2 text-lg font-bold border-b">
             {editingCaption ? (
@@ -345,7 +456,7 @@ const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="p-1 border-b border-gray-200 bg-blue-900/20 text-white text-center font-semibold text-sm tracking-wide"
+                    className="relative p-1 border-b border-gray-200 bg-blue-900/20 text-white text-center font-semibold text-sm tracking-wide cursor-pointer"
                     role="columnheader"
                     aria-sort={
                       sorting.find((s) => s.id === header.column.id)
@@ -356,26 +467,36 @@ const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
                     }
                     onClick={() => {
                       if (!editingHeader) {
-                        setSorting((old) => {
-                          const id = header.column.id;
-                          const existing = old.find((s) => s.id === id);
-                          if (!existing) return [{ id, desc: false }];
-                          if (!existing.desc) return [{ id, desc: true }];
-                          return [];
-                        });
+                        const id = header.column.id;
+                        const existing = sorting.find((s) => s.id === id);
+                        if (!existing) setSorting([{ id, desc: false }]);
+                        else if (!existing.desc)
+                          setSorting([{ id, desc: true }]);
+                        else setSorting([]);
                       }
                     }}
                     onDoubleClick={() => {
-                      if (!editingHeader) {
-                        const key = header.column.id || header.column.id;
-                        handleHeaderEdit(key);
-                      }
+                      if (!editingHeader) handleHeaderEdit(header.column.id);
                     }}
                   >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
+                    <div className="flex items-center justify-center gap-1">
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                      <span className="w-3 h-3 inline-flex">
+                        {sorting.find((s) => s.id === header.column.id) ? (
+                          sorting.find((s) => s.id === header.column.id)
+                            ?.desc ? (
+                            <span>🔽</span>
+                          ) : (
+                            <span>🔼</span>
+                          )
+                        ) : (
+                          <span className="opacity-0">🔼</span>
+                        )}
+                      </span>
+                    </div>
                   </th>
                 ))}
               </tr>
