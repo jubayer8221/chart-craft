@@ -12,11 +12,11 @@ export function DataViewer() {
 
   return (
     <div className="w-full max-w-full mx-auto p-2 dark:bg-gray-800 dark:text-white rounded-md shadow-md">
-      <div className="p-2 rounded-md">
+      <div className="rounded-md">
         <h1 className="text-2xl font-semibold mb-4">Your Data as Table</h1>
         <Table data={data} title={tableTitle} />
       </div>
-      <div className="p-2 rounded-md">
+      <div className="rounded-md">
         <h1 className="text-2xl font-semibold mb-4">Data as Chart</h1>
         <Chart data={data} />
       </div>
