@@ -6,22 +6,36 @@ import type { ParsedRow, DataState } from "@/types/convertType";
 // Function to convert currency strings to numbers
 function parseCurrency(value: string): number | string {
   if (typeof value !== "string") return value;
-  // Match currency formats like $100, €50.25, 100 USD, £1,000.50
-  const currencyRegex = /^\s*[\$€£¥]?[\d,]+(?:\.[\d]+)?(?:\s*(USD|EUR|GBP|JPY))?\s*$/;
-  if (!currencyRegex.test(value)) return value;
-    const negative = /^\s*\(.*\)\s*$/.test(value) || value.trim().startsWith("-");
 
-    // Remove currency symbols, spaces, and currency codes
+  // Match currency formats like $100, €50.25, or plain numbers like -0.0255, 0.2455
+  const currencyRegex = /^\s*[-]?[\$€£¥]?[\d,]+(?:\.[\d]+)?(?:\s*(USD|EUR|GBP|JPY))?\s*$/;
+  const numberRegex = /^\s*[-]?\d*\.?\d+\s*$/; // Match plain numbers like -0.0255, 0.2455
+
+  if (numberRegex.test(value)) {
+    const parsed = parseFloat(value.trim());
+    return isNaN(parsed) ? value : parsed; // Return as number if valid
+  }
+
+  if (!currencyRegex.test(value)) return value;
+
+  const negative = /^\s*\(.*\)\s*$/.test(value) || value.trim().startsWith("-");
+
+  // Remove currency symbols, spaces, and currency codes
   const cleaned = value
-    .replace(/\(([^)]+)\)/, "$1") // remove surrounding parentheses if present
-    .replace(/[\$€£¥]/g, "") // remove currency symbols
-    .replace(/\b(USD|EUR|GBP|JPY|BDT)\b/gi, "") // remove currency codes
-    .replace(/,/g, "") // remove thousand separators
+    .replace(/\(([^)]+)\)/, "$1") // Remove surrounding parentheses
+    .replace(/[\$€£¥]/g, "") // Remove currency symbols
+    .replace(/\b(USD|EUR|GBP|JPY|BDT)\b/gi, "") // Remove currency codes
+    .replace(/,/g, "") // Remove thousand separators
     .trim();
-  
-    const parsed = parseFloat(cleaned);
-    if (isNaN(parsed)) return value;
+
+  const parsed = parseFloat(cleaned);
+  if (isNaN(parsed)) return value;
   return negative ? -Math.abs(parsed) : parsed;
+}
+
+interface ParseFileResult {
+  data: ParsedRow[];
+  totalRows: number;
 }
 
 const initialState: DataState = {
@@ -32,9 +46,16 @@ const initialState: DataState = {
   error: null,
   headerNames: {},
   tableTitle: "Data Visualization",
+  currentRowOffset: 0, // Track rows loaded for large datasets
+  totalRows: 0, // Total rows in the file
+  loadCount: 0,
 };
 
-export async function parseFile(file: File): Promise<ParsedRow[]> {
+export async function parseFile(
+  file: File,
+  startRow: number = 0,
+  maxRows?: number
+): Promise<ParseFileResult> {
   try {
     const extension = file.name.split(".").pop()?.toLowerCase();
     const mimeType = file.type;
@@ -49,46 +70,64 @@ export async function parseFile(file: File): Promise<ParsedRow[]> {
       const worksheet = workbook.worksheets[0];
       const jsonData: ParsedRow[] = [];
       let headers: string[] = [];
+      const totalRows = worksheet.rowCount - 1; // Exclude header row
 
+      let rowCount = 0;
       worksheet.eachRow((row, rowNumber) => {
         if (rowNumber === 1) {
           headers = (Array.isArray(row.values) ? row.values.slice(1) : []).map(
             (val: ExcelJS.CellValue, idx: number) =>
               val == null ? `Column${idx + 1}` : String(val)
           );
-        } else {
-          const rowData: ParsedRow = {};
-          (Array.isArray(row.values) ? row.values.slice(1) : []).forEach(
-            (val: ExcelJS.CellValue, index: number) => {
-              const header = headers[index] || `Column${index + 1}`;
-              let parsedValue: string | number | null;
-              if (val == null) {
-                parsedValue = null;
-              } else if (typeof val === "object" && "text" in val) {
-                parsedValue = parseCurrency(String(val.text));
-              } else {
-                parsedValue = parseCurrency(String(val));
-              }
-              rowData[header] = parsedValue;
-            }
-          );
-          jsonData.push(rowData);
+          return; // Skip header row
         }
+
+        if (rowNumber - 1 < startRow + 1) return; // Skip rows before startRow
+        if (maxRows !== undefined && rowCount >= maxRows) return; // Stop after maxRows
+
+        const rowData: ParsedRow = {};
+        (Array.isArray(row.values) ? row.values.slice(1) : []).forEach(
+          (val: ExcelJS.CellValue, index: number) => {
+            const header = headers[index] || `Column${index + 1}`;
+            let parsedValue: string | number | null;
+            if (val == null) {
+              parsedValue = null;
+            } else if (typeof val === "object" && "text" in val) {
+              parsedValue = parseCurrency(String(val.text));
+            } else {
+              parsedValue = parseCurrency(String(val));
+            }
+            rowData[header] = parsedValue;
+          }
+        );
+        jsonData.push(rowData);
+        rowCount++;
       });
 
-      return jsonData;
+      return { data: jsonData, totalRows };
     }
 
     if (extension === "csv" && mimeType === "text/csv") {
-      return new Promise<ParsedRow[]>((resolve, reject) => {
+      return new Promise<ParseFileResult>((resolve, reject) => {
+        const jsonData: ParsedRow[] = [];
+        let rowCount = 0;
+        let totalRows = 0;
+
         Papa.parse<ParsedRow>(file, {
           header: true,
-          dynamicTyping: false, // Disable PapaParse's automatic number conversion
+          dynamicTyping: false,
           skipEmptyLines: true,
-          transform: (value: string) => {
-            return parseCurrency(value);
+          transform: (value: string) => parseCurrency(value),
+          step: (results: Papa.ParseStepResult<ParsedRow>, parser: Papa.Parser) => {
+            totalRows++;
+            if (totalRows - 1 < startRow) return; // Skip rows before startRow
+            if (maxRows !== undefined && rowCount >= maxRows) {
+              parser.abort(); // Stop parsing after maxRows
+            }
+            jsonData.push(results.data);
+            rowCount++;
           },
-          complete: (results: Papa.ParseResult<ParsedRow>) => resolve(results.data),
+          complete: () => resolve({ data: jsonData, totalRows: totalRows - 1 }), // Exclude header row
           error: (error: Error) => reject(error),
         });
       });
@@ -124,7 +163,8 @@ const convertDataSlice = createSlice({
       state.error = null;
       state.isLoading = false;
       state.headerNames = {};
-      state.tableTitle = "Chart";
+      state.currentRowOffset = 0;
+      state.totalRows = 0;
     },
     setHeaderName: (
       state,
@@ -141,24 +181,34 @@ const convertDataSlice = createSlice({
     setTableTitle: (state, action: PayloadAction<string>) => {
       state.tableTitle = action.payload;
     },
-    setParsedData: (state, action: PayloadAction<ParsedRow[]>) => {
-      state.data = action.payload;
-      state.filtered = action.payload;
+    setParsedData: (
+      state,
+      action: PayloadAction<{ data: ParsedRow[]; totalRows: number }>
+    ) => {
+      if (state.currentRowOffset === 0) {
+        state.data = action.payload.data; // Replace data for initial load
+      } else {
+        state.data = [...state.data, ...action.payload.data]; // Append for subsequent loads
+      }
+      state.filtered = state.data;
       state.searchTerm = "";
       state.isLoading = false;
       state.error = null;
-      if (action.payload.length > 0) {
-        state.headerNames = Object.keys(action.payload[0]).reduce(
+      state.currentRowOffset += action.payload.data.length;
+      state.totalRows = action.payload.totalRows;
+      if (action.payload.data.length > 0 && Object.keys(state.headerNames).length === 0) {
+        state.headerNames = Object.keys(action.payload.data[0]).reduce(
           (acc, key) => ({ ...acc, [key]: key }),
           {}
         );
-      } else {
-        state.headerNames = {};
       }
     },
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
       state.isLoading = false;
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
     },
   },
 });
@@ -171,5 +221,6 @@ export const {
   setTableTitle,
   setParsedData,
   setError,
+  setLoading,
 } = convertDataSlice.actions;
 export default convertDataSlice.reducer;
