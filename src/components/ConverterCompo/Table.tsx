@@ -298,7 +298,7 @@ const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
     const singleKey = Object.keys(data[0])[0];
     const singleValue = data[0][singleKey];
     return (
-      <div ref={tableContainerRef} className="w-full max-w-full mx-auto">
+      <div ref={tableContainerRef} className="w-full max-w-screen mx-auto">
         <table className="w-full border border-gray-300 shadow-lg my-4">
           {tableTitle && (
             <caption className="caption-top bg-blue-800 text-white p-4 text-lg font-bold">
@@ -336,7 +336,7 @@ const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
   return (
     <div
       ref={tableContainerRef}
-      className="w-full max-w-full mx-auto overflow-x-auto"
+      className="w-full max-w-full overflow-x-auto mx-auto"
     >
       <div className="flex justify-between items-center text-sm font-semibold text-gray-700 dark:text-white mt-4 gap-4">
         <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-200">
@@ -387,138 +387,139 @@ const Table: React.FC<TableProps> = ({ data, title = "Table" }) => {
         </div>
       </div>
 
-      <div className="w-full max-w-full mx-auto overflow-x-auto">
-        {/* <div className="overflow-x-scroll min-w-[280px]  w-[175vh] sm:max-w-[280px] overflow-y-auto"> */}
-        <table className="w-full border border-gray-300 shadow-lg my-4">
-          <caption className="caption-top bg-blue-900/80 capitalize text-white p-2 text-lg font-bold border-b">
-            {editingCaption ? (
-              <Input
-                value={tempCaptionValue}
-                onChange={(e) => setTempCaptionValue(e.target.value)}
-                onBlur={handleCaptionChange}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") handleCaptionChange();
-                  if (e.key === "Escape") {
-                    setTempCaptionValue(tableTitle);
-                    setEditingCaption(false);
-                  }
-                }}
-                className="w-full bg-transparent text-white text-lg font-bold border-2 border-dashed"
-                aria-label="Edit table caption"
-                autoFocus
-              />
-            ) : (
-              <span onDoubleClick={handleCaptionEdit} className="cursor-text">
-                {tableTitle}
-              </span>
-            )}
-          </caption>
-          <thead className="bg-blue-900/70 sticky top-0 z-10 shadow-sm">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    className="relative p-1 border-b border-gray-200 bg-blue-900/20 text-white text-center font-semibold text-sm tracking-wide cursor-pointer"
-                    role="columnheader"
-                    aria-sort={
-                      sorting.find((s) => s.id === header.column.id)
-                        ? sorting.find((s) => s.id === header.column.id)?.desc
-                          ? "descending"
-                          : "ascending"
-                        : "none"
+      <div className="w-full max-w-full overflow-x-auto mx-auto">
+        <div className="min-w-full sm:max-w-[280px] max-w-full overflow-x-auto">
+          <table className="min-w-full border border-gray-300 shadow-lg my-4 table-auto">
+            <caption className="caption-top bg-blue-900/80 capitalize text-white p-2 text-lg font-bold border-b">
+              {editingCaption ? (
+                <Input
+                  value={tempCaptionValue}
+                  onChange={(e) => setTempCaptionValue(e.target.value)}
+                  onBlur={handleCaptionChange}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") handleCaptionChange();
+                    if (e.key === "Escape") {
+                      setTempCaptionValue(tableTitle);
+                      setEditingCaption(false);
                     }
-                    onClick={() => {
-                      if (!editingHeader) {
-                        const id = header.column.id;
-                        const existing = sorting.find((s) => s.id === id);
-                        if (!existing) setSorting([{ id, desc: false }]);
-                        else if (!existing.desc)
-                          setSorting([{ id, desc: true }]);
-                        else setSorting([]);
+                  }}
+                  className="w-full bg-transparent text-white text-lg font-bold border-2 border-dashed"
+                  aria-label="Edit table caption"
+                  autoFocus
+                />
+              ) : (
+                <span onDoubleClick={handleCaptionEdit} className="cursor-text">
+                  {tableTitle}
+                </span>
+              )}
+            </caption>
+            <thead className="bg-blue-900/70 sticky top-0 z-10 shadow-sm">
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <th
+                      key={header.id}
+                      className="relative p-1 border-b border-gray-200 bg-blue-900/20 text-white text-center font-semibold text-sm tracking-wide cursor-pointer"
+                      role="columnheader"
+                      aria-sort={
+                        sorting.find((s) => s.id === header.column.id)
+                          ? sorting.find((s) => s.id === header.column.id)?.desc
+                            ? "descending"
+                            : "ascending"
+                          : "none"
                       }
-                    }}
-                    onDoubleClick={() => {
-                      if (!editingHeader) handleHeaderEdit(header.column.id);
-                    }}
-                  >
-                    <div className="flex items-center justify-center gap-1">
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                      <span className="w-3 h-3 inline-flex">
-                        {sorting.find((s) => s.id === header.column.id) ? (
-                          sorting.find((s) => s.id === header.column.id)
-                            ?.desc ? (
-                            <span>🔽</span>
-                          ) : (
-                            <span>🔼</span>
-                          )
-                        ) : (
-                          <span className="opacity-0">🔼</span>
+                      onClick={() => {
+                        if (!editingHeader) {
+                          const id = header.column.id;
+                          const existing = sorting.find((s) => s.id === id);
+                          if (!existing) setSorting([{ id, desc: false }]);
+                          else if (!existing.desc)
+                            setSorting([{ id, desc: true }]);
+                          else setSorting([]);
+                        }
+                      }}
+                      onDoubleClick={() => {
+                        if (!editingHeader) handleHeaderEdit(header.column.id);
+                      }}
+                    >
+                      <div className="flex items-center justify-center gap-1">
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
                         )}
-                      </span>
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {table.getRowModel().rows.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={table.getAllColumns().length}
-                  className="text-center text-gray-500 p-4"
-                >
-                  {EMPTY_STATE_MESSAGE}
-                </td>
-              </tr>
-            ) : (
-              table.getRowModel().rows.map((row) => (
-                <tr
-                  key={row.id}
-                  className="hover:bg-gray-100 dark:hover:bg-gray-700 text-center"
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="p-2 border">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
+                        <span className="w-3 h-3 inline-flex">
+                          {sorting.find((s) => s.id === header.column.id) ? (
+                            sorting.find((s) => s.id === header.column.id)
+                              ?.desc ? (
+                              <span>🔽</span>
+                            ) : (
+                              <span>🔼</span>
+                            )
+                          ) : (
+                            <span className="opacity-0">🔼</span>
+                          )}
+                        </span>
+                      </div>
+                    </th>
                   ))}
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-      <div className="flex justify-between items-center mt-4">
-        <Button
-          onClick={() => {
-            table.previousPage();
-            scrollToTop();
-          }}
-          disabled={!table.getCanPreviousPage()}
-          aria-label="Previous page"
-        >
-          Previous
-        </Button>
-        <span className="text-sm text-gray-700 dark:text-gray-200">
-          Page {currentPage} of {table.getPageCount()}
-        </span>
-        <Button
-          onClick={() => {
-            table.nextPage();
-            scrollToTop();
-          }}
-          disabled={!table.getCanNextPage()}
-          aria-label="Next page"
-        >
-          Next
-        </Button>
+              ))}
+            </thead>
+            <tbody>
+              {table.getRowModel().rows.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={table.getAllColumns().length}
+                    className="text-center text-gray-500 p-4"
+                  >
+                    {EMPTY_STATE_MESSAGE}
+                  </td>
+                </tr>
+              ) : (
+                table.getRowModel().rows.map((row) => (
+                  <tr
+                    key={row.id}
+                    className="hover:bg-gray-100 dark:hover:bg-gray-700 text-center"
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <td key={cell.id} className="p-2 border">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className="flex justify-between items-center mt-4">
+          <Button
+            onClick={() => {
+              table.previousPage();
+              scrollToTop();
+            }}
+            disabled={!table.getCanPreviousPage()}
+            aria-label="Previous page"
+          >
+            Previous
+          </Button>
+          <span className="text-sm text-gray-700 dark:text-gray-200">
+            Page {currentPage} of {table.getPageCount()}
+          </span>
+          <Button
+            onClick={() => {
+              table.nextPage();
+              scrollToTop();
+            }}
+            disabled={!table.getCanNextPage()}
+            aria-label="Next page"
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );

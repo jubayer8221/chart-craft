@@ -892,9 +892,9 @@ export function Chart({
 
       <div
         ref={chartRef}
-        className="mt-4 w-full overflow-x-scroll max-w-screen"
+        className="w-full overflow-x-scroll min-w-full max-w-full h-full"
         style={{
-          height: "clamp(300px, 60vh, 600px)",
+          height: "clamp(300px, 100vh, 600px)",
           backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
           color: theme === "dark" ? "#FFFFFF" : "#000000",
           borderColor: theme === "dark" ? "#4B5563" : "#D1D5DB",
@@ -903,7 +903,7 @@ export function Chart({
         <ResponsiveContainer
           width="100%"
           height="100%"
-          className="overflow-auto max-w[1000px]"
+          className="overflow-auto max-w-full"
         >
           {renderChart()}
         </ResponsiveContainer>

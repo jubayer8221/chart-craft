@@ -1,5 +1,4 @@
 // This part only work for File: Chart.tsx
-
 import { ParsedRow, ProcessedData } from "@/types/types";
 
 export function processData(data: ParsedRow[]): ProcessedData {
