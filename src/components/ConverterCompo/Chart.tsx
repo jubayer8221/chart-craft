@@ -382,11 +382,19 @@ export function Chart({
       scale: (chartConfig.horizontal ? "auto" : "band") as ScaleType,
       tick: { fill: theme === "dark" ? "#FFFFFF" : "#000000" },
     };
+    const LineyAxisProps = {
+      scale: (chartConfig.horizontal ? "auto" : "linear") as ScaleType,
+      domain: [0, "auto"] as [number, "auto"],
+      tick: { fill: theme === "dark" ? "#FFFFFF" : "#000000" },
+    };
 
     switch (chartConfig.type) {
       case "bar":
         return (
-          <BarChart {...commonProps}>
+          <BarChart
+            {...commonProps}
+            className="max-w-full min-w-full overflow-auto"
+          >
             {chartConfig.showGrid && (
               <CartesianGrid
                 strokeDasharray="3 3"
@@ -424,6 +432,7 @@ export function Chart({
                 name={headerNames[key] || key}
                 fill={colors[key] || defaultColors[0]}
                 stackId={chartConfig.stacked ? "stack" : undefined}
+                className="min-w-10"
               />
             ))}
           </BarChart>
@@ -438,7 +447,7 @@ export function Chart({
               />
             )}
             <XAxis {...xAxisProps} />
-            <YAxis {...yAxisProps} />
+            <YAxis {...LineyAxisProps} />
             {chartConfig.showTooltip && (
               <Tooltip
                 contentStyle={{
@@ -518,7 +527,7 @@ export function Chart({
               />
             )}
             <XAxis {...xAxisProps} />
-            <YAxis {...yAxisProps} />
+            <YAxis {...LineyAxisProps} />
             {chartConfig.showTooltip && (
               <Tooltip
                 contentStyle={{
@@ -717,6 +726,27 @@ export function Chart({
               </div>
             )}
           </div>
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <label
+              htmlFor="xAxisLabel"
+              className="font-medium text-sm sm:text-base"
+            >
+              X-Label:
+            </label>
+            <select
+              id="xAxisLabel"
+              value={labelColumn}
+              onChange={(e) => setLabelColumn(e.target.value)}
+              className="px-3 py-2 border rounded-md bg-white text-gray-700 text-sm sm:text-base w-full sm:w-auto dark:bg-gray-700 dark:text-white dark:border-gray-600"
+            >
+              {columns.map((col) => (
+                <option key={col} value={col}>
+                  {headerNames[col] || col}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div
             className="relative w-full sm:w-auto md:flex sm:flex"
             ref={optionsDropdownRef}
@@ -892,7 +922,7 @@ export function Chart({
 
       <div
         ref={chartRef}
-        className="w-full overflow-x-scroll min-w-full max-w-full h-full"
+        className="w-full overflow-x-auto max-w-full h-full"
         style={{
           height: "clamp(300px, 100vh, 600px)",
           backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
@@ -903,7 +933,7 @@ export function Chart({
         <ResponsiveContainer
           width="100%"
           height="100%"
-          className="overflow-auto max-w-full"
+          className="overflow-auto max-w-full min-w-full"
         >
           {renderChart()}
         </ResponsiveContainer>
