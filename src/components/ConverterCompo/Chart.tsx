@@ -22,13 +22,13 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  Legend,
   CartesianGrid,
   AreaChart,
   Area,
   ScatterChart,
   Scatter,
   ZAxis,
+  Legend,
 } from "recharts";
 import { Button } from "../ui/button";
 import type { ParsedRow } from "@/types/convertType";
@@ -106,6 +106,19 @@ export function Chart({
   const valueDropdownRef = useRef<HTMLDivElement>(null);
   const optionsDropdownRef = useRef<HTMLDivElement>(null);
   const exportDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Track viewport width for responsive width calculation
+  const [viewportWidth, setViewportWidth] = useState(0);
+  useEffect(() => {
+    setViewportWidth(window.innerWidth);
+
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Default colors for charts
   const defaultColors = useMemo(
@@ -259,7 +272,9 @@ export function Chart({
 
           const img = new Image();
           const svgData = new XMLSerializer().serializeToString(svg);
-          img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
+          img.src = `data:image/svg+xml;base64,${btoa(
+            unescape(encodeURIComponent(svgData))
+          )}`;
 
           await new Promise((resolve) => {
             img.onload = () => {
@@ -347,8 +362,8 @@ export function Chart({
     });
   };
 
-  // Dynamic chart rendering
-  const renderChart = (): ReactElement => {
+  // Separate render function for chart (without legend) for better layout control
+  const renderChartWithoutLegend = (): ReactElement => {
     if (!labelColumn || !valueColumns.length || !processedData.length) {
       return (
         <div className="py-6 w-full text-center text-gray-500 dark:text-gray-400">
@@ -393,7 +408,7 @@ export function Chart({
         return (
           <BarChart
             {...commonProps}
-            className="max-w-full min-w-full overflow-auto"
+            className="max-w-full min-w-full overflow-auto flex"
           >
             {chartConfig.showGrid && (
               <CartesianGrid
@@ -401,6 +416,7 @@ export function Chart({
                 stroke={theme === "dark" ? "#4B5563" : "#D1D5DB"}
               />
             )}
+
             {chartConfig.horizontal ? (
               <>
                 <YAxis {...xAxisProps} />
@@ -425,6 +441,7 @@ export function Chart({
               />
             )}
             {chartConfig.showLegend && <Legend />}
+
             {valueColumns.map((key) => (
               <Bar
                 key={key}
@@ -460,7 +477,6 @@ export function Chart({
                 }}
               />
             )}
-            {chartConfig.showLegend && <Legend />}
             {valueColumns.map((key) => (
               <Line
                 key={key}
@@ -514,7 +530,6 @@ export function Chart({
                 }}
               />
             )}
-            {chartConfig.showLegend && <Legend />}
           </PieChart>
         );
       case "area":
@@ -540,7 +555,6 @@ export function Chart({
                 }}
               />
             )}
-            {chartConfig.showLegend && <Legend />}
             {valueColumns.map((key) => (
               <Area
                 key={key}
@@ -596,7 +610,6 @@ export function Chart({
                 }}
               />
             )}
-            {chartConfig.showLegend && <Legend />}
             <Scatter
               name="Data"
               fill={colors[valueColumns[0]] || defaultColors[0]}
@@ -613,9 +626,32 @@ export function Chart({
     }
   };
 
+  // Legend render helper for side legend
+  const renderLegend = () => {
+    if (!valueColumns.length) return null;
+    return (
+      <ul className="list-none m-0 p-0">
+        {valueColumns.map((col, index) => (
+          <li key={col} className="flex items-center gap-2 mb-2 cursor-default">
+            <div
+              style={{
+                width: 16,
+                height: 16,
+                backgroundColor:
+                  colors[col] || defaultColors[index % defaultColors.length],
+                borderRadius: 3,
+              }}
+            />
+            <span>{headerNames[col] || col}</span>
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
   return (
     <div
-      className={`p-4 rounded-md border max-w-full mx-auto overflow-x-auto ${
+      className={`p-4 rounded-md border mx-auto ${
         theme === "dark"
           ? "bg-gray-800 text-white border-gray-700"
           : "text-gray-800 border-gray-300"
@@ -731,7 +767,7 @@ export function Chart({
               htmlFor="xAxisLabel"
               className="font-medium text-sm sm:text-base"
             >
-              X-Label:
+              X-Axis Label:
             </label>
             <select
               id="xAxisLabel"
@@ -753,7 +789,7 @@ export function Chart({
           >
             <button
               type="button"
-              className="flex justify-between  items-center px-4 py-2 border rounded-md bg-white text-gray-700 hover:bg-gray-200 text-sm sm:text-base w-full dark:bg-gray-700 dark:text-white dark:border-gray-600"
+              className="flex justify-between items-center px-4 py-2 border rounded-md bg-white text-gray-700 hover:bg-gray-200 text-sm sm:text-base w-full dark:bg-gray-700 dark:text-white dark:border-gray-600"
               onClick={() => setShowOptionsDropdown(!showOptionsDropdown)}
               aria-expanded={showOptionsDropdown}
             >
@@ -920,23 +956,54 @@ export function Chart({
         {tableTitle}
       </h2>
 
+      {/* Chart + Legend container */}
       <div
-        ref={chartRef}
-        className="w-full overflow-x-auto max-w-full h-full"
+        className="max-w-[1205px] bg-white flex"
         style={{
           height: "clamp(300px, 100vh, 600px)",
           backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
           color: theme === "dark" ? "#FFFFFF" : "#000000",
           borderColor: theme === "dark" ? "#4B5563" : "#D1D5DB",
         }}
+        ref={chartRef}
       >
-        <ResponsiveContainer
-          width="100%"
-          height="100%"
-          className="overflow-auto max-w-full min-w-full"
+        {/* Chart wrapper with horizontal scrolling */}
+        <div
+          style={{
+            width: "100%", // Take full width of parent
+            overflowX: "auto", // Enable horizontal scrolling
+            overflowY: "auto", // Prevent vertical scrolling
+            flexGrow: 1, // Allow chart to take available space
+          }}
         >
-          {renderChart()}
-        </ResponsiveContainer>
+          <div
+            style={{
+              width: Math.max(viewportWidth, columns.length * 150), // Dynamic width based on data
+              height: "100%", // Full height of parent
+            }}
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              {renderChartWithoutLegend()}
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Legend wrapper (static, not scrollable) */}
+        {chartConfig.showLegend && (
+          <div
+            style={{
+              minWidth: "200px",
+              flexShrink: 0,
+              paddingLeft: "10px",
+              color: theme === "dark" ? "#FFF" : "#000",
+              alignSelf: "center",
+              overflowY: "auto", // Vertical scroll for legend if needed
+              maxHeight: "100%",
+            }}
+          >
+            {renderLegend()}
+          </div>
+        )}
       </div>
     </div>
   );
