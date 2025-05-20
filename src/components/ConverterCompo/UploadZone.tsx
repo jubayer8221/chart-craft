@@ -172,7 +172,11 @@ export function UploadZone() {
               </span>
             </h2>
           </div>
-
+          {isLoading && !partitions ? (
+            <Loading isLoading={isLoading} />
+          ) : loadedPartitions === partitions ? null : (
+            <Loading isLoading={isLoading} />
+          )}
           <div
             {...getRootProps()}
             className={`border-2 border-dashed h-[270px] rounded-xl text-center cursor-pointer transition-all w-full mx-auto
@@ -243,11 +247,6 @@ export function UploadZone() {
             </div>
           )}
         </div>
-        {isLoading && !partitions ? (
-          <Loading isLoading={isLoading} />
-        ) : loadedPartitions === partitions ? null : (
-          <Loading isLoading={isLoading} />
-        )}
       </div>
     </div>
   );

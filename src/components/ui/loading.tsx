@@ -9,7 +9,7 @@ interface LoadingProps {
 
 export default function Loading({
   isLoading,
-  //   message = "Loading...",
+  message = "Loading...",
   size = 40,
   className = "",
 }: LoadingProps) {
@@ -17,9 +17,9 @@ export default function Loading({
 
   return (
     <div
-      className={`fixed inset-0 z-50  flex items-center justify-center ${className}`}
+      className={`fixed ml-10 inset-0 z-50  flex items-center justify-center ${className}`}
     >
-      <div className="flex flex-col items-center gap-4 p-6 rounded-lg shadow-xl">
+      <div className="flex flex-col items-center gap-4 p-6">
         <svg
           aria-hidden="true"
           className="animate-spin fill-green-600"
@@ -38,9 +38,9 @@ export default function Loading({
             fill="currentFill"
           />
         </svg>
-        {/* <span className="text-lg font-medium text-gray-700 dark:text-gray-200">
+        <span className="text-lg font-medium text-gray-700 dark:text-gray-200">
           {message}
-        </span> */}
+        </span>
       </div>
     </div>
   );
