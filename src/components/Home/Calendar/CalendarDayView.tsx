@@ -46,7 +46,7 @@ const CalendarDayView = () => {
             {getHours.map((hour, index) => (
               <div
                 key={index}
-                className="h-16 text-xs flex flex-col items-center "
+                className="h-16 text-xs flex flex-col items-center justify-center border-b last:border-b-0"
               >
                 {hour.format("hh:mm A")}
               </div>

@@ -1,10 +1,12 @@
 import { getHours, getWeekDays } from "@/lib/getTime";
+import { useDateStore } from "@/lib/storeC";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 
 const CalendarWeekView = () => {
-  const userSelectedDate = dayjs();
+  // const userSelectedDate = dayjs();
   const [currentTime, setCurrentTime] = useState(dayjs());
+  const {userSelectedDate} = useDateStore()
 
   const days = getWeekDays(userSelectedDate);
   const hours = getHours; // Assuming getHours is an array of dayjs objects
