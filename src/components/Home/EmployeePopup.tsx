@@ -3,13 +3,14 @@ import { IoClose } from "react-icons/io5";
 import Performance from "./Performance";
 import Announcements from "./Announcements";
 import Link from "next/link";
-import BigCalendar from "./BigCalendar";
+// import BigCalendar from "./BigCalendar";
 import { useEffect } from "react";
 import { RiProjectorLine } from "react-icons/ri";
 import { MdOutlineBloodtype } from "react-icons/md";
 import { IoCalendarOutline } from "react-icons/io5";
 import { MdOutlineMail } from "react-icons/md";
 import { TbPhoneRinging } from "react-icons/tb";
+import MainClander from "./Calendar/MainClander";
 
 type Employee = {
   id: number;
@@ -55,7 +56,7 @@ const EmployeePopup = ({ employee, onClose }: EmployeePopupProps) => {
       {/* Modal Content */}
       <div
         className="relative z-50 w-full max-w-6xl bg-zinc-400 dark:bg-[#463f59]
-       rounded-lg shadow-lg flex flex-col"
+       rounded-lg shadow-lg flex flex-col pb-4"
       >
         <button
           onClick={onClose}
@@ -191,11 +192,12 @@ const EmployeePopup = ({ employee, onClose }: EmployeePopupProps) => {
             </div>
 
             {/* Bottom Section */}
-            <div className="mt-4 bg-white dark:bg-[#312c4a] rounded-md p-4 h-[800px]">
+            <div className="mt-4 bg-white dark:bg-[#312c4a] rounded-md p-4">
               <h1 className="text-xl font-semibold">
                 Employee&apos;s Schedule
               </h1>
-              <BigCalendar />
+              {/* <BigCalendar /> */}
+              <MainClander />
             </div>
           </div>
 

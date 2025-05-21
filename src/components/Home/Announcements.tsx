@@ -1,8 +1,13 @@
 import React from "react";
+import CRightsideBar from "./Calendar/CHeader/CRightsideBar";
 
 const Announcements = () => {
   return (
     <div className="bg-white dark:bg-[#312c4a] p-4 rounded-md">
+      <div className="mb-12">
+        <CRightsideBar />
+      </div>
+      <div>
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">Announcements</h1>
         <span className="text-xs text-gray-400 hover:text-white cursor-pointer">View All</span>
@@ -44,6 +49,7 @@ const Announcements = () => {
             expedita. Rerum, quidem facilis?
           </p>
         </div>
+      </div>
       </div>
     </div>
   );
