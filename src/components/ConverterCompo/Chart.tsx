@@ -958,7 +958,7 @@ export function Chart({
 
       {/* Chart + Legend container */}
       <div
-        className="max-w-[1205px] bg-white flex"
+        className="max-w-[1205px] bg-white"
         style={{
           height: "clamp(300px, 100vh, 600px)",
           backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
@@ -981,6 +981,7 @@ export function Chart({
               width: Math.max(viewportWidth, columns.length * 150), // Dynamic width based on data
               height: "100%", // Full height of parent
             }}
+            className="flex"
           >
             <ResponsiveContainer width="100%" height="100%">
               {renderChartWithoutLegend()}
@@ -999,7 +1000,9 @@ export function Chart({
               alignSelf: "center",
               overflowY: "auto", // Vertical scroll for legend if needed
               maxHeight: "100%",
+              display: "flex",
             }}
+            className="flex items-center text-center flex-row"
           >
             {renderLegend()}
           </div>

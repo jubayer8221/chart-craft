@@ -17,7 +17,9 @@ import {
   Cell,
 } from "recharts";
 import { useParams } from "next/navigation";
-import data from "../../../../data/data";
+// import data from "../../../../data/data";
+import data from "../../../../../data/data";
+
 import Link from "next/link";
 
 const AreaChartCompo = () => {

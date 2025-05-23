@@ -7,6 +7,7 @@ import { GrNotification } from "react-icons/gr";
 import Image from "next/image";
 import ThemeToggle from "./ThemeToggle";
 import { FiSearch, FiLogOut } from "react-icons/fi";
+import { ReactNode } from "react";
 import React, {
   useContext,
   useState,
@@ -15,8 +16,17 @@ import React, {
   useCallback,
 } from "react";
 import { AuthContext } from "@/components/context/AuthContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { Locale, LOCALES } from "../../../config";
+// import LocaleLayoutProps from "../../app/layout";
 
-const Header = () => {
+interface HeadersProps {
+  children: ReactNode;
+  params: { lang: string }; // no Promise here
+}
+
+export default function Header({ params }: HeadersProps) {
+  // export function Header({parms} : HeadersProps) = () => {
   const scrolled = useScroll(5);
   const { logout, token } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -54,18 +64,6 @@ const Header = () => {
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setDropdownOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
         setDropdownNotification(false);
       }
     }
@@ -89,6 +87,13 @@ const Header = () => {
     logout();
     setIsOpen(false);
   };
+
+  const { lang } = params;
+
+  const rawLang = lang || "en";
+  const locale: Locale = LOCALES.includes(rawLang as Locale)
+    ? (rawLang as Locale)
+    : "en";
 
   return (
     <div
@@ -126,6 +131,10 @@ const Header = () => {
         <div className="hidden md:block">
           <div className="flex flex-row items-center space-x-4">
             <ThemeToggle />
+
+            <div>
+              <LanguageSwitcher currentLocale={locale} />
+            </div>
             <span
               className="h-8 w-8 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 flex items-center justify-center cursor-pointer"
               onClick={() => setDropdownNotification(!dropDownNotification)}
@@ -196,6 +205,7 @@ const Header = () => {
                 </div>
               )}
             </span>
+
             <div
               className="h-8 w-8 bg-zinc-300 dark:bg-zinc-700 rounded-full flex items-center justify-center cursor-pointer"
               ref={dropdownRef}
@@ -272,6 +282,6 @@ const Header = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Header;
+// export default Header;

@@ -1,0 +1,75 @@
+{
+  "menu": "MENÚ",
+  "home": "Inicio",
+  "dashboard": "Tablero",
+  "admin": "Administrador",
+  "employee": "Empleado",
+  "employees": "Empleados",
+  "clients": "Clientes",
+  "themes": "Temas",
+  "configuration": "Configuración",
+  "report": "Informe",
+  "messages": "Mensajes",
+  "events": "Eventos",
+  "announcements": "Anuncios",
+  "other": "OTROS",
+  "settings": "Configuraciones",
+  "account": "Cuenta",
+  "privacy": "Privacidad",
+  "help": "Ayuda",
+  "moreSettings": "Más configuraciones",
+  "announcementPage": {
+    "announcementsTitle": "Anuncios",
+    "viewAll": "Ver todos",
+    "announcementDate": "2025-01-01",
+    "announcementList": [
+      {
+        "title": "Nueva versión disponible",
+        "date": "2025-06-01",
+        "description": "Nos complace anunciar el lanzamiento de nuevas funcionalidades para mejorar su experiencia.",
+        "bgClass": "bg-lamaSkyLight"
+      },
+      {
+        "title": "Mantenimiento programado",
+        "date": "2025-06-15",
+        "description": "Nuestro sistema estará en mantenimiento programado el 20 de junio de 1 AM a 5 AM UTC.",
+        "bgClass": "bg-lamaPurpleLight"
+      },
+      {
+        "title": "Evento comunitario",
+        "date": "2025-07-05",
+        "description": "Únase a nuestro próximo evento comunitario para hacer networking y compartir conocimientos.",
+        "bgClass": "bg-lamaYellowLight"
+      }
+    ]
+  },
+  "eventPage": {
+    "eventsTitle": "Eventos",
+    "eventList": [
+      {
+        "id": 1,
+        "title": "Conferencia de Tecnología 2025",
+        "time": "9:00 AM - 5:00 PM",
+        "description": "Únete a nosotros para una conferencia de todo el día sobre las últimas tendencias en tecnología, incluyendo IA, computación en la nube y el futuro del desarrollo de software."
+      },
+      {
+        "id": 2,
+        "title": "Encuentro de Networking",
+        "time": "6:00 PM - 8:00 PM",
+        "description": "Un evento de networking informal para profesionales de la industria donde podrán intercambiar ideas, hacer conexiones y compartir experiencias."
+      },
+      {
+        "id": 3,
+        "title": "Lanzamiento de Producto: Dispositivos de Casa Inteligente con IA",
+        "time": "10:00 AM - 12:00 PM",
+        "description": "Sé el primero en experimentar nuestros nuevos dispositivos de casa inteligente con IA, que están listos para revolucionar la forma en que vivimos. El evento incluirá una demostración en vivo y una sesión de preguntas y respuestas con el equipo de producto."
+      }
+    ]
+  },
+    "userCard": [
+    { "type": "Administrador", "count": 1224, "year": "2024/25" },
+    { "type": "Invitado", "count": 500, "year": "2024/25" },
+    { "type": "Moderador", "count": 310, "year": "2024/25" }
+  ]
+
+}

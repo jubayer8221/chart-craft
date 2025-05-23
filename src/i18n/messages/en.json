@@ -1,0 +1,78 @@
+{
+  "menu": "MENU",
+  "home": "Home",
+  "dashboard": "Dashboard",
+  "admin": "Admin",
+  "employee": "Employee",
+  "employees": "Employees",
+  "clients": "Clients",
+  "themes": "Themes",
+  "configuration": "Configuration",
+  "report": "Report",
+  "messages": "Messages",
+  "events": "Events",
+  "announcements": "Announcements",
+  "other": "OTHER",
+  "settings": "Settings",
+  "account": "Account",
+  "privacy": "Privacy",
+  "help": "Help",
+  "moreSettings": "More Settings",
+  "announcementPage": {
+    "announcementsTitle": "Announcements",
+    "viewAll": "View All",
+    "announcementDate": "2025-01-01",
+    "announcementList": [
+      {
+        "title": "New Feature Release",
+        "date": "2025-06-01",
+        "description": "We are excited to announce the release of new features to improve your experience.",
+        "bgClass": "bg-lamaSkyLight"
+      },
+      {
+        "title": "Scheduled Maintenance",
+        "date": "2025-06-15",
+        "description": "Our system will undergo scheduled maintenance on June 20th from 1 AM to 5 AM UTC.",
+        "bgClass": "bg-lamaPurpleLight"
+      },
+      {
+        "title": "Community Event",
+        "date": "2025-07-05",
+        "description": "Join our upcoming community event for networking and knowledge sharing.",
+        "bgClass": "bg-lamaYellowLight"
+      }
+    ]
+  },
+  "eventPage": {
+    "eventsTitle": "Events",
+    "eventList": [
+      {
+        "id": 1,
+        "title": "Tech Conference 2025",
+        "time": "9:00 AM - 5:00 PM",
+        "description": "Join us for a full-day conference on the latest trends in technology, including AI, Cloud Computing, and the future of software development."
+      },
+      {
+        "id": 2,
+        "title": "Networking Meetup",
+        "time": "6:00 PM - 8:00 PM",
+        "description": "A casual networking event for professionals in the industry to exchange ideas, build connections, and share experiences."
+      },
+      {
+        "id": 3,
+        "title": "Product Launch: AI-powered Smart Home Devices",
+        "time": "10:00 AM - 12:00 PM",
+        "description": "Be the first to experience our new AI-powered smart home devices that are set to revolutionize the way we live. The event includes a live demo and Q&A session with the product team."
+      }
+    ]
+  },
+  "userCard": [
+  { "type": "admin", "count": 1224, "year": "2025/25" },
+  { "type": "guest", "count": 500, "year": "2025" },
+  { "type": "moderator", "count": 310, "year": "2025/25" },
+  {"type": "Client", "count": 2269, "year": "2025"}
+],
+"": [
+  
+]
+}

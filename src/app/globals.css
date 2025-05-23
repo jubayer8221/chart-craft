@@ -65,7 +65,6 @@
 
 /* ========== Small Calendar (react-calendar) ========== */
 
-
 /* Light mode */
 .react-calendar {
   width: 100% !important;
@@ -163,26 +162,22 @@
   box-shadow: none !important;
 }
 
-
-
-
 /* Style the weekday labels in the header */
 
-.rbc-header + .rbc-header{
+.rbc-header + .rbc-header {
   border: none !important;
 }
 
-.rbc-header{
+.rbc-header {
   border: none !important;
 }
-
 
 .rbc-day-bg + .rbc-day-bg {
   border: none !important;
 }
 
 /* header  */
-.dark .rbc-time-header-content{
+.dark .rbc-time-header-content {
   border-color: gray !important;
 }
 
@@ -228,7 +223,7 @@
   color: #e5e7eb !important;
 }
 
-.rbc-time-header-cell{
+.rbc-time-header-cell {
   padding: 0 !important;
   height: 60px !important;
 }
@@ -243,7 +238,7 @@
   display: flex !important;
 }
 
-.rbc-time-view .rbc-row{
+.rbc-time-view .rbc-row {
   min-height: 0 !important;
 }
 
@@ -336,24 +331,56 @@
 }
 
 /* --- Event Background Colors (Light Mode) --- */
-.rbc-event:nth-child(1) { background-color: #e2f8ff !important; }
-.rbc-event:nth-child(2) { background-color: #fefce8 !important; }
-.rbc-event:nth-child(3) { background-color: #f2f1ff !important; }
-.rbc-event:nth-child(4) { background-color: #fdf2fb !important; }
-.rbc-event:nth-child(5) { background-color: #e2f8ff !important; }
-.rbc-event:nth-child(6) { background-color: #fefce8 !important; }
-.rbc-event:nth-child(7) { background-color: #f2f1ff !important; }
-.rbc-event:nth-child(8) { background-color: #fdf2fb !important; }
+.rbc-event:nth-child(1) {
+  background-color: #e2f8ff !important;
+}
+.rbc-event:nth-child(2) {
+  background-color: #fefce8 !important;
+}
+.rbc-event:nth-child(3) {
+  background-color: #f2f1ff !important;
+}
+.rbc-event:nth-child(4) {
+  background-color: #fdf2fb !important;
+}
+.rbc-event:nth-child(5) {
+  background-color: #e2f8ff !important;
+}
+.rbc-event:nth-child(6) {
+  background-color: #fefce8 !important;
+}
+.rbc-event:nth-child(7) {
+  background-color: #f2f1ff !important;
+}
+.rbc-event:nth-child(8) {
+  background-color: #fdf2fb !important;
+}
 
 /* --- Event Background Colors (Dark Mode) --- */
-.dark .rbc-event:nth-child(1) { background-color: #685e74 !important; }
-.dark .rbc-event:nth-child(2) { background-color: #6b7280 !important; }
-.dark .rbc-event:nth-child(3) { background-color: #4b5563 !important; }
-.dark .rbc-event:nth-child(4) { background-color: #374151 !important; }
-.dark .rbc-event:nth-child(5) { background-color: #1f2937 !important; }
-.dark .rbc-event:nth-child(6) { background-color: #111827 !important; }
-.dark .rbc-event:nth-child(7) { background-color: #334155 !important; }
-.dark .rbc-event:nth-child(8) { background-color: #475569 !important; }
+.dark .rbc-event:nth-child(1) {
+  background-color: #685e74 !important;
+}
+.dark .rbc-event:nth-child(2) {
+  background-color: #6b7280 !important;
+}
+.dark .rbc-event:nth-child(3) {
+  background-color: #4b5563 !important;
+}
+.dark .rbc-event:nth-child(4) {
+  background-color: #374151 !important;
+}
+.dark .rbc-event:nth-child(5) {
+  background-color: #1f2937 !important;
+}
+.dark .rbc-event:nth-child(6) {
+  background-color: #111827 !important;
+}
+.dark .rbc-event:nth-child(7) {
+  background-color: #334155 !important;
+}
+.dark .rbc-event:nth-child(8) {
+  background-color: #475569 !important;
+}
 
 /* --- Print Support (for Charts/Dashboard) --- */
 @media print {

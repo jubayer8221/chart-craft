@@ -1,41 +1,63 @@
-import { JSX } from "react";
+import React, { JSX } from "react";
+import type { LayoutType, ScaleType } from "recharts/types/util/types";
+
+// Sidebar navigation related types
 
 export interface SideNavItem {
-  title: string;
-  path?: string;
-  icon?: JSX.Element;
-  submenu?: boolean;
-  subMenuItems?: SideNavItem[];
-  items?: SideNavItem[];
-  visible?: string[];
+  titleKey?: string;               // Translation key (optional)
+  title?: string;                  // Display title (optional)
+  path?: string;                  // Navigation path (optional)
+  icon?: JSX.Element | React.ReactNode | null;  // Icon component
+  submenu?: boolean;              // Has submenu or not (optional)
+  subMenuItems?: SideNavSubItem[];  // Submenu items (optional)
+  items?: SideNavSubItem[];       // For grouped items (optional)
+  visible?: string[];             // Roles or conditions for visibility (optional)
 }
+
+export interface SideNavSubItem {
+  titleKey: string;               // Translation key
+  title?: string;                 // Display title (optional)
+  path: string;                  // Navigation path
+  icon?: React.ReactNode | null; // Icon component (optional)
+  visible?: string[];            // Roles or conditions for visibility (optional)
+  submenu?: boolean;              // Has submenu or not (optional)
+  subMenuItems?: SideNavSubItem[];  // Submenu items (optional)
+
+
+}
+
+// User-related types
 
 export type Employee = {
   id: number;
   teacherId: string;
   name: string;
-  email?: string; // Optional (string | undefined)
+  email?: string;    // Optional email
   photo: string;
-  phone?: string;
+  phone?: string;    // Optional phone number
   grade: number;
   subjects?: string[];
   classes: string[];
   address: string;
   blood: string;
+  titleKey?: string; // Optional translation key (e.g. role or title)
 };
 
 export type Customar = {
-  id: number; // Use number to match CustomarListPage
+  id: number;
   studentId: string;
   name: string;
-  email?: string; // Optional to match CustomarListPage
+  email?: string;    // Optional email
   photo: string;
-  phone?: string; // Optional to match CustomarListPage
+  phone?: string;    // Optional phone number
   grade: number;
   class: string;
   address: string;
   blood: string;
+  titleKey?: string; // Optional translation key (e.g. role or title)
 };
+
+// Chart and visualization types
 
 export interface ChartData {
   label: string;
@@ -49,8 +71,6 @@ export interface ChartType {
   data: ChartData[];
   color: string;
 }
-
-import type { LayoutType, ScaleType } from "recharts/types/util/types";
 
 export interface ParsedRow {
   [key: string]: string | number | null;
