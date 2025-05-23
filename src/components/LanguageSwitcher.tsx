@@ -13,7 +13,8 @@ interface LanguageSwitcherProps {
 const localeLabels: Record<Locale, string> = {
   en: "English",
   bn: "বাংলা",
-  es: "Spanish",
+  es: "Español",
+  ar: "العربية",
 };
 
 export default function LanguageSwitcher({
@@ -67,13 +68,13 @@ export default function LanguageSwitcher({
 
       {/* Dropdown menu */}
       {open && (
-        <div className="absolute right-0 mt-2 w-40 rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+        <div className="absolute right-0 mt-2 w-40 rounded-md bg-white dark:bg-gray-800 shadow-lg z-50">
           <ul className="py-1">
             {LOCALES.map((locale) => (
               <li key={locale}>
                 <button
                   onClick={() => handleSelect(locale)}
-                  className={`block w-full text-left px-4 py-2 text-sm ${
+                  className={`block w-full text-left px-4 py-2 text-sm border-none ${
                     locale === currentLocale
                       ? "bg-blue-500 text-white"
                       : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"

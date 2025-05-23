@@ -5,40 +5,40 @@
   "admin": "অ্যাডমিন",
   "employee": "কর্মচারী",
   "employees": "কর্মচারীরা",
-  "clients": "ক্লায়েন্টরা",
-  "themes": "থিমস",
+  "clients": "ক্লায়েন্ট",
+  "themes": "থিম",
   "configuration": "কনফিগারেশন",
   "report": "রিপোর্ট",
-  "messages": "মেসেজ",
-  "events": "ইভেন্টস",
+  "messages": "বার্তা",
+  "events": "ইভেন্ট",
   "announcements": "ঘোষণা",
   "other": "অন্যান্য",
   "settings": "সেটিংস",
   "account": "অ্যাকাউন্ট",
-  "privacy": "প্রাইভেসি",
+  "privacy": "গোপনীয়তা",
   "help": "সাহায্য",
-  "moreSettings": "আরো সেটিংস",
+  "moreSettings": "আরও সেটিংস",
   "announcementPage": {
     "announcementsTitle": "ঘোষণা",
     "viewAll": "সব দেখুন",
-    "announcementDate": "২০২৫-০১-০১",
+    "announcementDate": "2025-01-01",
     "announcementList": [
       {
-        "title": "নতুন ফিচার প্রকাশ",
-        "date": "২০২৫-০৬-০১",
-        "description": "আমরা আপনার অভিজ্ঞতা উন্নত করার জন্য নতুন ফিচার প্রকাশের ঘোষণা দিতে পেরে আনন্দিত।",
+        "title": "নতুন ফিচার রিলিজ",
+        "date": "2025-06-01",
+        "description": "আপনার অভিজ্ঞতা উন্নত করতে আমরা নতুন ফিচার রিলিজের ঘোষণা দিতে উত্তেজিত।",
         "bgClass": "bg-lamaSkyLight"
       },
       {
         "title": "নির্ধারিত রক্ষণাবেক্ষণ",
-        "date": "২০২৫-০৬-১৫",
-        "description": "আমাদের সিস্টেম ২০ জুন রাত ১টা থেকে ৫টা (ইউটিসি) নির্ধারিত রক্ষণাবেক্ষণের জন্য বন্ধ থাকবে।",
+        "date": "2025-06-15",
+        "description": "আমাদের সিস্টেম ২০ জুন রাত ১টা থেকে ভোর ৫টা পর্যন্ত ইউটিসি সময়ে নির্ধারিত রক্ষণাবেক্ষণের মধ্য দিয়ে যাবে।",
         "bgClass": "bg-lamaPurpleLight"
       },
       {
         "title": "কমিউনিটি ইভেন্ট",
-        "date": "২০২৫-০৭-০৫",
-        "description": "যোগ দিন আমাদের আসন্ন কমিউনিটি ইভেন্টে নেটওয়ার্কিং এবং জ্ঞান শেয়ার করার জন্য।",
+        "date": "2025-07-05",
+        "description": "নেটওয়ার্কিং এবং জ্ঞান ভাগাভাগির জন্য আমাদের আসন্ন কমিউনিটি ইভেন্টে যোগ দিন।",
         "bgClass": "bg-lamaYellowLight"
       }
     ]
@@ -49,29 +49,542 @@
       {
         "id": 1,
         "title": "টেক কনফারেন্স ২০২৫",
-        "time": "৯:০০ AM - ৫:০০ PM",
-        "description": "টেকনোলজির সর্বশেষ ট্রেন্ড যেমন AI, ক্লাউড কম্পিউটিং, এবং সফটওয়্যার ডেভেলপমেন্টের ভবিষ্যত নিয়ে একটি পূর্ণদিনের কনফারেন্সে যোগ দিন।"
+        "time": "সকাল ৯:০০ - বিকাল ৫:০০",
+        "description": "প্রযুক্তির সর্বশেষ প্রবণতা, যার মধ্যে এআই, ক্লাউড কম্পিউটিং এবং সফটওয়্যার ডেভেলপমেন্টের ভবিষ্যৎ নিয়ে একটি পূর্ণ দিনের কনফারেন্সে আমাদের সাথে যোগ দিন।"
       },
       {
         "id": 2,
         "title": "নেটওয়ার্কিং মিটআপ",
-        "time": "৬:০০ PM - ৮:০০ PM",
-        "description": "শিল্প পেশাদারদের জন্য একটি স্বাচ্ছন্দ্যময় নেটওয়ার্কিং ইভেন্ট যেখানে তারা ধারণা বিনিময় করতে পারে, সংযোগ তৈরি করতে পারে এবং অভিজ্ঞতা শেয়ার করতে পারে।"
+        "time": "সন্ধ্যা ৬:০০ - রাত ৮:০০",
+        "description": "শিল্পের পেশাদারদের জন্য একটি নৈমিত্তিক নেটওয়ার্কিং ইভেন্ট যাতে ধারণা বিনিময়, সংযোগ স্থাপন এবং অভিজ্ঞতা ভাগাভাগি করা যায়।"
       },
       {
         "id": 3,
-        "title": "প্রোডাক্ট লঞ্চ: AI-পাওয়ারড স্মার্ট হোম ডিভাইস",
-        "time": "১০:০০ AM - ১২:০০ PM",
-        "description": "আমাদের নতুন AI-পাওয়ারড স্মার্ট হোম ডিভাইসগুলি প্রথম অভিজ্ঞতা করুন যা আমাদের জীবনযাত্রাকে বিপ্লবীভাবে পরিবর্তন করতে চলেছে। ইভেন্টে লাইভ ডেমো এবং প্রোডাক্ট টিমের সাথে প্রশ্ন-উত্তর সেশন থাকবে।"
+        "title": "প্রোডাক্ট লঞ্চ: এআই-চালিত স্মার্ট হোম ডিভাইস",
+        "time": "সকাল ১০:০০ - দুপুর ১২:০০",
+        "description": "আমাদের নতুন এআই-চালিত স্মার্ট হোম ডিভাইসগুলির প্রথম অভিজ্ঞতা নিন যা আমাদের জীবনযাত্রার পদ্ধতিকে বিপ্লব করবে। ইভেন্টে একটি লাইভ ডেমো এবং প্রোডাক্ট টিমের সাথে প্রশ্নোত্তর সেশন অন্তর্ভুক্ত রয়েছে।"
       }
     ]
   },
   "userCard": [
-    { "type": "অ্যাডমিন", "count": "১২২৪", "year": "২০২৪/২৫" },
-    { "type": "অতিথি", "count": "৫০০", "year": "২০২৪/২৫" },
-    { "type": "মডারেটর", "count": "৩১০", "year": "২০২৪/২৫" },
-    {"type": "ক্লায়েন্ট", "count": "২২৬৯", "year": "২০২৫"}
-
-  ]
-
+    {
+      "type": "অ্যাডমিন",
+      "count": 1224,
+      "year": "2025/25"
+    },
+    {
+      "type": "অতিথি",
+      "count": 500,
+      "year": "2025"
+    },
+    {
+      "type": "মডারেটর",
+      "count": 310,
+      "year": "2025/25"
+    },
+    {
+      "type": "ক্লায়েন্ট",
+      "count": 2269,
+      "year": "2025"
+    }
+  ],
+  "homeCategory": {
+    "electronics": "ইলেকট্রনিক্স",
+    "table": "টেবিল",
+    "barChart": "বার চার্ট",
+    "pieChart": "পাই চার্ট",
+    "buySellReport": "ক্রয় ও বিক্রয় রিপোর্ট",
+    "clothing": "পোশাক",
+    "books": "বই",
+    "Furniture": "আসবাবপত্র",
+    "Toys": "খেলনা",
+    "Groceries": "মুদি",
+    "item": "আইটেম",
+    "itemPrice": "মূল্য",
+    "itemOldPrice": "পুরানো মূল্য",
+    "itemQuality": "গুণমান",
+    "electronicsChart": {
+      "title": "ইলেকট্রনিক্স",
+      "buyLabel": "কিনুন",
+      "sellsLabel": "বিক্রি",
+      "data": [
+        {
+          "name": "মোট",
+          "price": 6563,
+          "count": 2434
+        },
+        {
+          "name": "কিনুন",
+          "price": 4534,
+          "count": 1234,
+          "fill": "#00A9B4"
+        },
+        {
+          "name": "বিক্রি",
+          "price": 3342,
+          "count": 1234,
+          "fill": "#0A3A66"
+        }
+      ]
+    },
+    "clothingsChart": {
+      "title": "পোশাক",
+      "incomeLabel": "আয়",
+      "expenseLabel": "ব্যয়",
+      "data": [
+        {
+          "name": "জানুয়ারি",
+          "income": 4000,
+          "expense": 2400
+        },
+        {
+          "name": "ফেব্রুয়ারি",
+          "income": 3000,
+          "expense": 1398
+        },
+        {
+          "name": "মার্চ",
+          "income": 2000,
+          "expense": 9800
+        },
+        {
+          "name": "এপ্রিল",
+          "income": 2780,
+          "expense": 3908
+        },
+        {
+          "name": "মে",
+          "income": 1890,
+          "expense": 4800
+        },
+        {
+          "name": "জুন",
+          "income": 2390,
+          "expense": 3800
+        },
+        {
+          "name": "জুলাই",
+          "income": 3490,
+          "expense": 4300
+        },
+        {
+          "name": "আগস্ট",
+          "income": 3490,
+          "expense": 4300
+        },
+        {
+          "name": "সেপ্টেম্বর",
+          "income": 3490,
+          "expense": 4300
+        },
+        {
+          "name": "অক্টোবর",
+          "income": 3490,
+          "expense": 4300
+        },
+        {
+          "name": "নভেম্বর",
+          "income": 3490,
+          "expense": 4300
+        },
+        {
+          "name": "ডিসেম্বর",
+          "income": 3490,
+          "expense": 4300
+        }
+      ]
+    },
+    "booksChart": {
+      "title": "বই",
+      "buyLabel": "কিনুন",
+      "sellsLabel": "বিক্রি",
+      "data": [
+        {
+          "name": "2025",
+          "Sells": 4000,
+          "Buy": 2400
+        },
+        {
+          "name": "2024",
+          "Sells": 3000,
+          "Buy": 1398
+        },
+        {
+          "name": "2023",
+          "Sells": 2000,
+          "Buy": 9800
+        },
+        {
+          "name": "2022",
+          "Sells": 2780,
+          "Buy": 3908
+        },
+        {
+          "name": "2021",
+          "Sells": 1890,
+          "Buy": 4800
+        }
+      ]
+    },
+    "furnituresChart": {
+      "title": "আসবাবপত্র",
+      "buyLabel": "কিনুন",
+      "sellsLabel": "বিক্রি",
+      "data": [
+        {
+          "name": "সোম",
+          "buy": 60,
+          "sells": 40
+        },
+        {
+          "name": "মঙ্গল",
+          "buy": 70,
+          "sells": 60
+        },
+        {
+          "name": "বুধ",
+          "buy": 90,
+          "sells": 75
+        },
+        {
+          "name": "বৃহস্পতি",
+          "buy": 90,
+          "sells": 75
+        },
+        {
+          "name": "শুক্র",
+          "buy": 65,
+          "sells": 55
+        }
+      ]
+    },
+    "toysChart": {
+      "title": "খেলনা",
+      "buyLabel": "কিনুন",
+      "sellsLabel": "বিক্রি",
+      "totalLabel": "মোট",
+      "buyCount": 1234,
+      "sellsCount": 1234,
+      "data": [
+        {
+          "name": "মোট",
+          "price": 6563,
+          "fill": "dynamic"
+        },
+        {
+          "name": "কিনুন",
+          "price": 4534,
+          "fill": "#00A9B4"
+        },
+        {
+          "name": "বিক্রি",
+          "price": 3342,
+          "fill": "#0A3A66"
+        }
+      ]
+    },
+    "groceriesChart": {
+      "title": "মুদি",
+      "buyLabel": "কিনুন",
+      "sellsLabel": "বিক্রি",
+      "percentage": "৯২%",
+      "maxLTS": "১০ সর্বোচ্চ LTS এর মধ্যে",
+      "yearRange": "২০২৪ সাল - ২০২৫ সাল",
+      "data": [
+        {
+          "name": "কিনুন",
+          "price": 1032,
+          "fill": "#00A9B4"
+        },
+        {
+          "name": "বিক্রি",
+          "price": 709,
+          "fill": "#0A3A66"
+        }
+      ]
+    },
+    "categoryList": [
+      {
+        "1": [
+          {
+            "item": "আইফোন",
+            "price": 999,
+            "oldPrice": 1099,
+            "quality": "উচ্চ"
+          },
+          {
+            "item": "রেডমি",
+            "price": 899,
+            "quality": "মাঝারি"
+          },
+          {
+            "item": "ডেল",
+            "price": 1599,
+            "oldPrice": 1699,
+            "quality": "উচ্চ"
+          },
+          {
+            "item": "এইচপি",
+            "price": 1499,
+            "quality": "মাঝারি"
+          },
+          {
+            "item": "ঘড়ি",
+            "price": 1699,
+            "oldPrice": 1969,
+            "quality": "মাঝারি"
+          }
+        ]
+      },
+      {
+        "2": [
+          {
+            "item": "শার্ট",
+            "price": 25,
+            "oldPrice": 30,
+            "quality": "উচ্চ"
+          },
+          {
+            "item": "শার্ট",
+            "price": 30,
+            "quality": "মাঝারি"
+          },
+          {
+            "item": "প্যান্ট",
+            "price": 40,
+            "oldPrice": 50,
+            "quality": "উচ্চ"
+          },
+          {
+            "item": "প্যান্ট",
+            "price": 45,
+            "quality": "মাঝারি"
+          }
+        ]
+      },
+      {
+        "3": [
+          {
+            "item": "কল্পকাহিনী বই",
+            "price": 15,
+            "oldPrice": 20,
+            "quality": "নতুন"
+          },
+          {
+            "item": "অ-কল্পকাহিনী বই",
+            "price": 20,
+            "quality": "ব্যবহৃত"
+          },
+          {
+            "item": "শিশুদের বই",
+            "price": 10,
+            "oldPrice": 12,
+            "quality": "নতুন"
+          }
+        ]
+      },
+      {
+        "4": [
+          {
+            "item": "সোফা",
+            "price": 500,
+            "oldPrice": 600,
+            "quality": "উচ্চ"
+          },
+          {
+            "item": "ডাইনিং টেবিল",
+            "price": 300,
+            "oldPrice": 350,
+            "quality": "মাঝারি"
+          },
+          {
+            "item": "চেয়ার",
+            "price": 50,
+            "quality": "নিম্ন"
+          }
+        ]
+      },
+      {
+        "5": [
+          {
+            "item": "অ্যাকশন ফিগার",
+            "price": 25,
+            "oldPrice": 30,
+            "quality": "নতুন"
+          },
+          {
+            "item": "বোর্ড গেম",
+            "price": 40,
+            "quality": "নতুন"
+          },
+          {
+            "item": "পাজল",
+            "price": 15,
+            "oldPrice": 20,
+            "quality": "নতুন"
+          }
+        ]
+      },
+      {
+        "6": [
+          {
+            "item": "দুধ",
+            "price": 3,
+            "quality": "তাজা"
+          },
+          {
+            "item": "রুটি",
+            "price": 2,
+            "oldPrice": 3,
+            "quality": "তাজা"
+          },
+          {
+            "item": "ডিম",
+            "price": 5,
+            "quality": "জৈব"
+          },
+          {
+            "item": "পনির",
+            "price": 8,
+            "oldPrice": 10,
+            "quality": "প্রিমিয়াম"
+          }
+        ]
+      }
+    ]
+  },
+  "topSelling": {
+    "title": "শীর্ষ বিক্রয়",
+    "stockReportTitle": "স্টক রিপোর্ট",
+    "viewAllLabel": "সব দেখুন",
+    "showLessLabel": "কম দেখুন",
+    "itemsLabel": "আইটেম",
+    "priceLabel": "মূল্য",
+    "discountLabel": "ছাড়",
+    "soldLabel": "বিক্রি হয়েছে",
+    "totalOrdersLabel": "মোট অর্ডার",
+    "categoryLabel": "ফ্যাশন",
+    "data": [
+      {
+        "id": 1,
+        "title": "নীল টি-শার্ট",
+        "description": "একটি আড়ম্বরপূর্ণ নীল টি-শার্ট",
+        "image": "/image/blue_tshirt.png",
+        "price": 100,
+        "discount": "১৫%",
+        "sold": 300,
+        "totalOrder": 100
+      },
+      {
+        "id": 2,
+        "title": "লাল হুডি",
+        "description": "আরামদায়ক এবং উষ্ণ লাল হুডি",
+        "image": "/image/blue_tshirt.png",
+        "price": 150,
+        "discount": "২০%",
+        "sold": 200,
+        "totalOrder": 80
+      },
+      {
+        "id": 3,
+        "title": "কালো জিন্স",
+        "description": "আরামদায়ক কালো জিন্স",
+        "image": "/image/blue_tshirt.png",
+        "price": 200,
+        "discount": "১০%",
+        "sold": 400,
+        "totalOrder": 200
+      },
+      {
+        "id": 4,
+        "title": "সাদা স্নিকার্স",
+        "description": "ফ্যাশনেবল সাদা স্নিকার্স",
+        "image": "/image/blue_tshirt.png",
+        "price": 250,
+        "discount": "২৫%",
+        "sold": 500,
+        "totalOrder": 500
+      },
+      {
+        "id": 5,
+        "title": "সবুজ জ্যাকেট",
+        "description": "উষ্ণ সবুজ জ্যাকেট",
+        "image": "/image/blue_tshirt.png",
+        "price": 300,
+        "discount": "৩০%",
+        "sold": 150,
+        "totalOrder": 400
+      },
+      {
+        "id": 6,
+        "title": "হলুদ স্কার্ফ",
+        "description": "উজ্জ্বল হলুদ স্কার্ফ",
+        "image": "/image/blue_tshirt.png",
+        "price": 50,
+        "discount": "৫%",
+        "sold": 600,
+        "totalOrder": 750
+      },
+      {
+        "id": 7,
+        "title": "বাদামী বুট",
+        "description": "টেকসই বাদামী বুট",
+        "image": "/image/blue_tshirt.png",
+        "price": 400,
+        "discount": "২০%",
+        "sold": 250,
+        "totalOrder": 700
+      },
+      {
+        "id": 8,
+        "title": "বেগুনি টুপি",
+        "description": "আড়ম্বরপূর্ণ বেগুনি টুপি",
+        "image": "/image/blue_tshirt.png",
+        "price": 80,
+        "discount": "১০%",
+        "sold": 350,
+        "totalOrder": 900
+      },
+      {
+        "id": 9,
+        "title": "সানগ্লাস",
+        "description": "চমৎকার কমলা সানগ্লাস",
+        "image": "/image/blue_tshirt.png",
+        "price": 120,
+        "discount": "১৫%",
+        "sold": 450,
+        "totalOrder": 650
+      },
+      {
+        "id": 10,
+        "title": "ধূসর গ্লাভস",
+        "description": "আরামদায়ক ধূসর গ্লাভস",
+        "image": "/image/blue_tshirt.png",
+        "price": 60,
+        "discount": "৫%",
+        "sold": 700,
+        "totalOrder": 400
+      },
+      {
+        "id": 11,
+        "title": "গোলাপী পোশাক",
+        "description": "মার্জিত গোলাপী পোশাক",
+        "image": "/image/blue_tshirt.png",
+        "price": 500,
+        "discount": "২৫%",
+        "sold": 350,
+        "totalOrder": 500
+      },
+      {
+        "id": 12,
+        "title": "নীল ক্যাপ",
+        "description": "নৈমিত্তিক নীল ক্যাপ",
+        "image": "/image/blue_tshirt.png",
+        "price": 40,
+        "discount": "১০%",
+        "sold": 400,
+        "totalOrder": 600
+      }
+    ]
+  }
 }
