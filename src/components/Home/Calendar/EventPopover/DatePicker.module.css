@@ -1,0 +1,53 @@
+.dateInput {
+  padding: 8px;
+  border: 1px solid #00cc99;
+  border-radius: 5px;
+  font-size: 1em;
+  background-color: #e0f7f1;
+  cursor: pointer;
+}
+
+.dateInput:focus {
+  outline: none;
+  border-color: #009973;
+  box-shadow: 0 0 5px rgba(0, 204, 153, 0.5);
+}
+
+.customDateInput {
+  padding: 8px;
+  border: 1px solid #00cc99;
+  border-radius: 8px;
+  font-size: 0.9em;
+  background-color: #e0f7f1;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.customDateInput:focus {
+  outline: none;
+  border-color: #009973;
+  box-shadow: 0 0 5px rgba(0, 204, 153, 0.5);
+}
+
+/* Customize the calendar icon for WebKit browsers */
+.customDateInput::-webkit-calendar-picker-indicator {
+  filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(130deg) brightness(95%) contrast(80%);
+  cursor: pointer;
+}
+
+/* Remove default browser styling for a cleaner look */
+.customDateInput::-webkit-datetime-edit {
+  padding: 0;
+}
+
+.customDateInput::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+
+.customDateInput::-webkit-datetime-edit-text,
+.customDateInput::-webkit-datetime-edit-month-field,
+.customDateInput::-webkit-datetime-edit-day-field,
+.customDateInput::-webkit-datetime-edit-year-field {
+  color: #333;
+}

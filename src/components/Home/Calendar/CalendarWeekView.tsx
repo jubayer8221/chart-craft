@@ -1,12 +1,14 @@
 import { getHours, getWeekDays } from "@/lib/getTime";
-import { useDateStore } from "@/lib/storeC";
+import { useDateStore, useEventStore } from "@/lib/storeC";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
+import { EventRenderer } from "./EventPopover/EventRenderer";
 
 const CalendarWeekView = () => {
   // const userSelectedDate = dayjs();
   const [currentTime, setCurrentTime] = useState(dayjs());
-  const {userSelectedDate} = useDateStore()
+  const {userSelectedDate, setDate} = useDateStore()
+  const {openPopover, events} = useEventStore();
 
   const days = getWeekDays(userSelectedDate);
   const hours = getHours; // Assuming getHours is an array of dayjs objects
@@ -69,15 +71,17 @@ const CalendarWeekView = () => {
                 {hours.map((hour, i) => (
                   <div
                     key={i}
-                    className={`relative h-16 flex items-center justify-center border-b border-gray-300 last:border-b-0 cursor-pointer hover:bg-gray-100`}
+                    className={`relative h-16 flex items-center justify-center border-b border-gray-300 last:border-b-0 cursor-pointer hover:bg-gray-100`} onClick={()=>{setDate(dayDate.hour(hour.hour())); openPopover()}}
                   >
                     {/* Content for each cell can be added here */}
+
+                    <EventRenderer events={events} date={dayDate.hour(hour.hour())} view="Week"  />
                   </div>
                 ))}
 
                 {/* current time indicator */}
                  {isCurrentDay(dayDate)&& today && (
-                  <div className="absolute h-0.5 w-full bg-red-500" style={{top: `${(currentTime.hour() / 24) * 100}%`}}>
+                  <div className="absolute h-0.5 w-full bg-green-500" style={{top: `${(currentTime.hour() / 24) * 100}%`}}>
 
                   </div>
                  )}

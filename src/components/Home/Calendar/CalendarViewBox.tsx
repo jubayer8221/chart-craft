@@ -1,11 +1,27 @@
+import { useDateStore, useEventStore } from '@/lib/storeC';
 import dayjs from 'dayjs';
+import { EventRenderer } from './EventPopover/EventRenderer';
 
 const CalendarViewBox = ({ day, indexRow }: { day: dayjs.Dayjs | null; indexRow: number }) => {
   const isFirstDayOfMonth = day?.date() === 1;
   const isToday = day?.format('DD-MM-YY') === dayjs().format('DD-MM-YY');
+  const {setDate} = useDateStore()
+const {openPopover, events} = useEventStore();
+
+if(!day){
+        return (
+            <div className='h-12 w-full border md:h-28 md:w-full lg:h-full'></div>
+        )
+    }
+
+   const handleClick = (e: React.MouseEvent) =>{
+      e.preventDefault();
+      setDate(day);
+      openPopover();
+    }
 
   return (
-    <div className="flex flex-col items-center gap-y-2 border dark:border-[#897c8f] h-32">
+    <div className="flex flex-col items-center gap-y-2 border dark:border-[#897c8f] h-32" onClick={handleClick}>
       <div className="flex flex-col items-center w-full">
         {indexRow === 0 && (
           <h4
@@ -24,6 +40,7 @@ const CalendarViewBox = ({ day, indexRow }: { day: dayjs.Dayjs | null; indexRow:
           {isFirstDayOfMonth ? day?.format('MMM DD') : day?.format('DD')}
         </h4>
       </div>
+      <EventRenderer date={day} view="Month" events={events} />
     </div>
   );
 };

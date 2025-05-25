@@ -1,13 +1,14 @@
 // import { getHours } from "@/lib/getTime";
 import { getHours, isCurrentDay } from "@/lib/getTime";
-import { useDateStore } from "@/lib/storeC";
+import { useDateStore, useEventStore } from "@/lib/storeC";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 
 const CalendarDayView = () => {
   const [currentTime, setCurrentTime] = useState(dayjs());
 
-  const { userSelectedDate} = useDateStore();
+  const { userSelectedDate, setDate} = useDateStore();
+  const {openPopover} = useEventStore()
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -58,12 +59,12 @@ const CalendarDayView = () => {
             {getHours.map((hour, i) => (
               <div
                 key={i}
-                className="flex flex-col h-16 cursor-pointer border-t first:border-t-0 hover:bg-gray-100"
+                className="flex flex-col h-16 cursor-pointer border-t first:border-t-0 hover:bg-gray-100" onClick={()=>{setDate(userSelectedDate.hour(hour.hour())); openPopover();}}
               ></div>
             ))}
 
             {isCurrentDay(userSelectedDate) && (
-              <div className="absolute h-0.5 w-full bg-red-500 " style={{top: `${(currentTime.hour() / 24) * 100}%`}}>
+              <div className="absolute h-0.5 w-full bg-green-500 " style={{top: `${(currentTime.hour() / 24) * 100}%`}}>
 
               </div>
             )}

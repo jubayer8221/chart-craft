@@ -22,6 +22,9 @@ const CaHeader = ({selectedView, setSelectedView}: CaHeaderProps) => {
     // setIsSelected(item);
     setSelectedView(item)
     setIsOpen(false);
+    if(item === "Week"){
+      setDate(dayjs());
+    }
   }
 
   // day 
