@@ -46,7 +46,7 @@ const LeftSide = () => {
   };
 
   return (
-    <div className="md:w-60  bg-white dark:bg-[#000022] h-full fixed border-r dark:border-gray-700 border-zinc-200 hidden md:flex flex-col justify-between">
+    <div className="md:hidden lg:block bg-white dark:bg-[#000022] h-full fixed border-r dark:border-gray-700 border-zinc-200 hidden  flex-col justify-between min-w-60 ">
       <div className="flex flex-col space-y-6 w-full justify-around">
         <Link
           href={`/${currentLocale}/`}
@@ -55,7 +55,7 @@ const LeftSide = () => {
           <Image src="/logo.png" alt="Logo" width={80} height={40} priority />
         </Link>
 
-        <div className="flex flex-col space-y-2 md:px-6 overflow-y-auto max-h-[calc(100vh-100px)]">
+        <div className="flex flex-col space-y-2 md:px-6 overflow-y-auto max-h-[calc(100vh-100px)] scrollbar-hide">
           {SIDENAV_ITEMS.map((section, idx) => (
             <div key={idx} className="mt-0">
               <h2 className="text-sm font-bold text-gray-500 dark:text-gray-400 px-2">

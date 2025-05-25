@@ -14,9 +14,9 @@ import TopSelling from "./TopSelling";
 const MainPage = () => {
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col md:flex-col lg:flex-row gap-4">
         {/* left side  */}
-        <div className="w-full lg:w-2/3 flex flex-col gap-4 ">
+        <div className="w-full  lg:w-2/3 flex flex-col gap-4">
           <div className="flex justify-between gap-4 flex-wrap">
             <UserCard />
           </div>
