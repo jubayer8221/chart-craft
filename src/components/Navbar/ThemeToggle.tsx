@@ -43,7 +43,7 @@ export default function ThemeToggle() {
           clipRule="evenodd"
         ></path>
       </svg>
-      {theme == 'dark' ? "Dark mode" : "Light mode"}
+      {theme == "dark" ? "Dark mode" : "Light mode"}
     </button>
   );
 }

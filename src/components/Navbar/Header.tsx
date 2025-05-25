@@ -7,6 +7,7 @@ import { GrNotification } from "react-icons/gr";
 import Image from "next/image";
 import ThemeToggle from "./ThemeToggle";
 import { FiSearch, FiLogOut } from "react-icons/fi";
+import { ReactNode } from "react";
 import React, {
   useContext,
   useState,
@@ -15,8 +16,17 @@ import React, {
   useCallback,
 } from "react";
 import { AuthContext } from "@/components/context/AuthContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { Locale, LOCALES } from "../../../config";
+// import LocaleLayoutProps from "../../app/layout";
 
-const Header = () => {
+interface HeadersProps {
+  children: ReactNode;
+  params: { lang: string }; // no Promise here
+}
+
+export default function Header({ params }: HeadersProps) {
+  // export function Header({parms} : HeadersProps) = () => {
   const scrolled = useScroll(5);
   const { logout, token } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -54,18 +64,6 @@ const Header = () => {
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setDropdownOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
         setDropdownNotification(false);
       }
     }
@@ -73,10 +71,29 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isOpen]);
+
   const handleLogout = () => {
     logout();
     setIsOpen(false);
   };
+
+  const { lang } = params;
+
+  const rawLang = lang || "en";
+  const locale: Locale = LOCALES.includes(rawLang as Locale)
+    ? (rawLang as Locale)
+    : "en";
 
   return (
     <div
@@ -114,6 +131,10 @@ const Header = () => {
         <div className="hidden md:block">
           <div className="flex flex-row items-center space-x-4">
             <ThemeToggle />
+
+            <div>
+              <LanguageSwitcher currentLocale={locale} />
+            </div>
             <span
               className="h-8 w-8 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 flex items-center justify-center cursor-pointer"
               onClick={() => setDropdownNotification(!dropDownNotification)}
@@ -184,6 +205,7 @@ const Header = () => {
                 </div>
               )}
             </span>
+
             <div
               className="h-8 w-8 bg-zinc-300 dark:bg-zinc-700 rounded-full flex items-center justify-center cursor-pointer"
               ref={dropdownRef}
@@ -204,7 +226,7 @@ const Header = () => {
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-4 w-48 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-lg">
                     <ul className="py-2">
-                      <Link href="/page/userProfile">
+                      <Link href="/settings/account">
                         <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-700 cursor-pointer">
                           Profile
                         </li>
@@ -219,7 +241,7 @@ const Header = () => {
                           <span>Logout</span>
                         </button>
                         {isOpen && (
-                          <div className="fixed inset-0 z-50 flex items-center justify-center bg-transparent bg-opacity-75 transition-opacity duration-300">
+                          <div className="fixed overflow-hidden inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/60">
                             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 w-full max-w-md transform transition-all duration-300 scale-100">
                               <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
                                 Confirm Logout
@@ -247,6 +269,7 @@ const Header = () => {
                             </div>
                           </div>
                         )}
+
                         <FiLogOut />
                       </li>
                     </ul>
@@ -259,6 +282,6 @@ const Header = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Header;
+// export default Header;

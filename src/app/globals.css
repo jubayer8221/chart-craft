@@ -65,7 +65,6 @@
 
 /* ========== Small Calendar (react-calendar) ========== */
 
-
 /* Light mode */
 .react-calendar {
   width: 100% !important;
@@ -176,24 +175,56 @@
 }
 
 /* Event Background Colors (Light Mode) */
-.rbc-event:nth-child(1) { background-color: #e2f8ff !important; }
-.rbc-event:nth-child(2) { background-color: #fefce8 !important; }
-.rbc-event:nth-child(3) { background-color: #f2f1ff !important; }
-.rbc-event:nth-child(4) { background-color: #fdf2fb !important; }
-.rbc-event:nth-child(5) { background-color: #e2f8ff !important; }
-.rbc-event:nth-child(6) { background-color: #fefce8 !important; }
-.rbc-event:nth-child(7) { background-color: #f2f1ff !important; }
-.rbc-event:nth-child(8) { background-color: #fdf2fb !important; }
+.rbc-event:nth-child(1) {
+  background-color: #e2f8ff !important;
+}
+.rbc-event:nth-child(2) {
+  background-color: #fefce8 !important;
+}
+.rbc-event:nth-child(3) {
+  background-color: #f2f1ff !important;
+}
+.rbc-event:nth-child(4) {
+  background-color: #fdf2fb !important;
+}
+.rbc-event:nth-child(5) {
+  background-color: #e2f8ff !important;
+}
+.rbc-event:nth-child(6) {
+  background-color: #fefce8 !important;
+}
+.rbc-event:nth-child(7) {
+  background-color: #f2f1ff !important;
+}
+.rbc-event:nth-child(8) {
+  background-color: #fdf2fb !important;
+}
 
 /* Event Background Colors (Dark Mode) */
-.dark .rbc-event:nth-child(1) { background-color: #685e74 !important; }
-.dark .rbc-event:nth-child(2) { background-color: #6b7280 !important; }
-.dark .rbc-event:nth-child(3) { background-color: #4b5563 !important; }
-.dark .rbc-event:nth-child(4) { background-color: #374151 !important; }
-.dark .rbc-event:nth-child(5) { background-color: #1f2937 !important; }
-.dark .rbc-event:nth-child(6) { background-color: #111827 !important; }
-.dark .rbc-event:nth-child(7) { background-color: #334155 !important; }
-.dark .rbc-event:nth-child(8) { background-color: #475569 !important; }
+.dark .rbc-event:nth-child(1) {
+  background-color: #685e74 !important;
+}
+.dark .rbc-event:nth-child(2) {
+  background-color: #6b7280 !important;
+}
+.dark .rbc-event:nth-child(3) {
+  background-color: #4b5563 !important;
+}
+.dark .rbc-event:nth-child(4) {
+  background-color: #374151 !important;
+}
+.dark .rbc-event:nth-child(5) {
+  background-color: #1f2937 !important;
+}
+.dark .rbc-event:nth-child(6) {
+  background-color: #111827 !important;
+}
+.dark .rbc-event:nth-child(7) {
+  background-color: #334155 !important;
+}
+.dark .rbc-event:nth-child(8) {
+  background-color: #475569 !important;
+}
 
 /* Toolbar */
 .rbc-toolbar-label {

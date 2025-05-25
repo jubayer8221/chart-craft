@@ -22,13 +22,13 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  Legend,
   CartesianGrid,
   AreaChart,
   Area,
   ScatterChart,
   Scatter,
   ZAxis,
+  Legend,
 } from "recharts";
 import { Button } from "../ui/button";
 import type { ParsedRow } from "@/types/convertType";
@@ -95,8 +95,8 @@ export function Chart({
     type: initialChartType,
     stacked: false,
     horizontal: false,
-    showLegend: true,
-    showGrid: true,
+    showLegend: false,
+    showGrid: false,
     showTooltip: true,
   });
   const [labelColumn, setLabelColumn] = useState<string>("");
@@ -106,6 +106,19 @@ export function Chart({
   const valueDropdownRef = useRef<HTMLDivElement>(null);
   const optionsDropdownRef = useRef<HTMLDivElement>(null);
   const exportDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Track viewport width for responsive width calculation
+  const [viewportWidth, setViewportWidth] = useState(0);
+  useEffect(() => {
+    setViewportWidth(window.innerWidth);
+
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Default colors for charts
   const defaultColors = useMemo(
@@ -259,7 +272,9 @@ export function Chart({
 
           const img = new Image();
           const svgData = new XMLSerializer().serializeToString(svg);
-          img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
+          img.src = `data:image/svg+xml;base64,${btoa(
+            unescape(encodeURIComponent(svgData))
+          )}`;
 
           await new Promise((resolve) => {
             img.onload = () => {
@@ -347,11 +362,11 @@ export function Chart({
     });
   };
 
-  // Dynamic chart rendering
-  const renderChart = (): ReactElement => {
+  // Separate render function for chart (without legend) for better layout control
+  const renderChartWithoutLegend = (): ReactElement => {
     if (!labelColumn || !valueColumns.length || !processedData.length) {
       return (
-        <div className="py-6 text-center text-gray-500 dark:text-gray-400">
+        <div className="py-6 w-full text-center text-gray-500 dark:text-gray-400">
           Please select a label column and at least one numeric value column
         </div>
       );
@@ -382,17 +397,26 @@ export function Chart({
       scale: (chartConfig.horizontal ? "auto" : "band") as ScaleType,
       tick: { fill: theme === "dark" ? "#FFFFFF" : "#000000" },
     };
+    const LineyAxisProps = {
+      scale: (chartConfig.horizontal ? "auto" : "linear") as ScaleType,
+      domain: [0, "auto"] as [number, "auto"],
+      tick: { fill: theme === "dark" ? "#FFFFFF" : "#000000" },
+    };
 
     switch (chartConfig.type) {
       case "bar":
         return (
-          <BarChart {...commonProps}>
+          <BarChart
+            {...commonProps}
+            className="max-w-full min-w-full overflow-auto flex"
+          >
             {chartConfig.showGrid && (
               <CartesianGrid
                 strokeDasharray="3 3"
                 stroke={theme === "dark" ? "#4B5563" : "#D1D5DB"}
               />
             )}
+
             {chartConfig.horizontal ? (
               <>
                 <YAxis {...xAxisProps} />
@@ -417,6 +441,7 @@ export function Chart({
               />
             )}
             {chartConfig.showLegend && <Legend />}
+
             {valueColumns.map((key) => (
               <Bar
                 key={key}
@@ -424,6 +449,7 @@ export function Chart({
                 name={headerNames[key] || key}
                 fill={colors[key] || defaultColors[0]}
                 stackId={chartConfig.stacked ? "stack" : undefined}
+                className="min-w-10"
               />
             ))}
           </BarChart>
@@ -438,7 +464,7 @@ export function Chart({
               />
             )}
             <XAxis {...xAxisProps} />
-            <YAxis {...yAxisProps} />
+            <YAxis {...LineyAxisProps} />
             {chartConfig.showTooltip && (
               <Tooltip
                 contentStyle={{
@@ -451,7 +477,6 @@ export function Chart({
                 }}
               />
             )}
-            {chartConfig.showLegend && <Legend />}
             {valueColumns.map((key) => (
               <Line
                 key={key}
@@ -505,7 +530,6 @@ export function Chart({
                 }}
               />
             )}
-            {chartConfig.showLegend && <Legend />}
           </PieChart>
         );
       case "area":
@@ -518,7 +542,7 @@ export function Chart({
               />
             )}
             <XAxis {...xAxisProps} />
-            <YAxis {...yAxisProps} />
+            <YAxis {...LineyAxisProps} />
             {chartConfig.showTooltip && (
               <Tooltip
                 contentStyle={{
@@ -531,7 +555,6 @@ export function Chart({
                 }}
               />
             )}
-            {chartConfig.showLegend && <Legend />}
             {valueColumns.map((key) => (
               <Area
                 key={key}
@@ -587,7 +610,6 @@ export function Chart({
                 }}
               />
             )}
-            {chartConfig.showLegend && <Legend />}
             <Scatter
               name="Data"
               fill={colors[valueColumns[0]] || defaultColors[0]}
@@ -604,9 +626,32 @@ export function Chart({
     }
   };
 
+  // Legend render helper for side legend
+  const renderLegend = () => {
+    if (!valueColumns.length) return null;
+    return (
+      <ul className="list-none m-0 p-0">
+        {valueColumns.map((col, index) => (
+          <li key={col} className="flex items-center gap-2 mb-2 cursor-default">
+            <div
+              style={{
+                width: 16,
+                height: 16,
+                backgroundColor:
+                  colors[col] || defaultColors[index % defaultColors.length],
+                borderRadius: 3,
+              }}
+            />
+            <span>{headerNames[col] || col}</span>
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
   return (
     <div
-      className={`p-4 rounded-md border max-w-full mx-auto overflow-x-auto ${
+      className={`p-4 rounded-md border mx-auto ${
         theme === "dark"
           ? "bg-gray-800 text-white border-gray-700"
           : "text-gray-800 border-gray-300"
@@ -717,13 +762,34 @@ export function Chart({
               </div>
             )}
           </div>
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <label
+              htmlFor="xAxisLabel"
+              className="font-medium text-sm sm:text-base"
+            >
+              X-Axis Label:
+            </label>
+            <select
+              id="xAxisLabel"
+              value={labelColumn}
+              onChange={(e) => setLabelColumn(e.target.value)}
+              className="px-3 py-2 border rounded-md bg-white text-gray-700 text-sm sm:text-base w-full sm:w-auto dark:bg-gray-700 dark:text-white dark:border-gray-600"
+            >
+              {columns.map((col) => (
+                <option key={col} value={col}>
+                  {headerNames[col] || col}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div
             className="relative w-full sm:w-auto md:flex sm:flex"
             ref={optionsDropdownRef}
           >
             <button
               type="button"
-              className="flex justify-between  items-center px-4 py-2 border rounded-md bg-white text-gray-700 hover:bg-gray-200 text-sm sm:text-base w-full dark:bg-gray-700 dark:text-white dark:border-gray-600"
+              className="flex justify-between items-center px-4 py-2 border rounded-md bg-white text-gray-700 hover:bg-gray-200 text-sm sm:text-base w-full dark:bg-gray-700 dark:text-white dark:border-gray-600"
               onClick={() => setShowOptionsDropdown(!showOptionsDropdown)}
               aria-expanded={showOptionsDropdown}
             >
@@ -890,19 +956,57 @@ export function Chart({
         {tableTitle}
       </h2>
 
+      {/* Chart + Legend container */}
       <div
-        ref={chartRef}
-        className="mt-4 w-full"
+        className="max-w-[1205px] bg-white"
         style={{
-          height: "clamp(300px, 60vh, 600px)",
+          height: "clamp(300px, 100vh, 600px)",
           backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
           color: theme === "dark" ? "#FFFFFF" : "#000000",
           borderColor: theme === "dark" ? "#4B5563" : "#D1D5DB",
         }}
+        ref={chartRef}
       >
-        <ResponsiveContainer width="100%" height="100%">
-          {renderChart()}
-        </ResponsiveContainer>
+        {/* Chart wrapper with horizontal scrolling */}
+        <div
+          style={{
+            width: "100%", // Take full width of parent
+            overflowX: "auto", // Enable horizontal scrolling
+            overflowY: "auto", // Prevent vertical scrolling
+            flexGrow: 1, // Allow chart to take available space
+          }}
+        >
+          <div
+            style={{
+              width: Math.max(viewportWidth, columns.length * 150), // Dynamic width based on data
+              height: "100%", // Full height of parent
+            }}
+            className="flex"
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              {renderChartWithoutLegend()}
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Legend wrapper (static, not scrollable) */}
+        {chartConfig.showLegend && (
+          <div
+            style={{
+              minWidth: "200px",
+              flexShrink: 0,
+              paddingLeft: "10px",
+              color: theme === "dark" ? "#FFF" : "#000",
+              alignSelf: "center",
+              overflowY: "auto", // Vertical scroll for legend if needed
+              maxHeight: "100%",
+              display: "flex",
+            }}
+            className="flex items-center text-center flex-row"
+          >
+            {renderLegend()}
+          </div>
+        )}
       </div>
     </div>
   );

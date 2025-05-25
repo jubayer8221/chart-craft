@@ -1,0 +1,590 @@
+{
+  "menu": "MENÚ",
+  "home": "Inicio",
+  "dashboard": "Tablero",
+  "admin": "Administrador",
+  "employee": "Empleado",
+  "employees": "Empleados",
+  "clients": "Clientes",
+  "themes": "Temas",
+  "configuration": "Configuración",
+  "report": "Informe",
+  "messages": "Mensajes",
+  "events": "Eventos",
+  "announcements": "Anuncios",
+  "other": "OTRO",
+  "settings": "Configuraciones",
+  "account": "Cuenta",
+  "privacy": "Privacidad",
+  "help": "Ayuda",
+  "moreSettings": "Más Configuraciones",
+  "announcementPage": {
+    "announcementsTitle": "Anuncios",
+    "viewAll": "Ver Todo",
+    "announcementDate": "2025-01-01",
+    "announcementList": [
+      {
+        "title": "Lanzamiento de Nueva Funcionalidad",
+        "date": "2025-06-01",
+        "description": "Estamos emocionados de anunciar el lanzamiento de nuevas funcionalidades para mejorar tu experiencia.",
+        "bgClass": "bg-lamaSkyLight"
+      },
+      {
+        "title": "Mantenimiento Programado",
+        "date": "2025-06-15",
+        "description": "Nuestro sistema estará en mantenimiento programado el 20 de junio de 1 a 5 de la madrugada UTC.",
+        "bgClass": "bg-lamaPurpleLight"
+      },
+      {
+        "title": "Evento Comunitario",
+        "date": "2025-07-05",
+        "description": "Únete a nuestro próximo evento comunitario para networking y compartir conocimientos.",
+        "bgClass": "bg-lamaYellowLight"
+      }
+    ]
+  },
+  "eventPage": {
+    "eventsTitle": "Eventos",
+    "eventList": [
+      {
+        "id": 1,
+        "title": "Conferencia Tecnológica 2025",
+        "time": "9:00 AM - 5:00 PM",
+        "description": "Únete a nosotros para una conferencia de un día completo sobre las últimas tendencias en tecnología, incluyendo IA, Computación en la Nube y el futuro del desarrollo de software."
+      },
+      {
+        "id": 2,
+        "title": "Encuentro de Networking",
+        "time": "6:00 PM - 8:00 PM",
+        "description": "Un evento de networking informal para profesionales de la industria para intercambiar ideas, establecer conexiones y compartir experiencias."
+      },
+      {
+        "id": 3,
+        "title": "Lanzamiento de Producto: Dispositivos Domésticos Inteligentes con IA",
+        "time": "10:00 AM - 12:00 PM",
+        "description": "Sé el primero en experimentar nuestros nuevos dispositivos domésticos inteligentes con IA que revolucionarán nuestra forma de vivir. El evento incluye una demostración en vivo y una sesión de preguntas y respuestas con el equipo del producto."
+      }
+    ]
+  },
+  "userCard": [
+    {
+      "type": "admin",
+      "count": 1224,
+      "year": "2025/25"
+    },
+    {
+      "type": "invitado",
+      "count": 500,
+      "year": "2025"
+    },
+    {
+      "type": "moderador",
+      "count": 310,
+      "year": "2025/25"
+    },
+    {
+      "type": "Cliente",
+      "count": 2269,
+      "year": "2025"
+    }
+  ],
+  "homeCategory": {
+    "electronics": "Electrónica",
+    "table": "Tabla",
+    "barChart": "Gráfico de Barras",
+    "pieChart": "Gráfico Circular",
+    "buySellReport": "Informe de Compra y Venta",
+    "clothing": "Ropa",
+    "books": "Libros",
+    "Furniture": "Muebles",
+    "Toys": "Juguetes",
+    "Groceries": "Comestibles",
+    "item": "Artículo",
+    "itemPrice": "Precio",
+    "itemOldPrice": "Precio Anterior",
+    "itemQuality": "Calidad",
+    "electronicsChart": {
+      "title": "Electrónica",
+      "buyLabel": "Comprar",
+      "sellsLabel": "Vender",
+      "data": [
+        {
+          "name": "Total",
+          "price": 6563,
+          "count": 2434
+        },
+        {
+          "name": "Comprar",
+          "price": 4534,
+          "count": 1234,
+          "fill": "#00A9B4"
+        },
+        {
+          "name": "Vender",
+          "price": 3342,
+          "count": 1234,
+          "fill": "#0A3A66"
+        }
+      ]
+    },
+    "clothingsChart": {
+      "title": "Ropa",
+      "incomeLabel": "Ingresos",
+      "expenseLabel": "Gastos",
+      "data": [
+        {
+          "name": "Ene",
+          "income": 4000,
+          "expense": 2400
+        },
+        {
+          "name": "Feb",
+          "income": 3000,
+          "expense": 1398
+        },
+        {
+          "name": "Mar",
+          "income": 2000,
+          "expense": 9800
+        },
+        {
+          "name": "Abr",
+          "income": 2780,
+          "expense": 3908
+        },
+        {
+          "name": "May",
+          "income": 1890,
+          "expense": 4800
+        },
+        {
+          "name": "Jun",
+          "income": 2390,
+          "expense": 3800
+        },
+        {
+          "name": "Jul",
+          "income": 3490,
+          "expense": 4300
+        },
+        {
+          "name": "Ago",
+          "income": 3490,
+          "expense": 4300
+        },
+        {
+          "name": "Sep",
+          "income": 3490,
+          "expense": 4300
+        },
+        {
+          "name": "Oct",
+          "income": 3490,
+          "expense": 4300
+        },
+        {
+          "name": "Nov",
+          "income": 3490,
+          "expense": 4300
+        },
+        {
+          "name": "Dic",
+          "income": 3490,
+          "expense": 4300
+        }
+      ]
+    },
+    "booksChart": {
+      "title": "Libros",
+      "buyLabel": "Comprar",
+      "sellsLabel": "Vender",
+      "data": [
+        {
+          "name": "2025",
+          "Sells": 4000,
+          "Buy": 2400
+        },
+        {
+          "name": "2024",
+          "Sells": 3000,
+          "Buy": 1398
+        },
+        {
+          "name": "2023",
+          "Sells": 2000,
+          "Buy": 9800
+        },
+        {
+          "name": "2022",
+          "Sells": 2780,
+          "Buy": 3908
+        },
+        {
+          "name": "2021",
+          "Sells": 1890,
+          "Buy": 4800
+        }
+      ]
+    },
+    "furnituresChart": {
+      "title": "Muebles",
+      "buyLabel": "Comprar",
+      "sellsLabel": "Vender",
+      "data": [
+        {
+          "name": "Lun",
+          "buy": 60,
+          "sells": 40
+        },
+        {
+          "name": "Mar",
+          "buy": 70,
+          "sells": 60
+        },
+        {
+          "name": "Mié",
+          "buy": 90,
+          "sells": 75
+        },
+        {
+          "name": "Jue",
+          "buy": 90,
+          "sells": 75
+        },
+        {
+          "name": "Vie",
+          "buy": 65,
+          "sells": 55
+        }
+      ]
+    },
+    "toysChart": {
+      "title": "Juguetes",
+      "buyLabel": "Comprar",
+      "sellsLabel": "Vender",
+      "totalLabel": "Total",
+      "buyCount": 1234,
+      "sellsCount": 1234,
+      "data": [
+        {
+          "name": "Total",
+          "price": 6563,
+          "fill": "dynamic"
+        },
+        {
+          "name": "Comprar",
+          "price": 4534,
+          "fill": "#00A9B4"
+        },
+        {
+          "name": "Vender",
+          "price": 3342,
+          "fill": "#0A3A66"
+        }
+      ]
+    },
+    "groceriesChart": {
+      "title": "Comestibles",
+      "buyLabel": "Comprar",
+      "sellsLabel": "Vender",
+      "percentage": "92%",
+      "maxLTS": "de 10 máx. LTS",
+      "yearRange": "Año 2024 - Año 2025",
+      "data": [
+        {
+          "name": "Comprar",
+          "price": 1032,
+          "fill": "#00A9B4"
+        },
+        {
+          "name": "Vender",
+          "price": 709,
+          "fill": "#0A3A66"
+        }
+      ]
+    },
+    "categoryList": [
+      {
+        "1": [
+          {
+            "item": "iPhone",
+            "price": 999,
+            "oldPrice": 1099,
+            "quality": "Alta"
+          },
+          {
+            "item": "Redmi",
+            "price": 899,
+            "quality": "Media"
+          },
+          {
+            "item": "Dell",
+            "price": 1599,
+            "oldPrice": 1699,
+            "quality": "Alta"
+          },
+          {
+            "item": "HP",
+            "price": 1499,
+            "quality": "Media"
+          },
+          {
+            "item": "Reloj",
+            "price": 1699,
+            "oldPrice": 1969,
+            "quality": "Media"
+          }
+        ]
+      },
+      {
+        "2": [
+          {
+            "item": "Camisa",
+            "price": 25,
+            "oldPrice": 30,
+            "quality": "Alta"
+          },
+          {
+            "item": "Camisa",
+            "price": 30,
+            "quality": "Media"
+          },
+          {
+            "item": "Pantalones",
+            "price": 40,
+            "oldPrice": 50,
+            "quality": "Alta"
+          },
+          {
+            "item": "Pantalones",
+            "price": 45,
+            "quality": "Media"
+          }
+        ]
+      },
+      {
+        "3": [
+          {
+            "item": "Libro de Ficción",
+            "price": 15,
+            "oldPrice": 20,
+            "quality": "Nuevo"
+          },
+          {
+            "item": "Libro de No Ficción",
+            "price": 20,
+            "quality": "Usado"
+          },
+          {
+            "item": "Libro Infantil",
+            "price": 10,
+            "oldPrice": 12,
+            "quality": "Nuevo"
+          }
+        ]
+      },
+      {
+        "4": [
+          {
+            "item": "Sofá",
+            "price": 500,
+            "oldPrice": 600,
+            "quality": "Alta"
+          },
+          {
+            "item": "Mesa de Comedor",
+            "price": 300,
+            "oldPrice": 350,
+            "quality": "Media"
+          },
+          {
+            "item": "Silla",
+            "price": 50,
+            "quality": "Baja"
+          }
+        ]
+      },
+      {
+        "5": [
+          {
+            "item": "Figura de Acción",
+            "price": 25,
+            "oldPrice": 30,
+            "quality": "Nuevo"
+          },
+          {
+            "item": "Juego de Mesa",
+            "price": 40,
+            "quality": "Nuevo"
+          },
+          {
+            "item": "Rompecabezas",
+            "price": 15,
+            "oldPrice": 20,
+            "quality": "Nuevo"
+          }
+        ]
+      },
+      {
+        "6": [
+          {
+            "item": "Leche",
+            "price": 3,
+            "quality": "Fresca"
+          },
+          {
+            "item": "Pan",
+            "price": 2,
+            "oldPrice": 3,
+            "quality": "Fresco"
+          },
+          {
+            "item": "Huevos",
+            "price": 5,
+            "quality": "Orgánico"
+          },
+          {
+            "item": "Queso",
+            "price": 8,
+            "oldPrice": 10,
+            "quality": "Premium"
+          }
+        ]
+      }
+    ]
+  },
+  "topSelling": {
+    "title": "Más Vendidos",
+    "stockReportTitle": "Informe de Inventario",
+    "viewAllLabel": "Ver Todo",
+    "showLessLabel": "Ver Menos",
+    "itemsLabel": "Artículos",
+    "priceLabel": "Precio",
+    "discountLabel": "Descuento",
+    "soldLabel": "Vendido",
+    "totalOrdersLabel": "Total de Pedidos",
+    "categoryLabel": "Moda",
+    "data": [
+      {
+        "id": 1,
+        "title": "Camiseta Azul",
+        "description": "Una camiseta azul elegante",
+        "image": "/image/blue_tshirt.png",
+        "price": 100,
+        "discount": "15%",
+        "sold": 300,
+        "totalOrder": 100
+      },
+      {
+        "id": 2,
+        "title": "Sudadera Roja",
+        "description": "Sudadera roja cómoda y cálida",
+        "image": "/image/blue_tshirt.png",
+        "price": 150,
+        "discount": "20%",
+        "sold": 200,
+        "totalOrder": 80
+      },
+      {
+        "id": 3,
+        "title": "Jeans Negros",
+        "description": "Jeans negros cómodos",
+        "image": "/image/blue_tshirt.png",
+        "price": 200,
+        "discount": "10%",
+        "sold": 400,
+        "totalOrder": 200
+      },
+      {
+        "id": 4,
+        "title": "Zapatillas Blancas",
+        "description": "Zapatillas blancas modernas",
+        "image": "/image/blue_tshirt.png",
+        "price": 250,
+        "discount": "25%",
+        "sold": 500,
+        "totalOrder": 500
+      },
+      {
+        "id": 5,
+        "title": "Chaqueta Verde",
+        "description": "Chaqueta verde cálida",
+        "image": "/image/blue_tshirt.png",
+        "price": 300,
+        "discount": "30%",
+        "sold": 150,
+        "totalOrder": 400
+      },
+      {
+        "id": 6,
+        "title": "Bufanda Amarilla",
+        "description": "Bufanda amarilla brillante",
+        "image": "/image/blue_tshirt.png",
+        "price": 50,
+        "discount": "5%",
+        "sold": 600,
+        "totalOrder": 750
+      },
+      {
+        "id": 7,
+        "title": "Botas Marrones",
+        "description": "Botas marrones duraderas",
+        "image": "/image/blue_tshirt.png",
+        "price": 400,
+        "discount": "20%",
+        "sold": 250,
+        "totalOrder": 700
+      },
+      {
+        "id": 8,
+        "title": "Sombrero Morado",
+        "description": "Sombrero morado elegante",
+        "image": "/image/blue_tshirt.png",
+        "price": 80,
+        "discount": "10%",
+        "sold": 350,
+        "totalOrder": 900
+      },
+      {
+        "id": 9,
+        "title": "Gafas de Sol",
+        "description": "Gafas de sol naranjas geniales",
+        "image": "/image/blue_tshirt.png",
+        "price": 120,
+        "discount": "15%",
+        "sold": 450,
+        "totalOrder": 650
+      },
+      {
+        "id": 10,
+        "title": "Guantes Grises",
+        "description": "Guantes grises cómodos",
+        "image": "/image/blue_tshirt.png",
+        "price": 60,
+        "discount": "5%",
+        "sold": 700,
+        "totalOrder": 400
+      },
+      {
+        "id": 11,
+        "title": "Vestido Rosa",
+        "description": "Vestido rosa elegante",
+        "image": "/image/blue_tshirt.png",
+        "price": 500,
+        "discount": "25%",
+        "sold": 350,
+        "totalOrder": 500
+      },
+      {
+        "id": 12,
+        "title": "Gorra Azul",
+        "description": "Gorra azul casual",
+        "image": "/image/blue_tshirt.png",
+        "price": 40,
+        "discount": "10%",
+        "sold": 400,
+        "totalOrder": 600
+      }
+    ]
+  }
+}
