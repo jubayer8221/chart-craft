@@ -66,6 +66,9 @@ import React, { useState, useEffect } from "react";
 // import Calendar, { LooseValue } from "react-calendar";
 import Calendar from "react-calendar";
 
+// Define Value type locally since it's not exported by react-calendar
+type ValuePiece = Date | null;
+type Value = ValuePiece | [ValuePiece, ValuePiece];
 import "react-calendar/dist/Calendar.css";
 import { TfiLayoutMenuSeparated } from "react-icons/tfi";
 import { usePathname } from "next/navigation";
@@ -95,7 +98,7 @@ const EventCalendar: React.FC = () => {
     : locales[0];
 
   const [t, setT] = useState<LocaleMessages>({});
-  const [calendarValue, setCalendarValue] = useState<LooseValue>(new Date());
+  const [calendarValue, setCalendarValue] = useState<Value>(new Date());
 
   useEffect(() => {
     (async () => {
@@ -118,7 +121,7 @@ const EventCalendar: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-  const onCalendarChange = (value: LooseValue) => {
+  const onCalendarChange = (value: Value) => {
     setCalendarValue(value);
   };
 
