@@ -236,12 +236,20 @@ export default function Header({ params }: HeadersProps) {
                           Settings
                         </li>
                       </Link>
-                      <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-700 cursor-pointer">
+                      <li
+                        className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-700 "
+                        onClick={() => setIsOpen(true)}
+                      >
                         <button onClick={() => setIsOpen(true)}>
-                          <span>Logout</span>
+                          <span className="flex items-center gap-3 cursor-pointer">
+                            <p>Logout</p>
+                            <FiLogOut size={20} />
+                          </span>
                         </button>
+                      </li>
+                      <li>
                         {isOpen && (
-                          <div className="fixed overflow-hidden inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/60">
+                          <div className="fixed overflow-hidden cursor-default inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/60">
                             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 w-full max-w-md transform transition-all duration-300 scale-100">
                               <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
                                 Confirm Logout
@@ -259,18 +267,16 @@ export default function Header({ params }: HeadersProps) {
                                 </button>
                                 <button
                                   onClick={handleLogout}
-                                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200 flex items-center gap-2"
+                                  className="px-4 py-2 bg-red-500 text-white rounded-lg cursor-pointer  hover:bg-red-600 transition-colors duration-200 flex items-center gap-2"
                                   aria-label="Confirm logout"
                                 >
-                                  <FiLogOut size={20} />
                                   Logout
+                                  <FiLogOut size={20} />
                                 </button>
                               </div>
                             </div>
                           </div>
                         )}
-
-                        <FiLogOut />
                       </li>
                     </ul>
                   </div>

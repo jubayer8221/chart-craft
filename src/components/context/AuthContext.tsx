@@ -10,6 +10,11 @@ interface AuthContextType {
   logout: () => void;
 }
 
+interface AuthProviderProps {
+  children: React.ReactNode;
+  locale: string;
+}
+
 export const AuthContext = createContext<AuthContextType>({
   token: null,
   isAuthenticated: false,
@@ -17,11 +22,11 @@ export const AuthContext = createContext<AuthContextType>({
   logout: () => {},
 });
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children, locale }: AuthProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
 
-  // Sync token from localStorage on mount (helps on page refresh or multiple tabs)
+  // Get token from localStorage on component mount
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedToken = localStorage.getItem("token");
@@ -34,13 +39,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const login = (newToken: string) => {
     localStorage.setItem("token", newToken);
     setToken(newToken);
-    router.push("/"); // Redirect immediately after login
+    router.push(`/${locale}`); // Redirect after login, preserving locale
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     setToken(null);
-    router.push("/login"); // Redirect immediately after logout
+    router.push(`/${locale}/login`); // Redirect to login page, preserving locale
   };
 
   const value = {
