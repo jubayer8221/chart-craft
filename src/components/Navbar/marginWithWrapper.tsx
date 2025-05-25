@@ -53,8 +53,8 @@ export default function MarginWidthWrapper({
   // margin-left if LTR, margin-right if RTL
   const marginClass =
     locale === "ar"
-      ? "md:mr-[240px] lg:mr-[240px] sm:mr-0 sm:ml-0"
-      : "md:ml-[240px] lg:ml-[240px] sm:ml-0 sm:mr-0";
+      ? "md:mr-[0px] lg:mr-[240px] sm:mr-0 sm:ml-0"
+      : "md:ml-[0px] lg:ml-[240px] sm:ml-0 sm:mr-0";
 
   return (
     <div

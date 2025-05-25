@@ -128,7 +128,7 @@ export default function Header({ params }: HeadersProps) {
           </div>
         </div>
 
-        <div className="hidden md:block">
+        <div className="hidden md:block md:mr-10">
           <div className="flex flex-row items-center space-x-4">
             <ThemeToggle />
 

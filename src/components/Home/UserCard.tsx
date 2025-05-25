@@ -12,7 +12,7 @@ interface UserCardProps {
 
 const UserCard: React.FC<UserCardProps> = ({ type, count, year }) => {
   return (
-    <div className="rounded-xl flex-wrap odd:bg-[#0A3A66] dark:odd:bg-[#312c4a] even:bg-[#00A9B4] dark:even:bg-[#685e74] text-white p-4 flex-1 min-w-[130px]">
+    <div className="rounded-xl flex-wrap odd:bg-[#0A3A66] dark:odd:bg-[#312c4a] even:bg-[#00A9B4] dark:even:bg-[#685e74] text-white p-4 flex-1 min-w-full">
       <div className=" items-center justify-between">
         <span className="text-[10px] bg-white dark:bg-[#685e74] px-2 py-1 rounded-full text-green-600 dark:text-white">
           {year}
@@ -51,7 +51,7 @@ const UserCardsList: React.FC = () => {
   if (!userCard.userCard.length) return <div>Loading...</div>;
 
   return (
-    <div className="grid grid-cols-2 gap-2 md:gap-4 lg:gap-4 xl:gap-4 w-full sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-2 md:gap-4 lg:gap-4 xl:gap-4 w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
       {userCard.userCard.map((user) => (
         <UserCard
           key={user.id}

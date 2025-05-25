@@ -162,6 +162,12 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
             path: "/settings/privacy",
             icon: <MdOutlinePrivacyTip className="w-[16px] h-[16px]" />,
           },
+          {
+            titleKey: "More Settings",
+            title: "More Settings",
+            path: "/settings",
+            icon: <MdOutlinePrivacyTip className="w-[16px] h-[16px]" />,
+          },
         ],
       },
       {

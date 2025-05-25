@@ -43,7 +43,7 @@ const HeaderMobile = () => {
       initial={false}
       animate={isOpen ? "open" : "closed"}
       custom={height}
-      className={`fixed inset-0 z-50 w-full md:hidden ${
+      className={`fixed inset-0 z-50 w-full lg:hidden md:visible ${
         isOpen ? "" : "pointer-events-none"
       }`}
       ref={containerRef}
