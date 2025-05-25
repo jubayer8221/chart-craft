@@ -1,21 +1,34 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FiPlus, FiMove } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 import { CSVLink } from "react-csv";
 import { FaPrint } from "react-icons/fa";
 import ChartRenderer from "./ChartRenderer";
-import type { DropResult } from "react-beautiful-dnd";
+// import type { DropResult } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "@hello-pangea/dnd";
 
 type RowData = { [key: string]: string };
 type ChartType = "Bar" | "Line" | "Pie" | "Doughnut" | "Radar";
 
 export default function TableOne() {
-  const [columns, setColumns] = useState<string[]>(["Name", "Age"]);
-  const [data, setData] = useState<RowData[]>([{ Name: "Alice", Age: "23" }]);
+  const [columns, setColumns] = useState<string[]>([
+    "Name",
+    "Age",
+    "Title",
+    "Salary",
+  ]);
+  const [data, setData] = useState<RowData[]>([
+    { Name: "Alice", Age: "23", Title: "Developer", Salary: "25,000" },
+  ]);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [selectedChart, setSelectedChart] = useState<ChartType | null>(null);
 
@@ -254,7 +267,7 @@ export default function TableOne() {
             </thead>
 
             {/* Rows Drag-Drop */}
-            <Droppable droppableId="rows" type="row">
+            <Droppable droppableId="rows" type="row" isDropDisabled={true}>
               {(provided, snapshot) => (
                 <tbody
                   ref={provided.innerRef}
