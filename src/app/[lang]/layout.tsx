@@ -12,7 +12,7 @@ import { Provider } from "react-redux";
 import { store } from "@/redux/store";
 import ThemeProvider from "../theme-provider";
 import { AuthProvider } from "@/components/context/AuthContext";
-// import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
+import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
 import publicRoutes from "@/constants/routes";
 import { usePathname } from "next/navigation";
 
@@ -51,7 +51,6 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
             disableTransitionOnChange
           >
             <Provider store={store}>
-              {/* <PrivateRoute> */}
               {isPublicRoute ? (
                 <PageWrapper>
                   <header style={{ padding: 10, textAlign: "right" }}>
@@ -60,29 +59,31 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
                   {children}
                 </PageWrapper>
               ) : (
-                <div className="flex min-h-screen">
-                  <div className="print:hidden min-h-screen">
-                    <LeftSide />
+                // Wrapped private route UI with PrivateRoute
+                <PrivateRoute>
+                  <div className="flex min-h-screen">
+                    <div className="print:hidden min-h-screen">
+                      <LeftSide />
+                    </div>
+                    <main className="flex-1 max-w-screen">
+                      <MarginWidthWrapper params={{ lang: locale }}>
+                        <div className="print:hidden sticky top-0 z-50 justify-between items-center">
+                          <Header params={{ lang: locale }}>
+                            {/* You can add children here if needed */}
+                            {/* Passing an empty fragment as children to satisfy the required prop */}
+                            <></>
+                          </Header>
+                          {/* <LanguageSwitcher currentLocale={locale} /> */}
+                        </div>
+                        <div className="print:hidden">
+                          <HeaderMobile />
+                        </div>
+                        <PageWrapper>{children}</PageWrapper>
+                      </MarginWidthWrapper>
+                    </main>
                   </div>
-                  <main className="flex-1 max-w-screen">
-                    <MarginWidthWrapper params={{ lang: locale }}>
-                      <div className="print:hidden sticky top-0 z-50 justify-between items-center">
-                        <Header params={{ lang: locale }}>
-                          {/* You can add children here if needed */}
-                          {/* Passing an empty fragment as children to satisfy the required prop */}
-                          <></>
-                        </Header>
-                        {/* <LanguageSwitcher currentLocale={locale} /> */}
-                      </div>
-                      <div className="print:hidden">
-                        <HeaderMobile />
-                      </div>
-                      <PageWrapper>{children}</PageWrapper>
-                    </MarginWidthWrapper>
-                  </main>
-                </div>
+                </PrivateRoute>
               )}
-              {/* </PrivateRoute> */}
             </Provider>
           </ThemeProvider>
         </AuthProvider>
