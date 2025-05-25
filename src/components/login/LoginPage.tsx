@@ -27,7 +27,6 @@ export default function LoginPage() {
   useEffect(() => {
     if (isAuthenticated) {
       router.replace("/");
-      router.refresh(); // Ensure page updates
     }
   }, [isAuthenticated, router]);
 

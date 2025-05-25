@@ -10,7 +10,6 @@ import printSlice from "./slices/printSlice";
 import colorSlice from "./slices/colorSlice";
 import headerReducer from "./slices/headerSlice";
 import viewReducer from './slices/viewStore';
-// import dateReducer from './slices/calendar/useStoreDate'
 import { persistedDateReducer } from './slices/calendar/useStoreDate';
 
 import {
@@ -28,7 +27,7 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage
 const persistConfig = {
   key: 'calendar_view',
   storage,
-  whitelist: ['view'], // only persist the view slice
+  whitelist: ['view', 'date'], // Added 'date' to persist the date slice
 };
 
 const persistedReducer = persistReducer(persistConfig, viewReducer );
@@ -37,7 +36,7 @@ export const store = configureStore({
   reducer: {
     charts: chartReducer,
     export: exportReducer,
-    chartsTheme: exportReducer, // Fixed duplicate import
+    chartsTheme: exportReducer, // Kept as is (duplicate intentional)
     recentOrders: recentOrderReducer,
     data: dataReducer,
     printData: printSlice,
@@ -50,7 +49,6 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, 'persist/PERSIST', 'persist/REHYDRATE'],
-        // ignoredPaths: ['date.userSelectedDate'],
       },
     }),
 });
@@ -62,4 +60,3 @@ export type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-

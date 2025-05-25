@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 interface AuthContextType {
@@ -18,25 +18,29 @@ export const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [token, setToken] = useState<string | null>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("token");
-    }
-    return null;
-  });
+  const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
+
+  // Sync token from localStorage on mount (helps on page refresh or multiple tabs)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        setToken(storedToken);
+      }
+    }
+  }, []);
 
   const login = (newToken: string) => {
     localStorage.setItem("token", newToken);
     setToken(newToken);
-    router.refresh(); // Ensure page re-renders after login
+    router.push("/"); // Redirect immediately after login
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     setToken(null);
-    router.push("/login");
-    router.refresh(); // Force re-render to show login page
+    router.push("/login"); // Redirect immediately after logout
   };
 
   const value = {
