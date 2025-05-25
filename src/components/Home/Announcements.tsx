@@ -1,4 +1,7 @@
+
 "use client";
+
+import CRightsideBar from "./Calendar/CHeader/CRightsideBar";
 
 import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
@@ -46,6 +49,10 @@ const Announcements: React.FC = () => {
 
   return (
     <div className="bg-white dark:bg-[#312c4a] p-4 rounded-md">
+      <div className="mb-12">
+        <CRightsideBar />
+      </div>
+      <div>
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">{announcementsTitle}</h1>
         <span className="text-xs text-gray-400 hover:text-white cursor-pointer">
@@ -64,6 +71,7 @@ const Announcements: React.FC = () => {
             <p className="text-sm text-gray-400 mt-1">{item.description}</p>
           </div>
         ))}
+      </div>
       </div>
     </div>
   );

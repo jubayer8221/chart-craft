@@ -9,7 +9,29 @@ import dataReducer from "./slices/convertDataSlice";
 import printSlice from "./slices/printSlice";
 import colorSlice from "./slices/colorSlice";
 import headerReducer from "./slices/headerSlice";
+import viewReducer from './slices/viewStore';
+// import dateReducer from './slices/calendar/useStoreDate'
+import { persistedDateReducer } from './slices/calendar/useStoreDate';
 
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage
+
+const persistConfig = {
+  key: 'calendar_view',
+  storage,
+  whitelist: ['view'], // only persist the view slice
+};
+
+const persistedReducer = persistReducer(persistConfig, viewReducer );
 
 export const store = configureStore({
   reducer: {
@@ -21,12 +43,23 @@ export const store = configureStore({
     printData: printSlice,
     colors: colorSlice,
     headers: headerReducer,
-
+    view: persistedReducer,
+    date: persistedDateReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, 'persist/PERSIST', 'persist/REHYDRATE'],
+        // ignoredPaths: ['date.userSelectedDate'],
+      },
+    }),
 });
+
+export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+

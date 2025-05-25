@@ -648,7 +648,7 @@ export default function MessagesPage() {
   const currentUser = {
     id: 1,
     name: "Jubayer Al Mahmud",
-    avatar: "/image/mainuser.png",
+    avatar: "/image/nurul.png",
     role: "Developer",
     online: true,
   };
