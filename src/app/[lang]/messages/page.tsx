@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import Picker from "@emoji-mart/react";
-import data from "@emoji-mart/data";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+
 import {
   Phone,
   Video,
@@ -229,9 +229,9 @@ function InnerMessagesPage() {
     }
   };
 
-  const handleEmojiSelect = (emoji: { native: string }) => {
-    setText((prev) => prev + emoji.native);
-    console.log("Emoji selected:", emoji.native);
+  const handleEmojiClick = (emojiObject: EmojiClickData) => {
+    setText((prev) => prev + emojiObject.emoji);
+    console.log("Emoji selected:", emojiObject.emoji);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -555,13 +555,7 @@ function InnerMessagesPage() {
                           <X size={14} className="sm:w-4 sm:h-4" />
                         </button>
                       </div>
-                      <Picker
-                        data={data}
-                        onEmojiSelect={handleEmojiSelect}
-                        theme="auto"
-                        previewPosition="none"
-                        maxFrequentRows={2}
-                      />
+                      <EmojiPicker onEmojiClick={handleEmojiClick} />
                     </div>
                   )}
                   <button
@@ -648,7 +642,7 @@ export default function MessagesPage() {
   const currentUser = {
     id: 1,
     name: "Jubayer Al Mahmud",
-    avatar: "/image/nurul.png",
+    avatar: "/image/mainuser.png",
     role: "Developer",
     online: true,
   };
