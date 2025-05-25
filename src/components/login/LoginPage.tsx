@@ -1,99 +1,3 @@
-// "use client";
-
-// import { useContext, useEffect, useState } from "react";
-// import { AuthContext } from "@/components/context/AuthContext";
-// import { useRouter, usePathname } from "next/navigation";
-
-// export default function LoginPage() {
-//   const [username, setUsername] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [errors, setErrors] = useState<{
-//     username?: string;
-//     password?: string;
-//     general?: string;
-//   }>({});
-//   const [loading, setLoading] = useState(false);
-
-//   const { login, isAuthenticated } = useContext(AuthContext);
-//   const router = useRouter();
-//   const pathname = usePathname();
-//   const locale = pathname?.split("/")[1] || "en"; // get locale from the path
-
-//   // Check if the user is authenticated. If yes, redirect them to the home page.
-//   useEffect(() => {
-//     if (isAuthenticated) {
-//       router.replace(`/${locale}`); // Redirect to the homepage or authenticated route
-//     }
-//   }, [isAuthenticated, router, locale]);
-
-//   const validateForm = () => {
-//     const newErrors: { username?: string; password?: string } = {};
-//     if (!username) newErrors.username = "Username is required";
-//     if (!password) newErrors.password = "Password is required";
-//     else if (password.length < 6)
-//       newErrors.password = "Password must be at least 6 characters";
-//     return newErrors;
-//   };
-
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault();
-
-//     const validationErrors = validateForm();
-//     if (Object.keys(validationErrors).length > 0) {
-//       setErrors(validationErrors);
-//       return;
-//     }
-
-//     setErrors({});
-//     setLoading(true);
-
-//     try {
-//       // Simulate API call
-//       await new Promise((resolve) => setTimeout(resolve, 1000));
-//       const fakeToken = "fake-jwt-token";
-//       login(fakeToken); // AuthProvider handles storing token and redirecting
-//     } catch {
-//       setErrors({ general: "Invalid username or password" });
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   // Optionally don’t render login form if already authenticated
-//   if (isAuthenticated) {
-//     return null; // Prevent rendering the login page if the user is already logged in
-//   }
-
-//   return (
-//     <form onSubmit={handleSubmit} aria-label="Login Form">
-//       <input
-//         type="text"
-//         placeholder="Username"
-//         value={username}
-//         onChange={(e) => setUsername(e.target.value)}
-//         aria-invalid={!!errors.username}
-//         aria-describedby="username-error"
-//       />
-//       {errors.username && <span id="username-error">{errors.username}</span>}
-
-//       <input
-//         type="password"
-//         placeholder="Password"
-//         value={password}
-//         onChange={(e) => setPassword(e.target.value)}
-//         aria-invalid={!!errors.password}
-//         aria-describedby="password-error"
-//       />
-//       {errors.password && <span id="password-error">{errors.password}</span>}
-
-//       {errors.general && <div>{errors.general}</div>}
-
-//       <button type="submit" disabled={loading}>
-//         {loading ? "Signing In..." : "Sign In"}
-//       </button>
-//     </form>
-//   );
-// }
 "use client";
 
 import { useContext, useEffect, useState } from "react";
@@ -124,7 +28,11 @@ export default function LoginPage() {
   // Check if the user is authenticated. If yes, redirect them to the home page.
   useEffect(() => {
     if (isAuthenticated) {
-      router.replace(`/${locale}`); // Redirect to the homepage or authenticated route
+      // After login, redirect the user to the stored path or fallback to the homepage
+      const redirectPath =
+        sessionStorage.getItem("redirectPath") || `/${locale}`;
+      sessionStorage.removeItem("redirectPath");
+      router.replace(redirectPath); // Redirect to the same page they were on
     }
   }, [isAuthenticated, router, locale]);
 
@@ -160,6 +68,13 @@ export default function LoginPage() {
       setLoading(false);
     }
   };
+
+  // On page refresh, store the current path to return to it after successful login
+  useEffect(() => {
+    if (!isAuthenticated) {
+      sessionStorage.setItem("redirectPath", pathname);
+    }
+  }, [pathname, isAuthenticated]);
 
   // Optionally don’t render login form if already authenticated
   if (isAuthenticated) {
