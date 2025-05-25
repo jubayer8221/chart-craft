@@ -22,7 +22,6 @@ const nextConfig: NextConfig = {
         fs: false,
         buffer: require.resolve("buffer/"),
       };
-      // Disable Webpack cache
       config.cache = false;
     }
     return config;

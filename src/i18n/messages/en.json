@@ -68,22 +68,26 @@
   },
   "userCard": [
     {
-      "type": "admin",
+      "id": 1,
+      "type": "Admin",
       "count": 1224,
       "year": "2025/25"
     },
     {
-      "type": "guest",
+      "id": 2,
+      "type": "Guest",
       "count": 500,
       "year": "2025"
     },
     {
-      "type": "moderator",
+      "id": 3,
+      "type": "Moderator",
       "count": 310,
       "year": "2025/25"
     },
     {
-      "type": "client",
+      "id": 4,
+      "type": "Client",
       "count": 2269,
       "year": "2025"
     }
@@ -103,6 +107,16 @@
     "itemPrice": "Price",
     "itemOldPrice": "Old Price",
     "itemQuality": "Quality",
+    "categoryName": [
+      {
+        "1": "Electronics",
+        "2": "Clothing",
+        "3": "Books",
+        "4": "Furniture",
+        "5": "Toys",
+        "6": "Groceries"
+      }
+    ],
     "electronicsChart": {
       "title": "Electronics",
       "buyLabel": "Buy",

@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { FaUser, FaLock, FaCog } from "react-icons/fa";
+// import { FaUser, FaLock, FaCog } from "react-icons/fa";
+import { FaUser, FaLock } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import LanguageDropdown from "@/app/[lang]/settings/language/page";
 import { locales, Locale, isValidLocale } from "@/i18n/routing";
@@ -39,14 +40,14 @@ export default function Page() {
     <div className="w-full max-h-screen bg-white dark:bg-gray-800 justify-start min-w-[300px] min-h-[537px]">
       {/* Page Title */}
       <div className="w-full p-4">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6 text-left">
+        <h1 className="text-xl font-bold text-gray-800 mb-6 text-left">
           {t.settings || "Settings"}
         </h1>
         <div className="grid grid-cols-1 lg:grid-rows-3 gap-4 w-full">
           {/* Accounts */}
           <Link href="/settings/account">
             <div className="shadow-lg bg-gray-100 rounded-lg p-3 text-center hover:bg-gray-200 cursor-pointer items-center justify-center">
-              <h2 className="text-lg flex font-semibold text-gray-800 items-center justify-start gap-4">
+              <h2 className="flex text-gray-800 items-center justify-start gap-4">
                 <FaUser />
                 {/* //Accounts */}
                 {t.account || "Accounts"}
@@ -56,7 +57,7 @@ export default function Page() {
           {/* Privacy */}
           <Link href="/settings/privacy">
             <div className="shadow-lg bg-gray-100 rounded-lg p-3 text-center hover:bg-gray-200 cursor-pointer">
-              <h2 className="text-lg font-semibold text-gray-800 flex items-center justify-start gap-4">
+              <h2 className=" text-gray-800 flex items-center justify-start gap-4">
                 <FaLock></FaLock>
                 {/* Privacy */}
                 {/* {t?.setting?.privacy || "Privacy"} */}
@@ -107,13 +108,15 @@ export default function Page() {
             </div> */}
           {/* </Link> */}
           {/* More Settings  */}
-          <div className="shadow-lg bg-gray-100 rounded-lg p-3 text-center items-center hover:bg-gray-200 cursor-pointer">
-            <h2 className="text-lg font-semibold text-gray-800 flex items-center justify-start gap-4">
-              {/* <FaCog /> More Settings */}
-              <FaCog /> {t.moreSettings || "More Settings"}
-              {/* Dynamic More Settings text */}
-            </h2>
-          </div>
+          {/* <Link href="/settings/moreSettings">
+            <div className="shadow-lg bg-gray-100 rounded-lg p-3 text-center items-center hover:bg-gray-200 cursor-pointer">
+              <h2 className=" text-gray-800 flex items-center justify-start gap-4"> */}
+          {/* <FaCog /> More Settings */}
+          {/* <FaCog /> {t.moreSettings || "More Settings"} */}
+          {/* Dynamic More Settings text */}
+          {/* </h2>
+            </div>
+          </Link> */}
         </div>
       </div>
     </div>

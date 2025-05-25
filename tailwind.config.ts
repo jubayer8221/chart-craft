@@ -1,4 +1,6 @@
 import type { Config } from "tailwindcss";
+// import rtl from "tailwindcss-rtl";
+
 
 const config: Config = {
   content: [
@@ -23,7 +25,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+plugins: [
+],
   darkMode:"class",
 };
 export default config;

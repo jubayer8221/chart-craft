@@ -633,7 +633,7 @@ const TopSelling = () => {
                             )}
                           </div>
 
-                          <div className="overflow-y-auto max-h-[300px]">
+                          <div className="overflow-y-auto  max-w-full">
                             <Droppable droppableId="table" type="ROW">
                               {(provided) => (
                                 <table
@@ -727,11 +727,11 @@ const TopSelling = () => {
                           </div>
                         </>
                       ) : (
-                        <div>
+                        <div className="max-w-full">
                           <h1 className="text-lg font-semibold pb-2">
                             {t.topSelling?.stockReportTitle || "Stock Report"}
                           </h1>
-                          <div className="h-[280px]">
+                          <div className="min-h-[280px]">
                             {data.length > 0 ? (
                               <Bar
                                 data={{

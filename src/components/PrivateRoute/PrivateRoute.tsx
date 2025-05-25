@@ -12,24 +12,34 @@ const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({
   const router = useRouter();
   const pathname = usePathname();
 
-  const isPublicRoute = publicRoutes.includes(pathname);
+  // Normalize path
+  const normalizedPath = (() => {
+    if (!pathname) return "/";
+    const segments = pathname.split("/").filter(Boolean);
+    return segments.length > 1 ? "/" + segments.slice(1).join("/") : "/";
+  })();
+
+  const isPublicRoute = publicRoutes.includes(normalizedPath);
 
   useEffect(() => {
-    if (typeof window === "undefined") return; // Skip on server-side
+    if (typeof window === "undefined") return; // Safe to check inside useEffect
 
     if (!isAuthenticated && !isPublicRoute) {
       router.replace("/login");
     } else if (isAuthenticated && isPublicRoute) {
       router.replace("/");
     }
-  }, [isAuthenticated, isPublicRoute, pathname, router]);
+  }, [isAuthenticated, isPublicRoute, normalizedPath, router]);
+
+  // Conditionally render based on auth and route status
+  if (typeof window === "undefined") return null;
 
   if (!isAuthenticated && !isPublicRoute) {
-    return null; // Prevent rendering protected content
+    return null;
   }
 
   if (isAuthenticated && isPublicRoute) {
-    return null; // Prevent rendering public routes for authenticated users
+    return null;
   }
 
   return <>{children}</>;
