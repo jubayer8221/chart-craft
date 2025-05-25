@@ -18,10 +18,7 @@ const MainPage = () => {
         {/* left side  */}
         <div className="w-full lg:w-2/3 flex flex-col gap-4 ">
           <div className="flex justify-between gap-4 flex-wrap">
-            <UserCard type="Products" />
-            <UserCard type="Product types" />
-            <UserCard type="Staff" />
-            <UserCard type="NJ" />
+            <UserCard />
           </div>
           <div className="flex flex-col gap-4">
             {/* top  */}

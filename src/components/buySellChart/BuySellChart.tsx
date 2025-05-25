@@ -137,15 +137,15 @@ export default function BuySellChart() {
   };
 
   return (
-    <div className="p-2 sm:p-4 lg:p-4 xl:p-6 bg-[#F7F7F7] min-h-screen">
+    <div className="bg-[#F7F7F7] min-h-screen">
       <main>
-        <div className="mt-4 pl-3 pr-3 sm:pl-[100px] sm:pr-[100px] xl:pl-[100px] xl:pr-[100px] font-poppins">
-          <div className="flex flex-col xl:flex-row bg-white shadow-md rounded-lg p-6">
+        <div className="font-poppins">
+          <div className="flex mt-4 bg-white shadow-md rounded-lg p-6">
             {["Data Table", "Bar chart", "Pie Chart"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => handleTabClick(tab)}
-                className={`justify-between px-8 py-2 ${
+                className={`justify-between px-4 items-center py-2 ${
                   activeTab === tab
                     ? " bg-[#0A3A66] rounded-lg text-white"
                     : "text-gray-500"
@@ -162,14 +162,14 @@ export default function BuySellChart() {
             </button>
           </div>
 
-          <div className="flex flex-col sm:flex-row justify-between gap-6 mt-6 w-full">
+          <div className="flex justify-between gap-6 mt-6 w-full">
             <div className="w-full">
               {activeTab === "Data Table" && (
                 <div>
-                  <div className="text-center bg-white shadow-md rounded-lg p-6">
+                  <div className="text-center bg-white shadow-md rounded-lg p-4">
                     <div>
-                      <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
-                        <h1 className="text-2xl font-bold mb-4 sm:mb-0">
+                      <div className="flex items-center justify-between mb-4">
+                        <h1 className="text-xl font-semibold mb-4">
                           Data Table
                         </h1>
                         <input
@@ -177,7 +177,7 @@ export default function BuySellChart() {
                           placeholder="Search by month"
                           value={filter}
                           onChange={(e) => setFilter(e.target.value)}
-                          className="p-2 border rounded w-full sm:w-1/4"
+                          className="p-2 border rounded "
                         />
                       </div>
 
@@ -185,7 +185,7 @@ export default function BuySellChart() {
                         <Droppable droppableId="table">
                           {(provided) => (
                             <table
-                              className="w-full justify-around mb-6"
+                              className="w-full max-w-screen justify-around mb-6"
                               ref={provided.innerRef}
                               {...provided.droppableProps}
                             >
@@ -254,7 +254,7 @@ export default function BuySellChart() {
                           onChange={(e) =>
                             setNewRow({ ...newRow, month: e.target.value })
                           }
-                          className="border p-2 rounded w-40"
+                          className="border p-2 rounded w-24"
                         />
                         <input
                           type="number"
@@ -266,7 +266,7 @@ export default function BuySellChart() {
                               buy: parseFloat(e.target.value) || 0,
                             })
                           }
-                          className="border p-2 rounded w-24"
+                          className="border p-2 rounded w-20"
                         />
                         <input
                           type="number"
@@ -278,7 +278,7 @@ export default function BuySellChart() {
                               sell: parseFloat(e.target.value) || 0,
                             })
                           }
-                          className="border p-2 rounded w-24"
+                          className="border p-2 rounded w-20"
                         />
                         <button
                           onClick={handleAddRow}
@@ -297,12 +297,12 @@ export default function BuySellChart() {
                 </div>
               )}
               {activeTab === "Bar chart" && (
-                <div className="w-full h-[800px] mb-10 bg-white shadow-md rounded-lg p-4">
-                  <h1 className="text-xl font-semibold mb-4">
+                <div className="w-full h-screen pb-10 bg-white shadow-md rounded-lg">
+                  <h1 className="text-xl font-semibold mb-4 p-4">
                     Monthly Buy vs Sell Report as Bar Chart
                   </h1>
                   {/* Fixed height container */}
-                  <ResponsiveContainer className="w-6xl h-3xl ">
+                  <ResponsiveContainer className="w-screen h-screen ">
                     <BarChart
                       layout="vertical"
                       data={yearlyData}
@@ -361,7 +361,7 @@ export default function BuySellChart() {
                 </div>
               )}
               {activeTab === "Pie Chart" && (
-                <div className="w-auto bg-white shadow-md rounded-lg p-4 md:grid-cols-2 gap-4">
+                <div className="w-full bg-white shadow-md rounded-lg p-4">
                   <h2 className="text-xl font-semibold mb-4">
                     Total Buy vs Sell (Pie Chart)
                   </h2>

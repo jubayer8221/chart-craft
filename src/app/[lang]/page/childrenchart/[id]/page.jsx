@@ -2,7 +2,8 @@
 
 // import AreaChartCompo from "@/app/page/[id]/page";
 import AreaChartCompo from "../../areachart/[id]/page.jsx";
-import data from "../../../../data/data";
+import data from "../../../../../data/data.js";
+
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";

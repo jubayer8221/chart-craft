@@ -1,5 +1,6 @@
 // "use client";
 import Link from "next/link";
+
 // import BuySellChart from "./components/buySellChart/BuySellChart";
 
 const categories = [
