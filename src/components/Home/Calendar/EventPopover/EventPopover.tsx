@@ -26,12 +26,22 @@ const EventPopover = ({ isOpen, onClose, date }: EventPopoverProps) => {
   const [endDate, setEndDate] = useState(date);
   const [startTime, setStartTime] = useState("00:00");
   const [endTime, setEndTime] = useState("00:00");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [guests, setGuests] = useState("");
 
 
   const today = dayjs().format("YYYY-MM-DD");
   console.log("start time+==== endTime", startTime, endTime);
 
-  // console.log("date", startDate, endDate)
+  console.log("ddkljsdkfsddf===", title)
+  console.log("description===", description)
+  console.log("guests===", guests)
+  console.log("date", startDate, endDate)
+
+  // const handleSubmite = (()=>{
+
+  // })
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -66,6 +76,7 @@ const EventPopover = ({ isOpen, onClose, date }: EventPopoverProps) => {
     }
   },[startDate, endDate])
 
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div
@@ -88,6 +99,7 @@ const EventPopover = ({ isOpen, onClose, date }: EventPopoverProps) => {
             <input
               type="text"
               placeholder="Add title"
+              onChange={(e)=> setTitle(e.target.value)}
               className="my-4 w-full rounded-none border-0 border-b text-2xl focus-visible:border-b-2 focus-visible:border-b-blue-600 focus-visible:ring-0 focus-visible:ring-offset-0"
             />
           </div>
@@ -134,6 +146,7 @@ const EventPopover = ({ isOpen, onClose, date }: EventPopoverProps) => {
                 type="text"
                 name="guests"
                 placeholder="Add guests"
+                onChange={(e)=> setGuests(e.target.value)}
                 className="w-full rounded-lg border-0 bg-slate-100 p-2 placeholder:text-slate-600 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0"
               />
             </div>
@@ -144,6 +157,7 @@ const EventPopover = ({ isOpen, onClose, date }: EventPopoverProps) => {
                 type="text"
                 name="description"
                 placeholder="Add description"
+                onChange={(e)=> setDescription(e.target.value)}
                 className="w-full rounded-lg border-0 bg-slate-100 p-2 placeholder:text-slate-600 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0"
               />
             </div>

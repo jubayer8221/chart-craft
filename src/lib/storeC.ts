@@ -29,9 +29,7 @@ type EventStore = {
   closePopover: () => void;
   openEventSummary: (event: CalendarEventType) => void;
   closeEventSummary: () => void;
-  setSelectedTime: (time: string) => void; // Method to set selected time
-  endTime: string | null;
-  setEndTime: (time: string) => void
+  setSelectedTime: (time: string) => void; 
 };
 
 interface ToggleSideBarType {
@@ -71,9 +69,7 @@ export const useEventStore = create<EventStore>((set) => ({
     set({ isEventSummaryOpen: true, selectedEvent: event }),
   closeEventSummary: () =>
     set({ isEventSummaryOpen: false, selectedEvent: null }),
-  setSelectedTime: (time) => set({ selectedTime: time }), // Set selected time
-  endTime: null,
-  setEndTime: (time) => set({ endTime: time }),
+  setSelectedTime: (time) => set({ selectedTime: time }), 
 }));
 
 export const useToggleSideBarStore = create<ToggleSideBarType>()(

@@ -49,6 +49,7 @@ export default function AddTime({ onTimeSelect }: AddTimeProps) {
   if(onTimeSelect){
     onTimeSelect(startTime)
   }
+  
   const handleTimeSelect = (time: string) => {
     setStartTime(time)
     setIsOpen(false)
