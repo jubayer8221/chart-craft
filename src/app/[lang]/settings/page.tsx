@@ -68,7 +68,7 @@ export default function Page() {
           {/* More Language Settings  */}
           {/* <Link href="/settings/language"> */}
           <div className=" cursor-pointer w-full">
-            <LanguageDropdown currentLocale={currentLocale} />
+            <LanguageDropdown />
           </div>
 
           {/* <div className="shadow-lg bg-gray-100 rounded-lg p-3 text-center items-center hover:bg-gray-200 cursor-pointer">
