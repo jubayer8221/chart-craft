@@ -3,16 +3,17 @@
 import { useState, useRef, useEffect } from 'react'
 import { ChevronDown } from 'lucide-react'
 
-interface EndTimeProps{
-    startTime: string;
+interface EndTimeProps {
+  startTime: string;
+  onTimeSelect: (time: string)=> void;
 }
 
-export default function EndTime({startTime}: EndTimeProps) {
+export default function EndTime({ startTime, onTimeSelect }: EndTimeProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedTime, setSelectedTime] = useState(startTime)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  useEffect(()=>{
+  useEffect(() => {
     setSelectedTime(startTime)
   }, [startTime])
 
@@ -31,11 +32,23 @@ export default function EndTime({startTime}: EndTimeProps) {
 
   const generateTimeIntervals = () => {
     const intervals = []
-    const [startHour, startMinute] = startTime.split(":").map(Number);
+    // Parse startTime (e.g., "01:00 PM")
+    const [time, period] = startTime.split(' ')
+    const [startHourStr, startMinuteStr] = time.split(':').map(Number)
+    let startHour = startHourStr
+    if (period === 'PM' && startHour !== 12) startHour += 12
+    if (period === 'AM' && startHour === 12) startHour = 0
+    const startMinute = startMinuteStr
+
+    // Generate intervals starting from startTime
     for (let hour = startHour; hour < 24; hour++) {
-      for (let minute = startMinute; minute < 60; minute += 30) {
+      // Start minutes from startMinute for the first hour, otherwise 0
+      const minuteStart = hour === startHour ? startMinute : 0
+      for (let minute = minuteStart; minute < 60; minute += 60) {
+        const period = hour < 12 ? 'AM' : 'PM'
+        const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour
         intervals.push(
-          `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
+          `${displayHour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} ${period}`
         )
       }
     }
@@ -45,7 +58,9 @@ export default function EndTime({startTime}: EndTimeProps) {
   const handleTimeSelect = (time: string) => {
     setSelectedTime(time)
     setIsOpen(false)
-  
+    if(onTimeSelect){
+      onTimeSelect(time);
+    }
   }
 
   return (

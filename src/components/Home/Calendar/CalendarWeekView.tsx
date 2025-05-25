@@ -8,7 +8,7 @@ const CalendarWeekView = () => {
   // const userSelectedDate = dayjs();
   const [currentTime, setCurrentTime] = useState(dayjs());
   const {userSelectedDate, setDate} = useDateStore()
-  const {openPopover, events} = useEventStore();
+  const {openPopover, events, setSelectedTime} = useEventStore();
 
   const days = getWeekDays(userSelectedDate);
   const hours = getHours; // Assuming getHours is an array of dayjs objects
@@ -71,7 +71,7 @@ const CalendarWeekView = () => {
                 {hours.map((hour, i) => (
                   <div
                     key={i}
-                    className={`relative h-16 flex items-center justify-center border-b border-gray-300 last:border-b-0 cursor-pointer hover:bg-gray-100`} onClick={()=>{setDate(dayDate.hour(hour.hour())); openPopover()}}
+                    className={`relative h-16 flex items-center justify-center border-b border-gray-300 last:border-b-0 cursor-pointer hover:bg-gray-100`} onClick={()=>{ const selectedTime = hour.format("hh:mm A"); setDate(dayDate.hour(hour.hour()).minute(hour.minute())); setSelectedTime(selectedTime); openPopover()}}
                   >
                     {/* Content for each cell can be added here */}
 

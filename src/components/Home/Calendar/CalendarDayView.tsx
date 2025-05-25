@@ -8,7 +8,7 @@ const CalendarDayView = () => {
   const [currentTime, setCurrentTime] = useState(dayjs());
 
   const { userSelectedDate, setDate} = useDateStore();
-  const {openPopover} = useEventStore()
+  const {openPopover, setSelectedTime} = useEventStore()
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -59,7 +59,7 @@ const CalendarDayView = () => {
             {getHours.map((hour, i) => (
               <div
                 key={i}
-                className="flex flex-col h-16 cursor-pointer border-t first:border-t-0 hover:bg-gray-100" onClick={()=>{setDate(userSelectedDate.hour(hour.hour())); openPopover();}}
+                className="flex flex-col h-16 cursor-pointer border-t first:border-t-0 hover:bg-gray-100" onClick={()=>{const selectedTime = hour.format("hh:mm A") ;setDate(userSelectedDate.hour(hour.hour())); setSelectedTime(selectedTime); openPopover();}}
               ></div>
             ))}
 
