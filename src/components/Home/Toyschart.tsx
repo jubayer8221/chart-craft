@@ -147,47 +147,49 @@ const ToysChart = () => {
         </Link>
       </div>
       <div className="w-full h-[75%]">
-        <ResponsiveContainer>
-          <RadialBarChart
-            cx="50%"
-            cy="50%"
-            innerRadius="40%"
-            outerRadius="100%"
-            barSize={32}
-            data={processedData}
-          >
-            <RadialBar
-              background
-              dataKey="price"
-              label={{ fill: isDarkMode ? "#fff" : "#000", fontSize: 12 }}
-            />
-            <Legend
-              formatter={(value, entry) => {
-                // Ensure payload exists and has name property
-                const payload = entry?.payload as LegendPayload | undefined;
-                if (!payload || !payload.name) {
-                  return value; // Fallback to value if payload is missing
-                }
-                const name = payload.name;
-                if (
-                  name === t.homeCategory?.toysChart?.totalLabel ||
-                  name === "Total"
-                ) {
-                  return t.homeCategory?.toysChart?.totalLabel || "Total";
-                }
-                if (
-                  name === t.homeCategory?.toysChart?.buyLabel ||
-                  name === "Buy"
-                ) {
-                  return t.homeCategory?.toysChart?.buyLabel || "Buy";
-                }
-                return t.homeCategory?.toysChart?.sellsLabel || "Sells";
-              }}
-              verticalAlign="top"
-              wrapperStyle={{ paddingBottom: "10px" }}
-            />
-          </RadialBarChart>
-        </ResponsiveContainer>
+        <Link href={`/${currentLocale}/category/5`}>
+          <ResponsiveContainer>
+            <RadialBarChart
+              cx="50%"
+              cy="50%"
+              innerRadius="40%"
+              outerRadius="100%"
+              barSize={32}
+              data={processedData}
+            >
+              <RadialBar
+                background
+                dataKey="price"
+                label={{ fill: isDarkMode ? "#fff" : "#000", fontSize: 12 }}
+              />
+              <Legend
+                formatter={(value, entry) => {
+                  // Ensure payload exists and has name property
+                  const payload = entry?.payload as LegendPayload | undefined;
+                  if (!payload || !payload.name) {
+                    return value; // Fallback to value if payload is missing
+                  }
+                  const name = payload.name;
+                  if (
+                    name === t.homeCategory?.toysChart?.totalLabel ||
+                    name === "Total"
+                  ) {
+                    return t.homeCategory?.toysChart?.totalLabel || "Total";
+                  }
+                  if (
+                    name === t.homeCategory?.toysChart?.buyLabel ||
+                    name === "Buy"
+                  ) {
+                    return t.homeCategory?.toysChart?.buyLabel || "Buy";
+                  }
+                  return t.homeCategory?.toysChart?.sellsLabel || "Sells";
+                }}
+                verticalAlign="top"
+                wrapperStyle={{ paddingBottom: "10px" }}
+              />
+            </RadialBarChart>
+          </ResponsiveContainer>
+        </Link>
       </div>
       <div className="flex justify-center gap-16">
         <div className="flex flex-col gap-1 items-center">

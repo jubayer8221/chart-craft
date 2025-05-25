@@ -46,7 +46,7 @@ const LeftSide = () => {
   };
 
   return (
-    <div className="md:w-60 bg-white dark:bg-[#000022] h-full fixed border-r dark:border-gray-700 border-zinc-200 hidden md:flex flex-col justify-between">
+    <div className="md:w-60  bg-white dark:bg-[#000022] h-full fixed border-r dark:border-gray-700 border-zinc-200 hidden md:flex flex-col justify-between">
       <div className="flex flex-col space-y-6 w-full justify-around">
         <Link
           href={`/${currentLocale}/`}

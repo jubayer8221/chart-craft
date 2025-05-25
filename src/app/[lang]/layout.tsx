@@ -37,7 +37,11 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
   const isPublicRoute = publicRoutes.includes(normalizedPath);
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html
+      lang={locale}
+      suppressHydrationWarning
+      dir={locale === "ar" ? "rtl" : "ltr"}
+    >
       <body className="bg-white dark:bg-[#191919] text-[#37352f] dark:text-[#ffffffcf] antialiased">
         <AuthProvider>
           <ThemeProvider
@@ -61,7 +65,7 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
                     <LeftSide />
                   </div>
                   <main className="flex-1">
-                    <MarginWidthWrapper>
+                    <MarginWidthWrapper params={{ lang: locale }}>
                       <div className="print:hidden sticky top-0 z-50 justify-between items-center">
                         <Header params={{ lang: locale }}>
                           {/* You can add children here if needed */}

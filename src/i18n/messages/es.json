@@ -68,21 +68,25 @@
   },
   "userCard": [
     {
-      "type": "admin",
+      "id": 1,
+      "type": "Administrador",
       "count": 1224,
       "year": "2025/25"
     },
     {
-      "type": "invitado",
+      "id": 2,
+      "type": "Invitado",
       "count": 500,
       "year": "2025"
     },
     {
-      "type": "moderador",
+      "id": 3,
+      "type": "Moderador",
       "count": 310,
       "year": "2025/25"
     },
     {
+      "id": 4,
       "type": "Cliente",
       "count": 2269,
       "year": "2025"
@@ -103,6 +107,16 @@
     "itemPrice": "Precio",
     "itemOldPrice": "Precio Anterior",
     "itemQuality": "Calidad",
+    "categoryName": [
+      {
+        "1": "Electrónica",
+        "2": "Ropa",
+        "3": "Libros",
+        "4": "Muebles",
+        "5": "Juguetes",
+        "6": "Comestibles"
+      }
+    ],
     "electronicsChart": {
       "title": "Electrónica",
       "buyLabel": "Comprar",

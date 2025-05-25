@@ -25,6 +25,7 @@ interface UserCardProps {
   type: string;
   count: number;
   year: string;
+  id: number;
 }
 
 const UserCard: React.FC<UserCardProps> = ({ type, count, year }) => {
@@ -71,7 +72,8 @@ const UserCardsList: React.FC = () => {
     <div className="flex w-full gap-4">
       {userCard.userCard.map((user) => (
         <UserCard
-          key={user.type}
+          key={user.id} // Use the unique ID
+          id={user.id}
           type={user.type}
           count={user.count}
           year={user.year}
