@@ -30,7 +30,7 @@ const persistConfig = {
   whitelist: ['view', 'date'], // Added 'date' to persist the date slice
 };
 
-const persistedReducer = persistReducer(persistConfig, viewReducer );
+const persistedReducer = persistReducer(persistConfig, viewReducer);
 
 export const store = configureStore({
   reducer: {
@@ -43,7 +43,7 @@ export const store = configureStore({
     colors: colorSlice,
     headers: headerReducer,
     view: persistedReducer,
-    date: persistedDateReducer,
+    date: persistedDateReducer, // Persist date slice with ISO string
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

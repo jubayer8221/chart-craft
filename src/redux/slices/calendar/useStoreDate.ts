@@ -4,14 +4,14 @@ import dayjs, { Dayjs } from 'dayjs';
 
 // Define the state interface
 interface DateState {
-  userSelectedDate: Dayjs;
+  userSelectedDate: string; // Save as ISO string
   twoDMonthArray: Dayjs[][]; // Adjust type based on getMonth return type
   selectedMonthIndex: number;
 }
 
 // Initial state
 const initialState: DateState = {
-  userSelectedDate: dayjs(),
+  userSelectedDate: dayjs().toISOString(), // Store as ISO string
   twoDMonthArray: getMonth(),
   selectedMonthIndex: dayjs().month(),
 };
@@ -22,7 +22,8 @@ const useStoreDate = createSlice({
   initialState,
   reducers: {
     setDate: (state, action: PayloadAction<Dayjs>) => {
-      state.userSelectedDate = action.payload;
+      // Convert Day.js to ISO string before storing
+      state.userSelectedDate = action.payload.toISOString();
     },
     setMonth: (state, action: PayloadAction<number>) => {
       state.twoDMonthArray = getMonth(action.payload);
@@ -35,7 +36,7 @@ const useStoreDate = createSlice({
 export const { setDate, setMonth } = useStoreDate.actions;
 
 // Export reducer
-export default useStoreDate.reducer
+export default useStoreDate.reducer;
 
 // Persistence configuration (to be used in store setup)
 import { persistReducer } from 'redux-persist';
@@ -44,8 +45,6 @@ import storage from 'redux-persist/lib/storage'; // Default storage (localStorag
 const persistConfig = {
   key: 'date_data',
   storage,
-  // Skip hydration is not directly supported in redux-persist; 
-  // manage initialization in the app if needed
 };
 
 export const persistedDateReducer = persistReducer(persistConfig, useStoreDate.reducer);
