@@ -23,7 +23,7 @@ type EventStore = {
   isPopoverOpen: boolean;
   isEventSummaryOpen: boolean;
   selectedEvent: CalendarEventType | null;
-  selectedTime: string | null; // Add selectedTime to store the clicked time
+  selectedTime: string; // Add selectedTime to store the clicked time
   setEvents: (events: CalendarEventType[]) => void;
   openPopover: () => void;
   closePopover: () => void;
@@ -63,7 +63,7 @@ export const useEventStore = create<EventStore>((set) => ({
   isPopoverOpen: false,
   isEventSummaryOpen: false,
   selectedEvent: null,
-  selectedTime: null, // Initialize selectedTime
+  selectedTime: "00:00", // Initialize selectedTime
   setEvents: (events) => set({ events }),
   openPopover: () => set({ isPopoverOpen: true }),
   closePopover: () => set({ isPopoverOpen: false }),

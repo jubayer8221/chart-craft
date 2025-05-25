@@ -5,13 +5,15 @@ import { ChevronDown } from 'lucide-react'
 
 interface EndTimeProps {
   startTime: string;
-  onTimeSelect: (time: string)=> void;
+  onSelected?: (time: string) => void;
 }
 
-export default function EndTime({ startTime, onTimeSelect }: EndTimeProps) {
+export default function EndTime({ startTime, onSelected }: EndTimeProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedTime, setSelectedTime] = useState(startTime)
+  const [selectedTime, setSelectedTime] = useState("00:00")
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // console.log("EndTime", selectedTime)
 
   useEffect(() => {
     setSelectedTime(startTime)
@@ -55,11 +57,15 @@ export default function EndTime({ startTime, onTimeSelect }: EndTimeProps) {
     return intervals
   }
 
+  if(onSelected){
+    onSelected(selectedTime)
+  }
+
   const handleTimeSelect = (time: string) => {
     setSelectedTime(time)
     setIsOpen(false)
-    if(onTimeSelect){
-      onTimeSelect(time);
+    if(onSelected){
+      onSelected(time)
     }
   }
 

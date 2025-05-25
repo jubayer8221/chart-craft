@@ -20,7 +20,7 @@ const CalendarWeekView = () => {
     return () => clearInterval(interval);
   }, []);
 
-  console.log("hours....", hours);
+  // console.log("hours....", hours);
 
   return (
     <>

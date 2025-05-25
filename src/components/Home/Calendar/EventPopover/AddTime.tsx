@@ -10,8 +10,14 @@ interface AddTimeProps {
 
 export default function AddTime({ onTimeSelect }: AddTimeProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const { selectedTime, setSelectedTime } = useEventStore()
+  const { selectedTime} = useEventStore()
+  const [startTime, setStartTime] = useState("00:00");
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // const weekTime = Number(selectedTime)
+  useEffect(()=>{
+    setStartTime(selectedTime)
+  }, [selectedTime])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,8 +46,11 @@ export default function AddTime({ onTimeSelect }: AddTimeProps) {
     return intervals
   }
 
+  if(onTimeSelect){
+    onTimeSelect(startTime)
+  }
   const handleTimeSelect = (time: string) => {
-    setSelectedTime(time)
+    setStartTime(time)
     setIsOpen(false)
     if (onTimeSelect) {
       onTimeSelect(time)
@@ -54,7 +63,7 @@ export default function AddTime({ onTimeSelect }: AddTimeProps) {
         className="w-28 flex items-center justify-between bg-slate-100 p-2 rounded-lg"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {selectedTime || '00:00'}
+        {startTime || '00:00'}
         <ChevronDown className="h-4 w-4 opacity-50" />
       </button>
       {isOpen && (
@@ -64,7 +73,7 @@ export default function AddTime({ onTimeSelect }: AddTimeProps) {
               <button
                 key={time}
                 className={`block w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 focus:bg-blue-50 focus:text-blue-600 focus:outline-none transition-colors duration-150 ${
-                  selectedTime === time ? 'bg-blue-50 text-blue-600 font-semibold' : ''
+                  startTime === time ? 'bg-blue-50 text-blue-600 font-semibold' : ''
                 }`}
                 onClick={() => handleTimeSelect(time)}
               >
