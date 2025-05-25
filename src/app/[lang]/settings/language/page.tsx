@@ -95,6 +95,8 @@
 //   );
 // }
 
+"use client";
+
 import { useRef } from "react";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Locale } from "../../../../../config";
