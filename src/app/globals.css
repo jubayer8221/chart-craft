@@ -81,17 +81,20 @@
 
 /* ========== Big Calendar (react-big-calendar) ========== */
 
-/* --- General Layout --- */
-
-/* Light mode */
-.rbc-time-view,
-.rbc-time-content,
-.rbc-timeslot-group {
+/* Base Styles */
+.rbc-time-view {
+  overflow-x: auto !important;
   background-color: #ffffff;
   border-color: #000000 !important;
 }
 
-/* Dark mode */
+.rbc-time-content,
+.rbc-timeslot-group {
+  background-color: #ffffff;
+  border-color: #616161 !important;
+}
+
+/* Dark Mode */
 .dark .rbc-calendar,
 .dark .rbc-time-view,
 .dark .rbc-time-content,
@@ -101,43 +104,129 @@
   background-color: #312c4a !important;
   color: #e5e7eb !important;
 }
-.dark .rbc-time-view,
-.dark .rbc-time-content {
-  border-color: #616161 !important;
-}
-.dark .rbc-day-slot {
-  border: none !important;
-}
 
+.dark .rbc-time-view,
+.dark .rbc-time-content,
 .dark .rbc-time-content > * + * > * {
   border-color: #616161 !important;
 }
 
-/* Remove center lines */
+.dark .rbc-day-slot {
+  border: none !important;
+}
+
+/* Remove Unnecessary Borders */
 .rbc-time-slot,
-.rbc-time-slot-group {
-  border-top: none !important;
-  border-bottom: none !important;
-  background-color: transparent !important;
-  box-shadow: none !important;
+.rbc-day-bg + .rbc-day-bg {
+  border: none !important;
 }
 
-.rbc-timeslot-group {
-  border-color: #616161 !important;
-}
-
+/* Event Styling */
 .rbc-day-slot .rbc-event-content {
   text-align: center !important;
 }
+
 .rbc-day-slot .rbc-event-label {
   padding-right: 0px !important;
   font-size: 90% !important;
+  color: gray !important;
 }
+
 .dark .rbc-event-label {
   color: rgb(177, 177, 177) !important;
 }
 
-/* --- Toolbar --- */
+.rbc-event {
+  border: none !important;
+  color: black !important;
+  padding-top: 2px !important;
+  margin: 0 !important;
+  width: 100% !important;
+  font-size: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.dark .rbc-event {
+  color: #e5e7eb !important;
+  font-weight: 500;
+}
+
+.rbc-event-content {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 5px !important;
+  margin: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+  line-height: 1.2 !important;
+}
+
+.rbc-day-slot .rbc-events-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 10px 5px 0 5px !important;
+  border: none !important;
+}
+
+/* Event Background Colors (Light Mode) */
+.rbc-event:nth-child(1) {
+  background-color: #e2f8ff !important;
+}
+.rbc-event:nth-child(2) {
+  background-color: #fefce8 !important;
+}
+.rbc-event:nth-child(3) {
+  background-color: #f2f1ff !important;
+}
+.rbc-event:nth-child(4) {
+  background-color: #fdf2fb !important;
+}
+.rbc-event:nth-child(5) {
+  background-color: #e2f8ff !important;
+}
+.rbc-event:nth-child(6) {
+  background-color: #fefce8 !important;
+}
+.rbc-event:nth-child(7) {
+  background-color: #f2f1ff !important;
+}
+.rbc-event:nth-child(8) {
+  background-color: #fdf2fb !important;
+}
+
+/* Event Background Colors (Dark Mode) */
+.dark .rbc-event:nth-child(1) {
+  background-color: #685e74 !important;
+}
+.dark .rbc-event:nth-child(2) {
+  background-color: #6b7280 !important;
+}
+.dark .rbc-event:nth-child(3) {
+  background-color: #4b5563 !important;
+}
+.dark .rbc-event:nth-child(4) {
+  background-color: #374151 !important;
+}
+.dark .rbc-event:nth-child(5) {
+  background-color: #1f2937 !important;
+}
+.dark .rbc-event:nth-child(6) {
+  background-color: #111827 !important;
+}
+.dark .rbc-event:nth-child(7) {
+  background-color: #334155 !important;
+}
+.dark .rbc-event:nth-child(8) {
+  background-color: #475569 !important;
+}
+
+/* Toolbar */
 .rbc-toolbar-label {
   text-align: right !important;
   padding: 0px 20px !important;
@@ -214,10 +303,9 @@
   display: flex !important;
   background-color: #f7fdff !important;
   border-bottom: 1px solid #616161 !important;
-  min-height: 40px !important; /* Ensure header has enough height */
+  min-height: 40px !important;
 }
 
-/* Dark mode styling for the header */
 .dark .rbc-time-header {
   background-color: #312c4a !important;
   color: #e5e7eb !important;
@@ -228,9 +316,8 @@
   height: 60px !important;
 }
 
-.rbc-time-view {
-  overflow-x: auto !important;
-  white-space: wrap !important;
+.dark .rbc-time-header-cell {
+  color: #e5e7eb !important;
 }
 
 .rbc-time-content {
@@ -242,28 +329,17 @@
   min-height: 0 !important;
 }
 
-/* --- Day Slot --- */
+/* Day Slot */
 .rbc-day-slot {
   font-size: 10px !important;
   min-width: 100px !important;
 }
 
-/* Ensure day slots in day view are wide enough */
 .rbc-day-view .rbc-day-slot {
-  min-width: 200px !important; /* Wider for day view */
+  min-width: 200px !important;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .rbc-time-view {
-    max-width: 100% !important;
-  }
-  .rbc-day-slot {
-    min-width: 120px !important;
-  }
-}
-
-/* --- Time Gutter --- */
+/* Time Gutter */
 .rbc-time-gutter.rbc-time-column {
   font-size: 12px !important;
   position: sticky !important;
@@ -283,11 +359,13 @@
   background-color: #f7fdff !important;
 }
 
-/* --- Event Styling --- */
-.rbc-event {
-  border: none !important;
-  color: black !important;
-  padding-top: 2px !important;
+/* Hidden Elements */
+.rbc-allday-cell,
+.rbc-day-hidden,
+.rbc-row-bg .rbc-day-bg.rbc-day-hidden {
+  display: none !important;
+  width: 0 !important;
+  padding: 0 !important;
   margin: 0 !important;
   width: 100% !important;
   font-size: 12px !important;
