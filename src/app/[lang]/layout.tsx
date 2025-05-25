@@ -42,7 +42,7 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
       suppressHydrationWarning
       dir={locale === "ar" ? "rtl" : "ltr"}
     >
-      <body className="bg-white dark:bg-[#191919] text-[#37352f] dark:text-[#ffffffcf] antialiased">
+      <body className="bg-white dark:bg-[#191919] text-[#37352f] dark:text-[#ffffffcf] antialiased max-w-screen">
         <AuthProvider>
           <ThemeProvider
             attribute="class"
@@ -64,7 +64,7 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
                   <div className="print:hidden min-h-screen">
                     <LeftSide />
                   </div>
-                  <main className="flex-1">
+                  <main className="flex-1 max-w-screen">
                     <MarginWidthWrapper params={{ lang: locale }}>
                       <div className="print:hidden sticky top-0 z-50 justify-between items-center">
                         <Header params={{ lang: locale }}>
