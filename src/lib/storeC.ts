@@ -16,6 +16,9 @@ export type CalendarEventType = {
   title: string;
   date: dayjs.Dayjs;
   description: string;
+  guests?:string;
+  endTime: string;
+  startTime: string;
 };
 
 type EventStore = {
@@ -25,6 +28,7 @@ type EventStore = {
   selectedEvent: CalendarEventType | null;
   selectedTime: string; // Add selectedTime to store the clicked time
   setEvents: (events: CalendarEventType[]) => void;
+  addEvent: (event: CalendarEventType) => void;
   openPopover: () => void;
   closePopover: () => void;
   openEventSummary: (event: CalendarEventType) => void;
@@ -63,6 +67,15 @@ export const useEventStore = create<EventStore>((set) => ({
   selectedEvent: null,
   selectedTime: "00:00", // Initialize selectedTime
   setEvents: (events) => set({ events }),
+  addEvent: (newEvent) => set((state) => {
+    const isDupliate = state.events.some(
+      (event) => event.date === newEvent.date && event.startTime === newEvent.startTime
+    );
+    if(isDupliate){
+      return state;
+    }
+    return { events: [...state.events, newEvent]}
+  }),
   openPopover: () => set({ isPopoverOpen: true }),
   closePopover: () => set({ isPopoverOpen: false }),
   openEventSummary: (event) =>

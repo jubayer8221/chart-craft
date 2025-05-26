@@ -46,9 +46,17 @@ export default function AddTime({ onTimeSelect }: AddTimeProps) {
     return intervals
   }
 
-  if(onTimeSelect){
-    onTimeSelect(startTime)
-  }
+ // Sync startTime with selectedTime from store
+  useEffect(() => {
+    setStartTime(selectedTime)
+  }, [selectedTime])
+
+  // Call onTimeSelect when startTime changes
+  useEffect(() => {
+    if (onTimeSelect) {
+      onTimeSelect(startTime)
+    }
+  }, [startTime, onTimeSelect])
   
   const handleTimeSelect = (time: string) => {
     setStartTime(time)

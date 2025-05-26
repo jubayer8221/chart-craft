@@ -13,7 +13,7 @@ export default function EndTime({ startTime, onSelected }: EndTimeProps) {
   const [selectedTime, setSelectedTime] = useState("00:00")
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  // console.log("EndTime", selectedTime)
+  console.log("EndTime", selectedTime)
 
   useEffect(() => {
     setSelectedTime(startTime)
@@ -60,7 +60,6 @@ export default function EndTime({ startTime, onSelected }: EndTimeProps) {
   if(onSelected){
     onSelected(selectedTime)
   }
-
   const handleTimeSelect = (time: string) => {
     setSelectedTime(time)
     setIsOpen(false)

@@ -98,8 +98,8 @@ export default function Header({ params }: HeadersProps) {
   return (
     <div
       className={cn(
-        "bg-white dark:bg-[#000022] border-b border-gray-200 dark:border-zinc-700 transition-all",
-        scrolled && "bg-white/75 dark:bg-zinc-900/75 backdrop-blur-lg"
+        "bg-white dark:bg-[#312c4a] border-b border-gray-200 dark:border-zinc-700 transition-all",
+        scrolled && "bg-white/75 dark:bg-[#312c4a] backdrop-blur-lg"
       )}
     >
       <div className="flex h-[47px] items-center justify-between px-4">
@@ -117,7 +117,7 @@ export default function Header({ params }: HeadersProps) {
           </Link>
 
           <div className="hidden md:block">
-            <div className="w-[300px] h-8 border border-gray-300 dark:border-gray-700 rounded-lg flex items-center px-2 bg-white dark:bg-[#0f0f22]">
+            <div className="w-[300px] h-8 border border-gray-300 dark:border-gray-700 rounded-lg flex items-center px-2 bg-white dark:bg-[#312c4a]">
               <FiSearch className="text-gray-400 text-[20px] mr-2" />
               <input
                 type="text"
@@ -224,7 +224,7 @@ export default function Header({ params }: HeadersProps) {
                   />
                 </span>
                 {dropdownOpen && (
-                  <div className="absolute right-0 mt-4 w-48 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-lg">
+                  <div className="absolute right-0 mt-4 w-48 bg-white dark:bg-[#312c4a] border border-gray-200 dark:border-zinc-700 rounded-lg shadow-lg">
                     <ul className="py-2">
                       <Link href="/settings/account">
                         <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-700 cursor-pointer">
@@ -236,12 +236,20 @@ export default function Header({ params }: HeadersProps) {
                           Settings
                         </li>
                       </Link>
-                      <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-700 cursor-pointer">
+                      <li
+                        className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-700 "
+                        onClick={() => setIsOpen(true)}
+                      >
                         <button onClick={() => setIsOpen(true)}>
-                          <span>Logout</span>
+                          <span className="flex items-center gap-3 cursor-pointer">
+                            <p>Logout</p>
+                            <FiLogOut size={20} />
+                          </span>
                         </button>
+                      </li>
+                      <li>
                         {isOpen && (
-                          <div className="fixed overflow-hidden inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/60">
+                          <div className="fixed overflow-hidden cursor-default inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/60">
                             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 w-full max-w-md transform transition-all duration-300 scale-100">
                               <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
                                 Confirm Logout
@@ -259,18 +267,16 @@ export default function Header({ params }: HeadersProps) {
                                 </button>
                                 <button
                                   onClick={handleLogout}
-                                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200 flex items-center gap-2"
+                                  className="px-4 py-2 bg-red-500 text-white rounded-lg cursor-pointer  hover:bg-red-600 transition-colors duration-200 flex items-center gap-2"
                                   aria-label="Confirm logout"
                                 >
-                                  <FiLogOut size={20} />
                                   Logout
+                                  <FiLogOut size={20} />
                                 </button>
                               </div>
                             </div>
                           </div>
                         )}
-
-                        <FiLogOut />
                       </li>
                     </ul>
                   </div>

@@ -46,11 +46,11 @@ const LeftSide = () => {
   };
 
   return (
-    <div className="md:hidden lg:block bg-white dark:bg-[#000022] h-full fixed border-r dark:border-gray-700 border-zinc-200 hidden  flex-col justify-between min-w-60 ">
+    <div className="md:hidden lg:block bg-white dark:bg-[#312c4a] h-full fixed border-r dark:border-gray-700 border-zinc-200 hidden  flex-col justify-between min-w-60 ">
       <div className="flex flex-col space-y-6 w-full justify-around">
         <Link
           href={`/${currentLocale}/`}
-          className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 dark:bg-[#000022] dark:border-gray-700 h-[47px] w-full"
+          className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 dark:bg-[#312c4a] dark:border-gray-700 h-[47px] w-full"
         >
           <Image src="/logo.png" alt="Logo" width={80} height={40} priority />
         </Link>
