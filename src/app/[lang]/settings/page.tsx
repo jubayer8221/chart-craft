@@ -7,6 +7,7 @@ import { FaUser, FaLock } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import LanguageDropdown from "@/app/[lang]/settings/language/page";
 import { locales, Locale, isValidLocale } from "@/i18n/routing";
+import ThemeToggle from "@/components/Navbar/ThemeToggle";
 
 export default function Page() {
   const pathname = usePathname() || "/";
@@ -37,38 +38,43 @@ export default function Page() {
   // };
 
   return (
-    <div className="w-full max-h-screen bg-white dark:bg-gray-800 justify-start min-w-[300px] min-h-[537px]">
+    <div className="w-full max-h-screen bg-white dark:bg-[#312c4a] justify-start min-w-[300px] min-h-[537px]">
       {/* Page Title */}
-      <div className="w-full p-4">
-        <h1 className="text-xl font-bold text-gray-800 mb-6 text-left">
+      <div className="w-full p-4 ">
+        <h1 className="text-xl font-bold text-gray-700 dark:text-white mb-6 text-left">
           {t.settings || "Settings"}
         </h1>
-        <div className="grid grid-cols-1 lg:grid-rows-3 gap-4 w-full">
+        <div className="grid grid-cols-1 lg:grid-rows-3 gap-4 w-full ">
           {/* Accounts */}
           <Link href="/settings/account">
-            <div className="shadow-lg bg-gray-100 rounded-lg p-3 text-center hover:bg-gray-200 cursor-pointer items-center justify-center">
-              <h2 className="flex text-gray-800 items-center justify-start gap-4">
+            <div className="shadow-lg bg-gray-100 dark:bg-gray-700 dark:text-white rounded-lg p-3 text-center hover:bg-gray-200 cursor-pointer items-center justify-center">
+              <h1 className="flex text-gray-700 dark:text-white items-center justify-start gap-4">
                 <FaUser />
-                {/* //Accounts */}
                 {t.account || "Accounts"}
-              </h2>
+              </h1>
             </div>
           </Link>
           {/* Privacy */}
           <Link href="/settings/privacy">
-            <div className="shadow-lg bg-gray-100 rounded-lg p-3 text-center hover:bg-gray-200 cursor-pointer">
-              <h2 className=" text-gray-800 flex items-center justify-start gap-4">
+            <div className="shadow-lg bg-gray-100 dark:bg-gray-700 dark:text-white rounded-lg p-3 text-center hover:bg-gray-200 cursor-pointer">
+              <h1 className=" text-gray-800 dark:text-white flex items-center justify-start gap-4">
                 <FaLock></FaLock>
-                {/* Privacy */}
-                {/* {t?.setting?.privacy || "Privacy"} */}
                 {t.privacy || "Privacy"}
-              </h2>
+              </h1>
             </div>
           </Link>
           {/* More Language Settings  */}
           {/* <Link href="/settings/language"> */}
-          <div className=" cursor-pointer w-full">
+          <div className=" cursor-pointer w-full bg-gray-100 dark:bg-gray-700 dark:text-white rounded-lg">
             <LanguageDropdown />
+          </div>
+          <div className="shadow-lg bg-gray-100 dark:bg-gray-700 dark:text-white rounded-lg p-3 text-center hover:bg-gray-200 cursor-pointer">
+            <h2 className="  flex items-center justify-start rounded-lg">
+              {/* <FaLock></FaLock> */}
+              <ThemeToggle></ThemeToggle>
+              {/* Privacy */}
+              {/* {t.privacy || "Privacy"} */}
+            </h2>
           </div>
 
           {/* <div className="shadow-lg bg-gray-100 rounded-lg p-3 text-center items-center hover:bg-gray-200 cursor-pointer">
