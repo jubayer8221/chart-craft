@@ -106,7 +106,7 @@ export default function Header({ params }: HeadersProps) {
         <div className="flex items-center space-x-4">
           <Link
             href="/"
-            className="flex flex-row space-x-3 items-center justify-center md:hidden"
+            className="flex flex-row space-x-3 items-center justify-center lg:hidden xl:hidden"
           >
             <Image
               src="/logo.png"
