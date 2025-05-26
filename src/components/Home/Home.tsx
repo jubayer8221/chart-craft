@@ -9,7 +9,7 @@ import BookChart from "./BookChart";
 import GroceriesChart from "./GroceriesChart";
 import EventCalendar from "./EventCalendar";
 import Announcements from "./Announcements";
-import TopSelling from "./TopSelling";
+// import TopSelling from "./TopSelling";
 
 const MainPage = () => {
   return (
@@ -64,9 +64,7 @@ const MainPage = () => {
           <Announcements />
         </div>
       </div>
-      <div>
-        <TopSelling />
-      </div>
+      <div>{/* <TopSelling /> */}</div>
     </>
   );
 };
