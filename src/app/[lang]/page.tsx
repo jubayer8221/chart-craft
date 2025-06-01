@@ -32,3 +32,24 @@ export default function Home() {
     </main>
   );
 }
+
+// import MainPage from "@/components/Home/Home";
+// import { translateText } from "@/app/api/translate";
+
+// interface PageProps {
+//   params: { lang: string };
+// }
+
+// export default async function Home({ params }: PageProps) {
+//   const lang = params.lang || "en";
+
+//   // Fetch translations dynamically
+//   const welcomeText = await translateText("Welcome to our website", lang);
+//   const homeLabel = await translateText("Home", lang);
+
+//   return (
+//     <main>
+//       <MainPage welcomeText={welcomeText} homeLabel={homeLabel} />
+//     </main>
+//   );
+// }

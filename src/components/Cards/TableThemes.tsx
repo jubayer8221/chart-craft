@@ -3,7 +3,9 @@
 import Image from "next/image";
 // import React from "react";
 // import React, { useRef } from "react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { locales, Locale, isValidLocale } from "@/i18n/routing";
 
 // const tableThemes = [
 //   {
@@ -33,6 +35,26 @@ import React from "react";
 // ];
 
 const TableThemes: React.FC = () => {
+  const pathname = usePathname() || "/";
+  const currentLocaleCode = (pathname.split("/")[1] ?? "en") as Locale;
+  const currentLocale = isValidLocale(currentLocaleCode)
+    ? currentLocaleCode
+    : locales[0];
+
+  const [t, setT] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const msgs = (await import(`@/i18n/messages/${currentLocale}.json`))
+          .default;
+        setT(msgs);
+      } catch {
+        setT({});
+      }
+    })();
+  }, [currentLocale]);
+
   //   Function to scroll left or right
   //   const scrollRef = useRef<HTMLDivElement>(null);
   // const handleScroll = (direction: "left" | "right") => {
@@ -69,9 +91,9 @@ const TableThemes: React.FC = () => {
       <div className="max-w-md mx-auto p-2 bg-white dark:bg-gray-500 rounded-lg">
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
-            Table Themes
+            {t["theme.tableThemes"] || "Table Themes"}
           </h2>
-          <h1 className="text-lg font-semibold"></h1>
+          {/* <h1 className="text-2xl font-bold mb-2">{t["themes"] || "Themes"}</h1> */}
           {/* 
           <button
             type="submit"
@@ -92,7 +114,8 @@ const TableThemes: React.FC = () => {
         </div>
 
         <p className="text-sm text-gray-600 text-center dark:text-white">
-          To see table theme, click the button above.
+          {t["theme?.TableThemesDescription"] ||
+            "To see table theme, click the button above."}
         </p>
       </div>
     </div>

@@ -16,8 +16,9 @@ import React, {
   useCallback,
 } from "react";
 import { AuthContext } from "@/components/context/AuthContext";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+import LanguageSwitcher from "@/components/Language/LanguageSwitcher";
 import { Locale, LOCALES } from "../../../config";
+// import TranslateWithGoogle from "../Language/TranslateWithGoogle";
 // import LocaleLayoutProps from "../../app/layout";
 
 interface HeadersProps {
@@ -128,11 +129,12 @@ export default function Header({ params }: HeadersProps) {
           </div>
         </div>
 
-        <div className="hidden md:block md:mr-10">
+        <div className="hidden md:block md:mr-10 lg:mr-0 xl:mr-0">
           <div className="flex flex-row items-center space-x-4">
             <ThemeToggle />
 
-            <div>
+            <div className="hidden md:block lg:flex">
+              {/* <TranslateWithGoogle/> */}
               <LanguageSwitcher currentLocale={locale} />
             </div>
             <span

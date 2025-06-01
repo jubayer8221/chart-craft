@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { LOCALES, Locale } from "../../config";
+import { LOCALES, Locale } from "../../../config";
 // import { FiGlobe } from "react-icons/fi";
 import { IoLanguage } from "react-icons/io5";
 

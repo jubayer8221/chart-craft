@@ -98,7 +98,8 @@
 "use client";
 
 import { useRef } from "react";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+// import LanguageSwitcher from "@/components/LanguageSwitcher";
+import LanguageSwitcher from "@/components/Language/LanguageSwitcher";
 import { Locale } from "../../../../../config";
 import { useParams } from "next/navigation";
 

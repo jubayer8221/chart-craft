@@ -2,13 +2,13 @@
     "menu": "القائمة",
     "home": "الرئيسية",
     "dashboard": "لوحة التحكم",
-    "admin": "المشرف",
-    "employee": "الموظف",
+    "admin": "المدير",
+    "employee": "موظف",
     "employees": "الموظفون",
     "clients": "العملاء",
     "themes": "السمات",
     "configuration": "الإعدادات",
-    "report": "التقرير",
+    "report": "تقرير",
     "messages": "الرسائل",
     "events": "الأحداث",
     "announcements": "الإعلانات",
@@ -17,10 +17,13 @@
     "account": "الحساب",
     "privacy": "الخصوصية",
     "help": "المساعدة",
+    "prev": "السابق",
+    "next": "التالي",
     "moreSettings": "إعدادات إضافية",
     "announcementPage": {
         "announcementsTitle": "الإعلانات",
         "viewAll": "عرض الكل",
+        "showLess": "عرض أقل",
         "announcementDate": "2025-01-01",
         "announcementList": [
             {
@@ -32,13 +35,13 @@
             {
                 "title": "الصيانة المجدولة",
                 "date": "2025-06-15",
-                "description": "سيخضع نظامنا لصيانة مجدولة في 20 يونيو من الساعة 1 صباحًا إلى 5 صباحًا بتوقيت UTC.",
+                "description": "سيخضع نظامنا للصيانة المجدولة في 20 يونيو من الساعة 1 إلى 5 صباحًا بتوقيت UTC.",
                 "bgClass": "bg-lamaPurpleLight"
             },
             {
                 "title": "حدث المجتمع",
                 "date": "2025-07-05",
-                "description": "انضم إلى حدث المجتمع القادم لدينا للتواصل وتبادل المعرفة.",
+                "description": "انضم إلى حدث المجتمع القادم للتواصل ومشاركة المعرفة.",
                 "bgClass": "bg-lamaYellowLight"
             }
         ]
@@ -50,26 +53,26 @@
                 "id": 1,
                 "title": "مؤتمر التكنولوجيا 2025",
                 "time": "9:00 صباحًا - 5:00 مساءً",
-                "description": "انضم إلينا لمؤتمر يوم كامل حول أحدث الاتجاهات في التكنولوجيا، بما في ذلك الذكاء الاصطناعي، الحوسبة السحابية، ومستقبل تطوير البرمجيات."
+                "description": "انضم إلينا لمؤتمر يوم كامل حول أحدث اتجاهات التكنولوجيا، بما في ذلك الذكاء الاصطناعي، الحوسبة السحابية، ومستقبل تطوير البرمجيات."
             },
             {
                 "id": 2,
                 "title": "لقاء التواصل",
                 "time": "6:00 مساءً - 8:00 مساءً",
-                "description": "حدث تواصل غير رسمي للمحترفين في الصناعة لتبادل الأفكار، بناء العلاقات، ومشاركة الخبرات."
+                "description": "حدث تواصل غير رسمي لمحترفي الصناعة لتبادل الأفكار، بناء العلاقات، ومشاركة الخبرات."
             },
             {
                 "id": 3,
-                "title": "إطلاق المنتج: أجهزة منزلية ذكية مدعومة بالذكاء الاصطناعي",
+                "title": "إطلاق المنتج: أجهزة المنزل الذكي بالذكاء الاصطناعي",
                 "time": "10:00 صباحًا - 12:00 ظهرًا",
-                "description": "كن أول من يجرب أجهزتنا المنزلية الذكية الجديدة المدعومة بالذكاء الاصطناعي والتي ستغير طريقة عيشنا. يتضمن الحدث عرضًا مباشرًا وجلسة أسئلة وأجوبة مع فريق المنتج."
+                "description": "كن أول من يجرب أجهزة المنزل الذكي الجديدة بالذكاء الاصطناعي التي ستحدث ثورة في طريقة عيشنا. يتضمن الحدث عرضًا مباشرًا وجلسة أسئلة وأجوبة مع فريق المنتج."
             }
         ]
     },
     "userCard": [
         {
             "id": 1,
-            "type": "مشرف",
+            "type": "مدير",
             "count": 1224,
             "year": "2025/25"
         },
@@ -95,7 +98,7 @@
     "homeCategory": {
         "electronics": "الإلكترونيات",
         "table": "جدول",
-        "barChart": "مخطط أعمدة",
+        "barChart": "مخطط شريطي",
         "pieChart": "مخطط دائري",
         "buySellReport": "تقرير الشراء والبيع",
         "clothing": "الملابس",
@@ -109,12 +112,12 @@
         "itemQuality": "الجودة",
         "categoryName": [
             {
-                "1": "إلكترونيات",
-                "2": "ملابس",
-                "3": "كتب",
-                "4": "أثاث",
-                "5": "ألعاب",
-                "6": "بقالة"
+                "1": "الإلكترونيات",
+                "2": "الملابس",
+                "3": "الكتب",
+                "4": "الأثاث",
+                "5": "الألعاب",
+                "6": "البقالة"
             }
         ],
         "electronicsChart": {
@@ -144,7 +147,7 @@
         "clothingsChart": {
             "title": "الملابس",
             "incomeLabel": "الدخل",
-            "expenseLabel": "المصروفات",
+            "expenseLabel": "النفقات",
             "data": [
                 {
                     "name": "يناير",
@@ -301,9 +304,9 @@
             "title": "البقالة",
             "buyLabel": "شراء",
             "sellsLabel": "بيع",
-            "percentage": "٩٢٪",
-            "maxLTS": "من ١٠ كحد أقصى LTS",
-            "yearRange": "عام ٢٠٢٤ - عام ٢٠٢٥",
+            "percentage": "92%",
+            "maxLTS": "من 10 كحد أقصى LTS",
+            "yearRange": "عام 2024 - عام 2025",
             "data": [
                 {
                     "name": "شراء",
@@ -327,7 +330,7 @@
                         "quality": "عالية"
                     },
                     {
-                        "item": "ريديمي",
+                        "item": "ريد مي",
                         "price": 899,
                         "quality": "متوسطة"
                     },
@@ -421,7 +424,7 @@
             {
                 "5": [
                     {
-                        "item": "شكل أكشن",
+                        "item": "تمثال أكشن",
                         "price": 25,
                         "oldPrice": 30,
                         "quality": "جديد"
@@ -432,7 +435,7 @@
                         "quality": "جديد"
                     },
                     {
-                        "item": "لغز",
+                        "item": "أحجية",
                         "price": 15,
                         "oldPrice": 20,
                         "quality": "جديد"
@@ -468,34 +471,34 @@
         ]
     },
     "topSelling": {
-        "title": "الأعلى مبيعًا",
+        "title": "الأكثر مبيعًا",
         "stockReportTitle": "تقرير المخزون",
         "viewAllLabel": "عرض الكل",
-        "showLessLabel": "إظهار أقل",
+        "showLessLabel": "عرض أقل",
         "itemsLabel": "العناصر",
         "priceLabel": "السعر",
         "discountLabel": "الخصم",
-        "soldLabel": "تم البيع",
+        "soldLabel": "المبيعات",
         "totalOrdersLabel": "إجمالي الطلبات",
         "categoryLabel": "الأزياء",
         "data": [
             {
                 "id": 1,
-                "title": "تيشرت أزرق",
-                "description": "تيشرت أزرق أنيق",
-                "image": "/public/image/blue_tshirt.png",
+                "title": "تي شيرت أزرق",
+                "description": "تي شيرت أزرق أنيق",
+                "image": "/image/blue_tshirt.png",
                 "price": 100,
-                "discount": "١٥٪",
+                "discount": "15%",
                 "sold": 300,
                 "totalOrder": 100
             },
             {
                 "id": 2,
                 "title": "هودي أحمر",
-                "description": "هودي أحمر مريح ودافئ",
-                "image": "/public/image/blue_tshirt.png",
+                "description": "هودي أحمر دافئ ومريح",
+                "image": "/image/blue_tshirt.png",
                 "price": 150,
-                "discount": "٢٠٪",
+                "discount": "20%",
                 "sold": 200,
                 "totalOrder": 80
             },
@@ -503,9 +506,9 @@
                 "id": 3,
                 "title": "جينز أسود",
                 "description": "جينز أسود مريح",
-                "image": "/public/image/blue_tshirt.png",
+                "image": "/image/blue_tshirt.png",
                 "price": 200,
-                "discount": "١٠٪",
+                "discount": "10%",
                 "sold": 400,
                 "totalOrder": 200
             },
@@ -513,9 +516,9 @@
                 "id": 4,
                 "title": "أحذية رياضية بيضاء",
                 "description": "أحذية رياضية بيضاء عصرية",
-                "image": "/public/image/blue_tshirt.png",
+                "image": "/image/blue_tshirt.png",
                 "price": 250,
-                "discount": "٢٥٪",
+                "discount": "25%",
                 "sold": 500,
                 "totalOrder": 500
             },
@@ -523,9 +526,9 @@
                 "id": 5,
                 "title": "جاكيت أخضر",
                 "description": "جاكيت أخضر دافئ",
-                "image": "/public/image/blue_tshirt.png",
+                "image": "/image/blue_tshirt.png",
                 "price": 300,
-                "discount": "٣٠٪",
+                "discount": "30%",
                 "sold": 150,
                 "totalOrder": 400
             },
@@ -533,9 +536,9 @@
                 "id": 6,
                 "title": "وشاح أصفر",
                 "description": "وشاح أصفر مشرق",
-                "image": "/public/image/blue_tshirt.png",
+                "image": "/image/blue_tshirt.png",
                 "price": 50,
-                "discount": "٥٪",
+                "discount": "5%",
                 "sold": 600,
                 "totalOrder": 750
             },
@@ -543,9 +546,9 @@
                 "id": 7,
                 "title": "أحذية بنية",
                 "description": "أحذية بنية متينة",
-                "image": "/public/image/blue_tshirt.png",
+                "image": "/image/blue_tshirt.png",
                 "price": 400,
-                "discount": "٢٠٪",
+                "discount": "20%",
                 "sold": 250,
                 "totalOrder": 700
             },
@@ -553,9 +556,9 @@
                 "id": 8,
                 "title": "قبعة بنفسجية",
                 "description": "قبعة بنفسجية أنيقة",
-                "image": "/public/image/blue_tshirt.png",
+                "image": "/image/blue_tshirt.png",
                 "price": 80,
-                "discount": "١٠٪",
+                "discount": "10%",
                 "sold": 350,
                 "totalOrder": 900
             },
@@ -563,9 +566,9 @@
                 "id": 9,
                 "title": "نظارات شمسية",
                 "description": "نظارات شمسية برتقالية رائعة",
-                "image": "/public/image/blue_tshirt.png",
+                "image": "/image/blue_tshirt.png",
                 "price": 120,
-                "discount": "١٥٪",
+                "discount": "15%",
                 "sold": 450,
                 "totalOrder": 650
             },
@@ -573,9 +576,9 @@
                 "id": 10,
                 "title": "قفازات رمادية",
                 "description": "قفازات رمادية مريحة",
-                "image": "/public/image/blue_tshirt.png",
+                "image": "/image/blue_tshirt.png",
                 "price": 60,
-                "discount": "٥٪",
+                "discount": "5%",
                 "sold": 700,
                 "totalOrder": 400
             },
@@ -583,22 +586,44 @@
                 "id": 11,
                 "title": "فستان وردي",
                 "description": "فستان وردي أنيق",
-                "image": "/public/image/blue_tshirt.png",
+                "image": "/image/blue_tshirt.png",
                 "price": 500,
-                "discount": "٢٥٪",
+                "discount": "25%",
                 "sold": 350,
                 "totalOrder": 500
             },
             {
                 "id": 12,
                 "title": "قبعة زرقاء",
-                "description": "قبعة زرقاء كاجوال",
-                "image": "/public/image/blue_tshirt.png",
+                "description": "قبعة زرقاء عادية",
+                "image": "/image/blue_tshirt.png",
                 "price": 40,
-                "discount": "١٠٪",
+                "discount": "10%",
                 "sold": 400,
                 "totalOrder": 600
             }
         ]
+    },
+    "allEmployees": {
+        "title": "جميع الموظفين",
+        "searchPlaceholder": "البحث حسب الاسم...",
+        "info": "معلومات",
+        "emplpoyeeId": "معرف الموظف",
+        "grade": "الدرجة",
+        "phone": "الهاتف",
+        "email": "البريد الإلكتروني",
+        "address": "العنوان",
+        "actions": "الإجراءات"
+    },
+    "theme": {
+        "title": "السمات",
+        "convertFile": "تحويل ملفك",
+        "convertFileDescription": "لتحويل بياناتك إلى مخطط، انقر فوق الزر أعلاه وقم بتحميل ملفك.",
+        "tableThemes": "سمات الجدول",
+        "TableThemesDescription": "لرؤية سمات الجدول، انقر فوق الزر أعلاه.",
+        "topSelling": "الأكثر مبيعًا",
+        "chartThemes": "سمات المخططات",
+        "recentOrders": "الطلبات الأخيرة",
+        "sells": "المبيعات"
     }
 }
