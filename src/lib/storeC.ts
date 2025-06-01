@@ -27,11 +27,13 @@ type EventStore = {
   isPopoverOpen: boolean;
   isEventSummaryOpen: boolean;
   selectedEvent: CalendarEventType | null;
+  selectedTime: string | null;
   setEvents: (events: CalendarEventType[]) => void;
   openPopover: () => void;
   closePopover: () => void;
   openEventSummary: (event: CalendarEventType) => void;
   closeEventSummary: () => void;
+  setSelectedTime: (time: string) => void;
 };
 
 interface ToggleSideBarType {
@@ -73,6 +75,7 @@ export const useEventStore = create<EventStore>((set) => {
     isPopoverOpen: false,
     isEventSummaryOpen: false,
     selectedEvent: null,
+    selectedTime: null,
     setEvents: (events) => set({ events }),
     openPopover: () => set({ isPopoverOpen: true }),
     closePopover: () => set({ isPopoverOpen: false }),
@@ -80,6 +83,7 @@ export const useEventStore = create<EventStore>((set) => {
       set({ isEventSummaryOpen: true, selectedEvent: event }),
     closeEventSummary: () =>
       set({ isEventSummaryOpen: false, selectedEvent: null }),
+    setSelectedTime: (time) => set({selectedTime: time}),
   };
 });
 

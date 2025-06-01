@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { ChevronDown } from 'lucide-react'
-
+import { useEventStore } from '@/lib/storeC'
 interface AddTimeProps {
   onTimeSelect?: (time: string) => void
 }
@@ -11,6 +11,17 @@ export default function AddTime({ onTimeSelect }: AddTimeProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [startTime, setStartTimes] = useState("12:00 AM")
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const {selectedTime} = useEventStore();
+
+  // console.log("time00000000: ", selectedTime);
+  // startTime with selectedTime form day and Week
+  useEffect(()=>{
+    if(selectedTime){
+      setStartTimes(selectedTime)
+      onTimeSelect(selectedTime)
+    }
+  }, [selectedTime])
+  // console.log("startTimekdjfdlsld: ", startTime);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,6 +51,7 @@ export default function AddTime({ onTimeSelect }: AddTimeProps) {
   }
 
   const handleTimeSelect = (time: string) => {
+    
     setStartTimes(time)
     setIsOpen(false)
     if (onTimeSelect) {
@@ -65,7 +77,7 @@ export default function AddTime({ onTimeSelect }: AddTimeProps) {
                 className={`block w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 focus:bg-blue-50 focus:text-blue-600 focus:outline-none transition-colors duration-150 ${
                   startTime === time ? 'bg-blue-50 text-blue-600 font-semibold' : ''
                 }`}
-                onClick={() => handleTimeSelect(startTime)}
+                onClick={() => handleTimeSelect(time)}
               >
                 {time}
               </button>
