@@ -16,6 +16,7 @@ export function EventSummaryPopover({ isOpen, onClose, event }: EventSummaryPopo
     
     
   const popoverRef = useRef<HTMLDivElement>(null)
+  // console.log("event====", event)
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -37,7 +38,7 @@ export function EventSummaryPopover({ isOpen, onClose, event }: EventSummaryPopo
 
   return (
     <div
-      className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50"
+      className="fixed inset-0 z-40 flex items-center justify-center bg-black/50"
       onClick={onClose}
     >
       <div
@@ -54,8 +55,11 @@ export function EventSummaryPopover({ isOpen, onClose, event }: EventSummaryPopo
         <div className="space-y-2">
           <p><strong>Title:</strong> {event.title}</p>
           {/* Format the date before displaying it */}
-          <p><strong>Date:</strong> {dayjs(event.date).format("dddd, MMMM D, YYYY h:mm A")}</p>
+          <p><strong>Start Date and time:</strong> {dayjs(event.date).format("dddd, MMMM D, YYYY h:mm A")}</p>
+          <p><strong>End Date and time:</strong> {event.endDate} - {event.endTime}</p>
           {/* Add more event details here */}
+          <p><strong>Guests:</strong> {event.guests}</p>
+          <p><strong>Description:</strong> {event.description}</p>
         </div>
       </div>
     </div>

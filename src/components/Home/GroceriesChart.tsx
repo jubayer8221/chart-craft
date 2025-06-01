@@ -81,7 +81,7 @@ const GroceriesChart = () => {
       return acc;
     }, {} as Record<string, ChartDataItem>);
     const result = Object.values(aggregated);
-    console.log("Consolidated data:", result); // Debug log
+    // console.log("Consolidated data:", result); // Debug log
     return result;
   };
 

@@ -56,7 +56,7 @@ const Pagination = ({totalItems, itemsPerPage, currentPage, onPageChange}: Pagin
       pages.push(totalPages);
     }
   
-    console.log("Generated pages:", pages); // For debugging
+    // console.log("Generated pages:", pages); // For debugging
     return pages;
   };
 

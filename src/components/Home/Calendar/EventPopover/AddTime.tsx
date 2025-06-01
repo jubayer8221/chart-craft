@@ -2,15 +2,28 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { ChevronDown } from 'lucide-react'
-
-interface AddTimeProps{
-    onTimeSelect?: (time: string) => void;
+import { useEventStore } from '@/lib/storeC'
+interface AddTimeProps {
+  onTimeSelect?: (time: string) => void
 }
 
-export default function AddTime({onTimeSelect}: AddTimeProps) {
+export default function AddTime({ onTimeSelect }: AddTimeProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedTime, setSelectedTime] = useState<string>('00:00')
+  const [startTime, setStartTimes] = useState("12:00 AM")
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const {selectedTime} = useEventStore();
+
+  // console.log("time00000000: ", selectedTime);
+  // startTime with selectedTime form day and Week
+  useEffect(() => {
+    if (selectedTime) {
+      setStartTimes(selectedTime)
+      if (onTimeSelect) {
+        onTimeSelect(selectedTime)
+      }
+    }
+  }, [selectedTime, onTimeSelect])
+  // console.log("startTimekdjfdlsld: ", startTime);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -28,9 +41,11 @@ export default function AddTime({onTimeSelect}: AddTimeProps) {
   const generateTimeIntervals = () => {
     const intervals = []
     for (let hour = 0; hour < 24; hour++) {
-      for (let minute = 0; minute < 60; minute += 30) {
+      for (let minute = 0; minute < 60; minute += 60) {
+        const period = hour < 12 ? 'AM' : 'PM'
+        const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour
         intervals.push(
-          `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
+          `${displayHour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} ${period}`
         )
       }
     }
@@ -38,10 +53,11 @@ export default function AddTime({onTimeSelect}: AddTimeProps) {
   }
 
   const handleTimeSelect = (time: string) => {
-    setSelectedTime(time)
+    
+    setStartTimes(time)
     setIsOpen(false)
-    if(onTimeSelect){
-        onTimeSelect(time)
+    if (onTimeSelect) {
+      onTimeSelect(time)
     }
   }
 
@@ -51,7 +67,7 @@ export default function AddTime({onTimeSelect}: AddTimeProps) {
         className="w-28 flex items-center justify-between bg-slate-100 p-2 rounded-lg"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {selectedTime}
+        {startTime || '12:00 AM'}
         <ChevronDown className="h-4 w-4 opacity-50" />
       </button>
       {isOpen && (
@@ -61,7 +77,7 @@ export default function AddTime({onTimeSelect}: AddTimeProps) {
               <button
                 key={time}
                 className={`block w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 focus:bg-blue-50 focus:text-blue-600 focus:outline-none transition-colors duration-150 ${
-                  selectedTime === time ? 'bg-blue-50 text-blue-600 font-semibold' : ''
+                  startTime === time ? 'bg-blue-50 text-blue-600 font-semibold' : ''
                 }`}
                 onClick={() => handleTimeSelect(time)}
               >
