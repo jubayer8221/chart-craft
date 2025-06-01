@@ -38,7 +38,7 @@ export default function Loading({
             fill="currentFill"
           />
         </svg>
-        <span className="text-lg font-medium text-gray-700 dark:text-gray-200">
+        <span className="text-lg font-medium text-gray-700 dark:text-gray-200 items-center justify-center">
           {message}
         </span>
       </div>
