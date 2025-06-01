@@ -8,7 +8,8 @@ import { usePathname } from "next/navigation";
 import LanguageDropdown from "@/app/[lang]/settings/language/page";
 import { locales, Locale, isValidLocale } from "@/i18n/routing";
 import ThemeToggle from "@/components/Navbar/ThemeToggle";
-import Script from "next/script";
+// import Script from "next/script";
+import useGoogleTranslate from "@/hooks/useGoogleTranslate"; // Adjust path accordingly
 
 export default function Page() {
   const pathname = usePathname() || "/";
@@ -37,6 +38,8 @@ export default function Page() {
   //   if (!path) return "#";
   //   return `/${currentLocale}${path.startsWith("/") ? "" : "/"}${path}`;
   // };
+
+  useGoogleTranslate();
 
   return (
     <div className="w-full max-h-screen bg-white dark:bg-[#312c4a] justify-start min-w-[300px] min-h-[537px]">
@@ -78,15 +81,18 @@ export default function Page() {
             </h2>
           </div>
           <div>
-            <div className="shadow-lg bg-gray-100 dark:bg-gray-700 dark:text-white rounded-lg pt-2 px-2 pb-[10px] text-center items-center hover:bg-gray-200 cursor-pointer">
-              <h2 className="text-sm text-gray-800 dark:text-white flex items-center justify-start gap-4">
+            <div className="shadow-lg bg-gray-100 dark:bg-gray-700 dark:text-white rounded-lg text-center items-center hover:bg-gray-200 cursor-pointer">
+              <h2 className="text-sm text-gray-800 dark:text-white flex items-center justify-start gap-4 px-2 pt-2">
                 {/* Google Translate widget container */}
                 <div
-                  className="inline-block visible text-gray-800 select-none"
+                  className="inline-block visible text-gray-800 select-none items-center"
                   id="google_translate_wrapper"
                   style={{ padding: 0, margin: 0 }} // explicitly no padding/margin
                 >
-                  <div id="google_translate_element" />
+                  <div
+                    id="google_translate_element"
+                    className="relative p-0 m-0"
+                  />
                 </div>
 
                 {/* CSS to hide Google branding, banners, tooltips and style dropdown */}
@@ -105,6 +111,7 @@ export default function Page() {
                  /* Reset body top offset */
                  body {
                    top: 0px !important;
+                    margin: 0 !important;
                  }
                                 
                  /* Hide tooltip, balloon, menu etc */
@@ -159,20 +166,6 @@ export default function Page() {
                   `}</style>
 
                 {/* Load Google Translate script */}
-
-                <Script id="google-translate-init" strategy="afterInteractive">
-                  {`
-                      function googleTranslateElementInit() {
-                     new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
-                 }
-              `}
-                </Script>
-
-                <Script
-                  src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-                  strategy="afterInteractive"
-                  className="link-hide"
-                />
               </h2>
             </div>
           </div>

@@ -107,6 +107,10 @@ export function Chart({
   const optionsDropdownRef = useRef<HTMLDivElement>(null);
   const exportDropdownRef = useRef<HTMLDivElement>(null);
 
+  // Log initial props and Redux state
+  console.log("Chart Props:", { data, initialChartType, theme });
+  console.log("Redux State:", { exportState, colors, headerNames, tableTitle });
+
   // Track viewport width for responsive width calculation
   const [viewportWidth, setViewportWidth] = useState(0);
   useEffect(() => {
@@ -138,7 +142,9 @@ export function Chart({
 
   // Data processing
   const { columns, processedData }: ProcessedData = useMemo(() => {
+    console.log("Raw Data:", data); // Log raw data
     if (!data || !Array.isArray(data) || data.length === 0) {
+      console.warn("Data is empty or invalid");
       return { columns: [], processedData: [] };
     }
 
@@ -157,12 +163,15 @@ export function Chart({
       return newRow;
     });
 
+    console.log("Processed Data:", processedData); // Log processed data
+    console.log("Columns:", columns); // Log columns
     return { columns, processedData };
   }, [data]);
 
   // Get numeric and non-numeric columns
   const { numericColumns, nonNumericColumns } = useMemo(() => {
     if (!processedData.length) {
+      console.warn("Processed Data is empty");
       return { numericColumns: [], nonNumericColumns: [] };
     }
 
@@ -177,6 +186,8 @@ export function Chart({
 
     const nonNumericCols = columns.filter((col) => !numericCols.includes(col));
 
+    console.log("Numeric Columns:", numericCols); // Log numeric columns
+    console.log("Non-Numeric Columns:", nonNumericCols); // Log non-numeric columns
     return { numericColumns: numericCols, nonNumericColumns: nonNumericCols };
   }, [columns, processedData]);
 
@@ -185,6 +196,7 @@ export function Chart({
     if (columns.length > 0 && !labelColumn) {
       const firstNonNumeric = nonNumericColumns[0] || columns[0];
       setLabelColumn(firstNonNumeric);
+      console.log("Set Label Column:", firstNonNumeric); // Log label column
     }
 
     if (columns.length > 0 && valueColumns.length === 0) {
@@ -201,6 +213,8 @@ export function Chart({
         if (Object.keys(newColors).length > 0) {
           dispatch(setColors({ ...colors, ...newColors }));
         }
+        console.log("Set Value Columns:", autoSelectedValues); // Log value columns
+        console.log("New Colors:", newColors); // Log new colors
       }
     }
   }, [
@@ -213,6 +227,10 @@ export function Chart({
     valueColumns,
     colors,
   ]);
+
+  // Log current state of labelColumn and valueColumns
+  console.log("Current Label Column:", labelColumn);
+  console.log("Current Value Columns:", valueColumns);
 
   // Handle click outside to close dropdowns
   useEffect(() => {
@@ -248,6 +266,7 @@ export function Chart({
       exportState.selectedItems.includes("chart")
     ) {
       const exportChart = async () => {
+        console.log("Chart Ref during export:", chartRef.current); // Log chartRef
         if (!chartRef.current) {
           console.warn("Chart reference is not available for export");
           dispatch(resetExport());
@@ -260,6 +279,7 @@ export function Chart({
           if (!ctx) throw new Error("Canvas context not available");
 
           const svg = chartRef.current.querySelector("svg");
+          console.log("SVG during export:", svg); // Log SVG element
           if (!svg) throw new Error("SVG not found in chart");
 
           const scale = exportState.selectedExportOptions.includes(
@@ -319,11 +339,14 @@ export function Chart({
   // Prepare data for Pie chart
   const pieData = useMemo<PieDataEntry[]>(() => {
     if (!labelColumn || !valueColumns.length || !processedData.length) {
+      console.warn(
+        "Pie Data: Missing labelColumn, valueColumns, or processedData"
+      );
       return [];
     }
 
     const selectedValueColumn = valueColumns[0];
-    return processedData
+    const pieDataResult = processedData
       .filter(
         (item: ParsedRow) =>
           item[labelColumn] !== null &&
@@ -336,11 +359,15 @@ export function Chart({
         value: item[selectedValueColumn] as number,
       }))
       .filter((entry: PieDataEntry) => entry.value > 0);
+
+    console.log("Pie Data:", pieDataResult); // Log pie data
+    return pieDataResult;
   }, [processedData, labelColumn, valueColumns]);
 
   // Color management
   const handleColorChange = (column: string, color: string) => {
     dispatch(setColor({ column, color }));
+    console.log("Color Changed:", { column, color }); // Log color change
   };
 
   // Toggle value column selection
@@ -358,13 +385,19 @@ export function Chart({
         }
       });
 
+      console.log("Toggled Value Columns:", newColumns); // Log toggled columns
+      console.log("Updated Colors:", newColors); // Log updated colors
       return newColumns;
     });
   };
 
   // Separate render function for chart (without legend) for better layout control
   const renderChartWithoutLegend = (): ReactElement => {
+    console.log("Chart Config:", chartConfig); // Log chart config
     if (!labelColumn || !valueColumns.length || !processedData.length) {
+      console.warn(
+        "Render Chart: Missing labelColumn, valueColumns, or processedData"
+      );
       return (
         <div className="py-6 w-full text-center text-gray-500 dark:text-gray-400">
           Please select a label column and at least one numeric value column
@@ -491,6 +524,7 @@ export function Chart({
         );
       case "pie":
         if (!pieData.length) {
+          console.warn("Pie Chart: No valid data available");
           return (
             <div className="py-6 text-center text-gray-500 dark:text-gray-400">
               No valid data available for Pie Chart
@@ -571,6 +605,7 @@ export function Chart({
         );
       case "scatter":
         if (valueColumns.length < 2) {
+          console.warn("Scatter Chart: Requires at least 2 value columns");
           return (
             <div className="py-6 text-center text-gray-500 dark:text-gray-400">
               Scatter plot requires at least 2 value columns
@@ -618,6 +653,7 @@ export function Chart({
           </ScatterChart>
         );
       default:
+        console.warn("Invalid chart type:", chartConfig.type);
         return (
           <div className="py-6 text-center text-gray-500 dark:text-gray-400">
             Invalid chart type selected
@@ -648,6 +684,16 @@ export function Chart({
       </ul>
     );
   };
+
+  // Log chartRef size
+  useEffect(() => {
+    if (chartRef.current) {
+      console.log("Chart Container Size:", {
+        width: chartRef.current.offsetWidth,
+        height: chartRef.current.offsetHeight,
+      });
+    }
+  }, [viewportWidth]);
 
   return (
     <div
@@ -958,9 +1004,9 @@ export function Chart({
 
       {/* Chart + Legend container */}
       <div
-        className="max-w-[1205px] bg-white"
+        className="max-w-[1205px] max-h-screen bg-white"
         style={{
-          height: "clamp(300px, 100vh, 600px)",
+          height: "100%", // Changed to take full height of parent
           backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF",
           color: theme === "dark" ? "#FFFFFF" : "#000000",
           borderColor: theme === "dark" ? "#4B5563" : "#D1D5DB",
@@ -978,8 +1024,8 @@ export function Chart({
         >
           <div
             style={{
-              width: Math.max(viewportWidth, columns.length * 150), // Dynamic width based on data
-              height: "100%", // Full height of parent
+              width: Math.max(viewportWidth, columns.length * 150), // Change to fixed width, e.g., "800px"
+              height: "100%",
             }}
             className="flex"
           >

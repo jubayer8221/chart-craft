@@ -22,7 +22,12 @@ export default function useGoogleTranslate() {
 
   useEffect(() => {
     const initTranslate = () => {
-      if (typeof window !== "undefined" && window.google && window.google.translate) {
+      if (
+        typeof window !== "undefined" &&
+        window.google &&
+        window.google.translate &&
+        !document.querySelector("#google_translate_element iframe") // prevent double init
+      ) {
         new window.google.translate.TranslateElement(
           { pageLanguage: "en" },
           "google_translate_element"
@@ -40,10 +45,9 @@ export default function useGoogleTranslate() {
       window.googleTranslateElementInit = initTranslate;
       document.body.appendChild(script);
     } else {
-      initTranslate(); // Already loaded
+      initTranslate();
     }
 
-    // Delay helps when navigating too fast
     const timeout = setTimeout(() => initTranslate(), 500);
     return () => clearTimeout(timeout);
   }, [pathname]);
