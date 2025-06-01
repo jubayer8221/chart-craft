@@ -66,7 +66,7 @@ const CalendarWeekView = () => {
             return (
               <div
                 key={index}
-                className="relative flex-1 flex flex-col border-r border-gray-300 last:border-ra-0"
+                className="relative flex-1 flex-col border-r border-gray-300 last:border-ra-0"
               >
                 {hours.map((hour, i) => (
                   <div

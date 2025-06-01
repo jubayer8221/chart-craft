@@ -15,12 +15,14 @@ export default function AddTime({ onTimeSelect }: AddTimeProps) {
 
   // console.log("time00000000: ", selectedTime);
   // startTime with selectedTime form day and Week
-  useEffect(()=>{
-    if(selectedTime){
+  useEffect(() => {
+    if (selectedTime) {
       setStartTimes(selectedTime)
-      onTimeSelect(selectedTime)
+      if (onTimeSelect) {
+        onTimeSelect(selectedTime)
+      }
     }
-  }, [selectedTime])
+  }, [selectedTime, onTimeSelect])
   // console.log("startTimekdjfdlsld: ", startTime);
 
   useEffect(() => {
