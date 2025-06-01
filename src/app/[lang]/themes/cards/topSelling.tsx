@@ -9,6 +9,7 @@ const TopSellingFullPage = () => {
     { name: "Green Jacket", price: "$200", sold: 180 },
     { name: "Yellow Cap", price: "$40", sold: 120 },
     { name: "Black Shoes", price: "$250", sold: 90 },
+    { name: "white Shoes", price: "$260", sold: 90 },
   ]);
 
   const [selectedRowIndex, setSelectedRowIndex] = useState<number | null>(null);

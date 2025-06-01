@@ -16,7 +16,7 @@ import React, {
   useCallback,
 } from "react";
 import { AuthContext } from "@/components/context/AuthContext";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+import LanguageSwitcher from "@/components/Language/LanguageSwitcher";
 import { Locale, LOCALES } from "../../../config";
 // import LocaleLayoutProps from "../../app/layout";
 
@@ -32,7 +32,9 @@ export default function Header({ params }: HeadersProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropDownNotification, setDropdownNotification] = useState(false);
-  const [userPhoto, setUserPhoto] = useState<string>("/image/mainuser.png");
+  const [userPhoto, setUserPhoto] = useState<string>(
+    "/public/image/mainuser.png"
+  );
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Map token to user ID (simplified for demo; in reality, decode token or use API)
@@ -43,7 +45,7 @@ export default function Header({ params }: HeadersProps) {
     const stored = localStorage.getItem("userData");
     const customarsList = stored ? JSON.parse(stored) : [];
     const user = customarsList.find((c: { id: number }) => c.id === userId);
-    setUserPhoto(user?.photo || "/image/mainuser.png");
+    setUserPhoto(user?.photo || "/public/image/mainuser.png");
   }, [userId]);
 
   // Initial fetch and listen for storage updates
