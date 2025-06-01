@@ -16,9 +16,13 @@ export function EventRenderer({ date, view, events }: EventRendererProps) {
     if (view === "Month") {
       return event.date.format("DD-MM-YY") === date.format("DD-MM-YY");
     } else if (view === "Week" || view === "Day") {
-      return event.date.format("DD-MM-YY HH") === date.format("DD-MM-YY HH");
+      return event.date.format("DD-MM-YY hh:mm") === date.format("DD-MM-YY hh:mm");
     }
+
+    return false;
   });
+
+  
 
   return (
     <>
@@ -31,7 +35,7 @@ export function EventRenderer({ date, view, events }: EventRendererProps) {
           }}
           className="line-clamp-1 w-[90%] cursor-pointer rounded-sm bg-green-700 p-1 text-sm text-white"
         >
-          {event.title}
+          {view === "Month" ? (event.title):(<>{event.startTime} - {event.title}</>)}
         </div>
       ))}
     </>

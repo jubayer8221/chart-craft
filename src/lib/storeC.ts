@@ -16,9 +16,10 @@ export type CalendarEventType = {
   title: string;
   date: dayjs.Dayjs;
   description: string;
-  guests?:string;
-  endTime: string;
+  guests: string;
   startTime: string;
+  endTime: string;
+  endDate: string;
 };
 
 type EventStore = {
@@ -26,14 +27,11 @@ type EventStore = {
   isPopoverOpen: boolean;
   isEventSummaryOpen: boolean;
   selectedEvent: CalendarEventType | null;
-  selectedTime: string; // Add selectedTime to store the clicked time
   setEvents: (events: CalendarEventType[]) => void;
-  addEvent: (event: CalendarEventType) => void;
   openPopover: () => void;
   closePopover: () => void;
   openEventSummary: (event: CalendarEventType) => void;
   closeEventSummary: () => void;
-  setSelectedTime: (time: string) => void; 
 };
 
 interface ToggleSideBarType {
@@ -60,30 +58,30 @@ export const useDateStore = create<DateStoreType>()(
   ),
 );
 
-export const useEventStore = create<EventStore>((set) => ({
-  events: [],
-  isPopoverOpen: false,
-  isEventSummaryOpen: false,
-  selectedEvent: null,
-  selectedTime: "00:00", // Initialize selectedTime
-  setEvents: (events) => set({ events }),
-  addEvent: (newEvent) => set((state) => {
-    const isDupliate = state.events.some(
-      (event) => event.date === newEvent.date && event.startTime === newEvent.startTime
-    );
-    if(isDupliate){
-      return state;
-    }
-    return { events: [...state.events, newEvent]}
-  }),
-  openPopover: () => set({ isPopoverOpen: true }),
-  closePopover: () => set({ isPopoverOpen: false }),
-  openEventSummary: (event) =>
-    set({ isEventSummaryOpen: true, selectedEvent: event }),
-  closeEventSummary: () =>
-    set({ isEventSummaryOpen: false, selectedEvent: null }),
-  setSelectedTime: (time) => set({ selectedTime: time }), 
-}));
+export const useEventStore = create<EventStore>((set) => {
+  // Load events from localStorage
+  const savedEvents = localStorage.getItem("calendarEvents");
+  const initialEvents = savedEvents
+    ? JSON.parse(savedEvents).map((event: CalendarEventType) => ({
+        ...event,
+        date: dayjs(event.date),
+      }))
+    : [];
+
+  return {
+    events: initialEvents,
+    isPopoverOpen: false,
+    isEventSummaryOpen: false,
+    selectedEvent: null,
+    setEvents: (events) => set({ events }),
+    openPopover: () => set({ isPopoverOpen: true }),
+    closePopover: () => set({ isPopoverOpen: false }),
+    openEventSummary: (event) =>
+      set({ isEventSummaryOpen: true, selectedEvent: event }),
+    closeEventSummary: () =>
+      set({ isEventSummaryOpen: false, selectedEvent: null }),
+  };
+});
 
 export const useToggleSideBarStore = create<ToggleSideBarType>()(
   (set, get) => ({

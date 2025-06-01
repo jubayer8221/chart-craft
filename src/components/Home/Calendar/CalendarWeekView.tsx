@@ -75,7 +75,7 @@ const CalendarWeekView = () => {
                   >
                     {/* Content for each cell can be added here */}
 
-                    <EventRenderer events={events} date={dayDate.hour(hour.hour())} view="Week"  />
+                    <EventRenderer events={events} date={dayDate.hour(hour.hour()).minute(hour.minute())} view="Week"  />
                   </div>
                 ))}
 
