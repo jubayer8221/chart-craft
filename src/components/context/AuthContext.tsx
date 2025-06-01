@@ -193,9 +193,17 @@ export const AuthProvider = ({ children, locale }: AuthProviderProps) => {
     router.push(`/${locale}/login`);
   };
 
-  // Optionally show loading screen while token loads
+  // Show CSS spinner while loading, centered in viewport
   if (loading) {
-    return <div>Loading...</div>; // or null
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div
+          className="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin"
+          role="status"
+          aria-label="Loading"
+        ></div>
+      </div>
+    );
   }
 
   const value = {
