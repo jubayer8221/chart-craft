@@ -92,6 +92,15 @@ const EventPopover = ({ isOpen, onClose, date }: EventPopoverProps) => {
       (event) =>
         event.date.format("YYYY-MM-DD hh:mm A") ===
         newEvent.date.format("YYYY-MM-DD hh:mm A")
+      // {
+
+      //   // const existingEventDate = event.date.format("YYYY-MM-DD");
+      //   // const newEventDate = newEvent.date.format("YYYY-MM-DD");
+      //   // const existingEventHour = event.date.hour();
+      //   // const newEventHour = newEvent.date.hour();
+      //   // return existingEventDate === newEventDate && existingEventHour === newEventHour;
+       
+      // }
     );
 
     if (!isDuplicate) {

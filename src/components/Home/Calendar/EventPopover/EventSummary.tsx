@@ -16,7 +16,7 @@ export function EventSummaryPopover({ isOpen, onClose, event }: EventSummaryPopo
     
     
   const popoverRef = useRef<HTMLDivElement>(null)
-  console.log("event====", event)
+  // console.log("event====", event)
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {

@@ -28,7 +28,7 @@ const CalendarViewBox = ({
 
   return (
     <div
-      className="flex flex-col items-center gap-y-2 border dark:border-[#897c8f] h-32"
+      className="flex flex-col items-center gap-y-2 border dark:border-[#897c8f] h-32 "
       onClick={handleClick}
     >
       <div className="flex flex-col items-center w-full">
@@ -47,7 +47,11 @@ const CalendarViewBox = ({
           {isFirstDayOfMonth ? day?.format("DD") : day?.format("DD")}
         </h4>
       </div>
-      <EventRenderer date={day} view="Month" events={events} />
+      <div className="h-[40px] overflow-y-auto scrollbar-hiden">
+        <div className="space-y-2">
+          <EventRenderer date={day} view="Month" events={events} />
+        </div>
+      </div>
     </div>
   );
 };
