@@ -12,21 +12,24 @@
   "messages": "Mensajes",
   "events": "Eventos",
   "announcements": "Anuncios",
-  "other": "OTRO",
-  "settings": "Configuraciones",
+  "other": "OTROS",
+  "settings": "Ajustes",
   "account": "Cuenta",
   "privacy": "Privacidad",
   "help": "Ayuda",
-  "moreSettings": "Más Configuraciones",
+  "prev": "Anterior",
+  "next": "Siguiente",
+  "moreSettings": "Más Ajustes",
   "announcementPage": {
     "announcementsTitle": "Anuncios",
     "viewAll": "Ver Todo",
+    "showLess": "Mostrar Menos",
     "announcementDate": "2025-01-01",
     "announcementList": [
       {
-        "title": "Lanzamiento de Nueva Funcionalidad",
+        "title": "Lanzamiento de Nueva Función",
         "date": "2025-06-01",
-        "description": "Estamos emocionados de anunciar el lanzamiento de nuevas funcionalidades para mejorar tu experiencia.",
+        "description": "Estamos emocionados de anunciar el lanzamiento de nuevas funciones para mejorar tu experiencia.",
         "bgClass": "bg-lamaSkyLight"
       },
       {
@@ -50,19 +53,19 @@
         "id": 1,
         "title": "Conferencia Tecnológica 2025",
         "time": "9:00 AM - 5:00 PM",
-        "description": "Únete a nosotros para una conferencia de un día completo sobre las últimas tendencias en tecnología, incluyendo IA, Computación en la Nube y el futuro del desarrollo de software."
+        "description": "Únete a nosotros para una conferencia de día completo sobre las últimas tendencias tecnológicas, incluyendo IA, Computación en la Nube y el futuro del desarrollo de software."
       },
       {
         "id": 2,
         "title": "Encuentro de Networking",
         "time": "6:00 PM - 8:00 PM",
-        "description": "Un evento de networking informal para profesionales de la industria para intercambiar ideas, establecer conexiones y compartir experiencias."
+        "description": "Un evento informal de networking para profesionales de la industria para intercambiar ideas, establecer conexiones y compartir experiencias."
       },
       {
         "id": 3,
-        "title": "Lanzamiento de Producto: Dispositivos Domésticos Inteligentes con IA",
+        "title": "Lanzamiento de Producto: Dispositivos Inteligentes para el Hogar con IA",
         "time": "10:00 AM - 12:00 PM",
-        "description": "Sé el primero en experimentar nuestros nuevos dispositivos domésticos inteligentes con IA que revolucionarán nuestra forma de vivir. El evento incluye una demostración en vivo y una sesión de preguntas y respuestas con el equipo del producto."
+        "description": "Sé el primero en experimentar nuestros nuevos dispositivos inteligentes para el hogar con IA que revolucionarán nuestra forma de vivir. El evento incluye una demostración en vivo y una sesión de preguntas y respuestas con el equipo de producto."
       }
     ]
   },
@@ -96,7 +99,7 @@
     "electronics": "Electrónica",
     "table": "Tabla",
     "barChart": "Gráfico de Barras",
-    "pieChart": "Gráfico Circular",
+    "pieChart": "Gráfico de Torta",
     "buySellReport": "Informe de Compra y Venta",
     "clothing": "Ropa",
     "books": "Libros",
@@ -119,8 +122,8 @@
     ],
     "electronicsChart": {
       "title": "Electrónica",
-      "buyLabel": "Comprar",
-      "sellsLabel": "Vender",
+      "buyLabel": "Compra",
+      "sellsLabel": "Venta",
       "data": [
         {
           "name": "Total",
@@ -128,13 +131,13 @@
           "count": 2434
         },
         {
-          "name": "Comprar",
+          "name": "Compra",
           "price": 4534,
           "count": 1234,
           "fill": "#00A9B4"
         },
         {
-          "name": "Vender",
+          "name": "Venta",
           "price": 3342,
           "count": 1234,
           "fill": "#0A3A66"
@@ -210,8 +213,8 @@
     },
     "booksChart": {
       "title": "Libros",
-      "buyLabel": "Comprar",
-      "sellsLabel": "Vender",
+      "buyLabel": "Compra",
+      "sellsLabel": "Venta",
       "data": [
         {
           "name": "2025",
@@ -242,8 +245,8 @@
     },
     "furnituresChart": {
       "title": "Muebles",
-      "buyLabel": "Comprar",
-      "sellsLabel": "Vender",
+      "buyLabel": "Compra",
+      "sellsLabel": "Venta",
       "data": [
         {
           "name": "Lun",
@@ -274,8 +277,8 @@
     },
     "toysChart": {
       "title": "Juguetes",
-      "buyLabel": "Comprar",
-      "sellsLabel": "Vender",
+      "buyLabel": "Compra",
+      "sellsLabel": "Venta",
       "totalLabel": "Total",
       "buyCount": 1234,
       "sellsCount": 1234,
@@ -286,12 +289,12 @@
           "fill": "dynamic"
         },
         {
-          "name": "Comprar",
+          "name": "Compra",
           "price": 4534,
           "fill": "#00A9B4"
         },
         {
-          "name": "Vender",
+          "name": "Venta",
           "price": 3342,
           "fill": "#0A3A66"
         }
@@ -299,19 +302,19 @@
     },
     "groceriesChart": {
       "title": "Comestibles",
-      "buyLabel": "Comprar",
-      "sellsLabel": "Vender",
+      "buyLabel": "Compra",
+      "sellsLabel": "Venta",
       "percentage": "92%",
       "maxLTS": "de 10 máx. LTS",
       "yearRange": "Año 2024 - Año 2025",
       "data": [
         {
-          "name": "Comprar",
+          "name": "Compra",
           "price": 1032,
           "fill": "#00A9B4"
         },
         {
-          "name": "Vender",
+          "name": "Venta",
           "price": 709,
           "fill": "#0A3A66"
         }
@@ -450,7 +453,7 @@
             "item": "Pan",
             "price": 2,
             "oldPrice": 3,
-            "quality": "Fresco"
+            "quality": "Fresca"
           },
           {
             "item": "Huevos",
@@ -471,19 +474,19 @@
     "title": "Más Vendidos",
     "stockReportTitle": "Informe de Inventario",
     "viewAllLabel": "Ver Todo",
-    "showLessLabel": "Ver Menos",
+    "showLessLabel": "Mostrar Menos",
     "itemsLabel": "Artículos",
     "priceLabel": "Precio",
     "discountLabel": "Descuento",
     "soldLabel": "Vendido",
-    "totalOrdersLabel": "Total de Pedidos",
+    "totalOrdersLabel": "Pedidos Totales",
     "categoryLabel": "Moda",
     "data": [
       {
         "id": 1,
         "title": "Camiseta Azul",
         "description": "Una camiseta azul elegante",
-        "image": "/blue_tshirt.png",
+        "image": "/image/blue_tshirt.png",
         "price": 100,
         "discount": "15%",
         "sold": 300,
@@ -492,7 +495,7 @@
       {
         "id": 2,
         "title": "Sudadera Roja",
-        "description": "Sudadera roja cómoda y cálida",
+        "description": "Sudadera roja cálida y acogedora",
         "image": "/image/blue_tshirt.png",
         "price": 150,
         "discount": "20%",
@@ -512,7 +515,7 @@
       {
         "id": 4,
         "title": "Zapatillas Blancas",
-        "description": "Zapatillas blancas modernas",
+        "description": "Zapatillas blancas de moda",
         "image": "/image/blue_tshirt.png",
         "price": 250,
         "discount": "25%",
@@ -600,5 +603,27 @@
         "totalOrder": 600
       }
     ]
+  },
+  "allEmployees": {
+    "title": "Todos los Empleados",
+    "searchPlaceholder": "Buscar por nombre...",
+    "info": "Información",
+    "emplpoyeeId": "ID de Empleado",
+    "grade": "Grado",
+    "phone": "Teléfono",
+    "email": "Correo Electrónico",
+    "address": "Dirección",
+    "actions": "Acciones"
+  },
+  "theme": {
+    "title": "Temas",
+    "convertFile": "Convierte tu Archivo",
+    "convertFileDescription": "Para convertir tus datos en un gráfico, haz clic en el botón de arriba y sube tu archivo.",
+    "tableThemes": "Temas de Tabla",
+    "TableThemesDescription": "Para ver los temas de tabla, haz clic en el botón de arriba.",
+    "topSelling": "Más Vendidos",
+    "chartThemes": "Temas de Gráficos",
+    "recentOrders": "Pedidos Recientes",
+    "sells": "Ventas"
   }
 }

@@ -17,10 +17,13 @@
   "account": "Account",
   "privacy": "Privacy",
   "help": "Help",
+  "prev": "Previous",
+  "next": "Next",
   "moreSettings": "More Settings",
   "announcementPage": {
     "announcementsTitle": "Announcements",
     "viewAll": "View All",
+    "showLess": "Show Less",
     "announcementDate": "2025-01-01",
     "announcementList": [
       {
@@ -543,7 +546,7 @@
         "id": 7,
         "title": "Brown Boots",
         "description": "Durable brown boots",
-        "image": "/Web/Internship/project/chart-craft/image/blue_tshirt.png",
+        "image": "/image/blue_tshirt.png",
         "price": 400,
         "discount": "20%",
         "sold": 250,
@@ -600,5 +603,27 @@
         "totalOrder": 600
       }
     ]
+  },
+  "allEmployees": {
+    "title": "All Employees",
+    "searchPlaceholder": "Search by name...",
+    "info": "Info",
+    "emplpoyeeId": "Employee ID",
+    "grade": "Grade",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "actions": "Actions"
+  },
+  "theme": {
+    "title": "Themes",
+    "convertFile": "Convert your File",
+    "convertFileDescription": "To convert your data into chart, click the button above and upload your file.",
+    "tableThemes": "Table Themes",
+    "TableThemesDescription": "To see table themes, click the button above.",
+    "topSelling": "Top Selling",
+    "chartThemes": "Chart Themes",
+    "recentOrders": "Recent Orders",
+    "sells": "Sells"
   }
 }

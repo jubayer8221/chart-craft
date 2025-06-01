@@ -18,6 +18,7 @@ import React, {
 import { AuthContext } from "@/components/context/AuthContext";
 import LanguageSwitcher from "@/components/Language/LanguageSwitcher";
 import { Locale, LOCALES } from "../../../config";
+// import TranslateWithGoogle from "../Language/TranslateWithGoogle";
 // import LocaleLayoutProps from "../../app/layout";
 
 interface HeadersProps {
@@ -32,9 +33,7 @@ export default function Header({ params }: HeadersProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropDownNotification, setDropdownNotification] = useState(false);
-  const [userPhoto, setUserPhoto] = useState<string>(
-    "/public/image/mainuser.png"
-  );
+  const [userPhoto, setUserPhoto] = useState<string>("/image/mainuser.png");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Map token to user ID (simplified for demo; in reality, decode token or use API)
@@ -45,7 +44,7 @@ export default function Header({ params }: HeadersProps) {
     const stored = localStorage.getItem("userData");
     const customarsList = stored ? JSON.parse(stored) : [];
     const user = customarsList.find((c: { id: number }) => c.id === userId);
-    setUserPhoto(user?.photo || "/public/image/mainuser.png");
+    setUserPhoto(user?.photo || "/image/mainuser.png");
   }, [userId]);
 
   // Initial fetch and listen for storage updates
@@ -130,11 +129,12 @@ export default function Header({ params }: HeadersProps) {
           </div>
         </div>
 
-        <div className="hidden md:block md:mr-10">
+        <div className="hidden md:block md:mr-10 lg:mr-0 xl:mr-0">
           <div className="flex flex-row items-center space-x-4">
             <ThemeToggle />
 
-            <div>
+            <div className="hidden md:block lg:flex">
+              {/* <TranslateWithGoogle/> */}
               <LanguageSwitcher currentLocale={locale} />
             </div>
             <span

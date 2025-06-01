@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import LanguageDropdown from "@/app/[lang]/settings/language/page";
 import { locales, Locale, isValidLocale } from "@/i18n/routing";
 import ThemeToggle from "@/components/Navbar/ThemeToggle";
+import Script from "next/script";
 
 export default function Page() {
   const pathname = usePathname() || "/";
@@ -75,6 +76,105 @@ export default function Page() {
               {/* Privacy */}
               {/* {t.privacy || "Privacy"} */}
             </h2>
+          </div>
+          <div>
+            <div className="shadow-lg bg-gray-100 dark:bg-gray-700 dark:text-white rounded-lg pt-2 px-2 pb-[10px] text-center items-center hover:bg-gray-200 cursor-pointer">
+              <h2 className="text-sm text-gray-800 dark:text-white flex items-center justify-start gap-4">
+                {/* Google Translate widget container */}
+                <div
+                  className="inline-block visible text-gray-800 select-none"
+                  id="google_translate_wrapper"
+                  style={{ padding: 0, margin: 0 }} // explicitly no padding/margin
+                >
+                  <div id="google_translate_element" />
+                </div>
+
+                {/* CSS to hide Google branding, banners, tooltips and style dropdown */}
+
+                <style>{`
+                /* Hide Google Translate images (logo) */
+                .goog-te-gadget img {
+                display: none !important;
+                }
+  
+                 /* Hide floating translate banner */
+                 body > .skiptranslate {
+                   display: none !important;
+                 }
+                                
+                 /* Reset body top offset */
+                 body {
+                   top: 0px !important;
+                 }
+                                
+                 /* Hide tooltip, balloon, menu etc */
+                 #goog-gt-tt,
+                 .goog-te-balloon-frame,
+                 .goog-te-menu-value,
+                 .goog-text-highlight,
+                 .goog-te-menu-frame {
+                   display: none !important;
+                 }
+                   .goog-logo-link,
+                    .goog-te-gadget a,
+                    .goog-te-gadget span {
+                     display: none !important;
+                     color: transparent !important;
+                      pointer-events: none !important;
+                      user-select: none !important;
+                      height: 0 !important;
+                      overflow: hidden !important;
+                      width: 0 !important;
+                      line-height: 0 !important;
+                      padding: 0 !important;
+                      margin: 0 !important;
+                      border: none !important;
+                    }                                
+                 /* Style dropdown */
+                 .goog-te-combo {
+                   border-radius: 0.5rem !important;
+                   border: 1px solid #d1d5db !important;
+                   border: none !important;
+                   padding: 0.5rem 0.5rem !important;
+                   font-size: 1rem !important;
+                   color: #1f2937 !important;
+                   background-color: #f3f4f6 !important;
+                   box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+                   transition: all 0.3s ease !important;
+                   outline: none !important;
+                   cursor: pointer !important;
+                 }
+                                
+                 .goog-te-combo:hover,
+                 .goog-te-combo:focus {
+                   border-color: #6366f1 !important;
+                   box-shadow: 0 0 8px #6366f1 !important;
+                 }
+                                
+                 /* Hide Powered by Translate text and link */
+                 .goog-te-gadget {
+                   color: transparent !important;
+                   display: hidden !important;
+                 }
+                  `}</style>
+
+                {/* Load Google Translate script */}
+
+                <Script id="google-translate-init" strategy="afterInteractive">
+                  {`
+                      function googleTranslateElementInit() {
+                     new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+                 }
+              `}
+                </Script>
+
+                <Script
+                  src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+                  strategy="afterInteractive"
+                  className="link-hide"
+                />
+              </h2>
+            </div>
           </div>
 
           {/* <div className="shadow-lg bg-gray-100 rounded-lg p-3 text-center items-center hover:bg-gray-200 cursor-pointer">

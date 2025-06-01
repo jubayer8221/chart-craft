@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   DragDropContext,
   Droppable,
   Draggable,
   DropResult,
 } from "@hello-pangea/dnd";
+import { usePathname } from "next/navigation";
+import { locales, Locale, isValidLocale } from "@/i18n/routing";
 
 import TopSellingCard from "@/components/Cards/TopSellingCard";
 import StockReportCard from "@/components/Cards/StockReportCard";
@@ -48,6 +50,26 @@ const cardContentMap = {
 type CardID = keyof typeof cardContentMap;
 
 const Dashboard = () => {
+  const pathname = usePathname() || "/";
+  const currentLocaleCode = (pathname.split("/")[1] ?? "en") as Locale;
+  const currentLocale = isValidLocale(currentLocaleCode)
+    ? currentLocaleCode
+    : locales[0];
+
+  const [t, setT] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const msgs = (await import(`@/i18n/messages/${currentLocale}.json`))
+          .default;
+        setT(msgs);
+      } catch {
+        setT({});
+      }
+    })();
+  }, [currentLocale]);
+
   const [cards, setCards] = useState<CardID[]>([
     "file-Convert",
     "table-theme",
@@ -76,7 +98,7 @@ const Dashboard = () => {
     <div className="p-4 bg-gray-50 dark:bg-[#312c4a] min-h-screen">
       {/* Header and Search */}
       <div className="mb-6 pt-2 flex flex-col justify-between sm:flex-row gap-2">
-        <h1 className="text-2xl font-bold mb-2">Themes</h1>
+        <h1 className="text-2xl font-bold mb-2">{t["themes"] || "Themes"}</h1>
 
         <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-md ring-[1.5px] ring-gray-300 dark:ring-[#897c8f] px-2">
           <Image src="/assets/search.png" alt="search" width={14} height={14} />
