@@ -16,7 +16,7 @@ const TopSellingCard = () => {
 
   const [showAll, setShowAll] = useState(false);
 
-  const visibleItems = showAll ? items : items.slice(0, 7);
+  const visibleItems = showAll ? items : items.slice(0, 8);
 
   const handleDragStart = (
     e: React.DragEvent<HTMLTableRowElement>,
@@ -44,10 +44,12 @@ const TopSellingCard = () => {
   };
 
   return (
-    <div className="w-full max-w-full mx-auto">
-      <h1 className="text-lg font-semibold pb-2">Top Selling</h1>
-      <div className="max-h-[260px]">
-        <div className="overflow-y-auto max-h-64 border border-gray-300 dark:border-none rounded">
+    <div className="max-w-md mx-auto bg-white dark:bg-gray-500 rounded-lg">
+      <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
+        Top Selling
+      </h2>
+      <div className="max-h-full">
+        <div className="overflow-y-auto  h-[268px] border border-gray-300 dark:border-none rounded">
           <div className="overflow-x-auto">
             <table className="table-auto w-full border-collapse border-[#0A3A66] dark:border-none">
               <thead className="bg-[#0A3A66] text-white text-center">
@@ -58,24 +60,28 @@ const TopSellingCard = () => {
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, -1)}
                 >
-                  <th className="border-gray-300 px-1 py-[0.5px]">Item</th>
-                  <th className="border-gray-300 px-1 py-[0.5px]">Price</th>
-                  <th className="border-gray-300 px-1 py-[0.5px]">Sold</th>
+                  <th className="border-gray-300 px-1 py-1">Item</th>
+                  <th className="border-gray-300 px-1 py-1">Price</th>
+                  <th className="border-gray-300 px-1 py-1">Sold</th>
                 </tr>
               </thead>
               <tbody className="text-center">
                 {visibleItems.map((item, index) => (
                   <tr
                     key={index}
-                    className={index % 2 === 1 ? "bg-gray-200 dark:even:bg-gray-700" : "bg-white dark:bg-gray-600"}
+                    className={
+                      index % 2 === 1
+                        ? "bg-gray-200 dark:even:bg-gray-700"
+                        : "bg-white dark:bg-gray-600"
+                    }
                     draggable
                     onDragStart={(e) => handleDragStart(e, index)}
                     onDragOver={handleDragOver}
                     onDrop={(e) => handleDrop(e, index)}
                   >
-                    <td className="border-gray-300 py-1">{item.name}</td>
-                    <td className="border-gray-300 py-1">{item.price}</td>
-                    <td className="border-gray-300 py-1">{item.sold}</td>
+                    <td className="border-gray-300 py-0.5">{item.name}</td>
+                    <td className="border-gray-300 py-0.5">{item.price}</td>
+                    <td className="border-gray-300 py-0.5">{item.sold}</td>
                   </tr>
                 ))}
               </tbody>

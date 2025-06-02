@@ -99,7 +99,7 @@ const SellsTable = () => {
   };
 
   return (
-    <div className="w-full max-w-full md:max-w-2xl mx-auto">
+    <div className="max-w-md mx-auto bg-white dark:bg-gray-500 rounded-lg">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-2">
         <h1 className="text-lg font-semibold dark:text-white">Sells</h1>
         <div className="flex gap-2">
@@ -117,7 +117,6 @@ const SellsTable = () => {
           </button>
         </div>
       </div>
-
       <div className="overflow-x-auto max-h-[360px]">
         <table className="w-full min-w-[280px] border border-gray-300 dark:rounded-md">
           <thead>
@@ -150,7 +149,6 @@ const SellsTable = () => {
           </tbody>
         </table>
       </div>
-
       {/* Pagination Controls */}
       <div className="flex justify-between items-center mt-4">
         <button

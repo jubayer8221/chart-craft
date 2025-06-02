@@ -128,8 +128,10 @@ const StockReportCard: React.FC = () => {
         isDarkMode ? "text-gray-100" : "bg-white text-gray-900"
       }`}
     >
-      <h1 className="text-lg font-semibold pb-2">Chart Theme</h1>
-      <div className="h-[280px]">
+      <h1 className="text-lg font-semibold text-gray-800 dark:text-white">
+        Chart Theme
+      </h1>
+      <div className="h-[280px] border-2 border-dashed border-gray-300">
         <Bar data={data} options={options} />
       </div>
     </div>

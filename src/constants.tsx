@@ -121,14 +121,14 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
       {
         titleKey: "events",
         title: "Events",
-        path: "/training/configuration",
+        path: "/page/event",
         icon: <TbReportSearch className="w-[16px] h-[16px]" />,
         visible: ["admin", "employee", "customer"],
       },
       {
         titleKey: "announcements",
         title: "Announcements",
-        path: "/training/report",
+        path: "/page/announcements",
         icon: <TbReportSearch className="w-[16px] h-[16px]" />,
         visible: ["admin", "employee", "customer"],
       },
@@ -173,7 +173,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
       {
         titleKey: "help",
         title: "Help",
-        path: "/help",
+        path: "/page/help",
         icon: <LiaHireAHelper className="w-[16px] h-[16px]" />,
         visible: ["admin", "employee", "customer"],
       },

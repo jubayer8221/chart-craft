@@ -47,8 +47,8 @@ const Announcements: React.FC = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-[#312c4a] p-4 rounded-md overflow-y-auto h-[305px] scrollbar-hiden">
-      <div className="mb-12">
+    <div className="bg-white dark:bg-[#312c4a] p-4 rounded-md overflow-y-auto h-[345px] scrollbar-hiden">
+      <div className="mb-4">
         <CRightsideBar />
       </div>
       <div>

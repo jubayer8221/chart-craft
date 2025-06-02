@@ -1,15 +1,17 @@
 "use client";
 import { getWeeks } from "@/lib/getTime";
 import { useDateStore } from "@/lib/storeC";
+import { setSelectedView } from "@/redux/slices/viewStore";
 import dayjs from "dayjs";
 import React, { Fragment, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { LuUsers } from "react-icons/lu";
+// import { LuUsers } from "react-icons/lu";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { useDispatch } from "react-redux";
 
 const CRightsideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { setMonth, selectedMonthIndex, twoDMonthArray } = useDateStore();
+  const { setMonth, selectedMonthIndex, twoDMonthArray, setDate } = useDateStore();
   const handleToggleMyCalendar = () => {
     setIsOpen(!isOpen);
   };
@@ -17,6 +19,11 @@ const CRightsideBar = () => {
   const weekOfMonth = getWeeks(selectedMonthIndex);
 
   console.log("week of Month===", weekOfMonth);
+  const dispatch = useDispatch();
+  const handleDateclick = (date: dayjs.Dayjs) =>{
+    setDate(date)
+    dispatch(setSelectedView("Day"))
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -77,11 +84,12 @@ const CRightsideBar = () => {
               {row.map((date, inx) => (
                 <button
                   key={inx}
+                  onClick={()=>handleDateclick(date)}
                   className={`${
                     date.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
-                      ? "w-5 h-5 bg-[#463f59] text-white dark:text-black rounded-full flex items-center justify-center p-2"
-                      : ""
-                  } cursor-pointer`}
+                      ? "w-5 h-5 bg-[#463f59] text-white dark:text-black rounded-full flex items-center justify-center p-1 cursor-pointer"
+                      : "cursor-pointer hover:bg-gray-100 rounded-md "
+                  }`}
                 >
                   <span className="text-center">{date.format("D")}</span>
                 </button>
@@ -91,14 +99,14 @@ const CRightsideBar = () => {
         </div>
       </div>
       {/* search bar  */}
-      <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-sm ring-[1.5px] ring-gray-300 dark:ring-[#897c8f] px-2">
+      {/* <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-sm ring-[1.5px] ring-gray-300 dark:ring-[#897c8f] px-2">
         <LuUsers size={14} />
         <input
           type="text"
           placeholder="Search by name..."
           className="w-[200px] py-2 bg-transparent outline-none"
         />
-      </div>
+      </div> */}
       {/* my calender */}
       <div>
         <div className="relative">
