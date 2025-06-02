@@ -12,17 +12,36 @@ import { useDispatch } from "react-redux";
 const CRightsideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { setMonth, selectedMonthIndex, twoDMonthArray, setDate } = useDateStore();
+
+  const [clickTimeout, setClickTimeout] = useState<NodeJS.Timeout | null>(null);
+
   const handleToggleMyCalendar = () => {
     setIsOpen(!isOpen);
   };
+
+  console.log("Time", clickTimeout);
 
   const weekOfMonth = getWeeks(selectedMonthIndex);
 
   console.log("week of Month===", weekOfMonth);
   const dispatch = useDispatch();
   const handleDateclick = (date: dayjs.Dayjs) =>{
-    setDate(date)
+
+    // clear any existing timeout to prevent single-click action if double-clicking 
+    if(clickTimeout){
+      clearTimeout(clickTimeout);
+      setClickTimeout(null);
+      //double click: switch to week view
+      setDate(date);
+      dispatch(setSelectedView("Week"));
+    }else{
+      const timeout = setTimeout(()=>{
+        setDate(date)
     dispatch(setSelectedView("Day"))
+    setClickTimeout(null);
+      }, 300);
+      setClickTimeout(timeout)
+    }
   }
 
   return (
