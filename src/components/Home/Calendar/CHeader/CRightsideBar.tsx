@@ -19,11 +19,11 @@ const CRightsideBar = () => {
         </button>
       </div>
       {/* calender picker  */}
-      <div className="my-6 p-2">
+      {/* <div className="my-1 p-2">  
         <div>
           <h4></h4>
         </div>
-      </div>
+      </div> */}
       {/* search bar  */}
       <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-sm ring-[1.5px] ring-gray-300 dark:ring-[#897c8f] px-2">
         <LuUsers size={14} />
@@ -41,21 +41,45 @@ const CRightsideBar = () => {
             onClick={handleToggleMyCalendar}
           >
             <span>My Calendar</span>
-            <MdKeyboardArrowDown size={16} className={`${isOpen ? "" : "rotate-180"}`} />
+            <MdKeyboardArrowDown
+              size={16}
+              className={`${isOpen ? "" : "rotate-180"}`}
+            />
           </button>
           {isOpen && (
             <div className="top-12 px-2  w-full rounded-sm overflow-hidden">
               <div className="flex items-center gap-2 accent-[#463f59]">
-                <input type="checkbox" name="" id="work" className="cursor-pointer" />
-                <label htmlFor="work" className="cursor-pointer">Work</label>
+                <input
+                  type="checkbox"
+                  name=""
+                  id="work"
+                  className="cursor-pointer"
+                />
+                <label htmlFor="work" className="cursor-pointer">
+                  Work
+                </label>
               </div>
               <div className="flex items-center gap-2 accent-[#463f59]">
-                <input type="checkbox" name="" id="personal" className="cursor-pointer"/>
-                <label htmlFor="personal" className="cursor-pointer">Personal</label>
+                <input
+                  type="checkbox"
+                  name=""
+                  id="personal"
+                  className="cursor-pointer"
+                />
+                <label htmlFor="personal" className="cursor-pointer">
+                  Personal
+                </label>
               </div>
               <div className="flex items-center gap-2 accent-[#463f59]">
-                <input type="checkbox" name="" id="fitness" className="cursor-pointer" />
-                <label htmlFor="fitness" className="cursor-pointer">Fitness</label>
+                <input
+                  type="checkbox"
+                  name=""
+                  id="fitness"
+                  className="cursor-pointer"
+                />
+                <label htmlFor="fitness" className="cursor-pointer">
+                  Fitness
+                </label>
               </div>
             </div>
           )}
