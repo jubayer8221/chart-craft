@@ -1,14 +1,48 @@
 "use client";
-// import dayjs from "dayjs";
-import React, { useState } from "react";
-import { LuUsers } from "react-icons/lu";
+import { getWeeks } from "@/lib/getTime";
+import { useDateStore } from "@/lib/storeC";
+import { setSelectedView } from "@/redux/slices/viewStore";
+import dayjs from "dayjs";
+import React, { Fragment, useState } from "react";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+// import { LuUsers } from "react-icons/lu";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { useDispatch } from "react-redux";
 
 const CRightsideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { setMonth, selectedMonthIndex, twoDMonthArray, setDate } = useDateStore();
+
+  const [clickTimeout, setClickTimeout] = useState<NodeJS.Timeout | null>(null);
+
   const handleToggleMyCalendar = () => {
     setIsOpen(!isOpen);
   };
+
+  console.log("Time", clickTimeout);
+
+  const weekOfMonth = getWeeks(selectedMonthIndex);
+
+  console.log("week of Month===", weekOfMonth);
+  const dispatch = useDispatch();
+  const handleDateclick = (date: dayjs.Dayjs) =>{
+
+    // clear any existing timeout to prevent single-click action if double-clicking 
+    if(clickTimeout){
+      clearTimeout(clickTimeout);
+      setClickTimeout(null);
+      //double click: switch to week view
+      setDate(date);
+      dispatch(setSelectedView("Week"));
+    }else{
+      const timeout = setTimeout(()=>{
+        setDate(date)
+    dispatch(setSelectedView("Day"))
+    setClickTimeout(null);
+      }, 300);
+      setClickTimeout(timeout)
+    }
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -19,20 +53,79 @@ const CRightsideBar = () => {
         </button>
       </div>
       {/* calender picker  */}
-      {/* <div className="my-1 p-2">  
-        <div>
-          <h4></h4>
+      <div className="">
+        <div className="flex items-center justify-between">
+          <div
+            onClick={() => setMonth(selectedMonthIndex - 1)}
+            className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-black hover:bg-gray-500 hover:text-white cursor-pointer"
+          >
+            <IoIosArrowBack size={15} />
+          </div>
+          <h4>
+            {dayjs(new Date(dayjs().year(), selectedMonthIndex)).format(
+              "MMMM YYYY"
+            )}
+          </h4>
+
+          <div
+            onClick={() => setMonth(selectedMonthIndex + 1)}
+            className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-black hover:bg-gray-500 hover:text-white cursor-pointer"
+          >
+            <IoIosArrowForward size={15} />{" "}
+          </div>
         </div>
-      </div> */}
+        {/* header Row: Days of the week  */}
+        <div className="mt-2 grid grid-cols-[auto_1fr]">
+          <div className="w-full"></div>
+          <div className="grid grid-cols-7 text-xs font-bold">
+            {["S", "M", "T", "W", "T", "F", "S"].map((day, i) => (
+              <span key={i} className="py-1 text-center">
+                {day}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* main content: weeks and days  */}
+        {/* <div className="mt-2 grid grid-cols-[auto_1fr] text-xs">
+          
+          <div className="grid w-6 grid-rows-5 gap-1 gap-y-3 rounded-sm bg-gray-100 p-1">
+            {weekOfMonth.map((week, i)=>(
+              <span key={i}>{week}</span>
+            ))}
+          </div>
+        </div> */}
+
+        {/* dates grid  */}
+        <div className="grid grid-rows-5 grid-cols-7 gap-1 gap-y-3 text-xs mt-2">
+          {twoDMonthArray.map((row, i) => (
+            <Fragment key={i}>
+              {row.map((date, inx) => (
+                <button
+                  key={inx}
+                  onClick={()=>handleDateclick(date)}
+                  className={`${
+                    date.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
+                      ? "w-5 h-5 bg-[#463f59] text-white dark:text-black rounded-full flex items-center justify-center p-1 cursor-pointer"
+                      : "cursor-pointer hover:bg-gray-100 rounded-md "
+                  }`}
+                >
+                  <span className="text-center">{date.format("D")}</span>
+                </button>
+              ))}
+            </Fragment>
+          ))}
+        </div>
+      </div>
       {/* search bar  */}
-      <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-sm ring-[1.5px] ring-gray-300 dark:ring-[#897c8f] px-2">
+      {/* <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-sm ring-[1.5px] ring-gray-300 dark:ring-[#897c8f] px-2">
         <LuUsers size={14} />
         <input
           type="text"
           placeholder="Search by name..."
           className="w-[200px] py-2 bg-transparent outline-none"
         />
-      </div>
+      </div> */}
       {/* my calender */}
       <div>
         <div className="relative">

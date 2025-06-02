@@ -202,7 +202,7 @@ const EmployeePopup = ({ employee, onClose }: EmployeePopupProps) => {
           </div>
 
           {/* Right Section */}
-          <div className="flex flex-col gap-0 md:gap-4 xl:gap-0 sm:flex-col md:flex-row xl:flex-col w-full xl:w-1/3">
+          <div className="flex flex-col gap-0 md:gap-4 xl:gap-0 sm:flex-col md:flex-row xl:flex-col w-full xl:w-1/3 h-[100%]">
             <Performance />
             <Announcements />
           </div>
