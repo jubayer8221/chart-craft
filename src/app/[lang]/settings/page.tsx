@@ -82,22 +82,22 @@ export default function Page() {
           </div>
           <div>
             <div className="shadow-lg bg-gray-100 dark:bg-gray-700 dark:text-white rounded-lg text-center items-center hover:bg-gray-200 cursor-pointer">
-              <h2 className="text-sm text-gray-800 dark:text-white flex items-center justify-start gap-4 px-2 pt-2">
-                {/* Google Translate widget container */}
+              {/* <h2 className="text-sm text-gray-800 dark:text-white flex items-center justify-start gap-4 px-2 pt-2"> */}
+              {/* Google Translate widget container */}
+              <div
+                className="inline-block visible text-gray-800 select-none items-center"
+                id="google_translate_wrapper"
+                style={{ padding: 0, margin: 0 }} // explicitly no padding/margin
+              >
                 <div
-                  className="inline-block visible text-gray-800 select-none items-center"
-                  id="google_translate_wrapper"
-                  style={{ padding: 0, margin: 0 }} // explicitly no padding/margin
-                >
-                  <div
-                    id="google_translate_element"
-                    className="relative p-0 m-0"
-                  />
-                </div>
+                  id="google_translate_element"
+                  className="relative p-0 m-0"
+                />
+              </div>
 
-                {/* CSS to hide Google branding, banners, tooltips and style dropdown */}
+              {/* CSS to hide Google branding, banners, tooltips and style dropdown */}
 
-                <style>{`
+              <style>{`
                 /* Hide Google Translate images (logo) */
                 .goog-te-gadget img {
                 display: none !important;
@@ -165,8 +165,8 @@ export default function Page() {
                  }
                   `}</style>
 
-                {/* Load Google Translate script */}
-              </h2>
+              {/* Load Google Translate script */}
+              {/* </h2> */}
             </div>
           </div>
 

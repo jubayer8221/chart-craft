@@ -5,14 +5,14 @@ import dayjs, { Dayjs } from 'dayjs';
 // Define the state interface
 interface DateState {
   userSelectedDate: string; // Save as ISO string
-  twoDMonthArray: Dayjs[][]; // Adjust type based on getMonth return type
+  twoDMonthArray: string[][]; // Store as ISO strings
   selectedMonthIndex: number;
 }
 
 // Initial state
 const initialState: DateState = {
-  userSelectedDate: dayjs().toISOString(), // Store as ISO string
-  twoDMonthArray: getMonth(),
+  userSelectedDate: dayjs().toISOString(),
+  twoDMonthArray: getMonth().map((week) => week.map((day) => day.toISOString())), // Convert Dayjs to ISO strings
   selectedMonthIndex: dayjs().month(),
 };
 
@@ -22,11 +22,12 @@ const useStoreDate = createSlice({
   initialState,
   reducers: {
     setDate: (state, action: PayloadAction<Dayjs>) => {
-      // Convert Day.js to ISO string before storing
       state.userSelectedDate = action.payload.toISOString();
     },
     setMonth: (state, action: PayloadAction<number>) => {
-      state.twoDMonthArray = getMonth(action.payload);
+      state.twoDMonthArray = getMonth(action.payload).map((week) =>
+        week.map((day) => day.toISOString())
+      ); // Convert Dayjs to ISO strings
       state.selectedMonthIndex = action.payload;
     },
   },
@@ -38,9 +39,9 @@ export const { setDate, setMonth } = useStoreDate.actions;
 // Export reducer
 export default useStoreDate.reducer;
 
-// Persistence configuration (to be used in store setup)
+// Persistence configuration
 import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // Default storage (localStorage for web)
+import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
   key: 'date_data',

@@ -110,7 +110,7 @@ export default function Header({ params }: HeadersProps) {
             className="flex flex-row space-x-3 items-center justify-center lg:hidden xl:hidden"
           >
             <Image
-              src="/logo.png"
+              src="/image/logo.png"
               alt="Chart Crafter Logo"
               width={70}
               height={40}
