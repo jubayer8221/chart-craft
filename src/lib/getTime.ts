@@ -1,4 +1,12 @@
 import dayjs from "dayjs";
+import weekOfYear from "dayjs/plugin/weekOfYear";
+dayjs.extend(weekOfYear)
+
+
+
+// console.log("Week Of Year", weekOfYear);
+
+// var weekOfYear = require("dayjs/plugin/weekOfYear");
 
 export const isCurrentDay = (day: dayjs.Dayjs)=>{
     return day.isSame(dayjs(), "day");
@@ -40,6 +48,11 @@ export const getWeekDays = (date: dayjs.Dayjs) =>{
 
     return weekDates;
 }
+
+//Function to generate weeks of the month dynamically
+// export const getWeeks = (monthIndex: number) =>{
+//     const year = dayjs().year();
+// }
 
 export const getHours = Array.from({ length: 24 }, (_, i) =>
     dayjs().startOf("day").add(i, "hour"),

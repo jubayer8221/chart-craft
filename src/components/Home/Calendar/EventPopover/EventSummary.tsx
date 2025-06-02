@@ -4,6 +4,9 @@ import React, { useRef, useEffect } from 'react'
 import dayjs from 'dayjs'
 import { IoCloseSharp } from "react-icons/io5"
 import { CalendarEventType } from '@/lib/storeC'
+import Link from 'next/link'
+import { RiEdit2Line } from "react-icons/ri";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 interface EventSummaryPopoverProps {
   isOpen: boolean
@@ -16,7 +19,7 @@ export function EventSummaryPopover({ isOpen, onClose, event }: EventSummaryPopo
     
     
   const popoverRef = useRef<HTMLDivElement>(null)
-  // console.log("event====", event)
+  // console.log("event====", event) 
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -47,7 +50,11 @@ export function EventSummaryPopover({ isOpen, onClose, event }: EventSummaryPopo
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold">Event Summary</h2>
+          <div className='flex items-center gap-2'>
+            <h2 className="text-xl font-semibold">Event Summary</h2>
+            <Link href="#" className='w-6 h-6 bg-gray-200 rounded-full p-1 flex items-center justify-center'><RiEdit2Line /></Link>
+            <Link href="#" ><RiDeleteBin6Line /></Link>
+          </div>
           <button onClick={onClose}>
             <IoCloseSharp className="h-4 w-4" />
           </button>
