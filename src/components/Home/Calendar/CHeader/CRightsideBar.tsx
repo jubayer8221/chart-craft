@@ -1,4 +1,5 @@
 "use client";
+// import dayjs from "dayjs";
 import React, { useState } from "react";
 import { LuUsers } from "react-icons/lu";
 import { MdKeyboardArrowDown } from "react-icons/md";
@@ -18,7 +19,11 @@ const CRightsideBar = () => {
         </button>
       </div>
       {/* calender picker  */}
-      <div>Sid bar Calender</div>
+      <div className="my-6 p-2">
+        <div>
+          <h4></h4>
+        </div>
+      </div>
       {/* search bar  */}
       <div className="relative w-full md:w-auto flex items-center gap-2 text-xs rounded-sm ring-[1.5px] ring-gray-300 dark:ring-[#897c8f] px-2">
         <LuUsers size={14} />
