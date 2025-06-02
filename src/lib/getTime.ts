@@ -1,4 +1,12 @@
 import dayjs from "dayjs";
+import weekOfYear from "dayjs/plugin/weekOfYear";
+
+
+
+
+console.log("Week Of Year", weekOfYear);
+
+// var weekOfYear = require("dayjs/plugin/weekOfYear");
 
 export const isCurrentDay = (day: dayjs.Dayjs)=>{
     return day.isSame(dayjs(), "day");
