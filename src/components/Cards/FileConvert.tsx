@@ -3,7 +3,7 @@ import React from "react";
 
 const FileConvert = () => {
   return (
-    <div className="max-w-md mx-auto p-2 bg-white dark:bg-gray-500 rounded-lg">
+    <div className="max-w-md mx-auto bg-white dark:bg-gray-500 rounded-lg">
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
           Convert Your File

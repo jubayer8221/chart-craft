@@ -222,28 +222,30 @@ const PrivacyPolicy: React.FC = () => {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-[#312c4a] text-gray-900 dark:text-gray-100 py-12 px-4">
-      <header className="max-w-7xl mx-auto mb-4">
-        <h1 className="text-5xl font-extrabold tracking-tight leading-tight">
-          Privacy Policy
-        </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
-          Chart Crafter Dashboard
-        </p>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          Effective Date:{" "}
-          <time dateTime={effectiveDate}>{effectiveDate || "..."}</time> |
-          Version: {version}
-        </p>
-        <section className="mt-4 max-w-3xl prose prose-indigo dark:prose-invert">
-          <p>
-            Welcome to Chart Crafter! Your privacy is important to us. This
-            Privacy Policy explains how we collect, use, disclose, and safeguard
-            your information when you use our dashboard platform (“Chart
-            Crafter”). Please read this policy carefully to understand our views
-            and practices regarding your personal data.
+    <main className="min-h-screen">
+      <header className="bg-gradient-to-r from-[#312c4a] to-indigo-900 text-white py-12 mb-4 rounded-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Privacy Policy
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
+            Chart Crafter Dashboard
           </p>
-        </section>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            Effective Date:
+            <time dateTime={effectiveDate}>{effectiveDate || "..."}</time> |
+            Version: {version}
+          </p>
+          <section className="mt-4 max-w-full prose prose-indigo dark:prose-invert">
+            <p>
+              Welcome to Chart Crafter! Your privacy is important to us. This
+              Privacy Policy explains how we collect, use, disclose, and
+              safeguard your information when you use our dashboard platform
+              (“Chart Crafter”). Please read this policy carefully to understand
+              our views and practices regarding your personal data.
+            </p>
+          </section>
+        </div>
       </header>
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[3fr_1fr] gap-2">
@@ -262,7 +264,7 @@ const PrivacyPolicy: React.FC = () => {
         </article>
 
         {/* Sidebar / Contents */}
-        <nav className="sticky top-24 hidden lg:flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 max-h-[calc(100vh-6rem)] overflow-y-auto">
+        <nav className="sticky top-14 hidden lg:flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 max-h-[calc(100vh-6rem)] overflow-y-auto">
           <h2 className="text-2xl font-extrabold mb-6 border-b border-gray-300 dark:border-gray-700 pb-3">
             Contents
           </h2>

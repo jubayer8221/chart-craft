@@ -10,6 +10,7 @@ import GroceriesChart from "./GroceriesChart";
 import EventCalendar from "./EventCalendar";
 import Announcements from "./Announcements";
 import TopSelling from "./TopSelling";
+import Footer from "./Footer";
 
 const MainPage = () => {
   return (
@@ -67,6 +68,7 @@ const MainPage = () => {
       <div>
         <TopSelling />
       </div>
+      <Footer></Footer>
     </>
   );
 };
