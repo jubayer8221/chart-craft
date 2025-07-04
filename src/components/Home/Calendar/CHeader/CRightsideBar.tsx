@@ -11,7 +11,8 @@ import { useDispatch } from "react-redux";
 
 const CRightsideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { setMonth, selectedMonthIndex, twoDMonthArray, setDate } = useDateStore();
+  const { setMonth, selectedMonthIndex, twoDMonthArray, setDate } =
+    useDateStore();
 
   const [clickTimeout, setClickTimeout] = useState<NodeJS.Timeout | null>(null);
 
@@ -19,30 +20,28 @@ const CRightsideBar = () => {
     setIsOpen(!isOpen);
   };
 
-  console.log("Time", clickTimeout);
-
   const weekOfMonth = getWeeks(selectedMonthIndex);
 
   console.log("week of Month===", weekOfMonth);
   const dispatch = useDispatch();
-  const handleDateclick = (date: dayjs.Dayjs) =>{
 
-    // clear any existing timeout to prevent single-click action if double-clicking 
-    if(clickTimeout){
+  const handleDateclick = (date: dayjs.Dayjs) => {
+    // clear any existing timeout to prevent single-click action if double-clicking
+    if (clickTimeout) {
       clearTimeout(clickTimeout);
       setClickTimeout(null);
       //double click: switch to week view
       setDate(date);
       dispatch(setSelectedView("Week"));
-    }else{
-      const timeout = setTimeout(()=>{
-        setDate(date)
-    dispatch(setSelectedView("Day"))
-    setClickTimeout(null);
+    } else {
+      const timeout = setTimeout(() => {
+        setDate(date);
+        dispatch(setSelectedView("Day"));
+        setClickTimeout(null);
       }, 300);
-      setClickTimeout(timeout)
+      setClickTimeout(timeout);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -103,11 +102,11 @@ const CRightsideBar = () => {
               {row.map((date, inx) => (
                 <button
                   key={inx}
-                  onClick={()=>handleDateclick(date)}
+                  onClick={() => handleDateclick(date)}
                   className={`${
                     date.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
-                      ? "w-5 h-5 bg-[#463f59] text-white dark:text-black rounded-full flex items-center justify-center p-1 cursor-pointer"
-                      : "cursor-pointer hover:bg-gray-100 rounded-md "
+                      ? "text-green-700 bg-green-50 rounded-sm py-2"
+                      : "cursor-pointer hover:bg-gray-100 rounded-sm py-2"
                   }`}
                 >
                   <span className="text-center">{date.format("D")}</span>

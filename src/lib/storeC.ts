@@ -28,19 +28,12 @@ type EventStore = {
   isEventSummaryOpen: boolean;
   selectedEvent: CalendarEventType | null;
   selectedTime: string | null;
-  isDeleteConfirmOpen: boolean;
-  editEvent: CalendarEventType | null;
-  eventToDelete: CalendarEventType | null;
   setEvents: (events: CalendarEventType[]) => void;
   openPopover: () => void;
   closePopover: () => void;
   openEventSummary: (event: CalendarEventType) => void;
   closeEventSummary: () => void;
   setSelectedTime: (time: string) => void;
-  openDeleteConfirm: (event: CalendarEventType) => void;
-  closeDeleteConfirm: () => void;
-  updateEvent: (updatedEvent: CalendarEventType) => void;
-  deleteEvent: (eventId: string) => void;
 };
 
 interface ToggleSideBarType {
@@ -94,22 +87,6 @@ export const useEventStore = create<EventStore>((set) => {
     closeEventSummary: () =>
       set({ isEventSummaryOpen: false, selectedEvent: null }),
     setSelectedTime: (time) => set({selectedTime: time}),
-    openDeleteConfirm: (event) => set({ isDeleteConfirmOpen: true, eventToDelete: event }),
-    closeDeleteConfirm: () => set({isDeleteConfirmOpen: false, eventToDelete: null}),
-     updateEvent: (updatedEvent) =>
-      set((state) => {
-        const updatedEvents = state.events.map((event) =>
-          event.id === updatedEvent.id ? updatedEvent : event
-        );
-        localStorage.setItem('calendarEvents', JSON.stringify(updatedEvents));
-        return { events: updatedEvents };
-      }),
-    deleteEvent: (eventId) =>
-      set((state) => {
-        const updatedEvents = state.events.filter((event) => event.id !== eventId);
-        localStorage.setItem('calendarEvents', JSON.stringify(updatedEvents));
-        return { events: updatedEvents };
-      }),
   };
 });
 

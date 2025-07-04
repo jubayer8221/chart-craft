@@ -66,14 +66,10 @@ const EventPopover = ({ isOpen, onClose, date }: EventPopoverProps) => {
     return Math.random().toString(36).substring(2, 9);
   };
 
+  console.log("edit Event====", event);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // const title = e.target.title.value;
-    // const description = e.target.description.value;
-    // const guests = e.target.guests.value;
-    // // const startDate = e.target.startdate.value
-    // const startTime = e.target.starttime.value;
-    // const endTime = e.target.endtime.value;
     const newEvent = {
       id: generateId(),
       title,
@@ -85,22 +81,11 @@ const EventPopover = ({ isOpen, onClose, date }: EventPopoverProps) => {
       endDate,
     };
 
-    // console.log("New Event:", e.target.startdate.value);
-
     // Check for duplicate events (same start date and start time)
     const isDuplicate = events.some(
       (event) =>
         event.date.format("YYYY-MM-DD hh:mm A") ===
         newEvent.date.format("YYYY-MM-DD hh:mm A")
-      // {
-
-      //   // const existingEventDate = event.date.format("YYYY-MM-DD");
-      //   // const newEventDate = newEvent.date.format("YYYY-MM-DD");
-      //   // const existingEventHour = event.date.hour();
-      //   // const newEventHour = newEvent.date.hour();
-      //   // return existingEventDate === newEventDate && existingEventHour === newEventHour;
-       
-      // }
     );
 
     if (!isDuplicate) {
@@ -129,8 +114,106 @@ const EventPopover = ({ isOpen, onClose, date }: EventPopoverProps) => {
             <IoClose className="h-4 w-4" />
           </button>
         </div>
-        
-        {/* <form
+
+        <div
+          className="space-y-4 px-2 w-full"
+          // Changed from onClick to onSubmit
+        >
+          <div>
+            <input
+              type="text"
+              placeholder="Add title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="my-4 w-full rounded-none border-0 border-b text-2xl focus-visible:border-b-2 focus-visible:border-b-blue-600 focus-visible:ring-0 focus-visible:ring-offset-0"
+            />
+          </div>
+          <div className="flex flex-col gap-2 m-0">
+            <div className="flex flex-col space-y-3 text-sm">
+              <div>
+                <h3 className="text-[16px] font-semibold mb-3">
+                  Start date & time
+                </h3>
+                <div className="flex items-center gap-2">
+                  <LuAlarmClock className="size-5 text-gray-600" />
+                  <input
+                    type="date"
+                    value={dayjs(startDate).format("YYYY-MM-DD")}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    min={today}
+                    className="rounded-lg border-0 bg-slate-100 placeholder:text-slate-600 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 p-2"
+                  />
+                  <AddTime
+                    onTimeSelect={(time: string) => setStartTime(time)}
+                  />
+                </div>
+              </div>
+              <div className="">
+                <h3 className="text-[16px] font-semibold mb-3">
+                  End Date & time
+                </h3>
+                <div className="flex items-center gap-2">
+                  <LuAlarmClock className="size-5 text-gray-600" />
+                  <input
+                    type="date"
+                    value={dayjs(endDate).format("YYYY-MM-DD")}
+                    min={dayjs(startDate).format("YYYY-MM-DD")}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    className="rounded-lg border-0 bg-slate-100 placeholder:text-slate-600 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 p-2"
+                  />
+                  <EndTime
+                    startTime={startTime}
+                    onSelected={(time: string) => setEndTime(time)}
+                  />
+                </div>
+              </div>
+              <input type="hidden" name="startDate" value={startDate} />
+              <input type="hidden" name="endDate" value={endDate} />
+            </div>
+
+            <div className="flex items-center gap-2">
+              <HiOutlineUsers className="size-5 text-slate-600" />
+              <input
+                type="text"
+                name="guests"
+                placeholder="Add guests"
+                value={guests}
+                onChange={(e) => setGuests(e.target.value)}
+                className="w-full rounded-lg border-0 bg-slate-100 p-2 placeholder:text-slate-600 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0"
+              />
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <HiOutlineMenuAlt2 className="size-5 text-slate-600" />
+              <input
+                type="text"
+                name="description"
+                placeholder="Add description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full rounded-lg border-0 bg-slate-100 p-2 placeholder:text-slate-600 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0"
+              />
+            </div>
+
+            <div className="flex justify-end space-x-2 my-2">
+              <button
+                onClick={handleSubmit}
+                className="bg-slate-100 px-3 py-2 rounded-md cursor-pointer text-sm font-semibold hover:bg-green-300"
+              >
+                SAVE
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EventPopover;
+
+{
+  /* <form
           className="space-y-4 px-2 w-full"
           onSubmit={handleSubmit} // Changed from onClick to onSubmit
         >
@@ -210,94 +293,5 @@ const EventPopover = ({ isOpen, onClose, date }: EventPopoverProps) => {
               </button>
             </div>
           </div>
-        </form> */}
-
-
-
-        <div
-          className="space-y-4 px-2 w-full"
-           // Changed from onClick to onSubmit
-        >
-          <div>
-            <input
-              type="text"
-              placeholder="Add title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="my-4 w-full rounded-none border-0 border-b text-2xl focus-visible:border-b-2 focus-visible:border-b-blue-600 focus-visible:ring-0 focus-visible:ring-offset-0"
-            />
-          </div>
-          <div className="flex flex-col gap-2 m-0">
-            <div className="flex flex-col space-y-3 text-sm">
-              <div>
-                <h3 className="text-[16px] font-semibold mb-3">Start date & time</h3>
-                <div className="flex items-center gap-2">
-                  <LuAlarmClock className="size-5 text-gray-600" />
-                  <input
-                    type="date"
-                    value={dayjs(startDate).format("YYYY-MM-DD")}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    min={today}
-                    className="rounded-lg border-0 bg-slate-100 placeholder:text-slate-600 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 p-2"
-                  />
-                  <AddTime onTimeSelect={(time: string) => setStartTime(time)} />
-                </div>
-              </div>
-              <div className="">
-                <h3 className="text-[16px] font-semibold mb-3">End Date & time</h3>
-                <div className="flex items-center gap-2">
-                  <LuAlarmClock className="size-5 text-gray-600" />
-                  <input
-                    type="date"
-                    value={dayjs(endDate).format("YYYY-MM-DD")}
-                    min={dayjs(startDate).format("YYYY-MM-DD")}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    className="rounded-lg border-0 bg-slate-100 placeholder:text-slate-600 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 p-2"
-                  />
-                  <EndTime startTime={startTime} onSelected={(time: string) => setEndTime(time)} />
-                </div>
-              </div>
-              <input type="hidden" name="startDate" value={startDate} />
-              <input type="hidden" name="endDate" value={endDate} />
-            </div>
-
-            <div className="flex items-center gap-2">
-              <HiOutlineUsers className="size-5 text-slate-600" />
-              <input
-                type="text"
-                name="guests"
-                placeholder="Add guests"
-                value={guests}
-                onChange={(e) => setGuests(e.target.value)}
-                className="w-full rounded-lg border-0 bg-slate-100 p-2 placeholder:text-slate-600 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0"
-              />
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <HiOutlineMenuAlt2 className="size-5 text-slate-600" />
-              <input
-                type="text"
-                name="description"
-                placeholder="Add description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="w-full rounded-lg border-0 bg-slate-100 p-2 placeholder:text-slate-600 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0"
-              />
-            </div>
-
-            <div className="flex justify-end space-x-2 my-2">
-              <button
-                onClick={handleSubmit}
-                className="bg-slate-100 px-3 py-2 rounded-md cursor-pointer text-sm font-semibold hover:bg-green-300"
-              >
-                SAVE
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default EventPopover;
+        </form> */
+}
